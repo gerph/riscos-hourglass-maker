@@ -6,6 +6,10 @@ We take the shape.py data and we produce some code that can be used to use the h
 """
 
 import pprint
+import sys
+
+# We want to use the 'shape.py' from the working directory
+sys.path.append('.')
 
 import shape
 

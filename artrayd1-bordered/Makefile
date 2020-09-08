@@ -13,5 +13,5 @@ clean:
 shape.py: source.gif build-shape.sh
 	./build-shape.sh
 
-hourglass_basic,fd1: shape.py makehourglass.py
-	./makehourglass.py
+hourglass_basic,fd1: shape.py ../makehourglass.py
+	../makehourglass.py
