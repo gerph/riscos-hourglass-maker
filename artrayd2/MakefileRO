@@ -1,0 +1,14 @@
+# Build the test code
+
+VPATH = .. @
+
+COMPONENT  = hourglass_test
+TYPE       = aif
+CDEFINES   =
+INCLUDES   =
+LIBS       = ${CLIB}
+OBJS       = \
+             o.asm \
+             o.hourglass_test
+
+include LibraryCommand

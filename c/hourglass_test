@@ -1,0 +1,25 @@
+/* Test code for running the hourglass */
+
+#include <stdlib.h>
+#include "kernel.h"
+
+#include "asm.h"
+
+
+int main(void)
+{
+    hourglass_workspace_t *hg;
+    int wssize = hourglass_getwssize();
+    int period = hourglass_getframeperiod();
+
+    hg = malloc(wssize);
+
+    hourglass_init(hg);
+    hourglass_start(hg);
+    while (1)
+    {
+        hourglass_frame(hg);
+        _kernel_osbyte(0x81, period, 0);
+    }
+    hourglass_stop(hg);
+}

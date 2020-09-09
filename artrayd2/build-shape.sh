@@ -28,8 +28,16 @@ convert "${exclude_args[@]}" source.gif -coalesce frame_%d.png
 width=32
 height=32
 
-# The palette to use - just a black and a grey
-palette=("255 255 255" "0 0 0" "128 128 128" "64 64 64")
+# Period between frames in centiseconds
+frameperiod=2
+
+# The palette to use for processing - just a black (and maybe a grey)
+#palette=("255 255 255" "0 0 0" "128 128 128" "64 64 64")
+palette=("255 255 255" "0 0 0")
+
+# The palette to use for the actual hourglass
+realpalette=("${palette[@]}")
+realpalette=("255 255 255" "64 64 192")
 
 # Generate the palette to use
 cat > palette.ppm <<EOM
@@ -52,7 +60,7 @@ for i in $( seq 0 59 ) ; do
 done
 
 # Convert the frames into a GIF to see what it would look like
-ordered_images=( $( seq 36 59 ; echo 0 0 0 0 0 0 0 0 0 ; seq 0 35 ) )
+ordered_images=( $( seq 36 59 ; echo 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ; seq 0 35 ) )
 convert -delay 2 -dispose Background $(for i in ${ordered_images[*]} ; do echo -n "simple_$i.png " ; done) animated.gif
 
 # Now convert the PNGs to shapes that we may be able to use in shape.py
@@ -63,13 +71,14 @@ cat > "${pyhourglass}" << EOM
 
 width = $width
 height = $height
+frameperiod = $frameperiod
 
 palette = []
 images = []
 
 EOM
 
-for pal in "${palette[@]}" ; do
+for pal in "${realpalette[@]}" ; do
     echo "palette.append(($(echo $pal | sed 's/ /, /g')))"
 done >> "${pyhourglass}"
 index=0

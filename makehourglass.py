@@ -5,6 +5,7 @@ Make the data for a set of hourglass calls.
 We take the shape.py data and we produce some code that can be used to use the hourglass.
 """
 
+import os
 import pprint
 import sys
 
@@ -88,8 +89,10 @@ for rowindexes in images_rowindexes[1:]:
 #pprint.pprint(deltas[0])
 
 
-def make_basic(rows, rowdata, deltas, images_rowindexes):
-    # Write out a BASIC program that includes the data we wish to use:
+def make_basic(rows, rowdata, deltas, images_rowindexes, filename):
+    """
+    Write out a BASIC program that includes the data we wish to use.
+    """
     lines = []
 
     # Construct the rowdata
@@ -102,6 +105,7 @@ def make_basic(rows, rowdata, deltas, images_rowindexes):
     lines.append(":")
     lines.append("width% = {}".format((shape.width + 15) & ~15))
     lines.append("height% = {}".format(shape.height))
+    lines.append("period% = {}".format(shape.frameperiod))
     lines.append("wordsperrow% = {}".format(wordsperrow))
     lines.append("nwords% = {}".format(nwords))
     lines.append("DIM rowdata% 4 * nwords%")
@@ -195,12 +199,331 @@ def make_basic(rows, rowdata, deltas, images_rowindexes):
     lines.append(" UNTIL rownumber%=-1")
     lines.append(" SYS \"OS_Word\",21, worddata%")
     lines.append(" framenum% = (framenum% + 1) MOD nframes%")
-    #lines.append(" G=GET:END")
-    lines.append("  I=INKEY(2)")
+    lines.append("  I=INKEY(period%)")
     lines.append("ENDWHILE")
 
-    with open("hourglass_basic,fd1", 'w') as fh:
+    if sys.platform != 'riscos':
+        filename += ',fd1'
+    with open(filename, 'w') as fh:
+        for line in lines:
+            fh.write("{}\n".format(line))
+    if sys.platform == 'riscos':
+        # FIXME: On RISC OS set the filetype
+        pass
+
+
+def make_objasm(rows, rowdata, deltas, images_rowindexes,filename):
+    # Write out an objasm function to allow us to run the hourglass,
+    # and the C header that lets us use it
+    lines = []
+    hlines = []
+
+    # Header for the H file
+    hlines.append("#ifndef HOURGLASS_ASM_H")
+    hlines.append("#define HOURGLASS_ASM_H")
+    hlines.append("")
+    hlines.append("typedef void *hourglass_workspace_t;")
+
+    # Construct the rowdata
+    wordsperrow = len(rowdata[0])
+    nwords = wordsperrow * len(rowdata)
+    # This algorithm only supports widths that are multiples of words
+    lines.append("          AREA |C$$code|, CODE, READONLY")
+    lines.append("")
+    lines.append("; constants")
+    lines.append("width             * {}".format((shape.width + 15) & ~15))
+    lines.append("height            * {}".format(shape.height))
+    lines.append("period            * {}".format(shape.frameperiod))
+    lines.append("wordsperrow       * {}".format(wordsperrow))
+    lines.append("nwords            * {}".format(nwords))
+    lines.append("nframes           * {}".format(len(deltas)))
+    # FIXME: Make the active x/y configurable
+    lines.append("active_x          * {}".format(shape.width / 2))
+    lines.append("active_y          * {}".format(shape.height / 2))
+    lines.append("")
+    lines.append("; Workspace for changing the hourglass rendition")
+    lines.append("                  ^ 0, r12")
+    lines.append("hg_framenum       # 4                         ; frame number")
+    lines.append("hg_percentage     # 4                         ; percentage to show (N/I)")
+    lines.append("hg_leds           # 4                         ; LED flags (N/I)")
+    lines.append("hg_oldpointer     # 4                         ; Old pointer configuration")
+    lines.append("hg_oldcolours     # 4 * 3                     ; Old palette entries")
+    lines.append("hg_word           # 12                        ; OS_Word block")
+    lines.append("hg_currentdata    # 4 * wordsperrow * height  ; Current data for the hourglass")
+    lines.append("hg_workspacesize  * :INDEX: @                 ; Size of this workspace")
+    lines.append("")
+    lines.append("; SWI numbers")
+    lines.append("XOS_Byte          * 0x20006")
+    lines.append("XOS_Word          * 0x20007")
+    lines.append("XOS_ReadPalette   * 0x2002F")
+
+    lines.append("; Data for the rows of the hourglass")
+    lines.append("rowdata")
+    for words in rowdata:
+        words = ['&{:08x}'.format(word) for word in words]
+        lines.append("          DCD     {}".format(', '.join(words)))
+
+    framedelta_offsets = []
+    deltaoffset = 0
+
+    lines.append("")
+    lines.append("; Data for deltas between frames")
+    lines.append("deltas")
+    # Here's the actual delta data
+    for index, image_deltas in enumerate(deltas):
+        framedelta_offsets.append(deltaoffset)
+        lines.append("          ; frame {}".format(index))
+        for rownumber, rowindex in image_deltas:
+            # We actually write the offset into the hg_currentdata, and the offset into the rowdata
+            # This means that we don't need to calculate these values at runtime.
+            lines.append("          DCD     {}, {}".format(rownumber * wordsperrow * 4,
+                                                           rowindex * wordsperrow * 4))
+            deltaoffset += 8
+        lines.append("          DCD     {}, {}".format(-1, -1))
+        deltaoffset += 8
+
+    lines.append("")
+    lines.append("; Offsets into the deltas for each frame")
+    lines.append("frame_deltas")
+    for index, offset in enumerate(framedelta_offsets):
+        lines.append("          DCD     {}  ; frame {}".format(offset, index))
+
+    lines.append("")
+    lines.append("; Palette data")
+    lines.append("palette")
+    # We skip the 0 entry, because colour 0 is transparent
+    for r, g, b in shape.palette[1:]:
+        lines.append("          DCB     {}, {}, {}".format(r, g, b))
+    lines.append("          ALIGN")
+
+    lines.append("")
+    lines.append("; Read the period between frames")
+    lines.append("; <=  R0 = cs between frames")
+    hlines.append("int hourglass_getframeperiod(void);")
+    lines.append("hourglass_getframeperiod")
+    lines.append("          EXPORT  hourglass_getframeperiod")
+    lines.append("          MOV     r0, #period")
+    lines.append("          MOV     pc, lr")
+    lines.append("")
+
+    lines.append("")
+    lines.append("; Read the size of the workspace block")
+    lines.append("; <=  R0 = size of hourglass workspace")
+    hlines.append("int hourglass_getwssize(void);")
+    lines.append("hourglass_getwssize")
+    lines.append("          EXPORT  hourglass_getwssize")
+    lines.append("          MOV     r0, #hg_workspacesize")
+    lines.append("          MOV     pc, lr")
+    lines.append("")
+    lines.append("; Initialisation function")
+    lines.append("; =>  R0 = hourglass workspace")
+    hlines.append("void hourglass_init(hourglass_workspace_t *ws);")
+    lines.append("hourglass_init")
+    lines.append("          EXPORT  hourglass_init")
+    lines.append("          MOV     r12, r0")
+    lines.append("          MOV     r0, #0")
+    lines.append("          STR     r0, hg_framenum")
+    lines.append("          STR     r0, hg_percentage")
+    lines.append("          STR     r0, hg_leds")
+    lines.append("          LDR     r0, wordblock_0")
+    lines.append("          STR     r0, hg_word")
+    lines.append("          LDR     r0, wordblock_4")
+    lines.append("          ADR     r1, hg_currentdata")
+    lines.append("          ORR     r0, r0, r1, LSL #16         ; assign the low half word of pointer data")
+    lines.append("          STR     r0, hg_word + 4")
+    lines.append("          MOV     r0, r1, LSR #16             ; and the high half word")
+    lines.append("          STR     r0, hg_word + 8")
+    lines.append("; no need to initialise the currentdata; it will be updated by the first frame")
+    lines.append("          MOV     pc, lr")
+    lines.append("")
+
+    lines.append("wordblock_0")
+    lines.append("          DCB     0                           ; define pointer shape")
+    lines.append("          DCB     2                           ; shape number (will toggle 2-3)")
+    lines.append("          DCB     (width*2+7)/8               ; width in bytes")
+    lines.append("          DCB     height                      ; height")
+    lines.append("wordblock_4")
+    lines.append("          DCB     active_x                    ; active x offset")
+    lines.append("          DCB     active_y                    ; active y offset")
+    lines.append("          DCB     0                           ; b0-7 of the address of the pointer data")
+    lines.append("          DCB     0                           ; b8-15 of address of the pointer data")
+
+    lines.append("")
+    lines.append("; Start the hourglass")
+    lines.append("; =>  R0 = hourglass workspace")
+    hlines.append("void hourglass_start(hourglass_workspace_t *ws);")
+    lines.append("hourglass_start")
+    lines.append("          EXPORT  hourglass_start")
+    lines.append("          STMFD   sp!, {r4, r5, lr}")
+    lines.append("          SUB     sp, sp, #8")
+    lines.append("          MOV     r12, r0")
+    lines.append("          MOV     r0, #0")
+    lines.append("          STR     r0, hg_framenum")
+    lines.append("          MOV     r0, #1")
+    lines.append("          MOV     r1, #25                     ; read pointer colour 1")
+    lines.append("          SWI     XOS_ReadPalette")
+    lines.append("          LDRVS   r2, =&81397900              ; purple if it wasn't set")
+    lines.append("          STR     r2, hg_oldcolours + 4 * 1")
+    lines.append("          MOV     r0, #2")
+    lines.append("          MOV     r1, #25                     ; read pointer colour 2")
+    lines.append("          SWI     XOS_ReadPalette")
+    lines.append("          LDRVS   r2, =&66FFFF00              ; yellow if it wasn't set")
+    lines.append("          STR     r2, hg_oldcolours + 4 * 1")
+    lines.append("          MOV     r0, #3")
+    lines.append("          MOV     r1, #25                     ; read pointer colour 3")
+    lines.append("          SWI     XOS_ReadPalette")
+    lines.append("          LDRVS   r2, =&00000000              ; black if it wasn't set")
+    lines.append("          STR     r2, hg_oldcolours + 4 * 2")
+    lines.append("; now set the palette up for our hourglass")
+    lines.append("          MOV     r1, sp")
+    lines.append("          ADRL    r2, palette")
+    for colour_number in range(len(shape.palette) - 1):
+        lines.append("; colour {}".format(colour_number + 1))
+        lines.append("          MOV     r0, #{}".format(colour_number + 1))
+        lines.append("          STRB    r0, [r1, #0]")
+        lines.append("          MOV     r0, #25                     ; set pointer colour 1")
+        lines.append("          STRB    r0, [r1, #1]")
+        lines.append("          LDRB    r0, [r2], #1")
+        lines.append("          STRB    r0, [r1, #2]                ; red")
+        lines.append("          LDRB    r0, [r2], #1")
+        lines.append("          STRB    r0, [r1, #3]                ; green")
+        lines.append("          LDRB    r0, [r2], #1")
+        lines.append("          STRB    r0, [r1, #4]                ; blue")
+        lines.append("          MOV     r0, #12")
+        lines.append("          SWI     XOS_Word                    ; Set palette")
+
+    lines.append("          MOV     r1, #127                        ; invalid pointer number to read the pointer")
+    lines.append("          MOV     r0, #106                        ; select pointer")
+    lines.append("          SWI     XOS_Byte")
+    lines.append("          STR     r1, hg_oldpointer")
+
+    lines.append("          ADD     sp, sp, #8")
+    lines.append("          LDMFD   sp!, {r4, r5, lr}")
+    lines.append("          B       hourglass_frame                 ; exit via the first frame")
+
+    lines.append("")
+    lines.append("; Stop the hourglass")
+    lines.append("; =>  R0 = hourglass workspace")
+    hlines.append("void hourglass_stop(hourglass_workspace_t *ws);")
+    lines.append("hourglass_stop")
+    lines.append("          EXPORT  hourglass_stop")
+    lines.append("          STMFD   sp!, {r4, r5, lr}")
+    lines.append("          SUB     sp, sp, #8")
+    lines.append("; restore the palette up for old pointer")
+    lines.append("          MOV     r1, sp")
+    for colour_number in range(len(shape.palette) - 1):
+        lines.append("; colour {}".format(colour_number + 1))
+        lines.append("          ADR     r2, hg_oldcolours + 4 * {} + 1".format(colour_number))
+        lines.append("          MOV     r0, #{}".format(colour_number + 1))
+        lines.append("          STRB    r0, [r1, #0]")
+        lines.append("          MOV     r0, #25                     ; set pointer colour 1")
+        lines.append("          STRB    r0, [r1, #1]")
+        lines.append("          LDRB    r0, [r2], #1")
+        lines.append("          STRB    r0, [r1, #2]                ; red")
+        lines.append("          LDRB    r0, [r2], #1")
+        lines.append("          STRB    r0, [r1, #3]                ; green")
+        lines.append("          LDRB    r0, [r2], #1")
+        lines.append("          STRB    r0, [r1, #4]                ; blue")
+        lines.append("          MOV     r0, #12")
+        lines.append("          SWI     XOS_Word                    ; Set palette")
+
+    lines.append("          LDRB    r1, hg_oldpointer               ; re-select the old pointer number")
+    lines.append("          MOV     r0, #106                        ; select pointer")
+    lines.append("          SWI     XOS_Byte")
+
+    lines.append("          ADD     sp, sp, #8")
+    lines.append("          LDMFD   sp!, {r4, r5, lr}")
+    lines.append("          B       hourglass_frame                 ; exit via the first frame")
+
+    lines.append("")
+    lines.append("; Frame update - sets the hourglass shape for the current frame")
+    lines.append("; =>  R0 = hourglass workspace")
+    hlines.append("void hourglass_frame(hourglass_workspace_t *ws);")
+    lines.append("hourglass_frame")
+    lines.append("          EXPORT  hourglass_frame")
+    lines.append("          STMFD   sp!, {r4, r5, lr}")
+    lines.append("          MOV     r12, r0")
+    lines.append("          LDR     r0, hg_framenum")
+    lines.append("          ADRL    r1, frame_deltas")
+    lines.append("          LDR     r0, [r1, r0, LSL #2]            ; offset within deltas for this frame")
+    lines.append("          ADRL    r1, deltas")
+    lines.append("          ADD     r1, r1, r0")
+    lines.append("          ADRL    r2, rowdata")
+    lines.append("          ADRL    r5, hg_currentdata")
+    lines.append("rowloop")
+    lines.append("          LDMIA   r1!, {r3, r4}                   ; r3 = currentdata offset, row data offset")
+    lines.append("          CMP     r3, #-1                         ; end of the rows")
+    lines.append("          BEQ     rowend")
+
+    # FIXME: Decide if we should ditch the rowdata entirely - we're not reading huge lines so it's
+    # not saving us anything. We COULD just have the value in the deltas. It'd be slightly larger,
+    # but who cares?
+    # Sadly I've optimised for a case that isn't likely or even possible on RISC OS Classic.
+    lines.append("          LDR     r0, [r4, r2]!                   ; read a word from rowdata")
+    lines.append("          STR     r0, [r3, r5]!                   ; store into the currentdata")
+
+    # FIXME: Remember how you do a loop in objasm, cos this could be pretty simple - alternatively use a
+    #        LDMIA?
+    lines.append("      [ wordsperrow > 1")
+    lines.append("          LDR     r0, [r4, #4]!                   ; read a word from rowdata")
+    lines.append("          STR     r0, [r3, #4]!                   ; store into the currentdata")
+    lines.append("      ]")
+    lines.append("      [ wordsperrow > 2")
+    lines.append("          LDR     r0, [r4, #4]!                   ; read a word from rowdata")
+    lines.append("          STR     r0, [r3, #4]!                   ; store into the currentdata")
+    lines.append("      ]")
+    lines.append("      [ wordsperrow > 3")
+    lines.append("          LDR     r0, [r4, #4]!                   ; read a word from rowdata")
+    lines.append("          STR     r0, [r3, #4]!                   ; store into the currentdata")
+    lines.append("      ]")
+    lines.append("          B       rowloop")
+    lines.append("")
+
+    lines.append("rowend")
+    # FIXME: Toggle the hourglass pointer number
+    lines.append("          MOV     r0, #21                         ; Set Pointer parameters")
+    lines.append("          ADR     r1, hg_word")
+    lines.append("          LDR     lr, [r1, #1]")
+    lines.append("          EOR     lr, lr, #1")
+    lines.append("          STR     lr, [r1, #1]                    ; tolggles the pointer number we use")
+    lines.append("          SWI     XOS_Word")
+
+    # It'd be better if we changed the pointer shape when we got the next VSync, but I'm being lazy.
+    lines.append("")
+    lines.append("          LDRB    r1, hg_word + 1                 ; get the hourglass pointer number we will use")
+    lines.append("          MOV     r0, #106                        ; select pointer")
+    lines.append("          SWI     XOS_Byte")
+
+    lines.append("")
+    lines.append("          LDR     r0, hg_framenum")
+    lines.append("          ADD     r0, r0, #1")
+    lines.append("          TEQ     r0, #nframes")
+    lines.append("          MOVEQ   r0, #0                          ; reset counter; we've cycled")
+    lines.append("          STR     r0, hg_framenum")
+
+    lines.append("          LDMFD   sp!, {r4, r5, pc}")
+    lines.append("")
+    lines.append("          END")
+
+    # Trailer for the H file
+    hlines.append("")
+    hlines.append("#endif /* HOURGLASS_ASM_H */")
+
+    # Actually we'll build two files - one for the assembler s file, and one for the header
+    if not os.path.isdir('s'):
+        os.mkdir('s')
+    sfilename = os.path.join('s', filename)
+    with open(sfilename, 'w') as fh:
         for line in lines:
             fh.write("{}\n".format(line))
 
-make_basic(rows, rowdata, deltas, images_rowindexes)
+    if not os.path.isdir('h'):
+        os.mkdir('h')
+    hfilename = os.path.join('h', filename)
+    with open(hfilename, 'w') as fh:
+        for line in hlines:
+            fh.write("{}\n".format(line))
+
+
+make_basic(rows, rowdata, deltas, images_rowindexes, filename='hourglass_basic')
+make_objasm(rows, rowdata, deltas, images_rowindexes, filename='asm')
