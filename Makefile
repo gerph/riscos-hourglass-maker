@@ -2,7 +2,10 @@
 
 HOURGLASSES = artrayd1 artrayd1-bordered artrayd2
 
-all: ${HOURGLASSES:%=%.hg}
+all: ${HOURGLASSES:%=%.hg-build}
+clean: ${HOURGLASSES:%=%.hg-clean}
 
-%.hg:
+%.hg-build:
 	cd $* && make
+%.hg-clean:
+	cd $* && make clean

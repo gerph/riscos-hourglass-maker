@@ -7,7 +7,7 @@ ROFILES = rm32/Hourglass,ffa aif32/hourglass_test,ff8
 # RISC OS Build tool to use
 ROBUILD = riscos-build-online
 
-all: hourglass_basic,fd1 ${ROFILES}
+all: frame_0.png hourglass_basic,fd1 ${ROFILES}
 
 full:
 	make clean
@@ -21,7 +21,7 @@ clean:
 	-rm *.pyc
 	-rm -rf aif32 rm32 o32
 
-shape.py: source.gif build-shape.sh
+shape.py frame_0.png: source.gif build-shape.sh
 	./build-shape.sh
 
 hourglass_basic,fd1 s/asm: shape.py ../makehourglass.py
@@ -42,5 +42,5 @@ else
 	zip -r ../for-riscos.zip s h
 	cd .. && zip -r for-riscos.zip c cmhg MakefileROModule .robuild.yaml
 	mkdir -p rm32
-	${ROBUILD} -i ../for-riscos.zip -o $@
+	${ROBUILD} -i ../for-riscos.zip -o rm32/Hourglass
 endif
