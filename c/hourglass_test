@@ -16,7 +16,7 @@ int main(void)
 
     hourglass_init(hg);
     hourglass_start(hg);
-    while (0)
+    while (1)
     {
         hourglass_frame(hg);
         _kernel_osbyte(0x81, period, 0);

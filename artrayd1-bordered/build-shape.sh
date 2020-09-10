@@ -35,8 +35,11 @@ frameperiod=3
 #palette=("255 255 255" "24 154 248" "164 216 248" "0 0 0")
 palette=("255 255 255" "24 154 248" "0 0 0")
 
+# The palette we take from the generated frames
+generatedpalette=("255 255 255" "24 154 248" "173 219 230" "0 0 0")
+
 # The palette to use for the actual hourglass
-realpalette=("${palette[@]}")
+realpalette=("${generatedpalette[@]}")
 
 # Generate the palette to use
 cat > palette.ppm <<EOM
@@ -55,6 +58,15 @@ for i in $( seq 0 29 ) ; do
             -remap palette.ppm \
             -alpha on -fuzz 20% -transparent white -background white \
             \(  +clone \
+                -bordercolor white -border 8x8 -transparent white \
+                -channel A \
+                    -morphology Close Disk \
+                    -morphology Erode Diamond \
+                +channel \
+                -shave 8x8 \
+                +level-colors 'none,#addbe6' \
+            \) -compose DstOver -composite \
+            \(  +clone \
                 -channel A -morphology EdgeOut Diamond +channel \
                 +level-colors none,black \
             \) -compose DstOver -composite \
@@ -68,7 +80,7 @@ convert -delay 4 -dispose Background $(for i in ${ordered_images[*]} ; do echo -
 
 # Now convert the PNGs to shapes that we may be able to use in shape.py
 index=0
-translation=$(for col in "${palette[@]}" ; do echo " ; s/$col/c${index}c/g" ; index=$((index+1)) ; done)
+translation=$(for col in "${generatedpalette[@]}" ; do echo " ; s/$col/c${index}c/g" ; index=$((index+1)) ; done)
 cat > "${pyhourglass}" << EOM
 # Hourglass shape
 
