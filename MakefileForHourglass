@@ -7,6 +7,12 @@ ROFILES = rm32/Hourglass,ffa aif32/hourglass_test,ff8
 # RISC OS Build tool to use
 ROBUILD = riscos-build-online
 
+ifeq (${MODULE_NAME},)
+MODULE_SUFFIX = Custom_module
+else
+MODULE_SUFFIX = Shape:_${MODULE_NAME}
+endif
+
 all: frame_0.png hourglass_basic,fd1 ${ROFILES}
 
 full:
@@ -15,11 +21,9 @@ full:
 	make all
 
 clean:
-	-rm frame*.png
-	-rm simple*.png
-	-rm palette.ppm
-	-rm *.pyc
-	-rm -rf aif32 rm32 o32
+	-rm frame*.png simple*.png palette.ppm
+	-rm *.pyc .robuild.yaml
+	-rm -rf aif32 rm32 o32 oz32
 
 shape.py frame_0.png: source.gif build-shape.sh
 	./build-shape.sh
@@ -36,11 +40,12 @@ endif
 
 rm32/Hourglass,ffa: s/asm ../cmhg/modhead ../c/module
 ifeq (${USE_ROBUILD},)
-	riscos-amu -f ../MakefileROModule BUILD32=1
+	riscos-amu -f ../MakefileROModule BUILD32=1 MODULE_SUFFIX=${MODULE_SUFFIX}
 else
 	rm -f ../for-riscos.zip
-	zip -r ../for-riscos.zip s h
-	cd .. && zip -r for-riscos.zip c cmhg MakefileROModule .robuild.yaml
+	sed "s/'MODULE_SUFFIX': .*/'MODULE_SUFFIX': '${MODULE_SUFFIX}'/" < ../robuild-template.yaml > .robuild.yaml
+	zip -r ../for-riscos.zip s h .robuild.yaml
+	cd .. && zip -r for-riscos.zip c cmhg MakefileROModule VersionNum
 	mkdir -p rm32
 	${ROBUILD} -i ../for-riscos.zip -o rm32/Hourglass
 endif

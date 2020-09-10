@@ -8,7 +8,8 @@ jobs:
     # Env defines system variables which will be used within the environment.
     # Multiple variables may be assigned.
     env:
-      "Sys$Environment": ROBuild
+      'Sys$Environment': ROBuild
+      'MODULE_SUFFIX': Custom_module
 
     # Commands which should be executed to perform the build.
     # The build will terminate if any command returns a non-0 return code or an error.

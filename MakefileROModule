@@ -2,9 +2,11 @@
 
 VPATH = .. @
 
+MODULE_SUFFIX ?= Custom_module
+
 COMPONENT  = Hourglass
-CDEFINES   =
-INCLUDES   =
+CDEFINES   = -DMODULE_SUFFIX=${MODULE_SUFFIX}
+INCLUDES   = ^.
 LIBS       =
 OBJS       = \
              o.asm \

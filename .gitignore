@@ -9,4 +9,4 @@ simple_*.png
 */rm32/*
 artifacts
 for-riscos.zip
-
+*/.robuild.yaml

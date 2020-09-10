@@ -8,7 +8,7 @@ clean: ${HOURGLASSES:%=%.hg-clean}
 
 %.hg-build:
 	mkdir -p "${ARTIFACTS}"
-	cd $* && make
+	cd $* && make MODULE_NAME=$*
 	cp $*/rm32/Hourglass,ffa "${ARTIFACTS}/Hourglass-$*,ffa"
 %.hg-clean:
 	cd $* && make clean
