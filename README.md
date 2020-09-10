@@ -22,6 +22,16 @@ The modules are constructed from animated GIFs through a number of transformatio
 The result is that from a single `make` command, RISC OS hourglasses are made from GIFs.
 The full build process requires cross compiling tools, but the repository contains the outputs sufficient that the sources may build on RISC OS.
 
+## Enclosed hourglasses
+
+* `artrayd1`: A bulbous hourglass which turns over, using just a single colour.
+* `artrayd1-filled`: Same as `artrayd1`, but with a filled center.
+* `artrayd1-bordered`: Same as `artrayd1-filled`, but with a border around it.
+* `artrayd2`: Simple black hourglass which turns over, using just a sigle colour.
+* `artrayd2-filled`: Same as `artrayd1`, but with filled center and bordered.
+
+The difference between these hourglasses is essentially just the `source.gif` file, and the `build-shape.sh` which constructs the image data in `shape.py`.
+
 ## Building on RISC OS
 
 ```

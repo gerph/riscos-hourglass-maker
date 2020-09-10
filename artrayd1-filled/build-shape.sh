@@ -33,10 +33,10 @@ frameperiod=3
 
 #palette=("255 255 255" "24 154 248" "164 216 248" "205 234 252")
 #palette=("255 255 255" "24 154 248" "164 216 248" "0 0 0")
-palette=("255 255 255" "24 154 248" "0 0 0")
+palette=("255 255 255" "24 154 248")
 
 # The palette we take from the generated frames, which is different because we introduce another colour.
-generatedpalette=("255 255 255" "24 154 248" "173 219 230" "0 0 0")
+generatedpalette=("255 255 255" "24 154 248" "173 219 230")
 
 # The palette to use for the actual hourglass
 realpalette=("${generatedpalette[@]}")
@@ -56,7 +56,6 @@ EOM
 # - Make the white background transparent
 # - Fill in the centre of the hourglass (by 'Close' the gaps, then trim to make sure we didn't cover
 #   any of the outside edges), with a new colour
-# - Put a black border around the outside edge
 # - Ensure that the white background is transparent
 for i in $( seq 0 29 ) ; do
     convert "${exclude_args[@]}" \
@@ -72,10 +71,6 @@ for i in $( seq 0 29 ) ; do
                 +channel \
                 -shave 8x8 \
                 +level-colors 'none,#addbe6' \
-            \) -compose DstOver -composite \
-            \(  +clone \
-                -channel A -morphology EdgeOut Diamond +channel \
-                +level-colors none,black \
             \) -compose DstOver -composite \
             -transparent white -background white -alpha background \
             +repage simple_$i.png

@@ -24,7 +24,7 @@ exclude_args=(-define png:exclude-chunks=${exclude_chunks})
 # Hourglass created by artrayd, from https://dribbble.com/shots/10777708-Sand-Clock-Loader-Animation
 convert "${exclude_args[@]}" source.gif -coalesce frame_%d.png
 
-# RISC OS Classic cannot have icons larger than 32 pixels wide.
+# RISC OS Classic cannot have pointers larger than 32 pixels wide.
 width=32
 height=32
 
@@ -34,6 +34,9 @@ frameperiod=2
 # The palette to use for processing - just a black (and maybe a grey)
 #palette=("255 255 255" "0 0 0" "128 128 128" "64 64 64")
 palette=("255 255 255" "0 0 0")
+
+# The palette we take from the generated frames, which is the same.
+generatedpalette=("${palette[@]}")
 
 # The palette to use for the actual hourglass
 realpalette=("${palette[@]}")
@@ -50,6 +53,9 @@ ${palette[*]}
 EOM
 
 # Trim and reduce the image to limited colours
+# - Shave off the edges to leave just the middle hourglass
+# - Convert the colours down to just the palette we want to use
+# - Make the white background transparent
 for i in $( seq 0 59 ) ; do
     convert "${exclude_args[@]}" \
             frame_$i.png -shave 340x240 -gravity northeast -chop 2x2 \
@@ -57,7 +63,6 @@ for i in $( seq 0 59 ) ; do
             -remap palette.ppm \
             -alpha on -fuzz 20% -transparent white -background white \
             +repage simple_$i.png
-
 done
 
 # Convert the frames into a GIF to see what it would look like
@@ -66,7 +71,7 @@ convert -delay 2 -dispose Background $(for i in ${ordered_images[*]} ; do echo -
 
 # Now convert the PNGs to shapes that we may be able to use in shape.py
 index=0
-translation=$(for col in "${palette[@]}" ; do echo " ; s/$col/c${index}c/g" ; index=$((index+1)) ; done)
+translation=$(for col in "${generatedpalette[@]}" ; do echo " ; s/$col/c${index}c/g" ; index=$((index+1)) ; done)
 cat > "${pyhourglass}" << EOM
 # Hourglass shape
 

@@ -1,0 +1,2293 @@
+          AREA |C$$code|, CODE, READONLY
+
+; constants
+width             * 32
+height            * 32
+period            * 2
+wordsperrow       * 2
+nwords            * 1436
+nframes           * 78
+active_x          * 16
+active_y          * 16
+
+; Workspace for changing the hourglass rendition
+                  ^ 0, r12
+hg_framenum       # 4                         ; frame number
+hg_percentage     # 4                         ; percentage to show (N/I)
+hg_leds           # 4                         ; LED flags (N/I)
+hg_oldpointer     # 4                         ; Old pointer configuration
+hg_oldcolours     # 4 * 3                     ; Old palette entries
+hg_word           # 12                        ; OS_Word block
+hg_currentdata    # 4 * wordsperrow * height  ; Current data for the hourglass
+hg_workspacesize  * :INDEX: @                 ; Size of this workspace
+
+; SWI numbers
+XOS_Byte          * 0x20006
+XOS_Word          * 0x20007
+XOS_ReadPalette   * 0x2002F
+
+; -------------------------------------------------
+        MACRO
+$label  SIGNATURE
+        ALIGN   4
+        =       "$label",0
+        ALIGN   4
+        DCD     &FF000000+(:LEN:"$label"+4):AND::NOT:3
+$label
+        MEND
+
+; Data for the rows of the hourglass
+rowdata
+          DCD     &aaaaaaaa, &aaaaaaaa
+          DCD     &55556aaa, &aaa55555
+          DCD     &aaaa9aaa, &aa9aaaaa
+          DCD     &aaaaa6aa, &aa9aaaaa
+          DCD     &55596aaa, &aaa5a555
+          DCD     &9659aaaa, &aaa9a6aa
+          DCD     &a569aaaa, &aaa9a6aa
+          DCD     &a569aaaa, &aaaa65aa
+          DCD     &a9a6aaaa, &aaaa69aa
+          DCD     &a5a6aaaa, &aaaa9a6a
+          DCD     &a69aaaaa, &aaaa9a5a
+          DCD     &966aaaaa, &aaaaa696
+          DCD     &5a6aaaaa, &aaaaa696
+          DCD     &5a6aaaaa, &aaaaa695
+          DCD     &569aaaaa, &aaaaa655
+          DCD     &559aaaaa, &aaaa9a55
+          DCD     &55a6aaaa, &aaaa6955
+          DCD     &5569aaaa, &aaaa6955
+          DCD     &5569aaaa, &aaa9a555
+          DCD     &5559aaaa, &aaa9a555
+          DCD     &556a5aaa, &aaa5a555
+          DCD     &55555aaa, &aaa55555
+          DCD     &aaaaa6aa, &aaa5aaaa
+          DCD     &555a5aaa, &aaa9a555
+          DCD     &569a6aaa, &aaa9a5aa
+          DCD     &a659aaaa, &aaaa65aa
+          DCD     &a969aaaa, &aaaa69aa
+          DCD     &969aaaaa, &aaaaa696
+          DCD     &569aaaaa, &aaaa9a55
+          DCD     &55a6aaaa, &aaaa6555
+          DCD     &5559aaaa, &aaa59555
+          DCD     &55696aaa, &aa9aaaa5
+          DCD     &aaaa9aaa, &aa6aaaaa
+          DCD     &556aaaaa, &aaa55555
+          DCD     &aa955aaa, &aa9aaaaa
+          DCD     &555a5aaa, &aaaa6555
+          DCD     &569a6aaa, &aaaa65aa
+          DCD     &a69a6aaa, &aaaa65aa
+          DCD     &a969aaaa, &aaaa99aa
+          DCD     &a9a6aaaa, &aaaa9a6a
+          DCD     &a59aaaaa, &aaaaa65a
+          DCD     &569aaaaa, &aaaa9955
+          DCD     &55a6aaaa, &aaa9a555
+          DCD     &5566aaaa, &aaa9a555
+          DCD     &5569aaaa, &aaa99555
+          DCD     &5569aaaa, &aaa59555
+          DCD     &556a6aaa, &aaa55555
+          DCD     &aa95aaaa, &aaaaaaaa
+          DCD     &55aaaaaa, &aaa55555
+          DCD     &aa555aaa, &aa9aaaaa
+          DCD     &aaaaa6aa, &aaa6aaaa
+          DCD     &aaaaa6aa, &aaa96aaa
+          DCD     &555a6aaa, &aaaa6565
+          DCD     &a69a6aaa, &aaaa69aa
+          DCD     &a959aaaa, &aaaa69aa
+          DCD     &a969aaaa, &aaaa996a
+          DCD     &a5a6aaaa, &aaaaa65a
+          DCD     &566aaaaa, &aaaa9a55
+          DCD     &5569aaaa, &aa969555
+          DCD     &5569aaaa, &aa6aaaa9
+          DCD     &aaaa6aaa, &aa6aaaaa
+          DCD     &55aa6aaa, &aaa55555
+          DCD     &aa55aaaa, &aaaaaaaa
+          DCD     &555aaaaa, &aaa55555
+          DCD     &aaa55aaa, &aa9aaaaa
+          DCD     &555a6aaa, &aaaa6555
+          DCD     &969a6aaa, &aaaa65aa
+          DCD     &a569aaaa, &aaaa69aa
+          DCD     &a69aaaaa, &aaaaa65a
+          DCD     &569aaaaa, &aaaa9a56
+          DCD     &555a6aaa, &aaa9a555
+          DCD     &9659aaaa, &aaaa65aa
+          DCD     &aa69aaaa, &aaaa69aa
+          DCD     &5566aaaa, &aaaa6555
+          DCD     &55696aaa, &aa9aaa95
+          DCD     &aaaa9aaa, &aaa6aaaa
+          DCD     &55596aaa, &aaa9a555
+          DCD     &5a59aaaa, &aaa9a5aa
+          DCD     &a966aaaa, &aaaa69aa
+          DCD     &a69aaaaa, &aaaa9a6a
+          DCD     &969aaaaa, &aaaaa69a
+          DCD     &569aaaaa, &aaaaa656
+          DCD     &559aaaaa, &aaaa9a56
+          DCD     &5566aaaa, &aaaa6955
+          DCD     &55696aaa, &aaa5a555
+          DCD     &5969aaaa, &aaa9a5a9
+          DCD     &aa69aaaa, &aaaa65aa
+          DCD     &a5a6aaaa, &aaaa9aaa
+          DCD     &966aaaaa, &aaaaa69a
+          DCD     &969aaaaa, &aaaaa656
+          DCD     &5569aaaa, &aaa9a565
+          DCD     &a9a6aaaa, &aaaa9aaa
+          DCD     &a969aaaa, &aaaa65aa
+          DCD     &959aaaaa, &aaaa9a56
+          DCD     &55a6aaaa, &aaaa6956
+          DCD     &9569aaaa, &aaaa65aa
+          DCD     &95a6aaaa, &aaaa6956
+          DCD     &5569aaaa, &aaaa6956
+          DCD     &5569aaaa, &aaaa65aa
+          DCD     &a5a6aaaa, &aaaa69aa
+          DCD     &9569aaaa, &aaaa6956
+          DCD     &5569aaaa, &aaa9a556
+          DCD     &5569aaaa, &aaaa6569
+          DCD     &5569aaaa, &aaaa6555
+          DCD     &55a6aaaa, &aaaa696a
+          DCD     &9569aaaa, &aaa9a556
+          DCD     &5559aaaa, &aaa9a556
+          DCD     &55a6aaaa, &aaaa9a5a
+          DCD     &969aaaaa, &aaaa9a5a
+          DCD     &55a6aaaa, &aaaa9a55
+          DCD     &566aaaaa, &aaaaa695
+          DCD     &9569aaaa, &aaa9a55a
+          DCD     &9559aaaa, &aaa9a55a
+          DCD     &9559aaaa, &aaa9a556
+          DCD     &9569aaaa, &aaaa695a
+          DCD     &a559aaaa, &aaa9a56a
+          DCD     &a569aaaa, &aaaa695a
+          DCD     &a569aaaa, &aaa9a56a
+          DCD     &95a6aaaa, &aaaa695a
+          DCD     &a569aaaa, &aaaa696a
+          DCD     &a969aaaa, &aaa9a5aa
+          DCD     &a959aaaa, &aaa9a5aa
+          DCD     &a5a6aaaa, &aaaa696a
+          DCD     &a969aaaa, &aaaa696a
+          DCD     &a959aaaa, &aaa9a56a
+          DCD     &aa59aaaa, &aaa9a5aa
+          DCD     &569aaaaa, &aaaaa695
+          DCD     &5a6aaaaa, &aaaaa995
+          DCD     &a5a6aaaa, &aaaa695a
+          DCD     &aa69aaaa, &aaa9a5aa
+          DCD     &55556aaa, &aaaaaa95
+          DCD     &aaaa9aaa, &aa95556a
+          DCD     &a9a9aaaa, &aa6aaaaa
+          DCD     &5569aaaa, &aa9a9555
+          DCD     &5569aaaa, &aaa69555
+          DCD     &5566aaaa, &aaa99555
+          DCD     &569aaaaa, &aaaa6955
+          DCD     &569aaaaa, &aaaaa995
+          DCD     &a5a6aaaa, &aaaaa656
+          DCD     &a969aaaa, &aaaa9a5a
+          DCD     &aa59aaaa, &aaaa996a
+          DCD     &aa9a6aaa, &aaaa696a
+          DCD     &aa5a6aaa, &aaaa696a
+          DCD     &955a56aa, &aaaa656a
+          DCD     &6aaaa9aa, &aaaa6955
+          DCD     &aaaaa9aa, &aaa9aaaa
+          DCD     &aaaa56aa, &aaa6aaaa
+          DCD     &5555aaaa, &aaa6aaa5
+          DCD     &aaaaaaaa, &aaa9555a
+          DCD     &aaa5aaaa, &aaaaaaaa
+          DCD     &555a6aaa, &aaaaaa95
+          DCD     &a9a5aaaa, &aa6aaaaa
+          DCD     &5569aaaa, &aa6aa555
+          DCD     &5566aaaa, &aa969555
+          DCD     &5566aaaa, &aaa69555
+          DCD     &5a6aaaaa, &aaaa9a95
+          DCD     &aa566aaa, &aaaa696a
+          DCD     &955656aa, &aaaa696a
+          DCD     &aaaaa9aa, &aaa96aaa
+          DCD     &aaa956aa, &aaa6aaaa
+          DCD     &5556aaaa, &aaa6aaa5
+          DCD     &55556aaa, &aaaaaa55
+          DCD     &aaaa9aaa, &aa9555aa
+          DCD     &aaa96aaa, &aa6aaaaa
+          DCD     &559aaaaa, &aaaa6955
+          DCD     &a5a6aaaa, &aaaa9a56
+          DCD     &aa69aaaa, &aaaa696a
+          DCD     &aa5a6aaa, &aaaa65aa
+          DCD     &955a5aaa, &aaaa656a
+          DCD     &6aaaa6aa, &aaa96555
+          DCD     &55555aaa, &aaa6aa95
+          DCD     &aaaaaaaa, &aaa9556a
+          DCD     &95a6aaaa, &aaaa9a56
+          DCD     &a9a6aaaa, &aaaa995a
+          DCD     &555a6aaa, &aaaa6955
+          DCD     &5569aaaa, &aaaa9955
+          DCD     &55a6aaaa, &aaaaa655
+          DCD     &a9a6aaaa, &aaa9a5aa
+          DCD     &a966aaaa, &aaa9a5aa
+          DCD     &aa69aaaa, &aaa995aa
+          DCD     &a969aaaa, &aaa5955a
+          DCD     &55aa9aaa, &aaa55555
+          DCD     &aa556aaa, &aaaaaaaa
+          DCD     &aaaaaaaa, &aaaa56aa
+          DCD     &5aaaaaaa, &aaa9a955
+          DCD     &a5555aaa, &aaa6aaaa
+          DCD     &aaaaa6aa, &aaa9aaaa
+          DCD     &aaaaa9aa, &aaaa696a
+          DCD     &556aa9aa, &aaaa6955
+          DCD     &555656aa, &aaaa6955
+          DCD     &55566aaa, &aaaa6955
+          DCD     &555a6aaa, &aaaa9955
+          DCD     &5559aaaa, &aaaa9a55
+          DCD     &5569aaaa, &aaaaa655
+          DCD     &55a6aaaa, &aaaaa695
+          DCD     &969aaaaa, &aaaa695a
+          DCD     &a69aaaaa, &aaa9a56a
+          DCD     &a5a6aaaa, &aaa9a5aa
+          DCD     &a9a6aaaa, &aaa696aa
+          DCD     &a966aaaa, &aaa696aa
+          DCD     &a566aaaa, &aa5a9556
+          DCD     &5566aaaa, &a9aaaaa9
+          DCD     &aaa5aaaa, &aa6aaaaa
+          DCD     &aaaa6aaa, &aa956aaa
+          DCD     &6aaa6aaa, &aaaa9555
+          DCD     &9555aaaa, &aaaaaaaa
+          DCD     &aaaaaaaa, &aaaa556a
+          DCD     &5aaaaaaa, &aaa9aa95
+          DCD     &a556aaaa, &aaa9aaaa
+          DCD     &aaa956aa, &aaaa5aaa
+          DCD     &aaaaa9aa, &aaaa9a56
+          DCD     &56aaaa6a, &aaaa9955
+          DCD     &5556a9aa, &aaaa9955
+          DCD     &555696aa, &aaaa9a55
+          DCD     &55569aaa, &aaaa9a55
+          DCD     &555a6aaa, &aaaaa655
+          DCD     &5569aaaa, &aaaaa695
+          DCD     &55a9aaaa, &aaaaa695
+          DCD     &55a6aaaa, &aaaaa995
+          DCD     &5a6aaaaa, &aaaa6955
+          DCD     &966aaaaa, &aaa9a95a
+          DCD     &969aaaaa, &aaa9a5aa
+          DCD     &a69aaaaa, &aaa696aa
+          DCD     &a59aaaaa, &aaa656aa
+          DCD     &a9a6aaaa, &aa5a56aa
+          DCD     &a5a6aaaa, &a9aaa556
+          DCD     &55a6aaaa, &a9aaaaa5
+          DCD     &aa9aaaaa, &aa5aaaaa
+          DCD     &aaa6aaaa, &aaa556aa
+          DCD     &aaa9aaaa, &aaaaa955
+          DCD     &55a9aaaa, &aaaaaaaa
+          DCD     &aa56aaaa, &aaaaaaaa
+          DCD     &aaaaaaaa, &aaaa96aa
+          DCD     &aaaaaaaa, &aaaa6956
+          DCD     &5aaaaaaa, &aaaa6aa9
+          DCD     &a55aaaaa, &aaaa9aaa
+          DCD     &aaa56aaa, &aaaaa6aa
+          DCD     &aaaa95aa, &aaaaa655
+          DCD     &56aaaa6a, &aaaa9a55
+          DCD     &555aaa6a, &aaaa9a55
+          DCD     &5555aa6a, &aaaaa655
+          DCD     &555595aa, &aaaaa655
+          DCD     &55569aaa, &aaaaa695
+          DCD     &555a6aaa, &aaaaa695
+          DCD     &5569aaaa, &aaaaa995
+          DCD     &55a6aaaa, &aaaaa9a5
+          DCD     &5a6aaaaa, &aaaa9a55
+          DCD     &9a6aaaaa, &aaa9a56a
+          DCD     &966aaaaa, &aaa695aa
+          DCD     &969aaaaa, &aa9a56aa
+          DCD     &a69aaaaa, &a95a5aaa
+          DCD     &a69aaaaa, &a6aa56aa
+          DCD     &a69aaaaa, &a6aaa95a
+          DCD     &569aaaaa, &a96aaaa5
+          DCD     &a69aaaaa, &aa95aaaa
+          DCD     &aa9aaaaa, &aaaa55aa
+          DCD     &aaa6aaaa, &aaaaaa56
+          DCD     &5aa6aaaa, &aaaaaaa9
+          DCD     &a55aaaaa, &aaaaaaaa
+          DCD     &aaaaaaaa, &aaaaa56a
+          DCD     &aaaaaaaa, &aaaa9a95
+          DCD     &5aaaaaaa, &aaaa9aaa
+          DCD     &a56aaaaa, &aaaaa6aa
+          DCD     &aa95aaaa, &aaaaa6aa
+          DCD     &aaaa56aa, &aaaaa695
+          DCD     &56aaa96a, &aaaaa695
+          DCD     &555aaa9a, &aaaaa695
+          DCD     &5555aa9a, &aaaaa695
+          DCD     &5555a56a, &aaaaa695
+          DCD     &55559aaa, &aaaaa695
+          DCD     &55569aaa, &aaaaa995
+          DCD     &555a6aaa, &aaaaa995
+          DCD     &55a9aaaa, &aaaaa5a5
+          DCD     &56a6aaaa, &aaaa9695
+          DCD     &5a5aaaaa, &aaaa6a55
+          DCD     &5a6aaaaa, &aaa9a955
+          DCD     &5a6aaaaa, &aaa6956a
+          DCD     &9a6aaaaa, &aa9a56aa
+          DCD     &966aaaaa, &a95a5aaa
+          DCD     &966aaaaa, &a6a95aaa
+          DCD     &a66aaaaa, &a6aa96aa
+          DCD     &969aaaaa, &a9aaa95a
+          DCD     &566aaaaa, &aa5aaaa5
+          DCD     &966aaaaa, &aaa56aaa
+          DCD     &aa6aaaaa, &aaaa95aa
+          DCD     &aa9aaaaa, &aaaaaa5a
+          DCD     &6aa6aaaa, &aaaaaaa5
+          DCD     &959aaaaa, &aaaaaaaa
+          DCD     &aa6aaaaa, &aaaaaaaa
+          DCD     &aaaaaaaa, &aaaaa95a
+          DCD     &aaaaaaaa, &aaaaa6a5
+          DCD     &56aaaaaa, &aaaaa6aa
+          DCD     &a96aaaaa, &aaaaa9aa
+          DCD     &aa96aaaa, &aaaaa9aa
+          DCD     &6aa95aaa, &aaaaa695
+          DCD     &56aaa5aa, &aaaaa695
+          DCD     &556aaa6a, &aaaaa695
+          DCD     &55556a9a, &aaaaa995
+          DCD     &5555a56a, &aaaaa995
+          DCD     &555a6aaa, &aaaaa9a5
+          DCD     &5569aaaa, &aaaaa5a5
+          DCD     &56a6aaaa, &aaaa9a95
+          DCD     &5a9aaaaa, &aaa96955
+          DCD     &5a6aaaaa, &aaa6a555
+          DCD     &5a6aaaaa, &aa9a95aa
+          DCD     &9a6aaaaa, &aa9a5aaa
+          DCD     &9a6aaaaa, &a5695aaa
+          DCD     &9a6aaaaa, &9aa95aaa
+          DCD     &966aaaaa, &a6aa95aa
+          DCD     &966aaaaa, &a96aa95a
+          DCD     &5a6aaaaa, &aa96aaa5
+          DCD     &5a6aaaaa, &aaa96aaa
+          DCD     &a9aaaaaa, &aaaa95aa
+          DCD     &aa6aaaaa, &aaaaaa5a
+          DCD     &aa9aaaaa, &aaaaaaa5
+          DCD     &569aaaaa, &aaaaaaaa
+          DCD     &a96aaaaa, &aaaaaaaa
+          DCD     &aaaaaaaa, &aaaaa956
+          DCD     &6aaaaaaa, &aaaaa6a9
+          DCD     &96aaaaaa, &aaaaa6aa
+          DCD     &aa96aaaa, &aaaaa9a6
+          DCD     &6aa96aaa, &aaaaa995
+          DCD     &56aa96aa, &aaaaa995
+          DCD     &556aa96a, &aaaaa995
+          DCD     &5556aa9a, &aaaaa995
+          DCD     &5555a6aa, &aaaaa9a5
+          DCD     &555a9aaa, &aaaaa9a5
+          DCD     &556a6aaa, &aaaaa6a5
+          DCD     &55a5aaaa, &aaaa5a95
+          DCD     &5a9aaaaa, &aaa9a955
+          DCD     &5a6aaaaa, &aaa6a559
+          DCD     &5a6aaaaa, &aa9a55aa
+          DCD     &9a6aaaaa, &a6aa95aa
+          DCD     &9a6aaaaa, &a96aa95a
+          DCD     &59aaaaaa, &aaa96aaa
+          DCD     &a9aaaaaa, &aaaaaa5a
+          DCD     &aa6aaaaa, &aaaaaaa5
+          DCD     &5a6aaaaa, &aaaaaaaa
+          DCD     &a5aaaaaa, &aaaaaaaa
+          DCD     &aaaaaaaa, &aaaaaa6a
+          DCD     &aaaaaaaa, &aaaaa996
+          DCD     &96aaaaaa, &aaaaa9aa
+          DCD     &a96aaaaa, &aaaaaa6a
+          DCD     &6aa96aaa, &aaaaa9a5
+          DCD     &55556a9a, &aaaaa9a5
+          DCD     &5555a56a, &aaaaa9a5
+          DCD     &55569aaa, &aaaaa9a5
+          DCD     &55a9aaaa, &aaaa5a95
+          DCD     &5a96aaaa, &aaa9a955
+          DCD     &5a6aaaaa, &aaa69559
+          DCD     &596aaaaa, &aa9a56aa
+          DCD     &5a6aaaaa, &a5695aaa
+          DCD     &9a6aaaaa, &9aa96aaa
+          DCD     &9a6aaaaa, &9aaa5aaa
+          DCD     &9a6aaaaa, &a5aaa5aa
+          DCD     &5a6aaaaa, &aa5aaa5a
+          DCD     &5a6aaaaa, &aaa5aa95
+          DCD     &59aaaaaa, &aaaa5aa9
+          DCD     &a9aaaaaa, &aaaaa6aa
+          DCD     &a9aaaaaa, &aaaaa96a
+          DCD     &aa6aaaaa, &aaaaaa96
+          DCD     &6a6aaaaa, &aaaaaaa9
+          DCD     &95aaaaaa, &aaaaaaaa
+          DCD     &56aa96aa, &aaaaa9a5
+          DCD     &556a6aaa, &aaaa96a5
+          DCD     &55a9aaaa, &aaaa6a95
+          DCD     &59aaaaaa, &a5695aaa
+          DCD     &59aaaaaa, &aaa5aa95
+          DCD     &69aaaaaa, &aaaa5aa9
+          DCD     &596aaaaa, &aa9a55aa
+          DCD     &9a6aaaaa, &aa5aa95a
+          DCD     &6aaaaaaa, &aaaaa6a5
+          DCD     &5556a6aa, &aaaaa9a5
+          DCD     &56a5aaaa, &aaaa5a95
+          DCD     &5a6aaaaa, &aaa6a55a
+          DCD     &9a6aaaaa, &a9595aaa
+          DCD     &9a6aaaaa, &a6a95aaa
+          DCD     &56aaaaaa, &aaaa9aaa
+          DCD     &a96aaaaa, &aaaaa6aa
+          DCD     &aa95aaaa, &aaaaa9aa
+          DCD     &aaaa5aaa, &aaaaa695
+          DCD     &5555a66a, &aaaaa695
+          DCD     &5555a5aa, &aaaaa995
+          DCD     &5a6aaaaa, &aaa9a556
+          DCD     &9a6aaaaa, &aaa6956a
+          DCD     &966aaaaa, &a9595aaa
+          DCD     &966aaaaa, &a9aaa95a
+          DCD     &566aaaaa, &aa56aaa5
+          DCD     &6a9aaaaa, &aaaaaaa5
+          DCD     &969aaaaa, &aaaaaaaa
+          DCD     &aaaaaaaa, &aaaa95aa
+          DCD     &aaaaaaaa, &aaaa6a56
+          DCD     &5a6aaaaa, &aaaa6956
+          DCD     &a69aaaaa, &aa9a56aa
+          DCD     &a555aaaa, &aaa9aaaa
+          DCD     &aaaa56aa, &aaaa6aaa
+          DCD     &aaaaa9aa, &aaaa995a
+          DCD     &55aaa9aa, &aaaa9955
+          DCD     &555696aa, &aaaa9955
+          DCD     &55569aaa, &aaaa9955
+          DCD     &55566aaa, &aaaa9a55
+          DCD     &555a6aaa, &aaaa9a55
+          DCD     &56a6aaaa, &aaaaa995
+          DCD     &5a9aaaaa, &aaaaa695
+          DCD     &9a6aaaaa, &aaaa9a56
+          DCD     &a59aaaaa, &aaa695aa
+          DCD     &a9a6aaaa, &aa5656aa
+          DCD     &a5a6aaaa, &a9aa9556
+          DCD     &55a6aaaa, &a9aaaaa9
+          DCD     &aaa6aaaa, &aa6aaaaa
+          DCD     &aaa9aaaa, &aa9556aa
+          DCD     &aaaa6aaa, &aaaaa955
+          DCD     &5569aaaa, &aaaaaaaa
+          DCD     &aa96aaaa, &aaaaaaaa
+          DCD     &559aaaaa, &aaaaa655
+          DCD     &969aaaaa, &aaaa9a55
+          DCD     &a9a6aaaa, &aaaa695a
+          DCD     &a9a6aaaa, &aaaa656a
+          DCD     &a969aaaa, &aaa5956a
+          DCD     &556a9aaa, &aaa55555
+          DCD     &aa956aaa, &aaaaaaaa
+          DCD     &556a6aaa, &aaaaaa95
+          DCD     &aaaa6aaa, &aa95556a
+          DCD     &a5a5aaaa, &aa6aaaaa
+          DCD     &5566aaaa, &aa6aa555
+          DCD     &55a6aaaa, &aaa69555
+          DCD     &55a6aaaa, &aaa99555
+          DCD     &559aaaaa, &aaa9a555
+          DCD     &a5a6aaaa, &aaaaa695
+          DCD     &a9a6aaaa, &aaaaa656
+          DCD     &aa69aaaa, &aaaa9a5a
+          DCD     &aa5a6aaa, &aaaa9a5a
+          DCD     &955696aa, &aaaa695a
+          DCD     &5aa6aaaa, &aaaaaaaa
+          DCD     &aaa6aaaa, &aaaaaa95
+          DCD     &aa5aaaaa, &aaaaa56a
+          DCD     &aa6aaaaa, &aaaa5aaa
+          DCD     &566aaaaa, &aa95aaa9
+          DCD     &569aaaaa, &a96aaa95
+          DCD     &566aaaaa, &a6aaa555
+          DCD     &566aaaaa, &a6a95555
+          DCD     &566aaaaa, &a9595555
+          DCD     &5a6aaaaa, &aa9a5555
+          DCD     &5a6aaaaa, &aaa69555
+          DCD     &5a6aaaaa, &aaa9a555
+          DCD     &569aaaaa, &aaaa9a95
+          DCD     &55a6aaaa, &aaaaa6a5
+          DCD     &a969aaaa, &aaaaa9a5
+          DCD     &aa5a6aaa, &aaaaa995
+          DCD     &aa969aaa, &aaaaa996
+          DCD     &aaa5a5aa, &aaaaa696
+          DCD     &aaa5aa6a, &aaaaa696
+          DCD     &aa56aa9a, &aaaaa696
+          DCD     &95aaaa6a, &aaaaa696
+          DCD     &5aaa95aa, &aaaaa695
+          DCD     &aaa96aaa, &aaaaa696
+          DCD     &aa56aaaa, &aaaaa6aa
+          DCD     &95aaaaaa, &aaaa9aaa
+          DCD     &6aaaaaaa, &aaaa9aa5
+          DCD     &aaaaaaaa, &aaaaa65a
+          DCD     &aaaaaaaa, &aaaaa9aa
+          DCD     &6aaaaaaa, &aaaaaaa9
+          DCD     &9aaaaaaa, &aaaaaaa6
+          DCD     &9aaaaaaa, &aaaaaa9a
+          DCD     &9aaaaaaa, &aaaaa96a
+          DCD     &9aaaaaaa, &aaaaa6aa
+          DCD     &9aaaaaaa, &aaaa9aa6
+          DCD     &a6aaaaaa, &aaaa6a95
+          DCD     &a6aaaaaa, &aaa5aa55
+          DCD     &66aaaaaa, &aa9aa955
+          DCD     &66aaaaaa, &aa6a9555
+          DCD     &69aaaaaa, &a9aa5555
+          DCD     &69aaaaaa, &a6a95555
+          DCD     &69aaaaaa, &9aa55555
+          DCD     &6a56aaaa, &6aa55555
+          DCD     &5aa96aaa, &95695555
+          DCD     &556a9aaa, &aa9aa555
+          DCD     &6a56a65a, &aaa5aa95
+          DCD     &aaa569a6, &aaaa56a5
+          DCD     &aaa95aa6, &aaaaa965
+          DCD     &aaa96a9a, &aaaaaa65
+          DCD     &aaa5aa6a, &aaaaaa65
+          DCD     &6a96a9aa, &aaaaaa69
+          DCD     &6a6aa6aa, &aaaaaa69
+          DCD     &55aa5aaa, &aaaaaa69
+          DCD     &56a9aaaa, &aaaaaa99
+          DCD     &5aa6aaaa, &aaaaaa9a
+          DCD     &aa9aaaaa, &aaaaaaa6
+          DCD     &a96aaaaa, &aaaaaaa6
+          DCD     &a6aaaaaa, &aaaaaa9a
+          DCD     &6aaaaaaa, &aaaaaaa5
+          DCD     &aaaaaaaa, &aaaaa5aa
+          DCD     &aaaaaaaa, &aaaa9a6a
+          DCD     &aaaaaaaa, &aaaa6a6a
+          DCD     &aaaaaaaa, &aaa9aa9a
+          DCD     &aaaaaaaa, &aaa9a9a6
+          DCD     &aaaaaaaa, &aaa6a569
+          DCD     &6aaaaaaa, &aaa6a55a
+          DCD     &6aaaaaaa, &aa9a955a
+          DCD     &9aaaaaaa, &aa9a9556
+          DCD     &95556a5a, &aa6a5555
+          DCD     &aaaa95a6, &a9a95555
+          DCD     &6aaaaaa6, &a9a95555
+          DCD     &55555aa6, &a6a55555
+          DCD     &5aa95a9a, &a6a55555
+          DCD     &6aaa6a9a, &9a955555
+          DCD     &6aaa6a6a, &9aa95555
+          DCD     &6aa9a9aa, &6a6aaaa9
+          DCD     &5aa9a9aa, &9995555a
+          DCD     &5aa6a6aa, &a6aaaa9a
+          DCD     &9696a6aa, &aaaaaaa6
+          DCD     &955a9aaa, &aaaaaaa9
+          DCD     &a56a9aaa, &aaaaaaa9
+          DCD     &696a6aaa, &aaaaaaaa
+          DCD     &9aa9aaaa, &aaaaaaaa
+          DCD     &a6a9aaaa, &aaaaaaaa
+          DCD     &a6a6aaaa, &aaaaaaaa
+          DCD     &a99aaaaa, &aaaaaaaa
+          DCD     &aaaaaaaa, &aa96aaaa
+          DCD     &aaaaaaaa, &aa69aaaa
+          DCD     &aaaaa5aa, &aa6a6aaa
+          DCD     &aaaa9a6a, &aa6a95aa
+          DCD     &aa956a6a, &aa6aaa6a
+          DCD     &a96aaa6a, &aa695a96
+          DCD     &56a9aa6a, &aa6955a9
+          DCD     &aa556a6a, &aa69556a
+          DCD     &a5696a6a, &aa695556
+          DCD     &56aa6a6a, &a9a95555
+          DCD     &5aaa69aa, &a9a95555
+          DCD     &6aaa69aa, &a9a95555
+          DCD     &6aa969aa, &a9a95555
+          DCD     &5aa9a9aa, &a9a95555
+          DCD     &56a9a9aa, &a9a9555a
+          DCD     &a5a9a9aa, &a9a555aa
+          DCD     &a955a9aa, &a9a95aa5
+          DCD     &5a55a9aa, &a9aaaa5a
+          DCD     &a6aaa9aa, &a9aa95aa
+          DCD     &a96aa9aa, &a9a56aaa
+          DCD     &aa95a6aa, &a99aaaaa
+          DCD     &aaa9a6aa, &aa6aaaaa
+          DCD     &aaaa66aa, &aaaaaaaa
+          DCD     &aaaa9aaa, &aaaaaaaa
+          DCD     &aa6a6aaa, &aaaaaaaa
+          DCD     &a96a6aaa, &aaaaaaaa
+          DCD     &a6aa9aaa, &aaaaaaaa
+          DCD     &9a9a9aaa, &aaaaaaaa
+          DCD     &69569aaa, &aaaaaaaa
+          DCD     &a556a6aa, &a5aaaaa9
+          DCD     &a5a6a6aa, &9a555565
+          DCD     &96a5a6aa, &9aaaaa96
+          DCD     &5aa9a9aa, &9aa96aaa
+          DCD     &6aa9a9aa, &a6a55559
+          DCD     &6aaa6a6a, &a6a55555
+          DCD     &5aaa6a6a, &a9a95555
+          DCD     &55555a9a, &a9a95555
+          DCD     &aa555a9a, &aa695555
+          DCD     &aaaaaa9a, &aa6a5556
+          DCD     &555a96a6, &aa6a555a
+          DCD     &aaa5699a, &aa9a5569
+          DCD     &aaaaaa6a, &aa9a95a9
+          DCD     &aaaaaaaa, &aa9a96a6
+          DCD     &aaaaaaaa, &aaa6aa9a
+          DCD     &aaaaaaaa, &aaa6a96a
+          DCD     &aaaaaaaa, &aaa6a6aa
+          DCD     &aaaaaaaa, &aaa9a6aa
+          DCD     &aaaaaaaa, &aaaa5aaa
+          DCD     &5aaaaaaa, &aaaaaaaa
+          DCD     &a6aaaaaa, &aaaaaaa9
+          DCD     &a9aaaaaa, &aaaaaaa9
+          DCD     &6a6aaaaa, &aaaaaaaa
+          DCD     &aa9aaaaa, &aaaaaaa9
+          DCD     &aaa6aaaa, &aaaaaaa9
+          DCD     &96a9aaaa, &aaaaaaa6
+          DCD     &55aa6aaa, &aaaaaa9a
+          DCD     &596a9aaa, &aaaaaa9a
+          DCD     &6a9aa6aa, &aaaaaa99
+          DCD     &6aa6a9aa, &aaaaaa99
+          DCD     &aaa9aa6a, &aaaaaa69
+          DCD     &aaa96a9a, &aaaaa569
+          DCD     &aaa95aa6, &aaa55aa5
+          DCD     &6aa55aa6, &969aaa55
+          DCD     &5555a9a6, &696a5555
+          DCD     &556aa65a, &6aa55555
+          DCD     &6aa95aaa, &9a955555
+          DCD     &6956aaaa, &a6a55555
+          DCD     &66aaaaaa, &a6a95555
+          DCD     &a6aaaaaa, &a9aa5555
+          DCD     &a6aaaaaa, &aa6a9555
+          DCD     &9aaaaaaa, &aa9aa555
+          DCD     &9aaaaaaa, &aaa6a956
+          DCD     &9aaaaaaa, &aaa9aa56
+          DCD     &6aaaaaaa, &aaaa6a9a
+          DCD     &aaaaaaaa, &aaaa9aa9
+          DCD     &aaaaaaaa, &aaaaa6a9
+          DCD     &aaaaaaaa, &aaaaa9a9
+          DCD     &6aaaaaaa, &aaaaaa6a
+          DCD     &aaaaaaaa, &aaaaaa95
+          DCD     &6aa95aaa, &aaaaa995
+          DCD     &a96aaa6a, &aaaaa696
+          DCD     &aa96aa9a, &aaaaa69a
+          DCD     &aaa56a9a, &aaaaa996
+          DCD     &aaa5a56a, &aaaaa996
+          DCD     &aa5a9aaa, &aaaaa9a6
+          DCD     &65696aaa, &aaaaa6a5
+          DCD     &596aaaaa, &aaa6a555
+          DCD     &59aaaaaa, &aa9a9555
+          DCD     &5a6aaaaa, &a99a5555
+          DCD     &5a6aaaaa, &a6695555
+          DCD     &5a6aaaaa, &9aa95555
+          DCD     &5a6aaaaa, &a6aa9555
+          DCD     &5a6aaaaa, &a96aa955
+          DCD     &aaaaaaaa, &aaaa6aaa
+          DCD     &56aaaaaa, &aaa99555
+          DCD     &a9555aaa, &aaa6aaaa
+          DCD     &aaaaa9aa, &aaa969aa
+          DCD     &555a96aa, &aaaa6555
+          DCD     &a95a6aaa, &aaaa656a
+          DCD     &aa5a6aaa, &aaaa69aa
+          DCD     &a969aaaa, &aaaa9a6a
+          DCD     &a9a6aaaa, &aaaa9a5a
+          DCD     &a5a6aaaa, &aaaaa69a
+          DCD     &aaaa9aaa, &aa95aaaa
+          DCD     &5aaa6aaa, &aaaa5555
+          DCD     &a555aaaa, &aaaaaaaa
+          DCD     &55aa6aaa, &aaaaaa95
+          DCD     &aaaa6aaa, &aaa5556a
+          DCD     &aaa9aaaa, &aa5aaaaa
+          DCD     &a5a6aaaa, &a9aaaaaa
+          DCD     &5566aaaa, &aa6aa955
+          DCD     &a566aaaa, &aa9695aa
+          DCD     &a5a6aaaa, &aaa696aa
+          DCD     &a59aaaaa, &aaa9a5aa
+          DCD     &a69aaaaa, &aaaa69aa
+          DCD     &966aaaaa, &aaaa696a
+          DCD     &5569aaaa, &aaaa9a55
+          DCD     &55565aaa, &aaaa6955
+          DCD     &5556a6aa, &aaaa6955
+          DCD     &aaa556aa, &aaa6aaaa
+          DCD     &555aaaaa, &aaa6aaa5
+          DCD     &9556aaaa, &aaaaaaaa
+          DCD     &6aa9aaaa, &aaaaaa95
+          DCD     &aaa9aaaa, &aaaa956a
+          DCD     &aa96aaaa, &aa956aaa
+          DCD     &559aaaaa, &aa6aaaaa
+          DCD     &55a6aaaa, &a9aaaa55
+          DCD     &959aaaaa, &a9aa55aa
+          DCD     &a59aaaaa, &aa5a5aaa
+          DCD     &a69aaaaa, &aaa65aaa
+          DCD     &966aaaaa, &aaa9a5aa
+          DCD     &9a6aaaaa, &aaaa696a
+          DCD     &55569aaa, &aaaaa655
+          DCD     &555695aa, &aaaa9a55
+          DCD     &556aaa6a, &aaaa9955
+          DCD     &6aaaa9aa, &aaaa9a55
+          DCD     &aaaa56aa, &aaaa9a6a
+          DCD     &aa55aaaa, &aaaa6aaa
+          DCD     &55aaaaaa, &aaa9aaaa
+          DCD     &aaaaaaaa, &aaaa6955
+          DCD     &a556aaaa, &aaaaaaaa
+          DCD     &5aa9aaaa, &aaaaaa95
+          DCD     &aaa9aaaa, &aaaa556a
+          DCD     &aaa6aaaa, &aa55aaaa
+          DCD     &95a6aaaa, &a9aaaaaa
+          DCD     &95a6aaaa, &a9aaaa55
+          DCD     &a5a6aaaa, &a9aa55aa
+          DCD     &a59aaaaa, &aa565aaa
+          DCD     &a59aaaaa, &aaa69aaa
+          DCD     &555695aa, &aaaa9955
+          DCD     &555aaa6a, &aaaa9955
+          DCD     &6aaaa9aa, &aaaa9955
+          DCD     &aaaa96aa, &aaaa9aaa
+          DCD     &aa556aaa, &aaaa6aaa
+          DCD     &55aaaaaa, &aaa9aaa9
+          DCD     &aaaaaaaa, &aaa9a956
+          DCD     &a955aaaa, &aaaaaaaa
+          DCD     &56aa6aaa, &aaaaaa95
+          DCD     &aaaa6aaa, &aaa9556a
+          DCD     &aaa5aaaa, &aa56aaaa
+          DCD     &65a6aaaa, &a9aaa955
+          DCD     &a5a6aaaa, &aa5656aa
+          DCD     &a5a6aaaa, &aaa69aaa
+          DCD     &a59aaaaa, &aaa696aa
+          DCD     &a69aaaaa, &aaa9a6aa
+          DCD     &55566aaa, &aaaa9955
+          DCD     &5556a9aa, &aaaa6955
+          DCD     &aaaaa6aa, &aaaa6aaa
+          DCD     &aa955aaa, &aaa9aaaa
+          DCD     &556aaaaa, &aaa9aaa9
+          DCD     &aaaaaaaa, &aaaa5556
+          DCD     &a9a5aaaa, &a9aaaaaa
+          DCD     &5966aaaa, &aa6aa555
+          DCD     &a966aaaa, &aa9696aa
+          DCD     &a5a6aaaa, &aaa996aa
+          DCD     &a59aaaaa, &aaa9a6aa
+          DCD     &966aaaaa, &aaaa9a6a
+          DCD     &56a6aaaa, &aaaaa695
+          DCD     &555696aa, &aaaa6955
+          DCD     &5969aaaa, &aa969555
+          DCD     &9a69aaaa, &aaa696aa
+          DCD     &a566aaaa, &aaa996aa
+          DCD     &a5a6aaaa, &aaa9a6aa
+          DCD     &a5a6aaaa, &aaaa65aa
+          DCD     &969aaaaa, &aaaa9a6a
+          DCD     &5a6aaaaa, &aaaaa655
+          DCD     &55556aaa, &aaa6aa55
+          DCD     &aaaaaaaa, &aaa955aa
+          DCD     &55556aaa, &aaaa5555
+          DCD     &aaa96aaa, &aa9aaaaa
+          DCD     &5569aaaa, &aaa5a555
+          DCD     &9a69aaaa, &aaa996aa
+          DCD     &a566aaaa, &aaa9a6aa
+          DCD     &a59aaaaa, &aaaa696a
+          DCD     &9a6aaaaa, &aaaaa69a
+          DCD     &55a6aaaa, &aaaa9955
+          DCD     &5559aaaa, &aaaa6955
+          DCD     &5aaa9aaa, &aaa5a555
+          DCD     &55555aaa, &aaa65555
+          DCD     &aaaaaaaa, &aaa9aaaa
+
+; Data for deltas between frames
+deltas
+          ; frame 0
+          DCD     0, 0
+          DCD     8, 0
+          DCD     16, 0
+          DCD     24, 8
+          DCD     32, 16
+          DCD     40, 24
+          DCD     48, 16
+          DCD     56, 32
+          DCD     64, 40
+          DCD     72, 48
+          DCD     80, 56
+          DCD     88, 64
+          DCD     96, 72
+          DCD     104, 80
+          DCD     112, 88
+          DCD     120, 96
+          DCD     128, 104
+          DCD     136, 112
+          DCD     144, 120
+          DCD     152, 128
+          DCD     160, 136
+          DCD     168, 144
+          DCD     176, 152
+          DCD     184, 152
+          DCD     192, 160
+          DCD     200, 24
+          DCD     208, 24
+          DCD     216, 168
+          DCD     224, 0
+          DCD     232, 0
+          DCD     240, 0
+          DCD     248, 0
+          DCD     -1, -1
+          ; frame 1
+          DCD     48, 176
+          DCD     56, 184
+          DCD     64, 192
+          DCD     72, 200
+          DCD     80, 208
+          DCD     88, 208
+          DCD     112, 216
+          DCD     136, 224
+          DCD     144, 224
+          DCD     160, 232
+          DCD     176, 144
+          DCD     184, 240
+          DCD     192, 248
+          DCD     200, 256
+          DCD     208, 16
+          DCD     216, 8
+          DCD     -1, -1
+          ; frame 2
+          DCD     24, 264
+          DCD     32, 272
+          DCD     56, 280
+          DCD     64, 288
+          DCD     72, 296
+          DCD     88, 304
+          DCD     96, 312
+          DCD     104, 320
+          DCD     128, 96
+          DCD     144, 328
+          DCD     160, 336
+          DCD     168, 344
+          DCD     176, 352
+          DCD     184, 360
+          DCD     216, 368
+          DCD     224, 376
+          DCD     -1, -1
+          ; frame 3
+          DCD     24, 384
+          DCD     32, 392
+          DCD     40, 400
+          DCD     48, 408
+          DCD     64, 416
+          DCD     72, 424
+          DCD     80, 432
+          DCD     88, 440
+          DCD     104, 448
+          DCD     136, 456
+          DCD     184, 464
+          DCD     192, 472
+          DCD     200, 480
+          DCD     216, 488
+          DCD     224, 496
+          DCD     -1, -1
+          ; frame 4
+          DCD     24, 504
+          DCD     32, 512
+          DCD     40, 24
+          DCD     48, 176
+          DCD     64, 520
+          DCD     72, 528
+          DCD     80, 536
+          DCD     88, 304
+          DCD     104, 544
+          DCD     136, 552
+          DCD     144, 224
+          DCD     168, 144
+          DCD     184, 360
+          DCD     192, 248
+          DCD     200, 256
+          DCD     216, 368
+          DCD     224, 376
+          DCD     -1, -1
+          ; frame 5
+          DCD     24, 8
+          DCD     32, 16
+          DCD     56, 184
+          DCD     64, 560
+          DCD     72, 568
+          DCD     80, 576
+          DCD     88, 208
+          DCD     96, 72
+          DCD     104, 80
+          DCD     160, 584
+          DCD     176, 144
+          DCD     184, 240
+          DCD     192, 592
+          DCD     216, 8
+          DCD     224, 0
+          DCD     -1, -1
+          ; frame 6
+          DCD     48, 600
+          DCD     56, 608
+          DCD     64, 152
+          DCD     72, 616
+          DCD     88, 624
+          DCD     104, 632
+          DCD     112, 640
+          DCD     136, 648
+          DCD     144, 656
+          DCD     160, 664
+          DCD     176, 152
+          DCD     184, 152
+          DCD     192, 672
+          DCD     200, 16
+          DCD     208, 24
+          DCD     216, 168
+          DCD     -1, -1
+          ; frame 7
+          DCD     48, 16
+          DCD     56, 32
+          DCD     72, 680
+          DCD     80, 688
+          DCD     88, 64
+          DCD     96, 696
+          DCD     112, 704
+          DCD     136, 712
+          DCD     160, 136
+          DCD     192, 160
+          DCD     200, 24
+          DCD     -1, -1
+          ; frame 8
+          DCD     72, 720
+          DCD     96, 728
+          DCD     -1, -1
+          ; frame 9
+          DCD     72, 144
+          DCD     80, 736
+          DCD     136, 648
+          DCD     144, 744
+          DCD     152, 752
+          DCD     -1, -1
+          ; frame 10
+          DCD     -1, -1
+          ; frame 11
+          DCD     80, 760
+          DCD     152, 768
+          DCD     160, 776
+          DCD     -1, -1
+          ; frame 12
+          DCD     -1, -1
+          ; frame 13
+          DCD     80, 784
+          DCD     88, 792
+          DCD     96, 696
+          DCD     160, 800
+          DCD     168, 808
+          DCD     -1, -1
+          ; frame 14
+          DCD     80, 816
+          DCD     96, 72
+          DCD     -1, -1
+          ; frame 15
+          DCD     80, 824
+          DCD     88, 832
+          DCD     168, 840
+          DCD     176, 848
+          DCD     -1, -1
+          ; frame 16
+          DCD     88, 128
+          DCD     96, 856
+          DCD     104, 864
+          DCD     112, 88
+          DCD     -1, -1
+          ; frame 17
+          DCD     96, 872
+          DCD     104, 224
+          DCD     112, 880
+          DCD     184, 848
+          DCD     -1, -1
+          ; frame 18
+          DCD     120, 104
+          DCD     136, 712
+          DCD     168, 888
+          DCD     176, 896
+          DCD     184, 904
+          DCD     -1, -1
+          ; frame 19
+          DCD     128, 104
+          DCD     136, 648
+          DCD     160, 912
+          DCD     176, 920
+          DCD     184, 896
+          DCD     -1, -1
+          ; frame 20
+          DCD     144, 656
+          DCD     160, 928
+          DCD     168, 936
+          DCD     184, 920
+          DCD     -1, -1
+          ; frame 21
+          DCD     136, 112
+          DCD     152, 944
+          DCD     160, 952
+          DCD     168, 960
+          DCD     176, 968
+          DCD     -1, -1
+          ; frame 22
+          DCD     152, 976
+          DCD     160, 984
+          DCD     184, 992
+          DCD     -1, -1
+          ; frame 23
+          DCD     160, 208
+          DCD     176, 1000
+          DCD     -1, -1
+          ; frame 24
+          DCD     112, 1008
+          DCD     120, 1016
+          DCD     136, 1008
+          DCD     144, 744
+          DCD     152, 1024
+          DCD     160, 984
+          DCD     168, 1032
+          DCD     -1, -1
+          ; frame 25
+          DCD     -1, -1
+          ; frame 26
+          DCD     -1, -1
+          ; frame 27
+          DCD     -1, -1
+          ; frame 28
+          DCD     -1, -1
+          ; frame 29
+          DCD     -1, -1
+          ; frame 30
+          DCD     -1, -1
+          ; frame 31
+          DCD     -1, -1
+          ; frame 32
+          DCD     -1, -1
+          ; frame 33
+          DCD     -1, -1
+          ; frame 34
+          DCD     -1, -1
+          ; frame 35
+          DCD     -1, -1
+          ; frame 36
+          DCD     -1, -1
+          ; frame 37
+          DCD     -1, -1
+          ; frame 38
+          DCD     -1, -1
+          ; frame 39
+          DCD     -1, -1
+          ; frame 40
+          DCD     -1, -1
+          ; frame 41
+          DCD     -1, -1
+          ; frame 42
+          DCD     -1, -1
+          ; frame 43
+          DCD     24, 1040
+          DCD     32, 1048
+          DCD     40, 480
+          DCD     48, 1056
+          DCD     56, 1064
+          DCD     64, 1072
+          DCD     72, 1080
+          DCD     80, 336
+          DCD     88, 336
+          DCD     96, 1088
+          DCD     112, 104
+          DCD     120, 104
+          DCD     128, 1096
+          DCD     144, 1104
+          DCD     152, 1112
+          DCD     160, 1120
+          DCD     168, 1128
+          DCD     176, 1136
+          DCD     184, 1144
+          DCD     192, 1152
+          DCD     200, 1160
+          DCD     208, 1168
+          DCD     216, 1176
+          DCD     224, 1184
+          DCD     -1, -1
+          ; frame 44
+          DCD     16, 1192
+          DCD     24, 1200
+          DCD     48, 1208
+          DCD     56, 1216
+          DCD     64, 1224
+          DCD     72, 1232
+          DCD     112, 1240
+          DCD     176, 1248
+          DCD     184, 1256
+          DCD     200, 1264
+          DCD     208, 1272
+          DCD     216, 1280
+          DCD     -1, -1
+          ; frame 45
+          DCD     16, 0
+          DCD     24, 1288
+          DCD     32, 1296
+          DCD     40, 256
+          DCD     48, 1304
+          DCD     56, 464
+          DCD     64, 352
+          DCD     72, 352
+          DCD     88, 232
+          DCD     96, 1312
+          DCD     112, 104
+          DCD     144, 1320
+          DCD     160, 1328
+          DCD     168, 1136
+          DCD     176, 1336
+          DCD     184, 1344
+          DCD     192, 1352
+          DCD     200, 400
+          DCD     208, 400
+          DCD     216, 1360
+          DCD     224, 1368
+          DCD     -1, -1
+          ; frame 46
+          DCD     24, 8
+          DCD     32, 16
+          DCD     40, 24
+          DCD     48, 16
+          DCD     56, 32
+          DCD     64, 152
+          DCD     72, 144
+          DCD     80, 824
+          DCD     88, 128
+          DCD     96, 872
+          DCD     112, 1008
+          DCD     120, 1016
+          DCD     128, 104
+          DCD     144, 1376
+          DCD     152, 1384
+          DCD     160, 984
+          DCD     168, 688
+          DCD     176, 1000
+          DCD     184, 992
+          DCD     192, 160
+          DCD     200, 24
+          DCD     208, 24
+          DCD     216, 168
+          DCD     224, 0
+          DCD     -1, -1
+          ; frame 47
+          DCD     24, 384
+          DCD     32, 392
+          DCD     48, 176
+          DCD     56, 280
+          DCD     64, 520
+          DCD     72, 1392
+          DCD     80, 136
+          DCD     88, 1400
+          DCD     104, 1408
+          DCD     136, 224
+          DCD     144, 864
+          DCD     152, 976
+          DCD     160, 1416
+          DCD     168, 1424
+          DCD     176, 1432
+          DCD     184, 1440
+          DCD     192, 248
+          DCD     200, 256
+          DCD     208, 16
+          DCD     216, 1448
+          DCD     224, 1456
+          DCD     -1, -1
+          ; frame 48
+          DCD     16, 1464
+          DCD     24, 1472
+          DCD     32, 1480
+          DCD     40, 1488
+          DCD     48, 1496
+          DCD     56, 1504
+          DCD     64, 1512
+          DCD     72, 1520
+          DCD     80, 1528
+          DCD     88, 1536
+          DCD     96, 1544
+          DCD     104, 1552
+          DCD     112, 1096
+          DCD     136, 456
+          DCD     144, 1560
+          DCD     152, 1568
+          DCD     160, 1576
+          DCD     168, 1584
+          DCD     176, 1592
+          DCD     184, 1600
+          DCD     192, 1608
+          DCD     200, 1616
+          DCD     208, 1624
+          DCD     216, 1632
+          DCD     224, 1640
+          DCD     -1, -1
+          ; frame 49
+          DCD     16, 1648
+          DCD     24, 1656
+          DCD     32, 1664
+          DCD     40, 1672
+          DCD     48, 1680
+          DCD     56, 1688
+          DCD     64, 1696
+          DCD     72, 1704
+          DCD     80, 1712
+          DCD     88, 1720
+          DCD     96, 1728
+          DCD     104, 1736
+          DCD     112, 1744
+          DCD     120, 1008
+          DCD     128, 1240
+          DCD     136, 1752
+          DCD     144, 1760
+          DCD     152, 1768
+          DCD     160, 1776
+          DCD     168, 1784
+          DCD     176, 1792
+          DCD     184, 1800
+          DCD     192, 1808
+          DCD     200, 1816
+          DCD     208, 1824
+          DCD     216, 1832
+          DCD     224, 1840
+          DCD     232, 1848
+          DCD     -1, -1
+          ; frame 50
+          DCD     8, 1856
+          DCD     16, 1864
+          DCD     24, 1872
+          DCD     32, 1880
+          DCD     40, 1888
+          DCD     48, 1896
+          DCD     56, 1904
+          DCD     64, 1912
+          DCD     72, 1920
+          DCD     80, 1928
+          DCD     88, 1936
+          DCD     96, 1944
+          DCD     104, 1952
+          DCD     112, 1960
+          DCD     128, 1968
+          DCD     144, 1976
+          DCD     152, 1984
+          DCD     160, 1992
+          DCD     168, 2000
+          DCD     176, 2008
+          DCD     184, 2016
+          DCD     192, 2024
+          DCD     200, 2032
+          DCD     208, 2040
+          DCD     216, 2048
+          DCD     224, 2056
+          DCD     232, 2064
+          DCD     -1, -1
+          ; frame 51
+          DCD     8, 2072
+          DCD     16, 2080
+          DCD     24, 2088
+          DCD     32, 2096
+          DCD     40, 2104
+          DCD     48, 2112
+          DCD     56, 2120
+          DCD     64, 2128
+          DCD     72, 2136
+          DCD     80, 2144
+          DCD     88, 2152
+          DCD     96, 2160
+          DCD     104, 2168
+          DCD     112, 2176
+          DCD     120, 2184
+          DCD     128, 2192
+          DCD     136, 2200
+          DCD     144, 2208
+          DCD     152, 2216
+          DCD     160, 2224
+          DCD     168, 2232
+          DCD     176, 2240
+          DCD     184, 2248
+          DCD     192, 2256
+          DCD     200, 2264
+          DCD     208, 2272
+          DCD     216, 2280
+          DCD     224, 2288
+          DCD     232, 2296
+          DCD     240, 2304
+          DCD     -1, -1
+          ; frame 52
+          DCD     8, 2312
+          DCD     16, 2320
+          DCD     24, 2328
+          DCD     32, 2336
+          DCD     40, 2344
+          DCD     48, 2352
+          DCD     56, 2360
+          DCD     64, 2368
+          DCD     80, 2376
+          DCD     88, 2384
+          DCD     104, 2392
+          DCD     112, 2400
+          DCD     120, 2408
+          DCD     128, 2416
+          DCD     136, 2424
+          DCD     144, 2432
+          DCD     152, 2440
+          DCD     160, 2448
+          DCD     168, 2456
+          DCD     176, 2464
+          DCD     184, 2472
+          DCD     192, 2480
+          DCD     200, 2488
+          DCD     208, 2496
+          DCD     216, 2504
+          DCD     224, 2512
+          DCD     232, 2520
+          DCD     240, 2528
+          DCD     -1, -1
+          ; frame 53
+          DCD     8, 2536
+          DCD     16, 2544
+          DCD     24, 2552
+          DCD     40, 2560
+          DCD     48, 2568
+          DCD     56, 2576
+          DCD     64, 2584
+          DCD     72, 2592
+          DCD     96, 2600
+          DCD     104, 2608
+          DCD     112, 2616
+          DCD     120, 2624
+          DCD     128, 2632
+          DCD     136, 2640
+          DCD     144, 2648
+          DCD     152, 2448
+          DCD     160, 2456
+          DCD     176, 2656
+          DCD     184, 2664
+          DCD     200, 2672
+          DCD     216, 2680
+          DCD     224, 2688
+          DCD     232, 2696
+          DCD     240, 2704
+          DCD     -1, -1
+          ; frame 54
+          DCD     0, 2712
+          DCD     8, 2720
+          DCD     24, 2728
+          DCD     32, 2736
+          DCD     48, 2744
+          DCD     88, 2752
+          DCD     96, 2760
+          DCD     104, 2768
+          DCD     120, 2776
+          DCD     128, 2784
+          DCD     136, 2792
+          DCD     144, 2800
+          DCD     152, 2808
+          DCD     160, 2816
+          DCD     168, 2824
+          DCD     176, 2832
+          DCD     184, 2840
+          DCD     192, 2848
+          DCD     200, 2856
+          DCD     208, 2864
+          DCD     216, 2872
+          DCD     224, 2880
+          DCD     232, 2888
+          DCD     240, 2896
+          DCD     -1, -1
+          ; frame 55
+          DCD     56, 2904
+          DCD     80, 2752
+          DCD     112, 2912
+          DCD     120, 2920
+          DCD     152, 2928
+          DCD     192, 2936
+          DCD     200, 2944
+          DCD     -1, -1
+          ; frame 56
+          DCD     56, 2576
+          DCD     80, 2376
+          DCD     112, 2616
+          DCD     120, 2776
+          DCD     144, 2952
+          DCD     152, 2448
+          DCD     160, 2456
+          DCD     184, 2960
+          DCD     192, 2848
+          DCD     200, 2856
+          DCD     -1, -1
+          ; frame 57
+          DCD     0, 0
+          DCD     8, 2312
+          DCD     16, 2968
+          DCD     24, 2552
+          DCD     32, 2336
+          DCD     48, 2568
+          DCD     88, 2384
+          DCD     96, 2976
+          DCD     104, 2608
+          DCD     120, 2984
+          DCD     128, 2632
+          DCD     136, 2992
+          DCD     144, 2432
+          DCD     152, 3000
+          DCD     160, 3008
+          DCD     168, 2456
+          DCD     176, 2656
+          DCD     184, 2664
+          DCD     192, 2480
+          DCD     200, 2488
+          DCD     208, 2496
+          DCD     216, 2504
+          DCD     224, 2512
+          DCD     232, 2696
+          DCD     240, 2704
+          DCD     -1, -1
+          ; frame 58
+          DCD     8, 2072
+          DCD     16, 2080
+          DCD     24, 3016
+          DCD     32, 3024
+          DCD     40, 3032
+          DCD     48, 3040
+          DCD     56, 2360
+          DCD     64, 2368
+          DCD     72, 2136
+          DCD     80, 3048
+          DCD     88, 3056
+          DCD     96, 2160
+          DCD     104, 2392
+          DCD     112, 2176
+          DCD     120, 2408
+          DCD     128, 2192
+          DCD     136, 3064
+          DCD     144, 3072
+          DCD     152, 2216
+          DCD     160, 3080
+          DCD     168, 2232
+          DCD     176, 2240
+          DCD     184, 3088
+          DCD     192, 3096
+          DCD     208, 2272
+          DCD     216, 2280
+          DCD     224, 3104
+          DCD     232, 3112
+          DCD     240, 2528
+          DCD     -1, -1
+          ; frame 59
+          DCD     8, 3120
+          DCD     16, 3128
+          DCD     24, 1872
+          DCD     32, 1880
+          DCD     40, 1888
+          DCD     48, 1896
+          DCD     56, 1904
+          DCD     64, 1912
+          DCD     72, 1920
+          DCD     80, 1928
+          DCD     88, 1936
+          DCD     96, 1944
+          DCD     104, 1952
+          DCD     112, 1960
+          DCD     120, 1008
+          DCD     128, 1968
+          DCD     136, 3136
+          DCD     144, 1976
+          DCD     152, 1984
+          DCD     160, 3144
+          DCD     168, 2000
+          DCD     176, 2008
+          DCD     184, 2016
+          DCD     192, 2024
+          DCD     200, 2032
+          DCD     208, 2040
+          DCD     216, 2048
+          DCD     224, 2056
+          DCD     232, 2064
+          DCD     240, 0
+          DCD     -1, -1
+          ; frame 60
+          DCD     8, 0
+          DCD     16, 1648
+          DCD     24, 1656
+          DCD     32, 3152
+          DCD     40, 3160
+          DCD     48, 3168
+          DCD     56, 3176
+          DCD     64, 3184
+          DCD     72, 3192
+          DCD     80, 3200
+          DCD     88, 3208
+          DCD     96, 1728
+          DCD     104, 1552
+          DCD     112, 3216
+          DCD     120, 3224
+          DCD     128, 1240
+          DCD     136, 3232
+          DCD     144, 1560
+          DCD     152, 1568
+          DCD     160, 3240
+          DCD     168, 1584
+          DCD     176, 3248
+          DCD     184, 3256
+          DCD     192, 3264
+          DCD     200, 3272
+          DCD     208, 3280
+          DCD     216, 3288
+          DCD     224, 3296
+          DCD     232, 3304
+          DCD     -1, -1
+          ; frame 61
+          DCD     16, 0
+          DCD     24, 264
+          DCD     32, 272
+          DCD     40, 24
+          DCD     48, 176
+          DCD     56, 184
+          DCD     64, 560
+          DCD     72, 520
+          DCD     80, 136
+          DCD     88, 1400
+          DCD     96, 872
+          DCD     104, 3312
+          DCD     112, 1008
+          DCD     120, 1016
+          DCD     128, 104
+          DCD     136, 3320
+          DCD     144, 80
+          DCD     152, 3328
+          DCD     160, 3336
+          DCD     168, 1032
+          DCD     176, 1432
+          DCD     184, 3344
+          DCD     192, 248
+          DCD     200, 256
+          DCD     208, 16
+          DCD     216, 3352
+          DCD     224, 3360
+          DCD     232, 0
+          DCD     -1, -1
+          ; frame 62
+          DCD     16, 376
+          DCD     24, 3368
+          DCD     32, 3376
+          DCD     40, 480
+          DCD     48, 3384
+          DCD     56, 3392
+          DCD     64, 1224
+          DCD     72, 3400
+          DCD     80, 3408
+          DCD     88, 3416
+          DCD     96, 1088
+          DCD     104, 224
+          DCD     112, 1968
+          DCD     120, 104
+          DCD     128, 1096
+          DCD     136, 3424
+          DCD     144, 3432
+          DCD     152, 3440
+          DCD     160, 3448
+          DCD     168, 1128
+          DCD     176, 1248
+          DCD     184, 3456
+          DCD     192, 1152
+          DCD     200, 1264
+          DCD     208, 1272
+          DCD     216, 1280
+          DCD     224, 1184
+          DCD     -1, -1
+          ; frame 63
+          DCD     8, 2064
+          DCD     16, 3464
+          DCD     24, 3472
+          DCD     32, 3480
+          DCD     40, 3488
+          DCD     48, 3496
+          DCD     56, 3504
+          DCD     64, 3512
+          DCD     72, 3520
+          DCD     80, 3528
+          DCD     88, 3536
+          DCD     96, 3544
+          DCD     104, 3552
+          DCD     112, 1752
+          DCD     120, 3560
+          DCD     128, 3568
+          DCD     136, 3576
+          DCD     144, 3584
+          DCD     152, 3592
+          DCD     160, 3600
+          DCD     168, 3608
+          DCD     176, 3616
+          DCD     184, 3624
+          DCD     192, 3632
+          DCD     200, 3640
+          DCD     208, 3648
+          DCD     216, 3656
+          DCD     224, 3664
+          DCD     232, 3672
+          DCD     240, 3680
+          DCD     -1, -1
+          ; frame 64
+          DCD     0, 3688
+          DCD     8, 3696
+          DCD     16, 3704
+          DCD     24, 3712
+          DCD     32, 3720
+          DCD     40, 3728
+          DCD     48, 3736
+          DCD     56, 3744
+          DCD     64, 3752
+          DCD     72, 3760
+          DCD     80, 3768
+          DCD     88, 3776
+          DCD     96, 3784
+          DCD     104, 3792
+          DCD     112, 3800
+          DCD     120, 3808
+          DCD     128, 3816
+          DCD     136, 3824
+          DCD     144, 3832
+          DCD     152, 3840
+          DCD     160, 3848
+          DCD     168, 3856
+          DCD     176, 3864
+          DCD     184, 3872
+          DCD     192, 3880
+          DCD     200, 3888
+          DCD     208, 3896
+          DCD     216, 3904
+          DCD     224, 3912
+          DCD     232, 3704
+          DCD     240, 3920
+          DCD     -1, -1
+          ; frame 65
+          DCD     0, 0
+          DCD     8, 3928
+          DCD     16, 3936
+          DCD     24, 3944
+          DCD     32, 3944
+          DCD     40, 3952
+          DCD     48, 3960
+          DCD     56, 3968
+          DCD     64, 3976
+          DCD     72, 3984
+          DCD     80, 3992
+          DCD     88, 4000
+          DCD     96, 4008
+          DCD     104, 4016
+          DCD     112, 4024
+          DCD     120, 4032
+          DCD     128, 4040
+          DCD     136, 4048
+          DCD     144, 4056
+          DCD     152, 4064
+          DCD     160, 4072
+          DCD     168, 4080
+          DCD     176, 4088
+          DCD     184, 4096
+          DCD     192, 4104
+          DCD     200, 4112
+          DCD     208, 4120
+          DCD     216, 4128
+          DCD     224, 4128
+          DCD     232, 4136
+          DCD     240, 2304
+          DCD     -1, -1
+          ; frame 66
+          DCD     8, 0
+          DCD     16, 0
+          DCD     24, 0
+          DCD     32, 4144
+          DCD     40, 4152
+          DCD     48, 4160
+          DCD     56, 4168
+          DCD     64, 4176
+          DCD     72, 4184
+          DCD     80, 4192
+          DCD     88, 4200
+          DCD     96, 4208
+          DCD     104, 4216
+          DCD     112, 4224
+          DCD     120, 4232
+          DCD     128, 4240
+          DCD     136, 4248
+          DCD     144, 4256
+          DCD     152, 4264
+          DCD     160, 4272
+          DCD     168, 4280
+          DCD     176, 4288
+          DCD     184, 4296
+          DCD     192, 4304
+          DCD     200, 4312
+          DCD     208, 4320
+          DCD     216, 4328
+          DCD     224, 0
+          DCD     232, 0
+          DCD     240, 0
+          DCD     -1, -1
+          ; frame 67
+          DCD     16, 376
+          DCD     24, 4336
+          DCD     32, 4336
+          DCD     40, 4344
+          DCD     48, 4352
+          DCD     56, 4360
+          DCD     64, 4368
+          DCD     72, 4376
+          DCD     80, 4384
+          DCD     88, 4392
+          DCD     96, 4400
+          DCD     104, 4408
+          DCD     112, 4416
+          DCD     120, 4416
+          DCD     128, 4424
+          DCD     136, 4432
+          DCD     144, 4440
+          DCD     152, 4448
+          DCD     160, 4456
+          DCD     168, 4464
+          DCD     176, 4472
+          DCD     184, 4480
+          DCD     192, 4488
+          DCD     200, 4496
+          DCD     208, 4504
+          DCD     216, 4512
+          DCD     224, 4520
+          DCD     -1, -1
+          ; frame 68
+          DCD     0, 4528
+          DCD     8, 4536
+          DCD     16, 4544
+          DCD     24, 4552
+          DCD     32, 4560
+          DCD     40, 4568
+          DCD     48, 4576
+          DCD     56, 4584
+          DCD     64, 4592
+          DCD     72, 4600
+          DCD     80, 4608
+          DCD     88, 4616
+          DCD     96, 4624
+          DCD     104, 4632
+          DCD     112, 4640
+          DCD     120, 4648
+          DCD     128, 4656
+          DCD     136, 4664
+          DCD     144, 4672
+          DCD     152, 4680
+          DCD     160, 4688
+          DCD     168, 4696
+          DCD     176, 4704
+          DCD     184, 4712
+          DCD     192, 4720
+          DCD     200, 4728
+          DCD     208, 4736
+          DCD     216, 4744
+          DCD     224, 4752
+          DCD     232, 4760
+          DCD     240, 4768
+          DCD     -1, -1
+          ; frame 69
+          DCD     0, 0
+          DCD     8, 2312
+          DCD     16, 2968
+          DCD     24, 2552
+          DCD     32, 2336
+          DCD     40, 2344
+          DCD     48, 4776
+          DCD     56, 2360
+          DCD     64, 4784
+          DCD     72, 4792
+          DCD     80, 4800
+          DCD     88, 4808
+          DCD     96, 3592
+          DCD     104, 4816
+          DCD     112, 4824
+          DCD     120, 2408
+          DCD     128, 2416
+          DCD     136, 4832
+          DCD     144, 4840
+          DCD     152, 4848
+          DCD     160, 4856
+          DCD     168, 4864
+          DCD     176, 4872
+          DCD     184, 4880
+          DCD     192, 2480
+          DCD     200, 2488
+          DCD     208, 2496
+          DCD     216, 2504
+          DCD     224, 2512
+          DCD     232, 2696
+          DCD     240, 2704
+          DCD     -1, -1
+          ; frame 70
+          DCD     8, 0
+          DCD     16, 4888
+          DCD     24, 4896
+          DCD     32, 4904
+          DCD     40, 400
+          DCD     48, 4912
+          DCD     56, 4920
+          DCD     64, 4928
+          DCD     72, 4936
+          DCD     80, 1136
+          DCD     88, 4944
+          DCD     96, 4952
+          DCD     104, 4960
+          DCD     112, 1008
+          DCD     120, 104
+          DCD     128, 104
+          DCD     136, 456
+          DCD     144, 1088
+          DCD     152, 1312
+          DCD     160, 336
+          DCD     168, 1080
+          DCD     176, 1072
+          DCD     184, 464
+          DCD     192, 472
+          DCD     200, 480
+          DCD     208, 4968
+          DCD     216, 4976
+          DCD     224, 4984
+          DCD     232, 0
+          DCD     240, 0
+          DCD     -1, -1
+          ; frame 71
+          DCD     16, 496
+          DCD     24, 4992
+          DCD     32, 5000
+          DCD     40, 5008
+          DCD     48, 5016
+          DCD     56, 5024
+          DCD     64, 5032
+          DCD     72, 5040
+          DCD     80, 5040
+          DCD     88, 5048
+          DCD     96, 5056
+          DCD     104, 5064
+          DCD     112, 1968
+          DCD     128, 1096
+          DCD     136, 1552
+          DCD     144, 1408
+          DCD     152, 5072
+          DCD     160, 3208
+          DCD     168, 1528
+          DCD     176, 5080
+          DCD     184, 5088
+          DCD     192, 1152
+          DCD     200, 1264
+          DCD     208, 5096
+          DCD     216, 5104
+          DCD     224, 1184
+          DCD     -1, -1
+          ; frame 72
+          DCD     16, 5112
+          DCD     24, 5120
+          DCD     32, 5128
+          DCD     40, 5136
+          DCD     48, 5144
+          DCD     56, 5152
+          DCD     64, 5160
+          DCD     72, 5168
+          DCD     80, 5176
+          DCD     88, 1776
+          DCD     96, 5184
+          DCD     104, 5192
+          DCD     128, 1008
+          DCD     144, 1728
+          DCD     152, 1720
+          DCD     160, 5200
+          DCD     168, 1712
+          DCD     176, 5208
+          DCD     184, 5216
+          DCD     192, 5224
+          DCD     200, 5232
+          DCD     208, 5240
+          DCD     216, 5248
+          DCD     224, 5256
+          DCD     232, 1856
+          DCD     -1, -1
+          ; frame 73
+          DCD     16, 5264
+          DCD     24, 5272
+          DCD     32, 5280
+          DCD     40, 5288
+          DCD     48, 5296
+          DCD     56, 5304
+          DCD     64, 5312
+          DCD     72, 5320
+          DCD     80, 5328
+          DCD     96, 1768
+          DCD     128, 1096
+          DCD     160, 3208
+          DCD     176, 5336
+          DCD     184, 5344
+          DCD     192, 5352
+          DCD     200, 5360
+          DCD     208, 5368
+          DCD     216, 5376
+          DCD     224, 5384
+          DCD     232, 1464
+          DCD     -1, -1
+          ; frame 74
+          DCD     16, 5392
+          DCD     24, 5400
+          DCD     32, 5408
+          DCD     40, 5416
+          DCD     48, 5016
+          DCD     56, 5424
+          DCD     64, 5432
+          DCD     72, 5440
+          DCD     80, 5448
+          DCD     88, 5456
+          DCD     104, 5064
+          DCD     152, 5072
+          DCD     168, 5464
+          DCD     176, 3184
+          DCD     184, 5472
+          DCD     192, 1152
+          DCD     200, 5480
+          DCD     208, 5488
+          DCD     216, 5496
+          DCD     224, 5504
+          DCD     232, 0
+          DCD     -1, -1
+          ; frame 75
+          DCD     16, 376
+          DCD     24, 3368
+          DCD     32, 3376
+          DCD     40, 480
+          DCD     48, 5512
+          DCD     56, 5520
+          DCD     64, 5528
+          DCD     72, 5040
+          DCD     80, 5536
+          DCD     88, 5544
+          DCD     96, 5056
+          DCD     104, 5552
+          DCD     128, 1008
+          DCD     136, 5560
+          DCD     144, 1408
+          DCD     168, 1392
+          DCD     176, 1520
+          DCD     184, 5568
+          DCD     200, 1264
+          DCD     208, 5096
+          DCD     216, 5104
+          DCD     224, 1184
+          DCD     -1, -1
+          ; frame 76
+          DCD     16, 0
+          DCD     24, 1288
+          DCD     32, 1296
+          DCD     40, 256
+          DCD     48, 1304
+          DCD     56, 5576
+          DCD     64, 5584
+          DCD     72, 5592
+          DCD     80, 5600
+          DCD     88, 5608
+          DCD     104, 5616
+          DCD     112, 5624
+          DCD     128, 104
+          DCD     136, 1008
+          DCD     144, 872
+          DCD     160, 1400
+          DCD     176, 520
+          DCD     184, 280
+          DCD     192, 1352
+          DCD     200, 400
+          DCD     208, 600
+          DCD     216, 5632
+          DCD     224, 5640
+          DCD     -1, -1
+          ; frame 77
+          DCD     24, 5648
+          DCD     32, 4968
+          DCD     48, 5656
+          DCD     56, 5664
+          DCD     64, 5672
+          DCD     72, 48
+          DCD     80, 5680
+          DCD     88, 792
+          DCD     96, 5688
+          DCD     112, 5696
+          DCD     152, 5704
+          DCD     160, 136
+          DCD     168, 5712
+          DCD     184, 560
+          DCD     192, 5720
+          DCD     200, 24
+          DCD     208, 24
+          DCD     216, 5728
+          DCD     224, 5736
+          DCD     -1, -1
+
+; Offsets into the deltas for each frame
+frame_deltas
+          DCD     0  ; frame 0
+          DCD     264  ; frame 1
+          DCD     400  ; frame 2
+          DCD     536  ; frame 3
+          DCD     664  ; frame 4
+          DCD     808  ; frame 5
+          DCD     936  ; frame 6
+          DCD     1072  ; frame 7
+          DCD     1168  ; frame 8
+          DCD     1192  ; frame 9
+          DCD     1240  ; frame 10
+          DCD     1248  ; frame 11
+          DCD     1280  ; frame 12
+          DCD     1288  ; frame 13
+          DCD     1336  ; frame 14
+          DCD     1360  ; frame 15
+          DCD     1400  ; frame 16
+          DCD     1440  ; frame 17
+          DCD     1480  ; frame 18
+          DCD     1528  ; frame 19
+          DCD     1576  ; frame 20
+          DCD     1616  ; frame 21
+          DCD     1664  ; frame 22
+          DCD     1696  ; frame 23
+          DCD     1720  ; frame 24
+          DCD     1784  ; frame 25
+          DCD     1792  ; frame 26
+          DCD     1800  ; frame 27
+          DCD     1808  ; frame 28
+          DCD     1816  ; frame 29
+          DCD     1824  ; frame 30
+          DCD     1832  ; frame 31
+          DCD     1840  ; frame 32
+          DCD     1848  ; frame 33
+          DCD     1856  ; frame 34
+          DCD     1864  ; frame 35
+          DCD     1872  ; frame 36
+          DCD     1880  ; frame 37
+          DCD     1888  ; frame 38
+          DCD     1896  ; frame 39
+          DCD     1904  ; frame 40
+          DCD     1912  ; frame 41
+          DCD     1920  ; frame 42
+          DCD     1928  ; frame 43
+          DCD     2128  ; frame 44
+          DCD     2232  ; frame 45
+          DCD     2408  ; frame 46
+          DCD     2608  ; frame 47
+          DCD     2784  ; frame 48
+          DCD     2992  ; frame 49
+          DCD     3224  ; frame 50
+          DCD     3448  ; frame 51
+          DCD     3696  ; frame 52
+          DCD     3928  ; frame 53
+          DCD     4128  ; frame 54
+          DCD     4328  ; frame 55
+          DCD     4392  ; frame 56
+          DCD     4480  ; frame 57
+          DCD     4688  ; frame 58
+          DCD     4928  ; frame 59
+          DCD     5176  ; frame 60
+          DCD     5416  ; frame 61
+          DCD     5648  ; frame 62
+          DCD     5872  ; frame 63
+          DCD     6120  ; frame 64
+          DCD     6376  ; frame 65
+          DCD     6632  ; frame 66
+          DCD     6880  ; frame 67
+          DCD     7104  ; frame 68
+          DCD     7360  ; frame 69
+          DCD     7616  ; frame 70
+          DCD     7864  ; frame 71
+          DCD     8080  ; frame 72
+          DCD     8288  ; frame 73
+          DCD     8456  ; frame 74
+          DCD     8632  ; frame 75
+          DCD     8816  ; frame 76
+          DCD     9008  ; frame 77
+
+; Palette data
+palette
+          DCB     255, 255, 255
+          DCB     0, 0, 0
+          ALIGN
+
+; Read the period between frames
+; <=  R0 = cs between frames
+hourglass_getframeperiod SIGNATURE
+          EXPORT  hourglass_getframeperiod
+          MOV     r0, #period
+          MOV     pc, lr
+
+
+; Read the size of the workspace block
+; <=  R0 = size of hourglass workspace
+hourglass_getwssize SIGNATURE
+          EXPORT  hourglass_getwssize
+          MOV     r0, #hg_workspacesize
+          MOV     pc, lr
+
+; Initialisation function
+; =>  R0 = hourglass workspace
+hourglass_init SIGNATURE
+          EXPORT  hourglass_init
+          MOV     r12, r0
+          MOV     r0, #0
+          STR     r0, hg_framenum
+          STR     r0, hg_percentage
+          STR     r0, hg_leds
+          LDR     r0, wordblock_0
+          STR     r0, hg_word
+          LDR     r0, wordblock_4
+          ADR     r1, hg_currentdata
+          ORR     r0, r0, r1, LSL #16         ; assign the low half word of pointer data
+          STR     r0, hg_word + 4
+          MOV     r0, r1, LSR #16             ; and the high half word
+          STR     r0, hg_word + 8
+; no need to initialise the currentdata; it will be updated by the first frame
+          MOV     pc, lr
+
+wordblock_0
+          DCB     0                           ; define pointer shape
+          DCB     2                           ; shape number (will toggle 2-3)
+          DCB     (width*2+7)/8               ; width in bytes
+          DCB     height                      ; height
+wordblock_4
+          DCB     active_x                    ; active x offset
+          DCB     active_y                    ; active y offset
+          DCB     0                           ; b0-7 of the address of the pointer data
+          DCB     0                           ; b8-15 of address of the pointer data
+
+; Start the hourglass
+; =>  R0 = hourglass workspace
+hourglass_start SIGNATURE
+          EXPORT  hourglass_start
+          STMFD   sp!, {r4, r5, lr}
+          SUB     sp, sp, #8
+          MOV     r12, r0
+          MOV     r0, #0
+          STR     r0, hg_framenum
+          MOV     r0, #1
+          MOV     r1, #25                     ; read pointer colour 1
+          SWI     XOS_ReadPalette
+          LDRVS   r2, =&81397900              ; purple if it wasn't set
+          STR     r2, hg_oldcolours + 4 * 0
+          MOV     r0, #2
+          MOV     r1, #25                     ; read pointer colour 2
+          SWI     XOS_ReadPalette
+          LDRVS   r2, =&66FFFF00              ; yellow if it wasn't set
+          STR     r2, hg_oldcolours + 4 * 1
+          MOV     r0, #3
+          MOV     r1, #25                     ; read pointer colour 3
+          SWI     XOS_ReadPalette
+          LDRVS   r2, =&00000000              ; black if it wasn't set
+          STR     r2, hg_oldcolours + 4 * 2
+; now set the palette up for our hourglass
+          MOV     r1, sp
+          ADRL    r2, palette
+; colour 1
+          MOV     r0, #1
+          STRB    r0, [r1, #0]
+          MOV     r0, #25                     ; set pointer colour 1
+          STRB    r0, [r1, #1]
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #2]                ; red
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #3]                ; green
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #4]                ; blue
+          MOV     r0, #12
+          SWI     XOS_Word                    ; Set palette
+; colour 2
+          MOV     r0, #2
+          STRB    r0, [r1, #0]
+          MOV     r0, #25                     ; set pointer colour 1
+          STRB    r0, [r1, #1]
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #2]                ; red
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #3]                ; green
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #4]                ; blue
+          MOV     r0, #12
+          SWI     XOS_Word                    ; Set palette
+          MOV     r1, #127                        ; invalid pointer number to read the pointer
+          MOV     r0, #106                        ; select pointer
+          SWI     XOS_Byte
+          MOVVS   r1, #0                          ; if there was an error, turn off
+          STR     r1, hg_oldpointer
+          ADD     sp, sp, #8
+          LDMFD   sp!, {r4, r5, lr}
+          MOV     r0, r12
+          B       hourglass_frame                 ; exit via the first frame
+
+; Stop the hourglass
+; =>  R0 = hourglass workspace
+hourglass_stop SIGNATURE
+          EXPORT  hourglass_stop
+          STMFD   sp!, {r4, r5, lr}
+          SUB     sp, sp, #8
+          MOV     r12, r0
+; restore the palette up for old pointer
+          MOV     r1, sp
+; colour 1
+          ADR     r2, hg_oldcolours + 4 * 0 + 1
+          MOV     r0, #1
+          STRB    r0, [r1, #0]
+          MOV     r0, #25                         ; set pointer colour 1
+          STRB    r0, [r1, #1]
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #2]                    ; red
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #3]                    ; green
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #4]                    ; blue
+          MOV     r0, #12
+          SWI     XOS_Word                        ; Set palette
+; colour 2
+          ADR     r2, hg_oldcolours + 4 * 1 + 1
+          MOV     r0, #2
+          STRB    r0, [r1, #0]
+          MOV     r0, #25                         ; set pointer colour 1
+          STRB    r0, [r1, #1]
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #2]                    ; red
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #3]                    ; green
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #4]                    ; blue
+          MOV     r0, #12
+          SWI     XOS_Word                        ; Set palette
+          LDR     r1, hg_oldpointer               ; re-select the old pointer number
+          MOV     r0, #106                        ; select pointer
+          SWI     XOS_Byte
+          ADD     sp, sp, #8
+          LDMFD   sp!, {r4, r5, pc}
+
+; Frame update - sets the hourglass shape for the current frame
+; =>  R0 = hourglass workspace
+hourglass_frame SIGNATURE
+          EXPORT  hourglass_frame
+          STMFD   sp!, {r4, r5, lr}
+          MOV     r12, r0
+          LDR     r0, hg_framenum
+          ADRL    r1, frame_deltas
+          LDR     r0, [r1, r0, LSL #2]            ; offset within deltas for this frame
+          ADRL    r1, deltas
+          ADD     r1, r1, r0
+          ADRL    r2, rowdata
+          ADRL    r5, hg_currentdata
+rowloop
+          LDMIA   r1!, {r3, r4}                   ; r3 = currentdata offset, row data offset
+          CMP     r3, #-1                         ; end of the rows
+          BEQ     rowend
+          LDR     r0, [r4, r2]!                   ; read a word from rowdata
+          STR     r0, [r3, r5]!                   ; store into the currentdata
+      [ wordsperrow > 1
+          LDR     r0, [r4, #4]!                   ; read a word from rowdata
+          STR     r0, [r3, #4]!                   ; store into the currentdata
+      ]
+      [ wordsperrow > 2
+          LDR     r0, [r4, #4]!                   ; read a word from rowdata
+          STR     r0, [r3, #4]!                   ; store into the currentdata
+      ]
+      [ wordsperrow > 3
+          LDR     r0, [r4, #4]!                   ; read a word from rowdata
+          STR     r0, [r3, #4]!                   ; store into the currentdata
+      ]
+          B       rowloop
+
+rowend
+          MOV     r0, #21                         ; Set Pointer parameters
+          ADR     r1, hg_word
+          SWI     XOS_Word
+
+          LDRB    r1, hg_word + 1                 ; get the hourglass pointer number we will use
+          EOR     lr, r1, #1
+          STRB    lr, hg_word + 1                 ; toggles the pointer number we use next time
+          MOV     r0, #106                        ; select pointer
+          SWI     XOS_Byte
+
+          LDR     r0, hg_framenum
+          ADD     r0, r0, #1
+          TEQ     r0, #nframes
+          MOVEQ   r0, #0                          ; reset counter; we've cycled
+          STR     r0, hg_framenum
+          LDMFD   sp!, {r4, r5, pc}
+
+; Frame update within an IRQ
+; =>  R12 = hourglass workspace
+hourglass_frame_irq SIGNATURE
+          EXPORT  hourglass_frame_irq
+          STMFD   sp!, {r0-r3, r4, r5, r12, lr}
+          MOV     r0, r12
+          MRS     r4, CPSR
+          AND     r1, r4, #&F
+          ORR     r1, r1, #&3
+          MSR     CPSR_csxf, r1                    ; Enter SVC mode (keep bitness)
+          MOV     r5, lr
+          BL      hourglass_frame
+          MOV     lr, r5
+          MSR     CPSR_cxsf, r4                    ; Restore the mode
+          LDMFD   sp!, {r0-r3, r4, r5, r12, pc}
+
+          END

@@ -21,7 +21,7 @@ exclude_chunks=date,time
 exclude_args=(-define png:exclude-chunks=${exclude_chunks})
 
 # Extract the frames from the image
-# Hourglass created by artrayd, from https://dribbble.com/shots/1719391-Simple-clock-loader-Animation?list=searches&tag=loading_animation&offset=176
+# Hourglass created by artrayd, from https://dribbble.com/shots/10777708-Sand-Clock-Loader-Animation
 convert "${exclude_args[@]}" source.gif -coalesce frame_%d.png
 
 # RISC OS Classic cannot have pointers larger than 32 pixels wide.
@@ -29,17 +29,17 @@ width=32
 height=32
 
 # Period between frames in centiseconds
-frameperiod=3
+frameperiod=2
 
-#palette=("255 255 255" "24 154 248" "164 216 248" "205 234 252")
-#palette=("255 255 255" "24 154 248" "164 216 248" "0 0 0")
-palette=("255 255 255" "24 154 248" "0 0 0")
+# The palette to use for processing - just a black (and maybe a grey)
+#palette=("255 255 255" "0 0 0" "128 128 128" "64 64 64")
+palette=("255 255 255" "0 0 0")
 
 # The palette we take from the generated frames, which is different because we introduce another colour.
-generatedpalette=("255 255 255" "24 154 248" "173 219 230" "0 0 0")
+generatedpalette=("255 255 255" "173 219 230" "0 0 0")
 
 # The palette to use for the actual hourglass
-realpalette=("${generatedpalette[@]}")
+realpalette=("255 255 255" "255 255 255" "0 0 0") # White inside, black outside
 
 # Generate the palette to use
 cat > palette.ppm <<EOM
@@ -55,19 +55,20 @@ EOM
 # - Convert the colours down to just the palette we want to use
 # - Make the white background transparent
 # - Fill in the centre of the hourglass (by 'Close' the gaps, then trim to make sure we didn't cover
-#   any of the outside edges), with a new colour
-# - Put a black border around the outside edge
+#   any of the outside edges), with a new colour (a light blue)
+# - Put a border around the outside edge using the new colour (a light blue)
 # - Ensure that the white background is transparent
-for i in $( seq 0 29 ) ; do
+# Note: The light blue becomes colour 1 in the output image, which we then make white when the hourglass is drawn.
+for i in $( seq 0 59 ) ; do
     convert "${exclude_args[@]}" \
-            frame_$i.png -shave 163x113 -gravity northeast -chop 2x2 \
+            frame_$i.png -shave 340x240 -gravity northeast -chop 2x2 \
             -resize ${width}x${height} +dither \
             -remap palette.ppm \
             -alpha on -fuzz 20% -transparent white -background white \
             \(  +clone \
                 -bordercolor white -border 8x8 -transparent white \
                 -channel A \
-                    -morphology Close Disk \
+                    -morphology Close Disk:5.3 \
                     -morphology Erode Diamond \
                 +channel \
                 -shave 8x8 \
@@ -75,15 +76,16 @@ for i in $( seq 0 29 ) ; do
             \) -compose DstOver -composite \
             \(  +clone \
                 -channel A -morphology EdgeOut Diamond +channel \
-                +level-colors none,black \
+                -alpha remove -alpha off \
+                +level-colors '#addbe6,white' \
+                -alpha on -transparent white \
             \) -compose DstOver -composite \
-            -transparent white -background white -alpha background \
             +repage simple_$i.png
 done
 
 # Convert the frames into a GIF to see what it would look like
-ordered_images=( $( (seq 20 29 ; seq 20 29) | sort -n ; echo 0 0 0 0 0 0 0 0 0 ; seq 0 19 ) )
-convert -delay 4 -dispose Background $(for i in ${ordered_images[*]} ; do echo -n "simple_$i.png " ; done) animated.gif
+ordered_images=( $( seq 36 59 ; echo 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ; seq 0 35 ) )
+convert -delay 2 -dispose Background $(for i in ${ordered_images[*]} ; do echo -n "simple_$i.png " ; done) animated.gif
 
 # Now convert the PNGs to shapes that we may be able to use in shape.py
 index=0
