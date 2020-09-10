@@ -1,0 +1,17 @@
+%YAML 1.0
+---
+
+# Defines a list of jobs which will be performed.
+# Only 1 job will currently be executed.
+jobs:
+  build:
+    # Env defines system variables which will be used within the environment.
+    # Multiple variables may be assigned.
+    env:
+      "Sys$Environment": ROBuild
+
+    # Commands which should be executed to perform the build.
+    # The build will terminate if any command returns a non-0 return code or an error.
+    script:
+      - amu -f MakefileROModule BUILD32=1
+      - Clipboard_FromFile rm32.Hourglass

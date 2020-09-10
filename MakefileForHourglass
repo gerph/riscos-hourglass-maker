@@ -1,0 +1,46 @@
+##
+# Build the hourglass RISC OS source files.
+#
+
+ROFILES = rm32/Hourglass,ffa aif32/hourglass_test,ff8
+
+# RISC OS Build tool to use
+ROBUILD = riscos-build-online
+
+all: hourglass_basic,fd1 ${ROFILES}
+
+full:
+	make clean
+	rm shape.py
+	make all
+
+clean:
+	-rm frame*.png
+	-rm simple*.png
+	-rm palette.ppm
+	-rm *.pyc
+	-rm -rf aif32 rm32 o32
+
+shape.py: source.gif build-shape.sh
+	./build-shape.sh
+
+hourglass_basic,fd1 s/asm: shape.py ../makehourglass.py
+	../makehourglass.py
+
+aif32/hourglass_test,ff8: s/asm ../c/hourglass_test
+ifeq (${USE_ROBUILD},)
+	riscos-amu -f ../MakefileROTest BUILD32=1
+else
+	@echo Not building C test.
+endif
+
+rm32/Hourglass,ffa: s/asm ../cmhg/modhead ../c/module
+ifeq (${USE_ROBUILD},)
+	riscos-amu -f ../MakefileROModule BUILD32=1
+else
+	rm -f ../for-riscos.zip
+	zip -r ../for-riscos.zip s h
+	cd .. && zip -r for-riscos.zip c cmhg MakefileROModule .robuild.yaml
+	mkdir -p rm32
+	${ROBUILD} -i ../for-riscos.zip -o $@
+endif
