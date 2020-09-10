@@ -28,7 +28,9 @@ The full build process requires cross compiling tools, but the repository contai
 * `artrayd1-filled`: Same as `artrayd1`, but with a filled center.
 * `artrayd1-bordered`: Same as `artrayd1-filled`, but with a border around it.
 * `artrayd2`: Simple black hourglass which turns over, using just a sigle colour.
-* `artrayd2-filled`: Same as `artrayd1`, but with filled center and bordered.
+* `artrayd2-filled`: Same as `artrayd2`, but with filled center and bordered.
+* `cog`: A SVG based cog which just turns, using a single colour.
+* `cog-bordered`: Same as `cog-bordered`, but with a black border around it.
 
 The difference between these hourglasses is essentially just the `source.gif` file, and the `build-shape.sh` which constructs the image data in `shape.py`.
 
