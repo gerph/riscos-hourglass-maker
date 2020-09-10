@@ -7,7 +7,7 @@ frameperiod = 3
 palette = []
 images = []
 
-palette.append((255, 255, 255))
+palette.append((192, 192, 192))
 palette.append((0, 153, 14))
 palette.append((0, 0, 0))
 images.append((

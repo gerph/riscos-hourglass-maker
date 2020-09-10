@@ -1132,7 +1132,7 @@ FOR col% = 0 TO 2
  READ colr%,colg%,colb%
  VDU 19, col%, 25, colr%, colg%, colb%
 NEXT
-DATA 255, 255, 255
+DATA 192, 192, 192
 DATA 24, 154, 248
 DATA 173, 219, 230
 :

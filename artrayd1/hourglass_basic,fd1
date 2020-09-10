@@ -1125,7 +1125,7 @@ FOR col% = 0 TO 1
  READ colr%,colg%,colb%
  VDU 19, col%, 25, colr%, colg%, colb%
 NEXT
-DATA 255, 255, 255
+DATA 192, 192, 192
 DATA 24, 154, 248
 :
 SYS "OS_Byte", 106, 1

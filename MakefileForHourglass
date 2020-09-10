@@ -23,7 +23,7 @@ full:
 	make all
 
 clean:
-	-rm frame*.png simple*.png palette.ppm
+	-rm frame*.png simple*.png example.png animated.gif palette.ppm
 	-rm *.pyc .robuild.yaml
 	-rm -rf aif32 rm32 o32 oz32
 

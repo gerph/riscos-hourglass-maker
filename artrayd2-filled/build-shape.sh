@@ -14,6 +14,9 @@
 #   netpbm
 #
 
+set -e
+set -o pipefail
+
 pyhourglass="shape.py"
 
 # Fields to exclude from the outputs (so that we don't get diffs every time we rebuild)
@@ -39,12 +42,22 @@ palette=("255 255 255" "0 0 0")
 generatedpalette=("255 255 255" "173 219 230" "0 0 0")
 
 # The palette to use for the actual hourglass
-realpalette=("255 255 255" "255 255 255" "0 0 0") # White inside, black outside
+riscospalette=("128 128 128" "255 255 255" "0 0 0") # White inside, black outside
+riscospalette[0]="192 192 192"
+
+# Report we started
+echo "Building hourglass 'shape.py' data"
+
+# Report what we're using- different versions do act differently.
+# v7.0.9 and v6.9.7 are known to work with these scripts - finding the right combinations of commands
+# to work with both can be tricky.
+echo "Using ImageMagick:"
+convert -version 2>&1 | sed 's/^/  /'
+
 
 # Generate the palette to use
 cat > palette.ppm <<EOM
 P3
-# Blue palette
 ${#palette[@]} 1
 255
 ${palette[*]}
@@ -82,6 +95,7 @@ for i in $( seq 0 59 ) ; do
                 +level-colors '#addbe6,white' \
                 -alpha on -transparent white \
             \) -compose DstOver -composite \
+            -transparent white -background white -alpha background \
             +repage simple_$i.png
 done
 
@@ -90,8 +104,6 @@ ordered_images=( $( seq 36 59 ; echo 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ; seq 0
 convert -delay 2 -dispose Background $(for i in ${ordered_images[*]} ; do echo -n "simple_$i.png " ; done) animated.gif
 
 # Now convert the PNGs to shapes that we may be able to use in shape.py
-index=0
-translation=$(for col in "${generatedpalette[@]}" ; do echo " ; s/$col/c${index}c/g" ; index=$((index+1)) ; done)
 cat > "${pyhourglass}" << EOM
 # Hourglass shape
 
@@ -104,7 +116,14 @@ images = []
 
 EOM
 
-for pal in "${realpalette[@]}" ; do
+# Colour translation regex for the pnm files
+index=0
+translation=$(for col in "${generatedpalette[@]}" ; do echo " ; s/$col/c${index}c/g" ; index=$((index+1)) ; done)
+index=0
+indextranslation=$(for col in "${riscospalette[@]}" ; do echo " ; s/c${index}c/${col}/g" ; index=$((index+1)) ; done)
+
+
+for pal in "${riscospalette[@]}" ; do
     echo "palette.append(($(echo $pal | sed 's/ /, /g')))"
 done >> "${pyhourglass}"
 index=0
@@ -117,3 +136,10 @@ for i in ${ordered_images[*]} ; do
         | perl -e '$in=join "", <STDIN>; $in =~ s/\n//g; for $row ($in =~ /(.{'$width'})/g) { print "        \"$row\",\n"; }'
     echo "    ))"
 done >> "${pyhourglass}"
+
+# Provide a single example frame which is the right colours
+convert simple_0.png ppm: \
+    | (pnmtopnm -plain 2>/dev/null || pnmtoplainpnm) \
+    | sed -e "$translation ; $indextranslation" \
+    | tee example.pnm \
+    | convert - example.png
