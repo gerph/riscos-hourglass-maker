@@ -66,12 +66,14 @@ for i in $( seq 0 29 ) ; do
             -alpha on -fuzz 20% -transparent white -background white \
             \(  +clone \
                 -bordercolor white -border 8x8 -transparent white \
+                -colors 2 \
                 -channel A \
                     -morphology Close Disk \
                     -morphology Erode Diamond \
                 +channel \
                 -shave 8x8 \
-                +level-colors 'none,#addbe6' \
+                -background white -alpha remove \
+                +level-colors '#addbe6,white' -transparent white \
             \) -compose DstOver -composite \
             \(  +clone \
                 -channel A -morphology EdgeOut Diamond +channel \
@@ -108,7 +110,7 @@ index=0
 for i in ${ordered_images[*]} ; do
     echo "images.append(("
     convert simple_$i.png ppm: \
-        | pnmtopnm -plain \
+        | (pnmtopnm -plain 2>/dev/null || pnmtoplainpnm) \
         | sed -e "1,3 d; /^$/ d $translation ; s/c//g; s/ //g" \
         | perl -e '$in=join "", <STDIN>; $in =~ s/\n//g; for $row ($in =~ /(.{'$width'})/g) { print "        \"$row\",\n"; }'
     echo "    ))"

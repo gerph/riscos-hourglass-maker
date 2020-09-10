@@ -92,7 +92,7 @@ index=0
 for i in ${ordered_images[*]} ; do
     echo "images.append(("
     convert simple_$i.png ppm: \
-        | pnmtopnm -plain \
+        | (pnmtopnm -plain 2>/dev/null || pnmtoplainpnm) \
         | sed -e "1,3 d; /^$/ d $translation ; s/c//g; s/ //g" \
         | perl -e '$in=join "", <STDIN>; $in =~ s/\n//g; for $row ($in =~ /(.{'$width'})/g) { print "        \"$row\",\n"; }'
     echo "    ))"

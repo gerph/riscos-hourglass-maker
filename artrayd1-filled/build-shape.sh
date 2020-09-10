@@ -50,6 +50,12 @@ ${#palette[@]} 1
 ${palette[*]}
 EOM
 
+# Report what we're using- different versions do act differently.
+# v7.0.9 and v6.9.7 are known to work with these scripts - finding the right combinations of commands
+# to work with both can be tricky.
+echo Using ImageMagick:
+convert -version 2>&1 | sed 's/^/  /'
+
 # Trim and reduce the image to limited colours
 # - Shave off the edges to leave just the middle hourglass
 # - Convert the colours down to just the palette we want to use
@@ -65,12 +71,14 @@ for i in $( seq 0 29 ) ; do
             -alpha on -fuzz 20% -transparent white -background white \
             \(  +clone \
                 -bordercolor white -border 8x8 -transparent white \
+                -colors 2 \
                 -channel A \
                     -morphology Close Disk \
                     -morphology Erode Diamond \
                 +channel \
                 -shave 8x8 \
-                +level-colors 'none,#addbe6' \
+                -background white -alpha remove \
+                +level-colors '#addbe6,white' -transparent white \
             \) -compose DstOver -composite \
             -transparent white -background white -alpha background \
             +repage simple_$i.png
@@ -103,7 +111,7 @@ index=0
 for i in ${ordered_images[*]} ; do
     echo "images.append(("
     convert simple_$i.png ppm: \
-        | pnmtopnm -plain \
+        | (pnmtopnm -plain 2>/dev/null || pnmtoplainpnm) \
         | sed -e "1,3 d; /^$/ d $translation ; s/c//g; s/ //g" \
         | perl -e '$in=join "", <STDIN>; $in =~ s/\n//g; for $row ($in =~ /(.{'$width'})/g) { print "        \"$row\",\n"; }'
     echo "    ))"
