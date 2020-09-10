@@ -28,9 +28,15 @@ convert "${exclude_args[@]}" source.gif -coalesce frame_%d.png
 width=32
 height=32
 
+# Period between frames in centiseconds
+frameperiod=3
+
 #palette=("255 255 255" "24 154 248" "164 216 248" "205 234 252")
 #palette=("255 255 255" "24 154 248" "164 216 248" "0 0 0")
 palette=("255 255 255" "24 154 248" "0 0 0")
+
+# The palette to use for the actual hourglass
+realpalette=("${palette[@]}")
 
 # Generate the palette to use
 cat > palette.ppm <<EOM
@@ -68,13 +74,14 @@ cat > "${pyhourglass}" << EOM
 
 width = $width
 height = $height
+frameperiod = $frameperiod
 
 palette = []
 images = []
 
 EOM
 
-for pal in "${palette[@]}" ; do
+for pal in "${realpalette[@]}" ; do
     echo "palette.append(($(echo $pal | sed 's/ /, /g')))"
 done >> "${pyhourglass}"
 index=0

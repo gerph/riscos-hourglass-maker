@@ -2,6 +2,7 @@
 
 width = 32
 height = 32
+frameperiod = 3
 
 palette = []
 images = []

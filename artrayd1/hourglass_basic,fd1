@@ -4,6 +4,7 @@ COLOUR 128+7:CLS:COLOUR0
 :
 width% = 32
 height% = 32
+period% = 3
 wordsperrow% = 2
 nwords% = 778
 DIM rowdata% 4 * nwords%
@@ -1144,5 +1145,5 @@ WHILE TRUE
  UNTIL rownumber%=-1
  SYS "OS_Word",21, worddata%
  framenum% = (framenum% + 1) MOD nframes%
-  I=INKEY(2)
+  I=INKEY(period%)
 ENDWHILE
