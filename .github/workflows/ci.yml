@@ -67,8 +67,7 @@ jobs:
           USE_ROBUILD=1 make
 
           # Create a zip with the files in
-          find -ls
-          zip -9r Hourglasses.zip */rm32/Hourglass,ffa
+          cd artifacts && zip -9r ../Hourglasses.zip *
 
       - name: Give the output a versioned name
         id: version
