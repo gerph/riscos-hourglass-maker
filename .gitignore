@@ -2,6 +2,8 @@ palette.ppm
 frame_*.png
 simple_*.png
 *.pyc
+*/h/modhead
 */o32/*
+*/oz32/*
 */aif32/*
 */rm32/*

@@ -37,7 +37,8 @@ palette=("255 255 255" "0 0 0")
 
 # The palette to use for the actual hourglass
 realpalette=("${palette[@]}")
-realpalette=("255 255 255" "64 64 192")
+realpalette=("255 255 255" "64 64 192") # Dark blue
+realpalette=("255 255 255" "0 255 255") # Light blue
 
 # Generate the palette to use
 cat > palette.ppm <<EOM

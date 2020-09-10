@@ -1,0 +1,213 @@
+/* Test code for running the hourglass */
+
+#include <stdlib.h>
+#include <stdio.h>
+
+#include "kernel.h"
+#include "swis.h"
+
+#include "asm.h"
+#include "modhead.h"
+
+int default_delay = 33;
+
+int period = 1;
+hourglass_workspace_t *hg;
+int active = 0;
+void *module_pw;
+
+
+/**
+ * Start the hourglass up.
+ */
+_kernel_oserror *swi_start(int delay)
+{
+    if (!active)
+    {
+        _swix(OS_CallAfter, _INR(0,2), delay - 1, StartTrigger_Enter, module_pw);
+    }
+    active += 1;
+    return NULL;
+}
+
+
+/**
+ * Stop the hourglass.
+ */
+_kernel_oserror *swi_stop(void)
+{
+    if (active)
+    {
+        active -= 1;
+        if (active == 0)
+        {
+            _swix(OS_RemoveTickerEvent, _INR(0, 1), StartTrigger_Enter, module_pw);
+            _swix(OS_RemoveTickerEvent, _INR(0, 1), hourglass_frame_irq, hg);
+            hourglass_stop(hg);
+        }
+    }
+    return NULL;
+}
+
+
+/**
+ * Stop the hourglass.
+ */
+_kernel_oserror *swi_smash(void)
+{
+    if (active)
+    {
+        active = 1;
+        return swi_stop();
+    }
+    return NULL;
+}
+
+
+/***************************************************************************
+ * Function:     Mod_Init
+ * Description:  Initialise the module, setting up vectors, callbacks and
+ *               any other parts of the system necessary for the module to
+ *               function.
+ * Parameters:   tail        = pointer to command line (control terminated)
+ *               podule_base = address of podule module was started from, or
+ *                             NULL if none
+ *               pw          = private word for module
+ * On exit:      Return NULL for successful initialisation, or a pointer to
+ *               an error block if the module could not start properly.
+ **************************************************************************/
+_kernel_oserror *Mod_Init(const char *tail, int podule_base, void *pw)
+{
+    int wssize = hourglass_getwssize();
+
+    module_pw = pw;
+    period = hourglass_getframeperiod();
+
+    hg = malloc(wssize);
+    hourglass_init(hg);
+    active = 0;
+    return NULL;
+}
+
+
+/***************************************************************************
+ * Function:     Mod_Final
+ * Description:  Finalise the module, shutting down any systems necessary,
+ *               freeing vectors and releasing workspace
+ * Parameters:   fatal       = fatality indicator; 1 if fatal, 0 if
+ *                             reinitialising
+ *               podule_base = address of podule module was started from, or
+ *                             NULL if none
+ *               pw          = private word for module
+ * On exit:      Return 0 for successful finalisation, or a pointer to an
+ *               error block if module was not shutdown properly.
+ **************************************************************************/
+_kernel_oserror *Mod_Final(int fatal, int podule_base, void *pw)
+{
+    swi_smash();
+    free(hg);
+    return NULL;
+}
+
+
+/***************************************************************************
+ * Description:  Star command and help request handler routines.
+ * Parameters:   arg_string = pointer to argument string (control
+ *                            terminated), or output buffer
+ *               argc       = number of arguments passed
+ *               number     = command number (see CMD_* definitions below)
+ *               pw         = private word for module
+ * On exit:      If number indicates a help entry:
+ *                 To output, assemble zero terminated output into
+ *                 arg_string, and return help_PRINT_BUFFER to print it.
+ *                 To stay silent, return NULL.
+ *                 To given an error, return an error pointer.
+ *                 [In this case, you need to cast the 'const' away]
+ *               If number indicates a configure option:
+ *                 If arg_string is arg_STATUS, then print status, otherwise
+ *                 use argc and arg_string to set option.
+ *                 Return NULL for no error.
+ *                 Return one of the four error codes below (configure_*)
+ *                 for a generic error message.
+ *                 Return an error pointer for a custom error.
+ *               If number indicates a command entry:
+ *                 Execute the command given by number, and arg_string.
+ *                 Return NULL on success,
+ *                 Return a pointer to an error block on failure.
+ **************************************************************************/
+_kernel_oserror *Mod_Command(const char *arg_string, int argc, int number,
+                             void *pw)
+{
+    switch (number)
+    {
+        case CMD_HOn:
+            swi_start(default_delay);
+            break;
+
+        case CMD_HOff:
+            swi_stop();
+            break;
+    }
+
+    return NULL;
+}
+
+/***************************************************************************
+ * Description:  SWI handler routine. All SWIs for this module will be
+ *               passed to these routines.
+ * Parameters:   number = SWI number within SWI chunk (i.e. 0 to 63)
+ *               r      = pointer to register block on entry
+ *               pw     = private word for module
+ * On exit:      Return NULL if SWI handled sucessfully, setting return
+ *               register values (r0-r9) in r.
+ *               Return error_BAD_SWI for out of range SWIs.
+ *               Return an error block for a custom error.
+ **************************************************************************/
+/* Function called to handle SWI calls */
+_kernel_oserror *Mod_SWI(int number, _kernel_swi_regs *r, void *pw)
+{
+    switch (number)
+    {
+        case Hourglass_On - Hourglass_00:
+            return swi_start(default_delay);
+
+        case Hourglass_Off - Hourglass_00:
+            return swi_stop();
+
+        case Hourglass_Smash - Hourglass_00:
+            return swi_smash();
+
+        case Hourglass_Start - Hourglass_00:
+            return swi_start(r->r[0]);
+
+        case Hourglass_Percentage - Hourglass_00:
+            /* Not implemented */
+            return NULL;
+
+        case Hourglass_LEDs - Hourglass_00:
+            /* Not implemented */
+            return NULL;
+
+        case Hourglass_Colours - Hourglass_00:
+            /* Not implemented */
+            return NULL;
+    }
+    return error_BAD_SWI;
+}
+
+
+/***************************************************************************
+ * Function:     StartTrigger_Handler
+ * Description:  Generic handler function
+ * Parameters:   r  = pointer to register block on entry
+ *               pw = private word for module
+ * On exit:      Update r to alter return values
+ *               Return NULL to return with V clear
+ *               Return an error pointer to set V and r0
+ **************************************************************************/
+_kernel_oserror *StartTrigger_Handler(_kernel_swi_regs *r, void *pw)
+{
+    hourglass_start(hg);
+    _swix(OS_CallEvery, _INR(0, 2), period - 1, hourglass_frame_irq, hg);
+    return NULL;
+}

@@ -1,0 +1,16 @@
+# Build the module
+
+VPATH = .. @
+
+COMPONENT  = Hourglass
+CDEFINES   =
+INCLUDES   =
+LIBS       =
+OBJS       = \
+             o.asm \
+             o.modhead \
+             o.module
+
+include CModule
+
+${OZDIR}.module: h.modhead

@@ -25,6 +25,17 @@ hg_workspacesize  * :INDEX: @                 ; Size of this workspace
 XOS_Byte          * 0x20006
 XOS_Word          * 0x20007
 XOS_ReadPalette   * 0x2002F
+
+; -------------------------------------------------
+        MACRO
+$label  SIGNATURE
+        ALIGN   4
+        =       "$label",0
+        ALIGN   4
+        DCD     &FF000000+(:LEN:"$label"+4):AND::NOT:3
+$label
+        MEND
+
 ; Data for the rows of the hourglass
 rowdata
           DCD     &00000000, &00000000
@@ -1852,12 +1863,12 @@ frame_deltas
 
 ; Palette data
 palette
-          DCB     64, 64, 192
+          DCB     0, 255, 255
           ALIGN
 
 ; Read the period between frames
 ; <=  R0 = cs between frames
-hourglass_getframeperiod
+hourglass_getframeperiod SIGNATURE
           EXPORT  hourglass_getframeperiod
           MOV     r0, #period
           MOV     pc, lr
@@ -1865,14 +1876,14 @@ hourglass_getframeperiod
 
 ; Read the size of the workspace block
 ; <=  R0 = size of hourglass workspace
-hourglass_getwssize
+hourglass_getwssize SIGNATURE
           EXPORT  hourglass_getwssize
           MOV     r0, #hg_workspacesize
           MOV     pc, lr
 
 ; Initialisation function
 ; =>  R0 = hourglass workspace
-hourglass_init
+hourglass_init SIGNATURE
           EXPORT  hourglass_init
           MOV     r12, r0
           MOV     r0, #0
@@ -1903,7 +1914,7 @@ wordblock_4
 
 ; Start the hourglass
 ; =>  R0 = hourglass workspace
-hourglass_start
+hourglass_start SIGNATURE
           EXPORT  hourglass_start
           STMFD   sp!, {r4, r5, lr}
           SUB     sp, sp, #8
@@ -1914,7 +1925,7 @@ hourglass_start
           MOV     r1, #25                     ; read pointer colour 1
           SWI     XOS_ReadPalette
           LDRVS   r2, =&81397900              ; purple if it wasn't set
-          STR     r2, hg_oldcolours + 4 * 1
+          STR     r2, hg_oldcolours + 4 * 0
           MOV     r0, #2
           MOV     r1, #25                     ; read pointer colour 2
           SWI     XOS_ReadPalette
@@ -1944,43 +1955,45 @@ hourglass_start
           MOV     r1, #127                        ; invalid pointer number to read the pointer
           MOV     r0, #106                        ; select pointer
           SWI     XOS_Byte
+          MOVVS   r1, #0                          ; if there was an error, turn off
           STR     r1, hg_oldpointer
           ADD     sp, sp, #8
           LDMFD   sp!, {r4, r5, lr}
+          MOV     r0, r12
           B       hourglass_frame                 ; exit via the first frame
 
 ; Stop the hourglass
 ; =>  R0 = hourglass workspace
-hourglass_stop
+hourglass_stop SIGNATURE
           EXPORT  hourglass_stop
           STMFD   sp!, {r4, r5, lr}
           SUB     sp, sp, #8
+          MOV     r12, r0
 ; restore the palette up for old pointer
           MOV     r1, sp
 ; colour 1
           ADR     r2, hg_oldcolours + 4 * 0 + 1
           MOV     r0, #1
           STRB    r0, [r1, #0]
-          MOV     r0, #25                     ; set pointer colour 1
+          MOV     r0, #25                         ; set pointer colour 1
           STRB    r0, [r1, #1]
           LDRB    r0, [r2], #1
-          STRB    r0, [r1, #2]                ; red
+          STRB    r0, [r1, #2]                    ; red
           LDRB    r0, [r2], #1
-          STRB    r0, [r1, #3]                ; green
+          STRB    r0, [r1, #3]                    ; green
           LDRB    r0, [r2], #1
-          STRB    r0, [r1, #4]                ; blue
+          STRB    r0, [r1, #4]                    ; blue
           MOV     r0, #12
-          SWI     XOS_Word                    ; Set palette
-          LDRB    r1, hg_oldpointer               ; re-select the old pointer number
+          SWI     XOS_Word                        ; Set palette
+          LDR     r1, hg_oldpointer               ; re-select the old pointer number
           MOV     r0, #106                        ; select pointer
           SWI     XOS_Byte
           ADD     sp, sp, #8
-          LDMFD   sp!, {r4, r5, lr}
-          B       hourglass_frame                 ; exit via the first frame
+          LDMFD   sp!, {r4, r5, pc}
 
 ; Frame update - sets the hourglass shape for the current frame
 ; =>  R0 = hourglass workspace
-hourglass_frame
+hourglass_frame SIGNATURE
           EXPORT  hourglass_frame
           STMFD   sp!, {r4, r5, lr}
           MOV     r12, r0
@@ -2014,12 +2027,11 @@ rowloop
 rowend
           MOV     r0, #21                         ; Set Pointer parameters
           ADR     r1, hg_word
-          LDR     lr, [r1, #1]
-          EOR     lr, lr, #1
-          STR     lr, [r1, #1]                    ; tolggles the pointer number we use
           SWI     XOS_Word
 
           LDRB    r1, hg_word + 1                 ; get the hourglass pointer number we will use
+          EOR     lr, r1, #1
+          STRB    lr, hg_word + 1                 ; toggles the pointer number we use next time
           MOV     r0, #106                        ; select pointer
           SWI     XOS_Byte
 
@@ -2029,5 +2041,21 @@ rowend
           MOVEQ   r0, #0                          ; reset counter; we've cycled
           STR     r0, hg_framenum
           LDMFD   sp!, {r4, r5, pc}
+
+; Frame update within an IRQ
+; =>  R12 = hourglass workspace
+hourglass_frame_irq SIGNATURE
+          EXPORT  hourglass_frame_irq
+          STMFD   sp!, {r0-r3, r4, r5, r12, lr}
+          MOV     r0, r12
+          MRS     r4, CPSR
+          AND     r1, r4, #&F
+          ORR     r1, r1, #&3
+          MSR     CPSR_csxf, r1                    ; Enter SVC mode (keep bitness)
+          MOV     r5, lr
+          BL      hourglass_frame
+          MOV     lr, r5
+          MSR     CPSR_cxsf, r4                    ; Restore the mode
+          LDMFD   sp!, {r0-r3, r4, r5, r12, pc}
 
           END

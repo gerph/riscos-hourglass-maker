@@ -8,7 +8,7 @@ palette = []
 images = []
 
 palette.append((255, 255, 255))
-palette.append((64, 64, 192))
+palette.append((0, 255, 255))
 images.append((
         "00000000000000000000000000000000",
         "00000000000000000000000000000000",
