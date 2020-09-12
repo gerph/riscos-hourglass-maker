@@ -4,6 +4,8 @@ COLOUR 128+7:CLS:COLOUR0
 :
 width% = 32
 height% = 34
+active_x% = 16
+active_y% = 17
 period% = 200
 wordsperrow% = 2
 nwords% = 64
@@ -105,8 +107,8 @@ worddata%?0 = 0:REM Define pointer shape
 worddata%?1 = 1:REM Shape number
 worddata%?2 = (width%*2+7)/8:REM Width in bytes
 worddata%?3 = height%:REM Height in rows
-worddata%?4 = width% / 2:REM Active point x
-worddata%?5 = height% / 2:REM Active point y
+worddata%?4 = active_x%
+worddata%?5 = active_y%
 worddata%!6 = pointerdata%
 :
 RESTORE + 1

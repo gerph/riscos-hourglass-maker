@@ -2,6 +2,8 @@
 
 width = 32
 height = 34
+activex = 16
+activey = 17
 frameperiod = 200
 
 palette = []

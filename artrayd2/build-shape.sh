@@ -31,6 +31,10 @@ convert "${exclude_args[@]}" source.gif -coalesce frame_%d.png
 width=32
 height=32
 
+# Set these to the active point, from top left (or empty to use the default of the center)
+activex=
+activey=
+
 # Period between frames in centiseconds
 frameperiod=2
 
@@ -42,6 +46,8 @@ palette=("255 255 255" "0 0 0")
 generatedpalette=("${palette[@]}")
 
 # The palette to use for the actual hourglass
+# Regular hourglass uses "255 255 255" "213 246 255" "0 161 255" "0 0 0".
+# Standard pointer uses "255 255 255" "0 255 255" "0 0 153"
 riscospalette=("${palette[@]}")
 riscospalette=("128 128 128" "64 64 192") # Dark blue
 riscospalette=("128 128 128" "0 255 255") # Light blue
@@ -81,7 +87,8 @@ done
 
 # Convert the frames into a GIF to see what it would look like
 ordered_images=( $( seq 36 59 ; echo 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ; seq 0 35 ) )
-convert -delay 2 -dispose Background $(for i in ${ordered_images[*]} ; do echo -n "simple_$i.png " ; done) animated.gif
+convert -delay "${frameperiod}" -dispose Background \
+        $(for i in ${ordered_images[*]} ; do echo -n "simple_$i.png " ; done) animated.gif
 
 # Now convert the PNGs to shapes that we may be able to use in shape.py
 cat > "${pyhourglass}" << EOM
@@ -89,6 +96,8 @@ cat > "${pyhourglass}" << EOM
 
 width = $width
 height = $height
+activex = ${activex:-$((width / 2))}
+activey = ${activey:-$((height / 2))}
 frameperiod = $frameperiod
 
 palette = []

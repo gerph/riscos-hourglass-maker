@@ -34,6 +34,10 @@ convert "${exclude_args[@]}" -size ${srcsize} source.svg \
 width=32
 height=34
 
+# Set these to the active point, from top left (or empty to use the default of the center)
+activex=
+activey=
+
 # Period between frames in centiseconds
 frameperiod=200
 
@@ -44,6 +48,8 @@ palette=("255 255 255" "0 0 0")
 generatedpalette=("${palette[@]}")
 
 # The palette to use for the actual hourglass
+# Regular hourglass uses "255 255 255" "213 246 255" "0 161 255" "0 0 0".
+# Standard pointer uses "255 255 255" "0 255 255" "0 0 153"
 riscospalette=("255 255 255" "192 192 255")
 riscospalette[0]="192 192 192"
 
@@ -89,6 +95,8 @@ cat > "${pyhourglass}" << EOM
 
 width = $width
 height = $height
+activex = ${activex:-$((width / 2))}
+activey = ${activey:-$((height / 2))}
 frameperiod = $frameperiod
 
 palette = []
