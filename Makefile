@@ -3,7 +3,8 @@
 HOURGLASSES = artrayd1 artrayd1-filled artrayd1-bordered \
 			  artrayd2 artrayd2-filled \
 			  cog cog-bordered \
-			  nkozin nkozin-filled
+			  nkozin nkozin-filled \
+			  catgbp1990-world
 
 ARTIFACTS = $(shell pwd)/artifacts
 

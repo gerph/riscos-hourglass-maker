@@ -33,6 +33,7 @@ The full build process requires cross compiling tools, but the repository contai
 * `artrayd2-filled`: Same as `artrayd2`, but with filled center and bordered.
 * `cog`: A SVG based cog which just turns, using a single colour.
 * `cog-bordered`: Same as `cog-bordered`, but with a black border around it.
+* `catgbp1990`: A rotating earth.
 
 ### Static hourglasses
 
