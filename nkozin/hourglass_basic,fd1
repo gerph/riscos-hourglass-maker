@@ -1,0 +1,138 @@
+ON ERROR ERROR EXT ERR, REPORT$+" at line "+STR$ERL
+:
+COLOUR 128+7:CLS:COLOUR0
+:
+width% = 32
+height% = 34
+period% = 200
+wordsperrow% = 2
+nwords% = 64
+DIM rowdata% 4 * nwords%
+RESTORE +1
+DATA &00000001, &00000000
+DATA &00000005, &00000000
+DATA &00000055, &00000000
+DATA &00000155, &00000000
+DATA &00001505, &00000000
+DATA &00005405, &00000000
+DATA &00054005, &00000000
+DATA &00150005, &00000000
+DATA &01500005, &00000000
+DATA &05400004, &00000000
+DATA &54000014, &00000000
+DATA &50000014, &00000001
+DATA &00000014, &00000015
+DATA &00000014, &00000054
+DATA &00000014, &00000554
+DATA &54000014, &00000555
+DATA &55000014, &00000001
+DATA &14000014, &00000000
+DATA &14014014, &00000000
+DATA &50015014, &55555540
+DATA &50055014, &15001500
+DATA &40051414, &14000501
+DATA &40140554, &14000505
+DATA &00540150, &14000505
+DATA &00500050, &05405414
+DATA &01400050, &01515014
+DATA &01400010, &01515054
+DATA &05000000, &05405415
+DATA &55000000, &15001501
+DATA &54000000, &14000500
+DATA &00000000, &14000500
+DATA &00000000, &55555540
+FOR n% = 0 TO nwords%-1
+  READ word%:rowdata%!(4 * n%) = word%
+NEXT
+:
+nframes% = 1
+DIM framedata% 8 * nframes%
+:
+DIM deltas% 8*35
+
+deltaoffset% = 0
+RESTORE +1
+FOR frame% = 0 TO nframes%-1
+ framedata%!(frame% * 4) = deltaoffset%
+ REPEAT
+  READ rownumber%, rowindex%
+  deltas%!(deltaoffset%) = rownumber%
+  deltas%!(deltaoffset%+4) = rowindex%
+  deltaoffset% += 8
+ UNTIL rownumber% = -1
+NEXT
+:
+REM Image 0
+DATA 0, 0
+DATA 1, 1
+DATA 2, 2
+DATA 3, 3
+DATA 4, 4
+DATA 5, 5
+DATA 6, 6
+DATA 7, 7
+DATA 8, 8
+DATA 9, 9
+DATA 10, 10
+DATA 11, 11
+DATA 12, 12
+DATA 13, 13
+DATA 14, 14
+DATA 15, 15
+DATA 16, 16
+DATA 17, 17
+DATA 18, 18
+DATA 19, 19
+DATA 20, 20
+DATA 21, 21
+DATA 22, 22
+DATA 23, 23
+DATA 24, 24
+DATA 25, 25
+DATA 26, 26
+DATA 27, 27
+DATA 28, 28
+DATA 29, 29
+DATA 30, 30
+DATA 31, 30
+DATA 32, 31
+DATA 33, 31
+DATA -1, -1
+:
+DIM worddata% 10
+DIM pointerdata% 4 * wordsperrow% * height%
+worddata%?0 = 0:REM Define pointer shape
+worddata%?1 = 1:REM Shape number
+worddata%?2 = (width%*2+7)/8:REM Width in bytes
+worddata%?3 = height%:REM Height in rows
+worddata%?4 = width% / 2:REM Active point x
+worddata%?5 = height% / 2:REM Active point y
+worddata%!6 = pointerdata%
+:
+RESTORE + 1
+FOR col% = 0 TO 1
+ READ colr%,colg%,colb%
+ VDU 19, col%, 25, colr%, colg%, colb%
+NEXT
+DATA 192, 192, 192
+DATA 192, 192, 255
+:
+SYS "OS_Byte", 106, 1
+:
+framenum%=0
+WHILE TRUE
+ frame_deltas% = deltas% + framedata%!(framenum% * 4)
+ PRINT "Frame ";framenum%
+ REPEAT
+  rownumber%=frame_deltas%!0:frame_deltas%+=4
+  rowindex%=frame_deltas%!0:frame_deltas%+=4
+  IF rownumber% <> -1 THEN
+   FORoffset%=0TOwordsperrow%*4-4 STEP 4
+    pointerdata%!(rownumber% * 4 * wordsperrow% + offset%) = rowdata%!(4 * wordsperrow% * rowindex% + offset%)
+   NEXT
+  ENDIF
+ UNTIL rownumber%=-1
+ SYS "OS_Word",21, worddata%
+ framenum% = (framenum% + 1) MOD nframes%
+  I=INKEY(period%)
+ENDWHILE
