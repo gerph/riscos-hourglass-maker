@@ -1,0 +1,109 @@
+ON ERROR ERROR EXT ERR, REPORT$+" at line "+STR$ERL
+:
+COLOUR 128+7:CLS:COLOUR0
+:
+width% = 32
+height% = 50
+active_x% = 0
+active_y% = 0
+period% = 200
+wordsperrow% = 2
+nwords% = 16
+DIM rowdata% 4 * nwords%
+RESTORE +1
+DATA &fffffff0, &0000ffff
+DATA &5555555c, &00035555
+DATA &55555557, &000d5555
+DATA &fff7ffd7, &000d7ffd
+DATA &d577ffd7, &000d755d
+DATA &5555d5d7, &000d5555
+DATA &55557757, &000d5555
+DATA &55555d57, &000d5555
+FOR n% = 0 TO nwords%-1
+  READ word%:rowdata%!(4 * n%) = word%
+NEXT
+:
+nframes% = 1
+DIM framedata% 8 * nframes%
+:
+DIM deltas% 8*26
+
+deltaoffset% = 0
+RESTORE +1
+FOR frame% = 0 TO nframes%-1
+ framedata%!(frame% * 4) = deltaoffset%
+ REPEAT
+  READ rownumber%, rowindex%
+  deltas%!(deltaoffset%) = rownumber%
+  deltas%!(deltaoffset%+4) = rowindex%
+  deltaoffset% += 8
+ UNTIL rownumber% = -1
+NEXT
+:
+REM Image 0
+DATA 0, 0
+DATA 1, 1
+DATA 2, 2
+DATA 3, 3
+DATA 4, 4
+DATA 5, 4
+DATA 6, 4
+DATA 7, 4
+DATA 8, 4
+DATA 9, 4
+DATA 10, 3
+DATA 11, 2
+DATA 12, 2
+DATA 13, 5
+DATA 14, 5
+DATA 15, 5
+DATA 16, 6
+DATA 17, 7
+DATA 18, 7
+DATA 19, 7
+DATA 20, 2
+DATA 21, 2
+DATA 22, 2
+DATA 23, 1
+DATA 24, 0
+DATA -1, -1
+:
+DIM worddata% 10
+DIM pointerdata% 4 * wordsperrow% * height%
+worddata%?0 = 0:REM Define pointer shape
+worddata%?1 = 1:REM Shape number
+worddata%?2 = (width%*2+7)/8:REM Width in bytes
+worddata%?3 = height%:REM Height in rows
+worddata%?4 = active_x%
+worddata%?5 = active_y%
+worddata%!6 = pointerdata%
+:
+RESTORE + 1
+FOR col% = 0 TO 3
+ READ colr%,colg%,colb%
+ VDU 19, col%, 25, colr%, colg%, colb%
+NEXT
+DATA 192, 192, 192
+DATA 238, 238, 170
+DATA 0, 0, 0
+DATA 85, 85, 85
+:
+SYS "OS_Byte", 106, 1
+:
+framenum%=0
+WHILE TRUE
+ frame_deltas% = deltas% + framedata%!(framenum% * 4)
+ PRINT "Frame ";framenum%
+ REPEAT
+  rownumber%=frame_deltas%!0:frame_deltas%+=4
+  rowindex%=frame_deltas%!0:frame_deltas%+=4
+  IF rownumber% <> -1 THEN
+   FORoffset%=0TOwordsperrow%*4-4 STEP 4
+    pointerdata%!(rownumber% * 4 * wordsperrow% + offset%) = rowdata%!(4 * wordsperrow% * rowindex% + offset%)
+   NEXT
+  ENDIF
+ UNTIL rownumber%=-1
+ SYS "OS_Word",21, worddata%
+ framenum% = (framenum% + 1) MOD nframes%
+  I=INKEY(period%)
+ENDWHILE
