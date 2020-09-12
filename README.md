@@ -36,7 +36,8 @@ The full build process requires cross compiling tools, but the repository contai
 
 ### Static hourglasses
 
-* `nkozin`: Simple hourglass beside a pointer.
+* `nkozin`: Simple hourglass beside a pointer, unfilled.
+* `nkozin-filled`: Same as `nkozin`, but with a filled centre.
 
 The difference between these hourglasses is essentially just the `source.gif` file, and the `build-shape.sh` which constructs the image data in `shape.py`.
 
@@ -68,7 +69,9 @@ amu -f ^.MakefileROModule BUILD32=1
     - Look at the 'Trim and reduce' section which processes the `frame_#.png` images into `simple_#.png` (which are images we will actually use). This is the most complicated part of the process because ImageMagick is not easy to work with at times, but very powerful.
         - Firstly, the loop has to reference all the frames so that we process them all (assuming you want to process them all - you can select just certain frames if you want, but usually you'll process all of them). The `$(seq 0 #)` command needs updating so that all the frame numbers are processed.
         - Now the processing of the image in the convert statement needs to be updated; this is more tricky. You will almost certainly need to consult the ImageMagick documentation if you are doing anything more then tweaking the image here. The CI system uses ImageMagick 6.9, and if you've got ImageMagick 7 installed you may find differences, particularly in the handling of the alpha channel.
-        - There are examples of different operations in the supplied hourglasses. This is why they get more complex - so you can see what's changed between them. For example, 'simple' filling of the shape is used in many of them, but easiest to see in `artrayd1-filled`. Bordering is given as an example on top of that in `artrayd1-bordered`, but also in the `cog-bordered` hourglass. Shaving is performed on most of the hourglasses.
+        - There are examples of different operations in the supplied hourglasses. This is why they get more complex - so you can see what's changed between them.
+            - Filling: Automatic filling of the shape is used in many of them, but is easiest to see in `artrayd1-filled`. However, sometimes the automatic filling doesn't work, and it's necessary to manually fill a shape, which is demonstrated in `nkozin-filled`.
+            - Bordering: Bordering is given as an example on top of that in `artrayd1-bordered`, but also in the `cog-bordered` hourglass. Shaving is performed on most of the hourglasses.
         - There are many ugly effects you can get due to the scaling and misalignment of pixels, and there are many problems caused by the lack of colours. Try to make the hourglass line up to the pixel grid where possible, so that there aren't jagged edges, and try to get the scaling such that horizontal and vertical lines don't change in shape due to grid alignment issues. This is why it's commonly better to draw these small icons by hand.
         - You could replace this whole section with more intelligent generation code. So long as you get out frames in `simple_#.png`, they can be made into an hourglass.
     - Update the `ordered_images` to give the correct order for the frames. This is usually a set of `seq <start> <end>` commands which list the frames to use in the final image. It is common for the animation to not start where you want it to, so reordering the images is useful - this is the case for some of the hourglasses whose source images start out by rotating, but we want them to start with falling sand. Similarly, repeating some frames can make them static for longer, which is used in the artrayd hourglasses to make the final clump of sand stay put before rotating.

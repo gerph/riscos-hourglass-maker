@@ -2,15 +2,15 @@
 
 width = 32
 height = 34
-activex = 16
-activey = 17
+activex = 0
+activey = 0
 frameperiod = 200
 
 palette = []
 images = []
 
 palette.append((192, 192, 192))
-palette.append((192, 192, 255))
+palette.append((0, 255, 255))
 images.append((
         "10000000000000000000000000000000",
         "11000000000000000000000000000000",

@@ -45,12 +45,12 @@ frameperiod=200
 palette=("255 255 255" "0 0 0")
 
 # The palette we take from the generated frames
-generatedpalette=("${palette[@]}")
+generatedpalette=("${palette[@]}" "128 128 128")
 
 # The palette to use for the actual hourglass
 # Regular hourglass uses "255 255 255" "213 246 255" "0 161 255" "0 0 0".
 # Standard pointer uses "255 255 255" "0 255 255" "0 0 153"
-riscospalette=("255 255 255" "0 255 255")
+riscospalette=("255 255 255" "0 255 255" "0 0 153")
 riscospalette[0]="192 192 192"
 
 
@@ -74,12 +74,15 @@ EOM
 
 # Trim and reduce the image to limited colours
 # - Convert the colours down to just the palette we want to use
+# - Fill the center of the shapes
 # - Make the white background transparent
 for i in 0 ; do
     convert "${exclude_args[@]}" \
             frame_$i.png \
             -resize ${width}x${height} +dither \
             -remap palette.ppm \
+            -fill '#808080' -draw "color 8,12 floodfill" \
+                            -draw "color 24,28 floodfill" \
             -alpha on -fuzz 20% -transparent white -background white \
             +repage simple_$i.png
 done

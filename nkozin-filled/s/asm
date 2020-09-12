@@ -42,33 +42,33 @@ rowdata
           DCD     &00000005, &00000000
           DCD     &00000055, &00000000
           DCD     &00000155, &00000000
-          DCD     &00001505, &00000000
-          DCD     &00005405, &00000000
-          DCD     &00054005, &00000000
-          DCD     &00150005, &00000000
-          DCD     &01500005, &00000000
-          DCD     &05400004, &00000000
-          DCD     &54000014, &00000000
-          DCD     &50000014, &00000001
-          DCD     &00000014, &00000015
-          DCD     &00000014, &00000054
-          DCD     &00000014, &00000554
-          DCD     &54000014, &00000555
-          DCD     &55000014, &00000001
-          DCD     &14000014, &00000000
-          DCD     &14014014, &00000000
-          DCD     &50015014, &55555540
-          DCD     &50055014, &15001500
-          DCD     &40051414, &14000501
-          DCD     &40140554, &14000505
-          DCD     &00540150, &14000505
-          DCD     &00500050, &05405414
-          DCD     &01400050, &01515014
-          DCD     &01400010, &01515054
-          DCD     &05000000, &05405415
-          DCD     &55000000, &15001501
-          DCD     &54000000, &14000500
-          DCD     &00000000, &14000500
+          DCD     &000015a5, &00000000
+          DCD     &000056a5, &00000000
+          DCD     &00056aa5, &00000000
+          DCD     &0015aaa5, &00000000
+          DCD     &015aaaa5, &00000000
+          DCD     &056aaaa4, &00000000
+          DCD     &56aaaa94, &00000000
+          DCD     &5aaaaa94, &00000001
+          DCD     &aaaaaa94, &00000015
+          DCD     &aaaaaa94, &00000056
+          DCD     &aaaaaa94, &00000556
+          DCD     &56aaaa94, &00000555
+          DCD     &55aaaa94, &00000001
+          DCD     &16aaaa94, &00000000
+          DCD     &16a96a94, &00000000
+          DCD     &5aa95a94, &55555540
+          DCD     &5aa55a94, &15aa9500
+          DCD     &6aa51694, &16aaa501
+          DCD     &6a940554, &16aaa505
+          DCD     &aa540150, &16aaa505
+          DCD     &aa500050, &056a5416
+          DCD     &a9400050, &01595016
+          DCD     &a9400010, &01595056
+          DCD     &a5000000, &056a5415
+          DCD     &55000000, &15aa9501
+          DCD     &54000000, &16aaa500
+          DCD     &00000000, &16aaa500
           DCD     &00000000, &55555540
 
 ; Data for deltas between frames
@@ -117,6 +117,7 @@ frame_deltas
 ; Palette data
 palette
           DCB     0, 255, 255
+          DCB     0, 0, 153
           ALIGN
 
 ; Read the period between frames
@@ -205,6 +206,19 @@ hourglass_start SIGNATURE
           STRB    r0, [r1, #4]                ; blue
           MOV     r0, #12
           SWI     XOS_Word                    ; Set palette
+; colour 2
+          MOV     r0, #2
+          STRB    r0, [r1, #0]
+          MOV     r0, #25                     ; set pointer colour 1
+          STRB    r0, [r1, #1]
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #2]                ; red
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #3]                ; green
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #4]                ; blue
+          MOV     r0, #12
+          SWI     XOS_Word                    ; Set palette
           MOV     r1, #127                        ; invalid pointer number to read the pointer
           MOV     r0, #106                        ; select pointer
           SWI     XOS_Byte
@@ -227,6 +241,20 @@ hourglass_stop SIGNATURE
 ; colour 1
           ADR     r2, hg_oldcolours + 4 * 0 + 1
           MOV     r0, #1
+          STRB    r0, [r1, #0]
+          MOV     r0, #25                         ; set pointer colour 1
+          STRB    r0, [r1, #1]
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #2]                    ; red
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #3]                    ; green
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #4]                    ; blue
+          MOV     r0, #12
+          SWI     XOS_Word                        ; Set palette
+; colour 2
+          ADR     r2, hg_oldcolours + 4 * 1 + 1
+          MOV     r0, #2
           STRB    r0, [r1, #0]
           MOV     r0, #25                         ; set pointer colour 1
           STRB    r0, [r1, #1]
