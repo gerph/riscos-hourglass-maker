@@ -1,0 +1,174 @@
+ON ERROR ERROR EXT ERR, REPORT$+" at line "+STR$ERL
+:
+COLOUR 128+7:CLS:COLOUR0
+:
+width% = 32
+height% = 50
+active_x% = 0
+active_y% = 0
+period% = 200
+wordsperrow% = 2
+nwords% = 98
+DIM rowdata% 4 * nwords%
+RESTORE +1
+DATA &00000005, &00000000
+DATA &00000015, &00000000
+DATA &00000055, &00000000
+DATA &00000155, &00000000
+DATA &00000555, &00000000
+DATA &000015a5, &00000000
+DATA &000056a5, &00000000
+DATA &00015aa5, &00000000
+DATA &00056aa5, &00000000
+DATA &0015aaa5, &00000000
+DATA &0056aaa5, &00000000
+DATA &015aaaa5, &00000000
+DATA &056aaaa5, &00000000
+DATA &15aaaaa5, &00000000
+DATA &56aaaaa5, &00000000
+DATA &5aaaaaa5, &00000001
+DATA &6aaaaaa5, &00000005
+DATA &aaaaaaa5, &00000015
+DATA &aaaaaaa5, &00000056
+DATA &aaaaaaa5, &0000015a
+DATA &aaaaaaa5, &0000056a
+DATA &aaaaaaa5, &000015aa
+DATA &aaaaaaa5, &000056aa
+DATA &aaaaaaa5, &00015aaa
+DATA &aaaaaaa5, &00056aaa
+DATA &aaaaaaa5, &0015aaaa
+DATA &aaaaaaa5, &0056aaaa
+DATA &aaaaaaa5, &015aaaaa
+DATA &aaaaaaa5, &056aaaaa
+DATA &aaaaaaa5, &156aaaaa
+DATA &aaaaaaa5, &5555555a
+DATA &aaaaaaa5, &5555556a
+DATA &aaaaaaa5, &000005aa
+DATA &aa96aaa5, &000015aa
+DATA &aa55aaa5, &000016aa
+DATA &aa556aa5, &000056aa
+DATA &a95156a5, &00005aaa
+DATA &a94055a5, &00015aaa
+DATA &a5400555, &00016aaa
+DATA &a5000155, &00056aaa
+DATA &95000055, &0005aaaa
+DATA &94000005, &0015aaaa
+DATA &54000000, &0015aaaa
+DATA &50000000, &00156aaa
+DATA &50000000, &000556a9
+DATA &40000000, &00005569
+DATA &40000000, &00000555
+DATA &00000000, &00000055
+DATA &00000000, &00000015
+FOR n% = 0 TO nwords%-1
+  READ word%:rowdata%!(4 * n%) = word%
+NEXT
+:
+nframes% = 1
+DIM framedata% 8 * nframes%
+:
+DIM deltas% 8*51
+
+deltaoffset% = 0
+RESTORE +1
+FOR frame% = 0 TO nframes%-1
+ framedata%!(frame% * 4) = deltaoffset%
+ REPEAT
+  READ rownumber%, rowindex%
+  deltas%!(deltaoffset%) = rownumber%
+  deltas%!(deltaoffset%+4) = rowindex%
+  deltaoffset% += 8
+ UNTIL rownumber% = -1
+NEXT
+:
+REM Image 0
+DATA 0, 0
+DATA 1, 1
+DATA 2, 2
+DATA 3, 3
+DATA 4, 4
+DATA 5, 5
+DATA 6, 6
+DATA 7, 7
+DATA 8, 8
+DATA 9, 9
+DATA 10, 10
+DATA 11, 11
+DATA 12, 12
+DATA 13, 13
+DATA 14, 14
+DATA 15, 15
+DATA 16, 16
+DATA 17, 17
+DATA 18, 18
+DATA 19, 19
+DATA 20, 20
+DATA 21, 21
+DATA 22, 22
+DATA 23, 23
+DATA 24, 24
+DATA 25, 25
+DATA 26, 26
+DATA 27, 27
+DATA 28, 28
+DATA 29, 29
+DATA 30, 30
+DATA 31, 31
+DATA 32, 20
+DATA 33, 32
+DATA 34, 33
+DATA 35, 34
+DATA 36, 35
+DATA 37, 36
+DATA 38, 37
+DATA 39, 38
+DATA 40, 39
+DATA 41, 40
+DATA 42, 41
+DATA 43, 42
+DATA 44, 43
+DATA 45, 44
+DATA 46, 45
+DATA 47, 46
+DATA 48, 47
+DATA 49, 48
+DATA -1, -1
+:
+DIM worddata% 10
+DIM pointerdata% 4 * wordsperrow% * height%
+worddata%?0 = 0:REM Define pointer shape
+worddata%?1 = 1:REM Shape number
+worddata%?2 = (width%*2+7)/8:REM Width in bytes
+worddata%?3 = height%:REM Height in rows
+worddata%?4 = active_x%
+worddata%?5 = active_y%
+worddata%!6 = pointerdata%
+:
+RESTORE + 1
+FOR col% = 0 TO 2
+ READ colr%,colg%,colb%
+ VDU 19, col%, 25, colr%, colg%, colb%
+NEXT
+DATA 192, 192, 192
+DATA 0, 255, 255
+DATA 0, 0, 153
+:
+SYS "OS_Byte", 106, 1
+:
+framenum%=0
+WHILE TRUE
+ frame_deltas% = deltas% + framedata%!(framenum% * 4)
+ PRINT "Frame ";framenum%
+ REPEAT
+  rownumber%=frame_deltas%!0:frame_deltas%+=4
+  rowindex%=frame_deltas%!0:frame_deltas%+=4
+  IF rownumber% <> -1 THEN
+   FORoffset%=0TOwordsperrow%*4-4 STEP 4
+    pointerdata%!(rownumber% * 4 * wordsperrow% + offset%) = rowdata%!(4 * wordsperrow% * rowindex% + offset%)
+   NEXT
+  ENDIF
+ UNTIL rownumber%=-1
+ SYS "OS_Word",21, worddata%
+ framenum% = (framenum% + 1) MOD nframes%
+  I=INKEY(period%)
+ENDWHILE
