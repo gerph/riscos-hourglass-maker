@@ -14,6 +14,21 @@ sys.path.append('.')
 
 import shape
 
+# Enable this to write the row data directly for each frame, rather than using
+# a list of rowdata offsets.
+# This is only efficient on memory if the rows are common between the different
+# hourglass frames, otherwise it means that we're writing more data than we need
+# in the module. But is that really an issue?
+# Turns out that it is - the fact that a row isn't (usually 2 words) and we have
+# to spend an extra word to reference it means that you need to have a lot of
+# duplicated rows to make these references to rows efficient.
+# Sadly I've optimised for a case that isn't likely, or even possible, on
+# RISC OS Classic. As such, the direct_rowdata is left on.
+# If you were to have a repetative hourglass which was wider than 2 words,
+# you might turn this off again, but it doesn't offer any benefit right now.
+direct_rowdata = True
+
+
 # Number of bits per pixel
 bpp = 2
 # Number of pixels per word
@@ -177,7 +192,6 @@ def make_basic(rows, rowdata, deltas, images_rowindexes, filename):
         lines.append("DATA {}".format(', '.join(str(col) for col in cols)))
     lines.append(":")
 
-
     # Select the pointer and turn it on
     lines.append("SYS \"OS_Byte\", 106, 1")
     lines.append(":")
@@ -270,11 +284,12 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes,filename):
     lines.append('        MEND')
     lines.append('')
 
-    lines.append("; Data for the rows of the hourglass")
-    lines.append("rowdata")
-    for words in rowdata:
-        words = ['&{:08x}'.format(word) for word in words]
-        lines.append("          DCD     {}".format(', '.join(words)))
+    if not direct_rowdata:
+        lines.append("; Data for the rows of the hourglass")
+        lines.append("rowdata")
+        for words in rowdata:
+            words = ['&{:08x}'.format(word) for word in words]
+            lines.append("          DCD     {}".format(', '.join(words)))
 
     framedelta_offsets = []
     deltaoffset = 0
@@ -289,11 +304,17 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes,filename):
         for rownumber, rowindex in image_deltas:
             # We actually write the offset into the hg_currentdata, and the offset into the rowdata
             # This means that we don't need to calculate these values at runtime.
-            lines.append("          DCD     {}, {}".format(rownumber * wordsperrow * 4,
-                                                           rowindex * wordsperrow * 4))
-            deltaoffset += 8
-        lines.append("          DCD     {}, {}".format(-1, -1))
-        deltaoffset += 8
+            if direct_rowdata:
+                words = [rownumber * wordsperrow * 4]
+                words.extend(rowdata[rowindex])
+                lines.append("          DCD     {}".format(', '.join('&{:08x}'.format(word) for word in words)))
+                deltaoffset += 4 * len(words)
+            else:
+                lines.append("          DCD     {}, {}".format(rownumber * wordsperrow * 4,
+                                                               rowindex * wordsperrow * 4))
+                deltaoffset += 8
+        lines.append("          DCD     {}".format(-1))
+        deltaoffset += 4
 
     lines.append("")
     lines.append("; Offsets into the deltas for each frame")
@@ -425,6 +446,12 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes,filename):
     lines.append("          STMFD   sp!, {r4, r5, lr}")
     lines.append("          SUB     sp, sp, #8")
     lines.append("          MOV     r12, r0")
+
+    lines.append("          LDR     r4, hg_oldpointer               ; work out the old pointer shape")
+    lines.append("          BIC     r4, r4, #127                    ; turn off the pointer whilst we change colours")
+    lines.append("          MOV     r0, #106                        ; select pointer")
+    lines.append("          SWI     XOS_Byte")
+
     lines.append("; restore the palette up for old pointer")
     lines.append("          MOV     r1, sp")
     for colour_number in range(len(shape.palette) - 1):
@@ -443,7 +470,7 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes,filename):
         lines.append("          MOV     r0, #12")
         lines.append("          SWI     XOS_Word                        ; Set palette")
 
-    lines.append("          LDR     r1, hg_oldpointer               ; re-select the old pointer number")
+    lines.append("          MOV     r1, r4                          ; re-select the old pointer number")
     lines.append("          MOV     r0, #106                        ; select pointer")
     lines.append("          SWI     XOS_Byte")
 
@@ -463,34 +490,56 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes,filename):
     lines.append("          LDR     r0, [r1, r0, LSL #2]            ; offset within deltas for this frame")
     lines.append("          ADRL    r1, deltas")
     lines.append("          ADD     r1, r1, r0")
-    lines.append("          ADRL    r2, rowdata")
+    if not direct_rowdata:
+        lines.append("          ADRL    r2, rowdata")
     lines.append("          ADRL    r5, hg_currentdata")
     lines.append("rowloop")
-    lines.append("          LDMIA   r1!, {r3, r4}                   ; r3 = currentdata offset, row data offset")
-    lines.append("          CMP     r3, #-1                         ; end of the rows")
-    lines.append("          BEQ     rowend")
+    if direct_rowdata:
+        lines.append("          LDR     r3, [r1], #4                    ; r3 = currentdata offset")
+        lines.append("          CMP     r3, #-1                         ; end of the rows")
+        lines.append("          BEQ     rowend")
 
-    # FIXME: Decide if we should ditch the rowdata entirely - we're not reading huge lines so it's
-    # not saving us anything. We COULD just have the value in the deltas. It'd be slightly larger,
-    # but who cares?
-    # Sadly I've optimised for a case that isn't likely or even possible on RISC OS Classic.
-    lines.append("          LDR     r0, [r4, r2]!                   ; read a word from rowdata")
-    lines.append("          STR     r0, [r3, r5]!                   ; store into the currentdata")
+        lines.append("      [ wordsperrow = 1")
+        lines.append("          LDR     r0, [r1], #4                    ; read a word")
+        lines.append("          STR     r0, [r3, r5]                    ; store into the currentdata")
+        lines.append("      ]")
+        lines.append("      [ wordsperrow = 2")
+        lines.append("          LDMIA   r1!, {r0, r2}                   ; read two word from rowdata")
+        lines.append("          STR     r0, [r3, r5]!                   ; store into the currentdata")
+        lines.append("          STR     r2, [r3, #4]                    ; store into the currentdata")
+        lines.append("      ]")
+        lines.append("      [ wordsperrow = 3")
+        lines.append("          LDMIA   r1!, {r0, r2, r4}               ; read a word from rowdata")
+        lines.append("          ADD     r3, r3, r5                      ; work out the line offset")
+        lines.append("          STMIA   r3!, {r0, r2, r4}               ; store into the currentdata")
+        lines.append("      ]")
+        lines.append("      [ wordsperrow = 4")
+        lines.append("          LDMIA   r1!, {r0, r2, r4, lr}           ; read a word from rowdata")
+        lines.append("          ADD     r3, r3, r5                      ; work out the line offset")
+        lines.append("          STMIA   r3!, {r0, r2, r4, lr}           ; store into the currentdata")
+        lines.append("      ]")
+    else:
+        lines.append("          LDMIA   r1!, {r3, r4}                   ; r3 = currentdata offset, r4 = row data offset")
+        lines.append("          CMP     r3, #-1                         ; end of the rows")
+        lines.append("          BEQ     rowend")
 
-    # FIXME: Remember how you do a loop in objasm, cos this could be pretty simple - alternatively use a
-    #        LDMIA?
-    lines.append("      [ wordsperrow > 1")
-    lines.append("          LDR     r0, [r4, #4]!                   ; read a word from rowdata")
-    lines.append("          STR     r0, [r3, #4]!                   ; store into the currentdata")
-    lines.append("      ]")
-    lines.append("      [ wordsperrow > 2")
-    lines.append("          LDR     r0, [r4, #4]!                   ; read a word from rowdata")
-    lines.append("          STR     r0, [r3, #4]!                   ; store into the currentdata")
-    lines.append("      ]")
-    lines.append("      [ wordsperrow > 3")
-    lines.append("          LDR     r0, [r4, #4]!                   ; read a word from rowdata")
-    lines.append("          STR     r0, [r3, #4]!                   ; store into the currentdata")
-    lines.append("      ]")
+        lines.append("          LDR     r0, [r4, r2]!                   ; read a word from rowdata")
+        lines.append("          STR     r0, [r3, r5]!                   ; store into the currentdata")
+
+        # FIXME: Remember how you do a loop in objasm, cos this could be pretty simple - alternatively use a
+        #        LDMIA?
+        lines.append("      [ wordsperrow > 1")
+        lines.append("          LDR     r0, [r4, #4]!                   ; read a word from rowdata")
+        lines.append("          STR     r0, [r3, #4]!                   ; store into the currentdata")
+        lines.append("      ]")
+        lines.append("      [ wordsperrow > 2")
+        lines.append("          LDR     r0, [r4, #4]!                   ; read a word from rowdata")
+        lines.append("          STR     r0, [r3, #4]!                   ; store into the currentdata")
+        lines.append("      ]")
+        lines.append("      [ wordsperrow > 3")
+        lines.append("          LDR     r0, [r4, #4]!                   ; read a word from rowdata")
+        lines.append("          STR     r0, [r3, #4]!                   ; store into the currentdata")
+        lines.append("      ]")
     lines.append("          B       rowloop")
     lines.append("")
 

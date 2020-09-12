@@ -31,7 +31,7 @@ convert "${exclude_args[@]}" source.png -resize "$srcsize" frame_0.png
 
 # RISC OS Classic cannot have pointers larger than 32 pixels wide.
 width=26
-height=50
+height=25
 
 # Set these to the active point, from top left (or empty to use the default of the center)
 activex=0

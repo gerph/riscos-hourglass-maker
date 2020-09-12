@@ -3,7 +3,7 @@ ON ERROR ERROR EXT ERR, REPORT$+" at line "+STR$ERL
 COLOUR 128+7:CLS:COLOUR0
 :
 width% = 32
-height% = 50
+height% = 25
 active_x% = 0
 active_y% = 0
 period% = 200

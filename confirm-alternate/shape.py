@@ -1,7 +1,7 @@
 # Hourglass shape
 
 width = 26
-height = 50
+height = 25
 activex = 0
 activey = 0
 frameperiod = 200
