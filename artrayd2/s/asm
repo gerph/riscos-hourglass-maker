@@ -1903,7 +1903,7 @@ hourglass_init SIGNATURE
 
 wordblock_0
           DCB     0                           ; define pointer shape
-          DCB     2                           ; shape number (will toggle 2-3)
+          DCB     3                           ; shape number (will toggle 3-4)
           DCB     (width*2+7)/8               ; width in bytes
           DCB     height                      ; height
 wordblock_4
@@ -2030,7 +2030,7 @@ rowend
           SWI     XOS_Word
 
           LDRB    r1, hg_word + 1                 ; get the hourglass pointer number we will use
-          EOR     lr, r1, #1
+          RSB     lr, r1, #7                      ; toggles 3 to 4
           STRB    lr, hg_word + 1                 ; toggles the pointer number we use next time
           MOV     r0, #106                        ; select pointer
           SWI     XOS_Byte

@@ -352,7 +352,7 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes,filename):
 
     lines.append("wordblock_0")
     lines.append("          DCB     0                           ; define pointer shape")
-    lines.append("          DCB     2                           ; shape number (will toggle 2-3)")
+    lines.append("          DCB     3                           ; shape number (will toggle 3-4)")
     lines.append("          DCB     (width*2+7)/8               ; width in bytes")
     lines.append("          DCB     height                      ; height")
     lines.append("wordblock_4")
@@ -503,7 +503,7 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes,filename):
     # It'd be better if we changed the pointer shape when we got the next VSync, but I'm being lazy.
     lines.append("")
     lines.append("          LDRB    r1, hg_word + 1                 ; get the hourglass pointer number we will use")
-    lines.append("          EOR     lr, r1, #1")
+    lines.append("          RSB     lr, r1, #7                      ; toggles 3 to 4")
     lines.append("          STRB    lr, hg_word + 1                 ; toggles the pointer number we use next time")
     lines.append("          MOV     r0, #106                        ; select pointer")
     lines.append("          SWI     XOS_Byte")
