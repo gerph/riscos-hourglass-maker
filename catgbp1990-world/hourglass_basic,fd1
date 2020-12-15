@@ -2,770 +2,770 @@ ON ERROR ERROR EXT ERR, REPORT$+" at line "+STR$ERL
 :
 COLOUR 128+7:CLS:COLOUR0
 :
-width% = 32
-height% = 32
-active_x% = 16
-active_y% = 16
+width% = 64
+height% = 64
+active_x% = 32
+active_y% = 32
 period% = 3
-wordsperrow% = 2
-nwords% = 1510
+wordsperrow% = 4
+nwords% = 3020
 DIM rowdata% 4 * nwords%
 RESTORE +1
-DATA &65000000, &000000a5
-DATA &a9640000, &00001aaa
-DATA &a5554000, &0001aaaa
-DATA &a9555000, &0005aaaa
-DATA &aaa55400, &00196aaa
-DATA &aaa95500, &0069aaaa
-DATA &aaaa5540, &0296aaaa
-DATA &aaaaa960, &0555aaaa
-DATA &aaaaaa50, &0555aaaa
-DATA &aaaaaa98, &1555aaaa
-DATA &aaaaa958, &1555aaaa
-DATA &aaaaa9a8, &1555aaaa
-DATA &aaa966aa, &5556aaaa
-DATA &aa5556aa, &5556aaaa
-DATA &a5555aaa, &569aaaaa
-DATA &a5555aaa, &5aaaaaaa
-DATA &55555aaa, &5aaaaaaa
-DATA &55555aaa, &5aaaaa95
-DATA &55556aaa, &5aaaaaa5
-DATA &55556aa8, &1aaaaaa5
-DATA &5556aaa8, &16aaaaa5
-DATA &5556aaa8, &16aaaaa9
-DATA &9556aaa0, &06aaaaaa
-DATA &9556aaa0, &02aaaaaa
-DATA &a556aa80, &02aaaaaa
-DATA &a956aa00, &00aaaaaa
-DATA &aa5aa800, &002aaaaa
-DATA &aa5aa000, &000aaaaa
-DATA &aa6a8000, &0000aaaa
-DATA &aaa80000, &00002aaa
-DATA &aa000000, &000000aa
-DATA &55000000, &00000056
-DATA &96540000, &00002aaa
-DATA &a5554000, &0002aaaa
-DATA &95555000, &000aaaaa
-DATA &aa555800, &0016aaaa
-DATA &aa955600, &009aaaaa
-DATA &aaa55580, &015aaaaa
-DATA &aaa6a5a0, &055aaaaa
-DATA &aaaaa9a0, &055aaaaa
-DATA &aaaaa9a8, &155aaaaa
-DATA &aaaa95a8, &156aaaaa
-DATA &aaaa5aa8, &156aaaaa
-DATA &a55a6aaa, &556aaaaa
-DATA &9555aaaa, &55aaaaaa
-DATA &5556aaaa, &6aaaaaa9
-DATA &5556aaaa, &aaaaaaa5
-DATA &5556aaaa, &aaaaaa55
-DATA &5556aaaa, &aaaaa555
-DATA &5556aaaa, &aaaa9555
-DATA &555aaaaa, &aaaaa555
-DATA &556aaaa8, &2aaaa955
-DATA &55aaaaa8, &2aaaa955
-DATA &55aaaaa8, &2aaaaa55
-DATA &55aaaaa0, &0aaaaaa5
-DATA &55aaaaa0, &02aaaaa5
-DATA &55aaaa80, &02aaaaa9
-DATA &55aaaa00, &00aaaaaa
-DATA &a5aaa800, &002aaaaa
-DATA &a5aaa000, &000aaaaa
-DATA &a6aa8000, &0000aaaa
-DATA &55000000, &00000055
-DATA &69540000, &00002aa9
-DATA &55558000, &0002aaa5
-DATA &55556000, &000aaaa9
-DATA &95556800, &002aaaaa
-DATA &a5555a00, &006aaaaa
-DATA &a9555680, &01aaaaaa
-DATA &aaa956a0, &05aaaaaa
-DATA &aaaa56a0, &05aaaaaa
-DATA &aaaa5aa8, &15aaaaaa
-DATA &aaa55aa8, &16aaaaaa
-DATA &aa96aaa8, &16aaaa9a
-DATA &5a9aaaaa, &56aaaaa5
-DATA &556aaaaa, &5aaaaa95
-DATA &55aaaaaa, &5aaaa955
-DATA &55aaaaaa, &aaaaa555
-DATA &55aaaaaa, &aaaa5555
-DATA &55aaaaaa, &aaa95555
-DATA &56aaaaaa, &aaa55555
-DATA &56aaaaaa, &aaa95555
-DATA &5aaaaaa8, &2aa95555
-DATA &6aaaaaa8, &2aa95555
-DATA &6aaaaaa8, &2aaa5555
-DATA &6aaaaaa0, &0aaaa555
-DATA &6aaaaaa0, &02aaa955
-DATA &6aaaaa80, &02aaaa55
-DATA &6aaaaa00, &00aaaa95
-DATA &6aaaa800, &002aaaaa
-DATA &6aaaa000, &000aaaaa
-DATA &6aaa8000, &0000aaaa
-DATA &55000000, &00000065
-DATA &a5540000, &00002a95
-DATA &55568000, &0002aa55
-DATA &5555a000, &000aaa55
-DATA &55556800, &002aaaa5
-DATA &55555a00, &00aaaaa9
-DATA &55556a80, &02aaaaaa
-DATA &6a556aa0, &0aaaaaaa
-DATA &aa96aaa0, &0aaaaaaa
-DATA &a696aaa8, &2aaaaaaa
-DATA &a55aaaa8, &2aaaaaaa
-DATA &96aaaaa8, &2aaaaaaa
-DATA &9aaaaaaa, &aaaaaa5a
-DATA &6aaaaaaa, &aaaa9555
-DATA &aaaaaaaa, &aaa95555
-DATA &aaaaaaaa, &aa955555
-DATA &aaaaaaaa, &aa555555
-DATA &aaaaaaaa, &a9555556
-DATA &aaaaaaaa, &aa555556
-DATA &aaaaaaa8, &2a95555a
-DATA &aaaaaaa8, &2a95556a
-DATA &aaaaaaa8, &2aa5556a
-DATA &aaaaaaa0, &0aa9556a
-DATA &aaaaaaa0, &02aa556a
-DATA &aaaaaa80, &02aa955a
-DATA &aaaaaa00, &00aaa55a
-DATA &aaaaa800, &002aaa56
-DATA &aaaaa000, &000aaa96
-DATA &aaaa8000, &0000aaa6
-DATA &55000000, &00000095
-DATA &55580000, &00002a9a
-DATA &555a8000, &0002a555
-DATA &555aa000, &000a9555
-DATA &5556a800, &002aa955
-DATA &5556aa00, &00aaaa55
-DATA &555aaa80, &02aaaa95
-DATA &556aaaa0, &0aaaaaaa
-DATA &95aaaaa0, &0aaaaaaa
-DATA &95aaaaa8, &2aaaaaaa
-DATA &56aaaaa8, &2aaaaaa9
-DATA &aaaaaaa8, &2aaaaa95
-DATA &aaaaaaaa, &aaaa969a
-DATA &aaaaaaaa, &aaa5556a
-DATA &aaaaaaaa, &aa9556aa
-DATA &aaaaaaaa, &aa5555aa
-DATA &aaaaaaaa, &a95555aa
-DATA &aaaaaaaa, &9555556a
-DATA &aaaaaaaa, &a55555aa
-DATA &aaaaaaa8, &255556aa
-DATA &aaaaaaa8, &29555aaa
-DATA &aaaaaaa0, &0a555aaa
-DATA &aaaaaaa0, &02955aaa
-DATA &aaaaaa80, &02a556aa
-DATA &aaaaaa00, &00a956aa
-DATA &aaaaa800, &002a95aa
-DATA &aaaaa000, &000aa5aa
-DATA &aaaa8000, &0000a96a
-DATA &55a80000, &000029a5
-DATA &55aa8000, &00029555
-DATA &55aaa000, &000a9555
-DATA &55aaa800, &002a9555
-DATA &55aaaa00, &00aa9555
-DATA &56aaaa80, &02aaa555
-DATA &56aaaaa0, &0aaaaa95
-DATA &6aaaaaa0, &0aaaaaa5
-DATA &aaaaaaa8, &2aaaa956
-DATA &aaaaaaa8, &2aaa95aa
-DATA &aaaaaaaa, &aaa69aaa
-DATA &aaaaaaaa, &aa556aaa
-DATA &aaaaaaaa, &a955aaaa
-DATA &aaaaaaaa, &a555aaaa
-DATA &aaaaaaaa, &95556aaa
-DATA &aaaaaaaa, &55556aaa
-DATA &aaaaaaaa, &9555aaaa
-DATA &aaaaaaa8, &1555aaaa
-DATA &aaaaaaa8, &2556aaaa
-DATA &aaaaaaa0, &0956aaaa
-DATA &aaaaaaa0, &0255aaaa
-DATA &aaaaaa80, &0295aaaa
-DATA &aaaaaa00, &00a56aaa
-DATA &aaaaa800, &002a6aaa
-DATA &aaaaa000, &000a9aaa
-DATA &aaaa8000, &0000aaaa
-DATA &56a80000, &00001a95
-DATA &5aaa8000, &00015555
-DATA &6aaaa000, &00095555
-DATA &6aaaa800, &00255555
-DATA &6aaaaa00, &00a55555
-DATA &aaaaaa80, &02a95555
-DATA &aaaaaaa0, &0aaaa556
-DATA &aaaaaaa0, &0aaaa966
-DATA &aaaaaaa8, &2aaaa56a
-DATA &aaaaaaa8, &2aaa55aa
-DATA &aaaaaaa8, &2aa96aaa
-DATA &aaaaaaaa, &aa56aaaa
-DATA &aaaaaaaa, &a55aaaaa
-DATA &aaaaaaaa, &955aaaaa
-DATA &aaaaaaaa, &555aaaaa
-DATA &aaaaaaaa, &556aaaaa
-DATA &aaaaaaa8, &156aaaaa
-DATA &aaaaaaa8, &15aaaaaa
-DATA &aaaaaaa0, &056aaaaa
-DATA &aaaaaaa0, &015aaaaa
-DATA &aaaaaa80, &025aaaaa
-DATA &aaaaaa00, &00a6aaaa
-DATA &aaaaa800, &0029aaaa
-DATA &aaaaa000, &000a6aaa
-DATA &56000000, &00000055
-DATA &6aa80000, &00001a55
-DATA &aaaa8000, &00015555
-DATA &aaaaa000, &00055556
-DATA &aaaaa800, &00155556
-DATA &aaaaaa00, &0095555a
-DATA &aaaaaa80, &0295556a
-DATA &aaaaaaa0, &0aaa55aa
-DATA &aaaaaaa0, &0aaa5aaa
-DATA &aaaaaaa8, &2aaa5aaa
-DATA &aaaaaaa8, &2a956aaa
-DATA &aaaaaaa8, &2a5aaaaa
-DATA &aaaaaaaa, &aa6aaaaa
-DATA &aaaaaaaa, &95aaaaaa
-DATA &aaaaaaaa, &56aaaaaa
-DATA &aaaaaaaa, &55aaaaaa
-DATA &aaaaaaaa, &96aaaaaa
-DATA &aaaaaaa8, &16aaaaaa
-DATA &aaaaaaa8, &1aaaaaaa
-DATA &aaaaaaa0, &06aaaaaa
-DATA &aaaaaaa0, &01aaaaaa
-DATA &aaaaaa80, &016aaaaa
-DATA &aaaaaa00, &009aaaaa
-DATA &aaaaa800, &0026aaaa
-DATA &aaaaa000, &000aaaaa
-DATA &59000000, &00000055
-DATA &a6a40000, &00002555
-DATA &aaaa8000, &0001555a
-DATA &aaaaa000, &0005556a
-DATA &aaaaa800, &001555aa
-DATA &aaaaaa00, &005556aa
-DATA &aaaaaa80, &02555aaa
-DATA &aaaaaaa0, &09556aaa
-DATA &aaaaaaa0, &0a95aaaa
-DATA &aaaaaaa8, &2a96aaaa
-DATA &aaaaaaa8, &295aaaaa
-DATA &aaaaaaa8, &25aaaaaa
-DATA &aaaaaaaa, &a6aaaaaa
-DATA &aaaaaaaa, &5aaaaaaa
-DATA &aaaaaaaa, &6aaaaaaa
-DATA &aaaaaaa9, &6aaaaaaa
-DATA &aaaaaaa5, &6aaaaaaa
-DATA &aaaaaaa8, &2aaaaaaa
-DATA &aaaaaaa4, &1aaaaaaa
-DATA &aaaaaaa0, &0aaaaaaa
-DATA &aaaaaa90, &02aaaaaa
-DATA &aaaaaa80, &01aaaaaa
-DATA &aaaa9a00, &00aaaaaa
-DATA &aaaaa800, &002aaaaa
-DATA &55000000, &000000a9
-DATA &9a980000, &0000155a
-DATA &aaa98000, &000155aa
-DATA &aaaaa000, &000556aa
-DATA &aaaaa800, &00155aaa
-DATA &aaaaaa00, &00556aaa
-DATA &aaaaaa80, &0155aaaa
-DATA &aaaaaaa0, &0a56aaaa
-DATA &aaaaaaa0, &095aaaaa
-DATA &aaaaaaa8, &29aaaaaa
-DATA &aaaaaaaa, &aaaaaaaa
-DATA &aaaaaaa5, &aaaaaaaa
-DATA &aaaaaa66, &aaaaaaaa
-DATA &aaaaaaa9, &aaaaaaaa
-DATA &aaaaaaa4, &2aaaaaaa
-DATA &aaaaa6a4, &2aaaaaaa
-DATA &aaaaaa94, &2aaaaaaa
-DATA &aaaaaa50, &0aaaaaaa
-DATA &aaaaaa60, &02aaaaaa
-DATA &aaaaa940, &02aaaaaa
-DATA &aaa9aa00, &00aaaaaa
-DATA &aaa9a800, &002aaaaa
-DATA &95000000, &00000055
-DATA &aa540000, &000015a6
-DATA &aaaa4000, &00015aaa
-DATA &aaaa9000, &00056aaa
-DATA &aaaaa400, &0015aaaa
-DATA &aaaaaa00, &0056aaaa
-DATA &aaaaaa40, &015aaaaa
-DATA &aaaaaa90, &09aaaaaa
-DATA &aaaaaaa8, &26aaaaaa
-DATA &aaaaaa9a, &aaaaaaaa
-DATA &aaaaaa5a, &aaaaaaaa
-DATA &aaaaaa96, &aaaaaaaa
-DATA &aaaaaa54, &2aaaaaaa
-DATA &aaaaa954, &2aaaaaaa
-DATA &aaaaa550, &0aaaaaaa
-DATA &aaaaa550, &02aaaaaa
-DATA &aaaaa580, &02aaaaaa
-DATA &aaaaa600, &00aaaaaa
-DATA &aa9aa000, &000aaaaa
-DATA &55000000, &0000005a
-DATA &a9540000, &0000166a
-DATA &aa694000, &00016aaa
-DATA &aaa95000, &0006aaaa
-DATA &aaaaa400, &001aaaaa
-DATA &aaaaaa00, &006aaaaa
-DATA &aaaaa940, &01aaaaaa
-DATA &aaaaaa90, &06aaaaaa
-DATA &aaaaa996, &aaaaaaaa
-DATA &aaaaa5a6, &aaaaaaaa
-DATA &aaaa6a6a, &aaaaaaaa
-DATA &aaaaa658, &2aaaaaaa
-DATA &aaaaa558, &2aaaaaaa
-DATA &aaaa9558, &2aaaaaaa
-DATA &aaaa5550, &0aaaaaaa
-DATA &aaaa5560, &02aaaaaa
-DATA &aaaa5a80, &02aaaaaa
-DATA &aaaa6a00, &00aaaaaa
-DATA &a6aaa800, &002aaaaa
-DATA &95000000, &000000aa
-DATA &99940000, &00002aaa
-DATA &a6954000, &0002aaaa
-DATA &aaa55000, &000aaaaa
-DATA &aaaa5400, &002aaaaa
-DATA &aaaaa500, &00aaaaaa
-DATA &aaaa6940, &02aaaaaa
-DATA &aaaaa950, &0aaaaaaa
-DATA &aaaaaa64, &2aaaaaaa
-DATA &aaaaaaa6, &aaaaaaaa
-DATA &aa9a5aaa, &aaaaaaaa
-DATA &aaa96aaa, &aaaaaaaa
-DATA &aaaa66aa, &aaaaaaaa
-DATA &aaaaa5a8, &2aaaaaaa
-DATA &aaa955a8, &2aaaaaaa
-DATA &aaa55568, &2aaaaaaa
-DATA &aa955560, &0aaaaaaa
-DATA &aa9555a0, &02aaaaaa
-DATA &aa95a580, &02aaaaaa
-DATA &aa56aa00, &00aaaaaa
-DATA &55000000, &000000a5
-DATA &69540000, &00002aaa
-DATA &69554000, &0002aaaa
-DATA &aa555000, &000aaaaa
-DATA &aaa55400, &002aaaaa
-DATA &aa665500, &00aaaaaa
-DATA &aaa69540, &02aaaaaa
-DATA &aaaa9550, &0aaaaaaa
-DATA &aaaa9aa6, &aaaaaaaa
-DATA &aaaaa9aa, &aaaaaaaa
-DATA &aaaaa566, &aaaaaaaa
-DATA &aaa5aa5a, &aaaaaaaa
-DATA &aa56aaaa, &aaaaaaaa
-DATA &a99aa5aa, &aaaaaaaa
-DATA &aaa9aaaa, &aaaaaaaa
-DATA &aa695aa8, &2aaaaa9a
-DATA &aa555aa8, &2aaaaaaa
-DATA &a95555a8, &2aaaaaaa
-DATA &a55556a0, &0aaaaaaa
-DATA &a55556a0, &02aaaaaa
-DATA &a55a9a80, &02aaaaaa
-DATA &a96aaa00, &00aaaaaa
-DATA &55000000, &000000aa
-DATA &95540000, &00002aaa
-DATA &95554000, &0002aaaa
-DATA &a5555000, &000aaaaa
-DATA &aa555400, &002aaaaa
-DATA &a6655500, &00aaaaaa
-DATA &aaa55540, &02aaaaaa
-DATA &aaa95550, &0aaaaaaa
-DATA &aaaa9554, &2aaaaaaa
-DATA &aaa9a964, &2aaaaaaa
-DATA &aaa9a968, &2aaaaaaa
-DATA &aaa6aaaa, &aaaaaaaa
-DATA &aaaaaa6a, &aaaaaaaa
-DATA &aaaa966a, &aaaaaaaa
-DATA &aa6a956a, &aaaaaaaa
-DATA &56aaaaaa, &aaaaaaa6
-DATA &5aa9aaaa, &aaaaaaaa
-DATA &9a6aaaaa, &aaaaaaaa
-DATA &9a5aaaa8, &2aaaaaaa
-DATA &5556aaa8, &2aaaa9aa
-DATA &55556aa8, &2aaaaaa9
-DATA &55556aa0, &0aaaaaa9
-DATA &5555aaa0, &02aaaaa5
-DATA &56a5aa80, &02aaaaa9
-DATA &5aaaaa00, &00aaaaa9
-DATA &55540000, &000029a9
-DATA &55554000, &0002a9a9
-DATA &55555000, &000aaaaa
-DATA &96555400, &002aaaaa
-DATA &aa555500, &00aaaaa9
-DATA &aa555540, &02aaaaaa
-DATA &aa555550, &0aaaaaaa
-DATA &aa955550, &0aaaaaaa
-DATA &aaa95554, &2aaaaaaa
-DATA &aaaa5698, &2aaaaaaa
-DATA &a9a95a98, &2aaaaaaa
-DATA &a9aa6aaa, &aaaaaaaa
-DATA &a5aaaaaa, &aaaaaaaa
-DATA &aa9a9aaa, &aaaaaaaa
-DATA &aa95a6aa, &aaaaaaaa
-DATA &6a565aaa, &aaaaaaaa
-DATA &aa6aaaaa, &aaaaaa96
-DATA &aaa6aaaa, &aaaa6a5a
-DATA &6aaaaaaa, &aaaaaaaa
-DATA &56aaaaa8, &2aaaaa9a
-DATA &55aaaaa8, &2aaaaa95
-DATA &555aaaa8, &2aaaaa55
-DATA &555aaaa0, &0aaaa955
-DATA &555aaaa0, &02aaa955
-DATA &696aaa80, &02aaaa55
-DATA &aaaaaa00, &00aaaa96
-DATA &55580000, &00001595
-DATA &55554000, &00029a95
-DATA &55555000, &000aaa95
-DATA &55555400, &002aaaa9
-DATA &95555500, &00aaaa65
-DATA &55555540, &02aaaaa6
-DATA &55555550, &0aaaaaaa
-DATA &aa95a594, &2aaaaaaa
-DATA &6a95a9a4, &2aaaaaaa
-DATA &6a55a9a8, &2aaaaaaa
-DATA &aa99aaaa, &aaaaaaa9
-DATA &aaaaaaaa, &aaaaaaa9
-DATA &a6a6aaaa, &aaaaaaaa
-DATA &556aaaaa, &aaaaaaa6
-DATA &a596aaaa, &aaaaa9aa
-DATA &aaaaaaaa, &aaa995aa
-DATA &5aaaaaaa, &aaaa65aa
-DATA &aaaaaaa8, &2aaaa695
-DATA &6aaaaaa8, &2aaa9555
-DATA &56aaaaa8, &2aaa9555
-DATA &56aaaaa0, &0aaa5555
-DATA &56aaaaa0, &02aa5555
-DATA &5aaaaa80, &02aa555a
-DATA &aaaaaa00, &00aa95aa
-DATA &55680000, &00002a55
-DATA &55568000, &0002a955
-DATA &55556000, &000aa955
-DATA &55555400, &002a9a55
-DATA &55555500, &00aa9aa5
-DATA &55555540, &02aaaa95
-DATA &55555550, &0aaaaa95
-DATA &55555550, &0aaaaaa5
-DATA &95596558, &2aaaaaaa
-DATA &a56a6a94, &2aaaaa6a
-DATA &95aa9aa4, &2aaaaa6a
-DATA &9aaa5aa5, &aaaaaa6a
-DATA &a9aaaaa9, &aaaaa9aa
-DATA &a6aaaaa9, &aaaaaa96
-DATA &a9aaaaa9, &aaaaaaa5
-DATA &96aaaaaa, &aaa95a65
-DATA &9aaaaaaa, &a695aaaa
-DATA &aaaaaaaa, &aa9aaaa9
-DATA &aaaaaaaa, &aaaa9aaa
-DATA &aaaaaaa8, &2aa995aa
-DATA &aaaaaaa8, &2aa9556a
-DATA &aaaaaaa8, &2aa55556
-DATA &aaaaaaa0, &0a955555
-DATA &aaaaaaa0, &02a55555
-DATA &aaaaaa80, &02a95695
-DATA &aaaaaa00, &00aa9aaa
-DATA &5a000000, &00000055
-DATA &55540000, &00002555
-DATA &55554000, &00029555
-DATA &55555000, &000a9555
-DATA &55555400, &002a9555
-DATA &55555500, &00a99555
-DATA &55555580, &02aaa555
-DATA &55555550, &0aaaa555
-DATA &55555550, &0aaaa955
-DATA &5955a554, &2aaaaa95
-DATA &6a56a954, &2aaa9aa5
-DATA &6aa6aa54, &2aaa9a95
-DATA &aaa6aa55, &aaaa6a96
-DATA &aa9aaa95, &aaaa6aaa
-DATA &aaaaaa95, &aaaaa5a9
-DATA &aaaaaaa5, &aaa99569
-DATA &aaaaaaa5, &aaaa5965
-DATA &aaaaaaa9, &a56a9aa6
-DATA &aaaaaaa5, &a96a95aa
-DATA &aaaaaaa5, &aa66aaaa
-DATA &aaaaaa64, &2a656aaa
-DATA &aaaaaa64, &2a556aaa
-DATA &aaaaaa64, &2a5555aa
-DATA &aaaaaaa0, &0a5555aa
-DATA &aaaaaa90, &029555aa
-DATA &aaaaaa80, &02a5a6aa
-DATA &66000000, &00000055
-DATA &55540000, &00001555
-DATA &55558000, &00025555
-DATA &55555000, &00095555
-DATA &55555400, &00295555
-DATA &55555600, &009a5555
-DATA &55555680, &029a5555
-DATA &55555550, &0aa95555
-DATA &555a5550, &0aaa5555
-DATA &55aa5554, &2aaa9556
-DATA &95aa9554, &2aa6a55a
-DATA &a5aaa554, &2aa6a56a
-DATA &a5aaa555, &aa9aa66a
-DATA &aaaaa555, &aa9aaaaa
-DATA &aaaaa955, &aaa9a9aa
-DATA &aaaaaa55, &aa6969aa
-DATA &aaaaaa55, &a9a569aa
-DATA &aaaaaa95, &a6a6a6aa
-DATA &aaaaaa95, &9a956aaa
-DATA &aaaaaa56, &a9aaaaaa
-DATA &aaaaa654, &265aaaaa
-DATA &aaaaa694, &255aaaaa
-DATA &aaaaa658, &25556aaa
-DATA &aaaaaa50, &05556aaa
-DATA &aaaaaa60, &01556aaa
-DATA &aaaaaa80, &02696aaa
-DATA &aaaaaa00, &00aaaaaa
-DATA &6a000000, &00000056
-DATA &55558000, &00015555
-DATA &55555000, &00055555
-DATA &55569400, &00155555
-DATA &55555500, &00955555
-DATA &55556a40, &01a55555
-DATA &55555550, &0a955555
-DATA &56955550, &0a955555
-DATA &6a955554, &2aa95695
-DATA &6aa55554, &2aaa56a5
-DATA &aaa95554, &2aa95aa5
-DATA &aaa95555, &aaa9aaa9
-DATA &aaa95555, &aaaaaaa6
-DATA &aaaa5555, &aa6a5aaa
-DATA &aaaa9556, &aa5a6aaa
-DATA &aaaaa556, &9a5aaaaa
-DATA &aaaaa556, &6aa9aaaa
-DATA &aaaaa556, &6aa6aaaa
-DATA &aaaaa556, &aaaaaaaa
-DATA &aaa9a554, &25aaaaaa
-DATA &aaa96558, &15aaaaaa
-DATA &aaa96558, &155aaaaa
-DATA &aaa9a960, &0556aaaa
-DATA &aaaaa9a0, &0156aaaa
-DATA &aaaaa980, &01a6aaaa
-DATA &a5000000, &000000aa
-DATA &55554000, &00015555
-DATA &55655000, &00055555
-DATA &55596400, &00155555
-DATA &5555aa00, &00955555
-DATA &5556a940, &02555555
-DATA &56555550, &09555555
-DATA &a9555550, &09555556
-DATA &95555554, &2955555a
-DATA &a5555554, &2a95656a
-DATA &aa555554, &2a59a96a
-DATA &aa555555, &aa6aa9aa
-DATA &aa555555, &aaaaa6aa
-DATA &aa95556a, &a696aaaa
-DATA &aaa5556a, &a6aaaaaa
-DATA &aaa9556a, &aa6aaaaa
-DATA &aaaa556a, &aa6aaaaa
-DATA &aaaa556a, &aaaaaaaa
-DATA &aaa9556a, &6aaaaaaa
-DATA &aa695568, &1aaaaaaa
-DATA &aa5a55a8, &1aaaaaaa
-DATA &aa6a55a8, &15aaaaaa
-DATA &aa6956a0, &05aaaaaa
-DATA &aaa95aa0, &01aaaaaa
-DATA &aaa96a80, &02aaaaaa
-DATA &55940000, &00001555
-DATA &9a555000, &00055555
-DATA &555aa400, &00155555
-DATA &556a6900, &00555556
-DATA &55a65540, &01555555
-DATA &55555560, &05555555
-DATA &55555550, &05555596
-DATA &56555554, &255956a5
-DATA &55555554, &25695aa5
-DATA &59555554, &29a96aaa
-DATA &65555555, &a5a96aaa
-DATA &55555556, &a6a5aaaa
-DATA &95555696, &a6aaaaaa
-DATA &a55556aa, &9aaaaaaa
-DATA &a95556aa, &9aaaaaaa
-DATA &aa5556aa, &aaaaaaaa
-DATA &a95556aa, &aaaaaaaa
-DATA &695556a8, &2aaaaaaa
-DATA &5a555aa8, &2aaaaaaa
-DATA &aa95aaa0, &02aaaaaa
-DATA &aa96aa80, &02aaaaaa
-DATA &56000000, &000000a5
-DATA &59a80000, &00001555
-DATA &555a8000, &00025555
-DATA &a555a000, &00055559
-DATA &556a6800, &00155565
-DATA &5a969a00, &00555555
-DATA &69655680, &01555555
-DATA &555556a0, &09555555
-DATA &555555a0, &05556995
-DATA &95555568, &1555a555
-DATA &55555568, &2656a956
-DATA &55555558, &1a9aaa95
-DATA &5555555a, &aa6aaa55
-DATA &5555556a, &9aaaaa95
-DATA &5555596a, &9aaaaa95
-DATA &55556aaa, &9aaaaaa5
-DATA &55556aaa, &aaaaaaa9
-DATA &5555aaaa, &aaaaaaaa
-DATA &6556aaaa, &aaaaaaaa
-DATA &5555aaa8, &2aaaaa9a
-DATA &9555aaa8, &2aaaaa96
-DATA &9556aaa8, &2aaaaa96
-DATA &9556aaa0, &0aaaaaaa
-DATA &a55aaaa0, &02aaaaaa
-DATA &a96aaa80, &02aaaaaa
-DATA &6a000000, &00000099
-DATA &9aa80000, &00001555
-DATA &55aa8000, &00015555
-DATA &555aa000, &00055655
-DATA &96a6a800, &00155555
-DATA &aa59aa00, &00555556
-DATA &59556a80, &0155555a
-DATA &55556aa0, &05555555
-DATA &55555aa0, &055a5565
-DATA &555556a8, &15695555
-DATA &555556a8, &19aa5595
-DATA &555555a8, &29aa9655
-DATA &555555aa, &aaaa9955
-DATA &555556aa, &66aa9555
-DATA &55566aaa, &6aaaa555
-DATA &556aaaaa, &aaaaa955
-DATA &556aaaa9, &aaaaaa55
-DATA &55aaaaa9, &aaaaaa55
-DATA &55aaaaa8, &2aaa9a55
-DATA &55aaaaa8, &2aaaa695
-DATA &55aaaaa4, &2aaaa6a5
-DATA &56aaaaa0, &02aaaaa9
-DATA &5aaaaa80, &02aaaaaa
-DATA &aa000000, &00000055
-DATA &5aa80000, &00001556
-DATA &556a8000, &00015555
-DATA &55aaa000, &00056595
-DATA &996aa800, &00159556
-DATA &59aaaa00, &005556aa
-DATA &555aaa80, &01555596
-DATA &5556aaa0, &05565555
-DATA &5555aaa0, &05595955
-DATA &55556aa8, &16956555
-DATA &55556aa8, &16955555
-DATA &55556aa8, &1aa99555
-DATA &55556aaa, &9aa65555
-DATA &55556aaa, &aaa55555
-DATA &56aaaaa9, &aaa95555
-DATA &5aaaaaa9, &aaa95555
-DATA &5aaaaaa9, &aaaa5955
-DATA &6aaaaa95, &aaaa9555
-DATA &aaaaaa95, &aaaa5555
-DATA &6aaaaa94, &2aa65555
-DATA &6aaaaa94, &2aa9a555
-DATA &aaaaaaa4, &2aa9a555
-DATA &aaaaaa90, &0aaaa955
-DATA &aaaaaa90, &02aaaa55
-DATA &aaaaaa80, &02aaaa95
-DATA &aa000000, &0000005a
-DATA &aa000000, &00000056
-DATA &aaa80000, &000015a5
-DATA &6aaa8000, &00015555
-DATA &6aaaa000, &00055955
-DATA &96aaa800, &0015955a
-DATA &6aaaaa00, &005556a5
-DATA &56aaaa80, &01555995
-DATA &55aaaaa0, &05555555
-DATA &556aaaa0, &05565555
-DATA &555aaaa4, &29555555
-DATA &555aaaa8, &29555555
-DATA &555aaaa8, &2a655555
-DATA &556aaaa9, &a9955555
-DATA &556aaaa9, &a9555555
-DATA &aaaaaaa5, &aa555556
-DATA &aaaaaaa5, &aa55555a
-DATA &aaaaaa95, &aa95555a
-DATA &aaaaa955, &aaa5556a
-DATA &aaaaa954, &2aa5556a
-DATA &aaaaa954, &2a65556a
-DATA &aaaaa954, &2a99556a
-DATA &aaaaaa50, &0aaa556a
-DATA &aaaaaa50, &02aa95aa
-DATA &aaaaaa40, &02aaa5aa
-DATA &aaaaa900, &00aaaaaa
-DATA &aaaa4000, &0000aaaa
-DATA &a9000000, &000000aa
-DATA &aa980000, &00001556
-DATA &aaa94000, &0001555a
-DATA &aaaa5000, &00055556
-DATA &aaaaa800, &001655a5
-DATA &aaaaaa00, &00556559
-DATA &aaaaaa80, &02595555
-DATA &6aaaaaa0, &09555555
-DATA &5aaaaaa0, &09555555
-DATA &5aaaaaa4, &25955555
-DATA &5aaaaaa8, &25555555
-DATA &56aaaaa8, &25555555
-DATA &5aaaaa96, &a9555555
-DATA &6aaaaa95, &a5555555
-DATA &aaaaaa56, &a55555a9
-DATA &aaaaaa55, &a5555aaa
-DATA &aaaaa555, &a9955aaa
-DATA &aaaa5555, &a9555aaa
-DATA &aaaa5556, &a9556aaa
-DATA &aaaa5554, &2a555aaa
-DATA &aaaa5558, &2a555aaa
-DATA &aaaa9558, &2a955aaa
-DATA &aaaa9550, &0aa95aaa
-DATA &aaaa9560, &02a96aaa
-DATA &aaaaa540, &02aa6aaa
-DATA &aaaaa400, &002aaaaa
-DATA &aaaa9000, &000aaaaa
-DATA &a5000000, &0000006a
-DATA &aaa40000, &000016aa
-DATA &aaa94000, &000156aa
-DATA &aaaa5000, &000555aa
-DATA &aaaaa400, &0019696a
-DATA &aaaaa900, &005555aa
-DATA &aaaaaa40, &0199556a
-DATA &aaaaaa90, &0555555a
-DATA &aaaaaaa0, &0655555a
-DATA &aaaaaa98, &15555556
-DATA &aaaaaaa4, &15555556
-DATA &aaaaa966, &95555556
-DATA &aaaaa95a, &9555555a
-DATA &aaaa955a, &9555a56a
-DATA &aaaa955a, &9556aaaa
-DATA &aaa95556, &9556aaaa
-DATA &aa955556, &955aaaaa
-DATA &aa55555a, &a55aaaaa
-DATA &aa95555a, &a55aaaaa
-DATA &aa955558, &2956aaaa
-DATA &aa955568, &2956aaaa
-DATA &aaa955a0, &0a96aaaa
-DATA &aaa955a0, &02a6aaaa
-DATA &aaaa5580, &02a6aaaa
-DATA &aaaa9600, &00aaaaaa
-DATA &aaaa9400, &002aaaaa
-DATA &aaaa6000, &000aaaaa
-DATA &59000000, &0000006a
-DATA &aa580000, &000016aa
-DATA &aa564000, &000155aa
-DATA &aaa55000, &00055aaa
-DATA &aaaa5400, &002696aa
-DATA &aaaa9500, &00699aaa
-DATA &aaaaa540, &01a55aaa
-DATA &aaaaa990, &05555aaa
-DATA &aaaaaaa0, &055556aa
-DATA &aaaaa964, &155556aa
-DATA &aaaaa998, &155556aa
-DATA &aaaaaa94, &155556aa
-DATA &aaaaa69a, &555556aa
-DATA &aaaa55aa, &55555aaa
-DATA &aaa555aa, &556aaaaa
-DATA &aa95556a, &55aaaaaa
-DATA &aa55556a, &55aaaaaa
-DATA &9555556a, &56aaaaaa
-DATA &955555aa, &56aaaaaa
-DATA &a55556a8, &15aaaaaa
-DATA &a5555aa8, &25aaaaaa
-DATA &aa556aa0, &096aaaaa
-DATA &aa556aa0, &026aaaaa
-DATA &aa556a80, &02aaaaaa
-DATA &aa956a00, &00aaaaaa
-DATA &aaa5a800, &002aaaaa
-DATA &aaa5a000, &000aaaaa
+DATA &00000000, &5a550000, &0000aa55, &00000000
+DATA &00000000, &aaa55a50, &05aaaaaa, &00000000
+DATA &50000000, &aa555555, &aaaaaaaa, &00000005
+DATA &55000000, &aaa55555, &aaaaaaaa, &00000055
+DATA &55500000, &aaaaaa55, &5aaaaaaa, &000005a5
+DATA &55550000, &aaaaaaa5, &aaaaaaaa, &00005aa5
+DATA &55555000, &aaaaaaaa, &aaaaaaaa, &000aa55a
+DATA &aaa55a00, &aaaaaaaa, &aaaaaaaa, &00555555
+DATA &aaaa5500, &aaaaaaaa, &aaaaaaaa, &00555555
+DATA &aaaaa5a0, &aaaaaaaa, &aaaaaaaa, &05555555
+DATA &aaa555a0, &aaaaaaaa, &aaaaaaaa, &05555555
+DATA &aaa5aaa0, &aaaaaaaa, &aaaaaaaa, &05555555
+DATA &5a5aaaaa, &aaaaaaa5, &aaaaaaaa, &5555555a
+DATA &555aaaaa, &aaaa5555, &aaaaaaaa, &5555555a
+DATA &55aaaaaa, &aa555555, &aaaaaaaa, &555aa5aa
+DATA &55aaaaaa, &aa555555, &aaaaaaaa, &55aaaaaa
+DATA &55aaaaaa, &55555555, &aaaaaaaa, &55aaaaaa
+DATA &55aaaaaa, &55555555, &aaaaa555, &55aaaaaa
+DATA &5aaaaaaa, &55555555, &aaaaaa55, &55aaaaaa
+DATA &5aaaaaa0, &55555555, &aaaaaa55, &05aaaaaa
+DATA &aaaaaaa0, &5555555a, &aaaaaa55, &055aaaaa
+DATA &aaaaaaa0, &5555555a, &aaaaaaa5, &055aaaaa
+DATA &aaaaaa00, &a555555a, &aaaaaaaa, &005aaaaa
+DATA &aaaaaa00, &a555555a, &aaaaaaaa, &000aaaaa
+DATA &aaaaa000, &aa55555a, &aaaaaaaa, &000aaaaa
+DATA &aaaa0000, &aaa5555a, &aaaaaaaa, &0000aaaa
+DATA &aaa00000, &aaaa55aa, &aaaaaaaa, &00000aaa
+DATA &aa000000, &aaaa55aa, &aaaaaaaa, &000000aa
+DATA &a0000000, &aaaa5aaa, &aaaaaaaa, &00000000
+DATA &00000000, &aaaaaaa0, &0aaaaaaa, &00000000
+DATA &00000000, &aaaa0000, &0000aaaa, &00000000
+DATA &00000000, &55550000, &0000555a, &00000000
+DATA &00000000, &a55a5550, &0aaaaaaa, &00000000
+DATA &50000000, &aa555555, &aaaaaaaa, &0000000a
+DATA &55000000, &a5555555, &aaaaaaaa, &000000aa
+DATA &55a00000, &aaaa5555, &aaaaaaaa, &0000055a
+DATA &555a0000, &aaaaa555, &aaaaaaaa, &0000a5aa
+DATA &5555a000, &aaaaaa55, &aaaaaaaa, &000555aa
+DATA &aa55aa00, &aaaaaa5a, &aaaaaaaa, &005555aa
+DATA &aaa5aa00, &aaaaaaaa, &aaaaaaaa, &005555aa
+DATA &aaa5aaa0, &aaaaaaaa, &aaaaaaaa, &055555aa
+DATA &a555aaa0, &aaaaaaaa, &aaaaaaaa, &05555aaa
+DATA &55aaaaa0, &aaaaaaaa, &aaaaaaaa, &05555aaa
+DATA &5aaaaaaa, &aa5555aa, &aaaaaaaa, &55555aaa
+DATA &aaaaaaaa, &a5555555, &aaaaaaaa, &5555aaaa
+DATA &aaaaaaaa, &5555555a, &aaaaaaa5, &5aaaaaaa
+DATA &aaaaaaaa, &5555555a, &aaaaaa55, &aaaaaaaa
+DATA &aaaaaaaa, &5555555a, &aaaa5555, &aaaaaaaa
+DATA &aaaaaaaa, &5555555a, &aa555555, &aaaaaaaa
+DATA &aaaaaaaa, &5555555a, &a5555555, &aaaaaaaa
+DATA &aaaaaaaa, &555555aa, &aa555555, &aaaaaaaa
+DATA &aaaaaaa0, &55555aaa, &aaa55555, &0aaaaaaa
+DATA &aaaaaaa0, &5555aaaa, &aaa55555, &0aaaaaaa
+DATA &aaaaaaa0, &5555aaaa, &aaaa5555, &0aaaaaaa
+DATA &aaaaaa00, &5555aaaa, &aaaaaa55, &00aaaaaa
+DATA &aaaaaa00, &5555aaaa, &aaaaaa55, &000aaaaa
+DATA &aaaaa000, &5555aaaa, &aaaaaaa5, &000aaaaa
+DATA &aaaa0000, &5555aaaa, &aaaaaaaa, &0000aaaa
+DATA &aaa00000, &aa55aaaa, &aaaaaaaa, &00000aaa
+DATA &aa000000, &aa55aaaa, &aaaaaaaa, &000000aa
+DATA &a0000000, &aa5aaaaa, &aaaaaaaa, &00000000
+DATA &00000000, &55550000, &00005555, &00000000
+DATA &00000000, &5aa55550, &0aaaaaa5, &00000000
+DATA &a0000000, &55555555, &aaaaaa55, &0000000a
+DATA &5a000000, &55555555, &aaaaaaa5, &000000aa
+DATA &5aa00000, &a5555555, &aaaaaaaa, &00000aaa
+DATA &55aa0000, &aa555555, &aaaaaaaa, &00005aaa
+DATA &555aa000, &aaa55555, &aaaaaaaa, &0005aaaa
+DATA &555aaa00, &aaaaaaa5, &aaaaaaaa, &0055aaaa
+DATA &555aaa00, &aaaaaaaa, &aaaaaaaa, &0055aaaa
+DATA &55aaaaa0, &aaaaaaaa, &aaaaaaaa, &0555aaaa
+DATA &55aaaaa0, &aaaaaa55, &aaaaaaaa, &055aaaaa
+DATA &aaaaaaa0, &aaaaa55a, &aaaaa5aa, &055aaaaa
+DATA &aaaaaaaa, &55aaa5aa, &aaaaaa55, &555aaaaa
+DATA &aaaaaaaa, &55555aaa, &aaaaa555, &55aaaaaa
+DATA &aaaaaaaa, &5555aaaa, &aaa55555, &55aaaaaa
+DATA &aaaaaaaa, &5555aaaa, &aa555555, &aaaaaaaa
+DATA &aaaaaaaa, &5555aaaa, &55555555, &aaaaaaaa
+DATA &aaaaaaaa, &5555aaaa, &55555555, &aaaaaaa5
+DATA &aaaaaaaa, &555aaaaa, &55555555, &aaaaaa55
+DATA &aaaaaaaa, &555aaaaa, &55555555, &aaaaaaa5
+DATA &aaaaaaa0, &55aaaaaa, &55555555, &0aaaaaa5
+DATA &aaaaaaa0, &5aaaaaaa, &55555555, &0aaaaaa5
+DATA &aaaaaaa0, &5aaaaaaa, &55555555, &0aaaaaaa
+DATA &aaaaaa00, &5aaaaaaa, &aa555555, &00aaaaaa
+DATA &aaaaaa00, &5aaaaaaa, &aaa55555, &000aaaaa
+DATA &aaaaa000, &5aaaaaaa, &aaaa5555, &000aaaaa
+DATA &aaaa0000, &5aaaaaaa, &aaaaa555, &0000aaaa
+DATA &aaa00000, &5aaaaaaa, &aaaaaaaa, &00000aaa
+DATA &aa000000, &5aaaaaaa, &aaaaaaaa, &000000aa
+DATA &a0000000, &5aaaaaaa, &aaaaaaaa, &00000000
+DATA &00000000, &55550000, &00005a55, &00000000
+DATA &00000000, &aa555550, &0aaaa555, &00000000
+DATA &a0000000, &5555555a, &aaaa5555, &0000000a
+DATA &aa000000, &55555555, &aaaa5555, &000000aa
+DATA &5aa00000, &55555555, &aaaaaa55, &00000aaa
+DATA &55aa0000, &55555555, &aaaaaaa5, &0000aaaa
+DATA &5aaaa000, &55555555, &aaaaaaaa, &000aaaaa
+DATA &5aaaaa00, &5aaa5555, &aaaaaaaa, &00aaaaaa
+DATA &aaaaaa00, &aaaaa55a, &aaaaaaaa, &00aaaaaa
+DATA &aaaaaaa0, &aa5aa55a, &aaaaaaaa, &0aaaaaaa
+DATA &aaaaaaa0, &aa5555aa, &aaaaaaaa, &0aaaaaaa
+DATA &aaaaaaa0, &a55aaaaa, &aaaaaaaa, &0aaaaaaa
+DATA &aaaaaaaa, &a5aaaaaa, &aaaa55aa, &aaaaaaaa
+DATA &aaaaaaaa, &5aaaaaaa, &a5555555, &aaaaaaaa
+DATA &aaaaaaaa, &aaaaaaaa, &55555555, &aaaaaaa5
+DATA &aaaaaaaa, &aaaaaaaa, &55555555, &aaaaa555
+DATA &aaaaaaaa, &aaaaaaaa, &55555555, &aaaa5555
+DATA &aaaaaaaa, &aaaaaaaa, &5555555a, &aaa55555
+DATA &aaaaaaaa, &aaaaaaaa, &5555555a, &aaaa5555
+DATA &aaaaaaa0, &aaaaaaaa, &555555aa, &0aaaa555
+DATA &aaaaaaa0, &aaaaaaaa, &55555aaa, &0aaaa555
+DATA &aaaaaaa0, &aaaaaaaa, &55555aaa, &0aaaaa55
+DATA &aaaaaa00, &aaaaaaaa, &55555aaa, &00aaaaa5
+DATA &aaaaaa00, &aaaaaaaa, &55555aaa, &000aaaaa
+DATA &aaaaa000, &aaaaaaaa, &a55555aa, &000aaaaa
+DATA &aaaa0000, &aaaaaaaa, &aa5555aa, &0000aaaa
+DATA &aaa00000, &aaaaaaaa, &aaaa555a, &00000aaa
+DATA &aa000000, &aaaaaaaa, &aaaaa55a, &000000aa
+DATA &a0000000, &aaaaaaaa, &aaaaaa5a, &00000000
+DATA &00000000, &55550000, &0000a555, &00000000
+DATA &00000000, &555555a0, &0aaaa5aa, &00000000
+DATA &a0000000, &555555aa, &aa555555, &0000000a
+DATA &aa000000, &555555aa, &a5555555, &000000aa
+DATA &aaa00000, &5555555a, &aaa55555, &00000aaa
+DATA &aaaa0000, &5555555a, &aaaa5555, &0000aaaa
+DATA &aaaaa000, &555555aa, &aaaaa555, &000aaaaa
+DATA &aaaaaa00, &55555aaa, &aaaaaaaa, &00aaaaaa
+DATA &aaaaaa00, &a555aaaa, &aaaaaaaa, &00aaaaaa
+DATA &aaaaaaa0, &a555aaaa, &aaaaaaaa, &0aaaaaaa
+DATA &aaaaaaa0, &555aaaaa, &aaaaaaa5, &0aaaaaaa
+DATA &aaaaaaa0, &aaaaaaaa, &aaaaa555, &0aaaaaaa
+DATA &aaaaaaaa, &aaaaaaaa, &a55aa5aa, &aaaaaaaa
+DATA &aaaaaaaa, &aaaaaaaa, &55555aaa, &aaaaaa55
+DATA &aaaaaaaa, &aaaaaaaa, &555aaaaa, &aaaaa555
+DATA &aaaaaaaa, &aaaaaaaa, &5555aaaa, &aaaa5555
+DATA &aaaaaaaa, &aaaaaaaa, &5555aaaa, &aaa55555
+DATA &aaaaaaaa, &aaaaaaaa, &55555aaa, &a5555555
+DATA &aaaaaaaa, &aaaaaaaa, &5555aaaa, &aa555555
+DATA &aaaaaaa0, &aaaaaaaa, &555aaaaa, &0a555555
+DATA &aaaaaaa0, &aaaaaaaa, &55aaaaaa, &0aa55555
+DATA &aaaaaa00, &aaaaaaaa, &55aaaaaa, &00aa5555
+DATA &aaaaaa00, &aaaaaaaa, &55aaaaaa, &000aa555
+DATA &aaaaa000, &aaaaaaaa, &555aaaaa, &000aaa55
+DATA &aaaa0000, &aaaaaaaa, &555aaaaa, &0000aaa5
+DATA &aaa00000, &aaaaaaaa, &a555aaaa, &00000aaa
+DATA &aa000000, &aaaaaaaa, &aa55aaaa, &000000aa
+DATA &a0000000, &aaaaaaaa, &aaa55aaa, &00000000
+DATA &00000000, &5555aaa0, &0aa5aa55, &00000000
+DATA &a0000000, &5555aaaa, &a5555555, &0000000a
+DATA &aa000000, &5555aaaa, &a5555555, &000000aa
+DATA &aaa00000, &5555aaaa, &a5555555, &00000aaa
+DATA &aaaa0000, &5555aaaa, &a5555555, &0000aaaa
+DATA &aaaaa000, &555aaaaa, &aa555555, &000aaaaa
+DATA &aaaaaa00, &555aaaaa, &aaaaa555, &00aaaaaa
+DATA &aaaaaa00, &5aaaaaaa, &aaaaaa55, &00aaaaaa
+DATA &aaaaaaa0, &aaaaaaaa, &aaa5555a, &0aaaaaaa
+DATA &aaaaaaa0, &aaaaaaaa, &a555aaaa, &0aaaaaaa
+DATA &aaaaaaaa, &aaaaaaaa, &a5aaaaaa, &aaaaaa5a
+DATA &aaaaaaaa, &aaaaaaaa, &5aaaaaaa, &aaaa5555
+DATA &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aaa55555
+DATA &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aa555555
+DATA &aaaaaaaa, &aaaaaaaa, &5aaaaaaa, &a5555555
+DATA &aaaaaaaa, &aaaaaaaa, &5aaaaaaa, &55555555
+DATA &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &a5555555
+DATA &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &05555555
+DATA &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0a55555a
+DATA &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &00a5555a
+DATA &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &000a5555
+DATA &aaaaa000, &aaaaaaaa, &aaaaaaaa, &000aa555
+DATA &aaaa0000, &aaaaaaaa, &5aaaaaaa, &0000aa55
+DATA &aaa00000, &aaaaaaaa, &5aaaaaaa, &00000aaa
+DATA &aa000000, &aaaaaaaa, &a5aaaaaa, &000000aa
+DATA &a0000000, &aaaaaaaa, &aaaaaaaa, &00000000
+DATA &00000000, &555aaaa0, &05aaa555, &00000000
+DATA &a0000000, &55aaaaaa, &55555555, &00000005
+DATA &aa000000, &5aaaaaaa, &55555555, &000000a5
+DATA &aaa00000, &5aaaaaaa, &55555555, &00000a55
+DATA &aaaa0000, &5aaaaaaa, &55555555, &0000aa55
+DATA &aaaaa000, &aaaaaaaa, &55555555, &000aaaa5
+DATA &aaaaaa00, &aaaaaaaa, &aa55555a, &00aaaaaa
+DATA &aaaaaa00, &aaaaaaaa, &aaa55a5a, &00aaaaaa
+DATA &aaaaaaa0, &aaaaaaaa, &aa555aaa, &0aaaaaaa
+DATA &aaaaaaa0, &aaaaaaaa, &5555aaaa, &0aaaaaaa
+DATA &aaaaaaa0, &aaaaaaaa, &5aaaaaaa, &0aaaaaa5
+DATA &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aaaa555a
+DATA &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aa5555aa
+DATA &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &a55555aa
+DATA &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &555555aa
+DATA &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &55555aaa
+DATA &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &05555aaa
+DATA &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0555aaaa
+DATA &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &00555aaa
+DATA &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &000555aa
+DATA &aaaaa000, &aaaaaaaa, &aaaaaaaa, &000a55aa
+DATA &aaaa0000, &aaaaaaaa, &aaaaaaaa, &0000aa5a
+DATA &aaa00000, &aaaaaaaa, &aaaaaaaa, &00000aa5
+DATA &aa000000, &aaaaaaaa, &5aaaaaaa, &000000aa
+DATA &00000000, &555a0000, &00005555, &00000000
+DATA &00000000, &5aaaaaa0, &05aa5555, &00000000
+DATA &a0000000, &aaaaaaaa, &55555555, &00000005
+DATA &aa000000, &aaaaaaaa, &5555555a, &00000055
+DATA &aaa00000, &aaaaaaaa, &5555555a, &00000555
+DATA &aaaa0000, &aaaaaaaa, &555555aa, &0000a555
+DATA &aaaaa000, &aaaaaaaa, &55555aaa, &000aa555
+DATA &aaaaaa00, &aaaaaaaa, &5555aaaa, &00aaaaaa
+DATA &aaaaaa00, &aaaaaaaa, &55aaaaaa, &00aaaaaa
+DATA &aaaaaaa0, &aaaaaaaa, &55aaaaaa, &0aaaaaaa
+DATA &aaaaaaa0, &aaaaaaaa, &5aaaaaaa, &0aaaa555
+DATA &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0aaa55aa
+DATA &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aaaa5aaa
+DATA &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &a555aaaa
+DATA &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &555aaaaa
+DATA &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &5555aaaa
+DATA &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &a55aaaaa
+DATA &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &055aaaaa
+DATA &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &05aaaaaa
+DATA &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &005aaaaa
+DATA &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &0005aaaa
+DATA &aaaaa000, &aaaaaaaa, &aaaaaaaa, &00055aaa
+DATA &aaaa0000, &aaaaaaaa, &aaaaaaaa, &0000a5aa
+DATA &aaa00000, &aaaaaaaa, &aaaaaaaa, &00000a5a
+DATA &aa000000, &aaaaaaaa, &aaaaaaaa, &000000aa
+DATA &00000000, &55a50000, &00005555, &00000000
+DATA &00000000, &aa5aaa50, &0a555555, &00000000
+DATA &a0000000, &aaaaaaaa, &555555aa, &00000005
+DATA &aa000000, &aaaaaaaa, &55555aaa, &00000055
+DATA &aaa00000, &aaaaaaaa, &5555aaaa, &00000555
+DATA &aaaa0000, &aaaaaaaa, &555aaaaa, &00005555
+DATA &aaaaa000, &aaaaaaaa, &55aaaaaa, &000a5555
+DATA &aaaaaa00, &aaaaaaaa, &5aaaaaaa, &00a55555
+DATA &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &00aaa555
+DATA &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0aaaa55a
+DATA &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0aa555aa
+DATA &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0a55aaaa
+DATA &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aa5aaaaa
+DATA &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &55aaaaaa
+DATA &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &5aaaaaaa
+DATA &aaaaaaa5, &aaaaaaaa, &aaaaaaaa, &5aaaaaaa
+DATA &aaaaaa55, &aaaaaaaa, &aaaaaaaa, &5aaaaaaa
+DATA &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+DATA &aaaaaa50, &aaaaaaaa, &aaaaaaaa, &05aaaaaa
+DATA &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &00aaaaaa
+DATA &aaaaa500, &aaaaaaaa, &aaaaaaaa, &000aaaaa
+DATA &aaaaa000, &aaaaaaaa, &aaaaaaaa, &0005aaaa
+DATA &a5aa0000, &aaaaaaaa, &aaaaaaaa, &0000aaaa
+DATA &aaa00000, &aaaaaaaa, &aaaaaaaa, &00000aaa
+DATA &00000000, &55550000, &0000aaa5, &00000000
+DATA &00000000, &a5aaa5a0, &055555aa, &00000000
+DATA &a0000000, &aaaaaaa5, &5555aaaa, &00000005
+DATA &aa000000, &aaaaaaaa, &555aaaaa, &00000055
+DATA &aaa00000, &aaaaaaaa, &55aaaaaa, &00000555
+DATA &aaaa0000, &aaaaaaaa, &5aaaaaaa, &00005555
+DATA &aaaaa000, &aaaaaaaa, &aaaaaaaa, &00055555
+DATA &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &00aa555a
+DATA &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &00a555aa
+DATA &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0aa5aaaa
+DATA &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+DATA &aaaaaa55, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+DATA &aaaa5a5a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+DATA &aaaaaaa5, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+DATA &aaaaaa50, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+DATA &aa5aaa50, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+DATA &aaaaa550, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+DATA &aaaa5500, &aaaaaaaa, &aaaaaaaa, &00aaaaaa
+DATA &aaaa5a00, &aaaaaaaa, &aaaaaaaa, &000aaaaa
+DATA &aaa55000, &aaaaaaaa, &aaaaaaaa, &000aaaaa
+DATA &aaaa0000, &aaaaaaa5, &aaaaaaaa, &0000aaaa
+DATA &aaa00000, &aaaaaaa5, &aaaaaaaa, &00000aaa
+DATA &00000000, &a5550000, &00005555, &00000000
+DATA &00000000, &aaaa5550, &0555aa5a, &00000000
+DATA &50000000, &aaaaaaaa, &55aaaaaa, &00000005
+DATA &a5000000, &aaaaaaaa, &5aaaaaaa, &00000055
+DATA &aa500000, &aaaaaaaa, &aaaaaaaa, &00000555
+DATA &aaaa0000, &aaaaaaaa, &aaaaaaaa, &0000555a
+DATA &aaaa5000, &aaaaaaaa, &aaaaaaaa, &000555aa
+DATA &aaaaa500, &aaaaaaaa, &aaaaaaaa, &00a5aaaa
+DATA &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0a5aaaaa
+DATA &aaaaa5aa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+DATA &aaaa55aa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+DATA &aaaaa55a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+DATA &aaaa5550, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+DATA &aaa55550, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+DATA &aa555500, &aaaaaaaa, &aaaaaaaa, &00aaaaaa
+DATA &aa555500, &aaaaaaaa, &aaaaaaaa, &000aaaaa
+DATA &aa55a000, &aaaaaaaa, &aaaaaaaa, &000aaaaa
+DATA &aa5a0000, &aaaaaaaa, &aaaaaaaa, &0000aaaa
+DATA &aa000000, &aaaaa5aa, &aaaaaaaa, &000000aa
+DATA &00000000, &55550000, &000055aa, &00000000
+DATA &00000000, &aaa55550, &055a5aaa, &00000000
+DATA &50000000, &aaaa5aa5, &5aaaaaaa, &00000005
+DATA &55000000, &aaaaaaa5, &aaaaaaaa, &0000005a
+DATA &aa500000, &aaaaaaaa, &aaaaaaaa, &000005aa
+DATA &aaaa0000, &aaaaaaaa, &aaaaaaaa, &00005aaa
+DATA &aaa55000, &aaaaaaaa, &aaaaaaaa, &0005aaaa
+DATA &aaaaa500, &aaaaaaaa, &aaaaaaaa, &005aaaaa
+DATA &aaa5a55a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+DATA &aa55aa5a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+DATA &5aaa5aaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+DATA &aa5a55a0, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+DATA &aa5555a0, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+DATA &a55555a0, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+DATA &55555500, &aaaaaaaa, &aaaaaaaa, &00aaaaaa
+DATA &55555a00, &aaaaaaaa, &aaaaaaaa, &000aaaaa
+DATA &55aaa000, &aaaaaaaa, &aaaaaaaa, &000aaaaa
+DATA &5aaa0000, &aaaaaaaa, &aaaaaaaa, &0000aaaa
+DATA &aaa00000, &aa5aaaaa, &aaaaaaaa, &00000aaa
+DATA &00000000, &a5550000, &0000aaaa, &00000000
+DATA &00000000, &a5a5a550, &0aaaaaaa, &00000000
+DATA &50000000, &aa5aa555, &aaaaaaaa, &0000000a
+DATA &55000000, &aaaaaa55, &aaaaaaaa, &000000aa
+DATA &55500000, &aaaaaaaa, &aaaaaaaa, &00000aaa
+DATA &aa550000, &aaaaaaaa, &aaaaaaaa, &0000aaaa
+DATA &5aa55000, &aaaaaaaa, &aaaaaaaa, &000aaaaa
+DATA &aaa55500, &aaaaaaaa, &aaaaaaaa, &00aaaaaa
+DATA &aaaa5a50, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+DATA &aaaaaa5a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+DATA &55aaaaaa, &aaaaa5aa, &aaaaaaaa, &aaaaaaaa
+DATA &5aaaaaaa, &aaaaaaa5, &aaaaaaaa, &aaaaaaaa
+DATA &5a5aaaaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+DATA &aa55aaa0, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+DATA &5555aaa0, &aaaaaaa5, &aaaaaaaa, &0aaaaaaa
+DATA &55555aa0, &aaaaaa55, &aaaaaaaa, &0aaaaaaa
+DATA &55555a00, &aaaaa555, &aaaaaaaa, &00aaaaaa
+DATA &5555aa00, &aaaaa555, &aaaaaaaa, &000aaaaa
+DATA &aa55a000, &aaaaa555, &aaaaaaaa, &000aaaaa
+DATA &aaaa0000, &aaaa555a, &aaaaaaaa, &0000aaaa
+DATA &00000000, &55550000, &0000aa55, &00000000
+DATA &00000000, &5aa55550, &0aaaaaaa, &00000000
+DATA &50000000, &5aa55555, &aaaaaaaa, &0000000a
+DATA &55000000, &aaaa5555, &aaaaaaaa, &000000aa
+DATA &55500000, &aaaaaa55, &aaaaaaaa, &00000aaa
+DATA &55550000, &aaaa5a5a, &aaaaaaaa, &0000aaaa
+DATA &a5555000, &aaaaaa5a, &aaaaaaaa, &000aaaaa
+DATA &a5555500, &aaaaaaaa, &aaaaaaaa, &00aaaaaa
+DATA &a5aaaa5a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+DATA &aaa5aaaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+DATA &aa555a5a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+DATA &aaaa55aa, &aaaaaa55, &aaaaaaaa, &aaaaaaaa
+DATA &aaaaaaaa, &aaaa555a, &aaaaaaaa, &aaaaaaaa
+DATA &aa55aaaa, &aaa5a5aa, &aaaaaaaa, &aaaaaaaa
+DATA &aaaaaaaa, &aaaaaaa5, &aaaaaaaa, &aaaaaaaa
+DATA &55aaaaa0, &aaaa5aa5, &aaaaa5aa, &0aaaaaaa
+DATA &55aaaaa0, &aaaa5555, &aaaaaaaa, &0aaaaaaa
+DATA &5555aaa0, &aaa55555, &aaaaaaaa, &0aaaaaaa
+DATA &555aaa00, &aa555555, &aaaaaaaa, &00aaaaaa
+DATA &555aaa00, &aa555555, &aaaaaaaa, &000aaaaa
+DATA &a5aaa000, &aa5555aa, &aaaaaaaa, &000aaaaa
+DATA &aaaa0000, &aaa55aaa, &aaaaaaaa, &0000aaaa
+DATA &00000000, &55550000, &0000aaaa, &00000000
+DATA &00000000, &a5555550, &0aaaaaaa, &00000000
+DATA &50000000, &a5555555, &aaaaaaaa, &0000000a
+DATA &55000000, &aa555555, &aaaaaaaa, &000000aa
+DATA &55500000, &aaaa5555, &aaaaaaaa, &00000aaa
+DATA &55550000, &aa5a5a55, &aaaaaaaa, &0000aaaa
+DATA &55555000, &aaaaaa55, &aaaaaaaa, &000aaaaa
+DATA &55555500, &aaaaaaa5, &aaaaaaaa, &00aaaaaa
+DATA &a5555550, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+DATA &aaa55a50, &aaaaaaa5, &aaaaaaaa, &0aaaaaaa
+DATA &aaa55aa0, &aaaaaaa5, &aaaaaaaa, &0aaaaaaa
+DATA &aaaaaaaa, &aaaaaa5a, &aaaaaaaa, &aaaaaaaa
+DATA &aaaa5aaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+DATA &a55a5aaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+DATA &a5555aaa, &aaaa5aaa, &aaaaaaaa, &aaaaaaaa
+DATA &aaaaaaaa, &555aaaaa, &aaaaaa5a, &aaaaaaaa
+DATA &aaaaaaaa, &55aaaaa5, &aaaaaaaa, &aaaaaaaa
+DATA &aaaaaaaa, &a5aa5aaa, &aaaaaaaa, &aaaaaaaa
+DATA &aaaaaaa0, &a5aa55aa, &aaaaaaaa, &0aaaaaaa
+DATA &aaaaaaa0, &5555555a, &aaa5aaaa, &0aaaaaaa
+DATA &5aaaaaa0, &55555555, &aaaaaaa5, &0aaaaaaa
+DATA &5aaaaa00, &55555555, &aaaaaaa5, &00aaaaaa
+DATA &aaaaaa00, &55555555, &aaaaaa55, &000aaaaa
+DATA &aaaaa000, &555aaa55, &aaaaaaa5, &000aaaaa
+DATA &aaaa0000, &55aaaaaa, &aaaaaaa5, &0000aaaa
+DATA &00000000, &55555550, &0aa5aaa5, &00000000
+DATA &50000000, &55555555, &aaa5aaa5, &0000000a
+DATA &55000000, &55555555, &aaaaaaaa, &000000aa
+DATA &55500000, &a55a5555, &aaaaaaaa, &00000aaa
+DATA &55550000, &aaaa5555, &aaaaaaa5, &0000aaaa
+DATA &55555000, &aaaa5555, &aaaaaaaa, &000aaaaa
+DATA &55555500, &aaaa5555, &aaaaaaaa, &00aaaaaa
+DATA &55555500, &aaaaa555, &aaaaaaaa, &00aaaaaa
+DATA &55555550, &aaaaaaa5, &aaaaaaaa, &0aaaaaaa
+DATA &555aa5a0, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+DATA &55aaa5a0, &aaa5aaa5, &aaaaaaaa, &0aaaaaaa
+DATA &5aaaaaaa, &aaa5aaaa, &aaaaaaaa, &aaaaaaaa
+DATA &aaaaaaaa, &aa55aaaa, &aaaaaaaa, &aaaaaaaa
+DATA &a5aaaaaa, &aaaaa5aa, &aaaaaaaa, &aaaaaaaa
+DATA &aa5aaaaa, &aaaaa555, &aaaaaaaa, &aaaaaaaa
+DATA &55aaaaaa, &5aaa555a, &aaaaaaaa, &aaaaaaaa
+DATA &aaaaaaaa, &aaaa5aaa, &aaaaa55a, &aaaaaaaa
+DATA &aaaaaaaa, &aaaaaa5a, &5aaa55aa, &aaaaaaaa
+DATA &aaaaaaaa, &5aaaaaaa, &aaaaaaaa, &aaaaaaaa
+DATA &aaaaaaa0, &555aaaaa, &aaaaa5aa, &0aaaaaaa
+DATA &aaaaaaa0, &5555aaaa, &aaaaa555, &0aaaaaaa
+DATA &aaaaaaa0, &555555aa, &aaaa5555, &0aaaaaaa
+DATA &aaaaaa00, &555555aa, &aaa55555, &00aaaaaa
+DATA &aaaaaa00, &555555aa, &aaa55555, &000aaaaa
+DATA &aaaaa000, &5aa55aaa, &aaaa5555, &000aaaaa
+DATA &aaaa0000, &aaaaaaaa, &aaaaa55a, &0000aaaa
+DATA &00000000, &555555a0, &0555a555, &00000000
+DATA &50000000, &55555555, &a5aaa555, &0000000a
+DATA &55000000, &55555555, &aaaaa555, &000000aa
+DATA &55500000, &55555555, &aaaaaaa5, &00000aaa
+DATA &55550000, &a5555555, &aaaa5a55, &0000aaaa
+DATA &55555000, &55555555, &aaaaaa5a, &000aaaaa
+DATA &55555500, &55555555, &aaaaaaaa, &00aaaaaa
+DATA &aa55a550, &aaaaa555, &aaaaaaaa, &0aaaaaaa
+DATA &aaa5aa50, &5aaaa555, &aaaaaaaa, &0aaaaaaa
+DATA &aaa5aaa0, &5aaa5555, &aaaaaaaa, &0aaaaaaa
+DATA &aaaaaaaa, &aaaaa5a5, &aaaaaaa5, &aaaaaaaa
+DATA &aaaaaaaa, &aaaaaaaa, &aaaaaaa5, &aaaaaaaa
+DATA &aaaaaaaa, &aa5aaa5a, &aaaaaaaa, &aaaaaaaa
+DATA &aaaaaaaa, &55555aaa, &aaaaaa5a, &aaaaaaaa
+DATA &aaaaaaaa, &aa55a55a, &aaa5aaaa, &aaaaaaaa
+DATA &aaaaaaaa, &aaaaaaaa, &a555aaaa, &aaaaaaa5
+DATA &aaaaaaaa, &55aaaaaa, &5a55aaaa, &aaaaaaaa
+DATA &aaaaaaa0, &aaaaaaaa, &aa5aa555, &0aaaaaaa
+DATA &aaaaaaa0, &5aaaaaaa, &a5555555, &0aaaaaaa
+DATA &aaaaaaa0, &555aaaaa, &a5555555, &0aaaaaaa
+DATA &aaaaaa00, &555aaaaa, &55555555, &00aaaaaa
+DATA &aaaaaa00, &555aaaaa, &55555555, &000aaaaa
+DATA &aaaaa000, &55aaaaaa, &555555aa, &000aaaaa
+DATA &aaaa0000, &aaaaaaaa, &a555aaaa, &0000aaaa
+DATA &00000000, &55555aa0, &0aaa5555, &00000000
+DATA &a0000000, &5555555a, &aaa55555, &0000000a
+DATA &5a000000, &55555555, &aaa55555, &000000aa
+DATA &55500000, &55555555, &a5aa5555, &00000aaa
+DATA &55550000, &55555555, &a5aaaa55, &0000aaaa
+DATA &55555000, &55555555, &aaaaa555, &000aaaaa
+DATA &55555500, &55555555, &aaaaa555, &00aaaaaa
+DATA &55555500, &55555555, &aaaaaa55, &00aaaaaa
+DATA &5a5555a0, &a55555a5, &aaaaaaaa, &0aaaaaaa
+DATA &5aaaa550, &aa555aaa, &aaaa5aaa, &0aaaaaaa
+DATA &a5aaaa50, &a555aaaa, &aaaa5aaa, &0aaaaaaa
+DATA &55aaaa55, &a5aaaaaa, &aaaa5aaa, &aaaaaaaa
+DATA &aaaaaaa5, &aaa5aaaa, &aaa5aaaa, &aaaaaaaa
+DATA &aaaaaaa5, &aa5aaaaa, &aaaaa55a, &aaaaaaaa
+DATA &aaaaaaa5, &aaa5aaaa, &aaaaaa55, &aaaaaaaa
+DATA &aaaaaaaa, &a55aaaaa, &55aa5a55, &aaaaaaa5
+DATA &aaaaaaaa, &a5aaaaaa, &aaaaaaaa, &aa5aa555
+DATA &aaaaaaaa, &aaaaaaaa, &aaaaaaa5, &aaaaa5aa
+DATA &aaaaaaaa, &aaaaaaaa, &a5aaaaaa, &aaaaaaaa
+DATA &aaaaaaa0, &aaaaaaaa, &a555aaaa, &0aaaaaa5
+DATA &aaaaaaa0, &aaaaaaaa, &55555aaa, &0aaaaaa5
+DATA &aaaaaaa0, &aaaaaaaa, &5555555a, &0aaaaa55
+DATA &aaaaaa00, &aaaaaaaa, &55555555, &00aaa555
+DATA &aaaaaa00, &aaaaaaaa, &55555555, &000aaa55
+DATA &aaaaa000, &aaaaaaaa, &555aa555, &000aaaa5
+DATA &aaaa0000, &aaaaaaaa, &a5aaaaaa, &0000aaaa
+DATA &00000000, &55aa0000, &00005555, &00000000
+DATA &00000000, &55555550, &0a555555, &00000000
+DATA &50000000, &55555555, &a5555555, &0000000a
+DATA &55000000, &55555555, &a5555555, &000000aa
+DATA &55500000, &55555555, &a5555555, &00000aaa
+DATA &55550000, &55555555, &a5555555, &0000aaa5
+DATA &5555a000, &55555555, &aa555555, &000aaaaa
+DATA &55555500, &55555555, &aa555555, &00aaaaaa
+DATA &55555500, &55555555, &aaa55555, &00aaaaaa
+DATA &aa555550, &55a55555, &aaaaa555, &0aaaaaaa
+DATA &aaa55550, &5aaa555a, &a5aaaa55, &0aaaaaaa
+DATA &aaaa5550, &5aaaaa5a, &a5aaa555, &0aaaaaaa
+DATA &aaaa5555, &aaaaaa5a, &5aaaa55a, &aaaaaaaa
+DATA &aaaaa555, &aaaaa5aa, &5aaaaaaa, &aaaaaaaa
+DATA &aaaaa555, &aaaaaaaa, &aa55aaa5, &aaaaaaaa
+DATA &aaaaaa55, &aaaaaaaa, &a5555aa5, &aaaaaaa5
+DATA &aaaaaa55, &aaaaaaaa, &55a55a55, &aaaaaaaa
+DATA &aaaaaaa5, &aaaaaaaa, &a5aaaa5a, &aa555aaa
+DATA &aaaaaa55, &aaaaaaaa, &a555aaaa, &aaa55aaa
+DATA &aaaaaa55, &aaaaaaaa, &aaaaaaaa, &aaaa5a5a
+DATA &aaaa5a50, &aaaaaaaa, &5aaaaaaa, &0aaa5a55
+DATA &aaaa5a50, &aaaaaaaa, &5aaaaaaa, &0aaa5555
+DATA &aaaa5a50, &aaaaaaaa, &5555aaaa, &0aaa5555
+DATA &aaaaaa00, &aaaaaaaa, &5555aaaa, &00aa5555
+DATA &aaaaa500, &aaaaaaaa, &5555aaaa, &000aa555
+DATA &aaaaa000, &aaaaaaaa, &aa5aaaaa, &000aaa55
+DATA &00000000, &5a5a0000, &00005555, &00000000
+DATA &00000000, &55555550, &05555555, &00000000
+DATA &a0000000, &55555555, &55555555, &0000000a
+DATA &55000000, &55555555, &55555555, &000000a5
+DATA &55500000, &55555555, &55555555, &00000aa5
+DATA &555a0000, &55555555, &55555555, &0000a5aa
+DATA &555aa000, &55555555, &55555555, &000aa5aa
+DATA &55555500, &55555555, &55555555, &00aaaaa5
+DATA &55555500, &555555aa, &55555555, &00aaaaaa
+DATA &55555550, &5555aaaa, &a555555a, &0aaaaaaa
+DATA &a5555550, &a555aaaa, &aa5555aa, &0aaaaa5a
+DATA &aa555550, &aa55aaaa, &aa555aaa, &0aaaaa5a
+DATA &aa555555, &aa55aaaa, &aa5a5aaa, &aaaaa5aa
+DATA &aa555555, &aaaaaaaa, &aaaaaaaa, &aaaaa5aa
+DATA &aaa55555, &aaaaaaaa, &aaa5aaaa, &aaaaaaa5
+DATA &aaaa5555, &aaaaaaaa, &5aa5aaaa, &aaaa5aa5
+DATA &aaaa5555, &aaaaaaaa, &5aa5aaaa, &aaa5aa55
+DATA &aaaaa555, &aaaaaaaa, &aa5aaaaa, &aa5aaa5a
+DATA &aaaaa555, &aaaaaaaa, &5aaaaaaa, &a5aaa555
+DATA &aaaa555a, &aaaaaaaa, &aaaaaaaa, &aaa5aaaa
+DATA &aa5a5550, &aaaaaaaa, &aaaaaaaa, &0a5a55aa
+DATA &aa5aa550, &aaaaaaaa, &aaaaaaaa, &0a5555aa
+DATA &aa5a55a0, &aaaaaaaa, &5aaaaaaa, &0a555555
+DATA &aaaa5500, &aaaaaaaa, &5aaaaaaa, &00555555
+DATA &aaaa5a00, &aaaaaaaa, &5aaaaaaa, &00055555
+DATA &aaaaa000, &aaaaaaaa, &5aaaaaaa, &000a5aa5
+DATA &aaaa0000, &aaaaaaaa, &aaaaaaaa, &0000aaaa
+DATA &00000000, &5aaa0000, &0000555a, &00000000
+DATA &a0000000, &55555555, &55555555, &00000005
+DATA &55000000, &55555555, &55555555, &00000055
+DATA &a5500000, &5555555a, &55555555, &00000555
+DATA &55550000, &55555555, &55555555, &0000a555
+DATA &5aaa5000, &55555555, &55555555, &0005aa55
+DATA &55555500, &55555555, &55555555, &00aaa555
+DATA &55555500, &555aa555, &55555555, &00aaa555
+DATA &55555550, &5aaaa555, &555aa555, &0aaaaaa5
+DATA &55555550, &5aaaaa55, &555aaa55, &0aaaaaaa
+DATA &55555550, &aaaaaaa5, &55aaaa55, &0aaaaaa5
+DATA &55555555, &aaaaaaa5, &aaaaaaa5, &aaaaaaa5
+DATA &55555555, &aaaaaaa5, &aaaaaa5a, &aaaaaaaa
+DATA &55555555, &aaaaaaaa, &55aaaaaa, &aaaa5aaa
+DATA &a555555a, &aaaaaaaa, &5aaaaaaa, &aaaa55aa
+DATA &aa55555a, &aaaaaaaa, &aaaaaaaa, &a5aa55aa
+DATA &aa55555a, &aaaaaaaa, &aaaaaaaa, &5aaaaaa5
+DATA &aa55555a, &aaaaaaaa, &aaaaaaaa, &5aaaaa5a
+DATA &aa55555a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+DATA &aa555550, &aaaaaaa5, &aaaaaaaa, &0a55aaaa
+DATA &5a5555a0, &aaaaaaa5, &aaaaaaaa, &0555aaaa
+DATA &5a5555a0, &aaaaaaa5, &aaaaaaaa, &055555aa
+DATA &aaa55a00, &aaaaaaa5, &aaaaaaaa, &0055555a
+DATA &aaa5aa00, &aaaaaaaa, &aaaaaaaa, &0005555a
+DATA &aaa5a000, &aaaaaaaa, &aaaaaaaa, &0005aa5a
+DATA &00000000, &aa550000, &0000aaaa, &00000000
+DATA &50000000, &55555555, &55555555, &00000005
+DATA &55000000, &55555a55, &55555555, &00000055
+DATA &5a500000, &555555a5, &55555555, &00000555
+DATA &aaaa0000, &55555555, &55555555, &0000a555
+DATA &aaa55000, &5555555a, &55555555, &000a5555
+DATA &55555500, &555a5555, &55555555, &00a55555
+DATA &55555500, &aaa55555, &5555555a, &00a55555
+DATA &55555550, &a5555555, &555555aa, &0aa55555
+DATA &55555550, &aa555555, &5a555aaa, &0aaaa555
+DATA &55555550, &aaaa5555, &aaa55aaa, &0aaa55a5
+DATA &55555555, &aaaa5555, &aaa5aaaa, &aaaa5aaa
+DATA &55555555, &aaaa5555, &aa5aaaaa, &aaaaaaaa
+DATA &55555aaa, &aaaaa555, &aaaaaaaa, &aa5aa55a
+DATA &55555aaa, &aaaaaa55, &aaaaaaaa, &aa5aaaaa
+DATA &55555aaa, &aaaaaaa5, &aaaaaaaa, &aaaa5aaa
+DATA &55555aaa, &aaaaaaaa, &aaaaaaaa, &aaaa5aaa
+DATA &55555aaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+DATA &55555aaa, &aaaaaaa5, &aaaaaaaa, &5aaaaaaa
+DATA &55555aa0, &aaaa5aa5, &aaaaaaaa, &05aaaaaa
+DATA &5555aaa0, &aaaa55aa, &aaaaaaaa, &05aaaaaa
+DATA &5555aaa0, &aaaa5aaa, &aaaaaaaa, &0555aaaa
+DATA &555aaa00, &aaaa5aa5, &aaaaaaaa, &0055aaaa
+DATA &55aaaa00, &aaaaaaa5, &aaaaaaaa, &0005aaaa
+DATA &5aaaa000, &aaaaaaa5, &aaaaaaaa, &000aaaaa
+DATA &00000000, &5555a550, &05555555, &00000000
+DATA &55000000, &a5aa5555, &55555555, &00000055
+DATA &aa500000, &555555aa, &55555555, &00000555
+DATA &5aa50000, &55555aaa, &5555555a, &00005555
+DATA &55555000, &5555aa5a, &55555555, &00055555
+DATA &55555a00, &55555555, &55555555, &00555555
+DATA &55555500, &55555555, &5555a55a, &00555555
+DATA &55555550, &555a5555, &555aaa55, &0a5555a5
+DATA &55555550, &55555555, &55aaaa55, &0a555aa5
+DATA &55555550, &55a55555, &5aaaaaaa, &0aa5aaa5
+DATA &55555555, &5a555555, &5aaaaaaa, &aa55aaa5
+DATA &5555555a, &55555555, &aaaaaaaa, &aa5aaa55
+DATA &555aa55a, &a5555555, &aaaaaaaa, &aa5aaaaa
+DATA &555aaaaa, &aa555555, &aaaaaaaa, &a5aaaaaa
+DATA &555aaaaa, &aaa55555, &aaaaaaaa, &a5aaaaaa
+DATA &555aaaaa, &aaaa5555, &aaaaaaaa, &aaaaaaaa
+DATA &555aaaaa, &aaa55555, &aaaaaaaa, &aaaaaaaa
+DATA &555aaaa0, &5aa55555, &aaaaaaaa, &0aaaaaaa
+DATA &55aaaaa0, &55aa5555, &aaaaaaaa, &0aaaaaaa
+DATA &aaaaaa00, &aaaaa555, &aaaaaaaa, &000aaaaa
+DATA &aaaaa000, &aaaaa55a, &aaaaaaaa, &000aaaaa
+DATA &00000000, &555a0000, &0000aa55, &00000000
+DATA &00000000, &55a5aaa0, &05555555, &00000000
+DATA &a0000000, &555555aa, &55555555, &0000000a
+DATA &aa000000, &aa555555, &555555a5, &00000055
+DATA &5aa00000, &55555aaa, &55555a55, &00000555
+DATA &a5aa0000, &55aaa55a, &55555555, &00005555
+DATA &555aa000, &5aa55a55, &55555555, &00055555
+DATA &555aaa00, &55555555, &55555555, &00a55555
+DATA &5555aa00, &55555555, &5aa5a555, &00555555
+DATA &55555aa0, &a5555555, &aa555555, &05555555
+DATA &55555aa0, &55555555, &aaa5555a, &0a5a555a
+DATA &555555a0, &55555555, &aaaaa555, &05aaa5aa
+DATA &555555aa, &55555555, &aaaa5555, &aaaa5aaa
+DATA &55555aaa, &55555555, &aaaaa555, &a5aaaaaa
+DATA &55a55aaa, &55555555, &aaaaa555, &a5aaaaaa
+DATA &5aaaaaaa, &55555555, &aaaaaa55, &a5aaaaaa
+DATA &5aaaaaaa, &55555555, &aaaaaaa5, &aaaaaaaa
+DATA &aaaaaaaa, &55555555, &aaaaaaaa, &aaaaaaaa
+DATA &aaaaaaaa, &5a55555a, &aaaaaaaa, &aaaaaaaa
+DATA &aaaaaaa0, &55555555, &aaaaa5aa, &0aaaaaaa
+DATA &aaaaaaa0, &a5555555, &aaaaa55a, &0aaaaaaa
+DATA &aaaaaaa0, &a555555a, &aaaaa55a, &0aaaaaaa
+DATA &aaaaaa00, &a555555a, &aaaaaaaa, &00aaaaaa
+DATA &aaaaaa00, &aa5555aa, &aaaaaaaa, &000aaaaa
+DATA &aaaaa000, &aaa55aaa, &aaaaaaaa, &000aaaaa
+DATA &00000000, &5aaa0000, &0000a5a5, &00000000
+DATA &00000000, &a5aaaaa0, &05555555, &00000000
+DATA &a0000000, &5555aaaa, &55555555, &00000005
+DATA &aa000000, &555555aa, &555a5555, &00000055
+DATA &aaa00000, &a55aaa5a, &55555555, &00000555
+DATA &aaaa0000, &aaaa55a5, &5555555a, &00005555
+DATA &5aaaa000, &55a55555, &555555aa, &00055555
+DATA &5aaaaa00, &55555555, &55555555, &00555555
+DATA &55aaaa00, &55555555, &55555a55, &005555aa
+DATA &555aaaa0, &55555555, &55555555, &05555aa5
+DATA &555aaaa0, &55555555, &5555a555, &05a5aaaa
+DATA &5555aaa0, &55555555, &a55a5555, &0aa5aaaa
+DATA &5555aaaa, &55555555, &a5a55555, &aaaaaaaa
+DATA &555aaaaa, &55555555, &a5555555, &5a5aaaaa
+DATA &5aaaaaaa, &5555555a, &aa555555, &5aaaaaaa
+DATA &aaaaaaaa, &55555aaa, &aaa55555, &aaaaaaaa
+DATA &aaaaaaa5, &55555aaa, &aaaa5555, &aaaaaaaa
+DATA &aaaaaaa5, &5555aaaa, &aaaa5555, &aaaaaaaa
+DATA &aaaaaaa0, &5555aaaa, &a5aa5555, &0aaaaaaa
+DATA &aaaaaaa0, &5555aaaa, &aa5aa555, &0aaaaaaa
+DATA &aaaaaa50, &5555aaaa, &aa5aaa55, &0aaaaaaa
+DATA &aaaaaa00, &555aaaaa, &aaaaaaa5, &000aaaaa
+DATA &aaaaa000, &55aaaaaa, &aaaaaaaa, &000aaaaa
+DATA &00000000, &aaaa0000, &00005555, &00000000
+DATA &00000000, &55aaaaa0, &0555555a, &00000000
+DATA &a0000000, &55555aaa, &55555555, &00000005
+DATA &aa000000, &5555aaaa, &5a55a555, &00000055
+DATA &aaa00000, &a5a55aaa, &a555555a, &00000555
+DATA &aaaa0000, &55a5aaaa, &555aaaaa, &00005555
+DATA &aaaaa000, &555555aa, &5555a55a, &00055555
+DATA &aaaaaa00, &5555555a, &55555555, &0055555a
+DATA &aaaaaa00, &55555555, &55a55555, &005555a5
+DATA &5aaaaaa0, &55555555, &5a555555, &055aa555
+DATA &5aaaaaa0, &55555555, &55555555, &055aa555
+DATA &5aaaaaa0, &55555555, &a5555555, &05aaaaa5
+DATA &5aaaaaaa, &55555555, &55555555, &a5aaaa5a
+DATA &5aaaaaaa, &55555555, &55555555, &aaaaaa55
+DATA &aaaaaaa5, &555aaaaa, &55555555, &aaaaaaa5
+DATA &aaaaaaa5, &55aaaaaa, &55555555, &aaaaaaa5
+DATA &aaaaaaa5, &55aaaaaa, &55a55555, &aaaaaaaa
+DATA &aaaaa555, &5aaaaaaa, &a5555555, &aaaaaaaa
+DATA &aaaaa555, &aaaaaaaa, &55555555, &aaaaaaaa
+DATA &aaaaa550, &5aaaaaaa, &55555555, &0aaaaa5a
+DATA &aaaaa550, &5aaaaaaa, &aa555555, &0aaaaaa5
+DATA &aaaaaa50, &aaaaaaaa, &aa555555, &0aaaaaa5
+DATA &aaaaa500, &aaaaaaaa, &aaa55555, &00aaaaaa
+DATA &aaaaa500, &aaaaaaaa, &aaaa5555, &000aaaaa
+DATA &aaaaa000, &aaaaaaaa, &aaaaa555, &000aaaaa
+DATA &00000000, &aaaa0000, &000055aa, &00000000
+DATA &00000000, &aaaa0000, &0000555a, &00000000
+DATA &00000000, &aaaaaaa0, &0555aa55, &00000000
+DATA &a0000000, &5aaaaaaa, &55555555, &00000005
+DATA &aa000000, &5aaaaaaa, &55a55555, &00000055
+DATA &aaa00000, &a55aaaaa, &a55555aa, &00000555
+DATA &aaaa0000, &5aaaaaaa, &555aaa55, &00005555
+DATA &aaaaa000, &555aaaaa, &55a5a555, &00055555
+DATA &aaaaaa00, &5555aaaa, &55555555, &00555555
+DATA &aaaaaa00, &55555aaa, &55555555, &0055555a
+DATA &aaaaaa50, &555555aa, &55555555, &0aa55555
+DATA &aaaaaaa0, &555555aa, &55555555, &0aa55555
+DATA &aaaaaaa0, &555555aa, &55555555, &0aaa5a55
+DATA &aaaaaaa5, &55555aaa, &55555555, &aaa5a555
+DATA &aaaaaaa5, &55555aaa, &55555555, &aaa55555
+DATA &aaaaaa55, &aaaaaaaa, &5555555a, &aaaa5555
+DATA &aaaaaa55, &aaaaaaaa, &555555aa, &aaaa5555
+DATA &aaaaa555, &aaaaaaaa, &555555aa, &aaaaa555
+DATA &aaa55555, &aaaaaaaa, &55555aaa, &aaaaaa55
+DATA &aaa55550, &aaaaaaaa, &55555aaa, &0aaaaa55
+DATA &aaa55550, &aaaaaaaa, &55555aaa, &0aaa5a55
+DATA &aaa55550, &aaaaaaaa, &55555aaa, &0aaaa5a5
+DATA &aaaa5500, &aaaaaaaa, &55555aaa, &00aaaaaa
+DATA &aaaa5500, &aaaaaaaa, &a555aaaa, &000aaaaa
+DATA &aaaa5000, &aaaaaaaa, &aa55aaaa, &000aaaaa
+DATA &aaa50000, &aaaaaaaa, &aaaaaaaa, &0000aaaa
+DATA &50000000, &aaaaaaaa, &aaaaaaaa, &00000000
+DATA &00000000, &aaa50000, &0000aaaa, &00000000
+DATA &00000000, &aaaaa5a0, &0555555a, &00000000
+DATA &50000000, &aaaaaaa5, &555555aa, &00000005
+DATA &55000000, &aaaaaaaa, &5555555a, &00000055
+DATA &aaa00000, &aaaaaaaa, &5555aa55, &0000055a
+DATA &aaaa0000, &aaaaaaaa, &5a5555a5, &00005555
+DATA &aaaaa000, &aaaaaaaa, &55555555, &000a55a5
+DATA &aaaaaa00, &5aaaaaaa, &55555555, &00a55555
+DATA &aaaaaa00, &55aaaaaa, &55555555, &00a55555
+DATA &aaaaaa50, &55aaaaaa, &55555555, &0a55a555
+DATA &aaaaaaa0, &55aaaaaa, &55555555, &0a555555
+DATA &aaaaaaa0, &555aaaaa, &55555555, &0a555555
+DATA &aaaaa55a, &55aaaaaa, &55555555, &aaa55555
+DATA &aaaaa555, &5aaaaaaa, &55555555, &aa555555
+DATA &aaaa555a, &aaaaaaaa, &5555aaa5, &aa555555
+DATA &aaaa5555, &aaaaaaaa, &55aaaaaa, &aa555555
+DATA &aa555555, &aaaaaaaa, &55aaaaaa, &aaa5a555
+DATA &55555555, &aaaaaaaa, &55aaaaaa, &aaa55555
+DATA &5555555a, &aaaaaaaa, &5aaaaaaa, &aaa55555
+DATA &55555550, &aaaaaaaa, &55aaaaaa, &0aaa5555
+DATA &555555a0, &aaaaaaaa, &55aaaaaa, &0aaa5555
+DATA &a55555a0, &aaaaaaaa, &55aaaaaa, &0aaaa555
+DATA &a5555500, &aaaaaaaa, &55aaaaaa, &00aaaaa5
+DATA &a5555a00, &aaaaaaaa, &5aaaaaaa, &000aaaa5
+DATA &aa555000, &aaaaaaaa, &5aaaaaaa, &000aaaaa
+DATA &aa500000, &aaaaaaaa, &aaaaaaaa, &00000aaa
+DATA &a5000000, &aaaaaaaa, &aaaaaaaa, &000000aa
+DATA &00000000, &aa550000, &00005aaa, &00000000
+DATA &00000000, &aaaaaa50, &055aaaaa, &00000000
+DATA &50000000, &aaaaaaa5, &555aaaaa, &00000005
+DATA &55000000, &aaaaaaaa, &5555aaaa, &00000055
+DATA &aa500000, &aaaaaaaa, &5aa55aaa, &000005a5
+DATA &aaa50000, &aaaaaaaa, &5555aaaa, &00005555
+DATA &aaaa5000, &aaaaaaaa, &55555aaa, &0005a5a5
+DATA &aaaaa500, &aaaaaaaa, &555555aa, &00555555
+DATA &aaaaaa00, &aaaaaaaa, &555555aa, &005a5555
+DATA &aaaaa5a0, &aaaaaaaa, &5555555a, &05555555
+DATA &aaaaaa50, &aaaaaaaa, &5555555a, &05555555
+DATA &aaa55a5a, &aaaaaaaa, &5555555a, &a5555555
+DATA &aaa555aa, &aaaaaaaa, &555555aa, &a5555555
+DATA &a55555aa, &aaaaaaaa, &aa555aaa, &a5555555
+DATA &a55555aa, &aaaaaaaa, &aaaaaaaa, &a555555a
+DATA &5555555a, &aaaaaaa5, &aaaaaaaa, &a555555a
+DATA &5555555a, &aaaaa555, &aaaaaaaa, &a55555aa
+DATA &555555aa, &aaaa5555, &aaaaaaaa, &aa5555aa
+DATA &555555aa, &aaaaa555, &aaaaaaaa, &aa5555aa
+DATA &555555a0, &aaaaa555, &aaaaaaaa, &0aa5555a
+DATA &55555aa0, &aaaaa555, &aaaaaaaa, &0aa5555a
+DATA &5555aa00, &aaaaaaa5, &aaaaaaaa, &00aaa55a
+DATA &5555aa00, &aaaaaaa5, &aaaaaaaa, &000aaa5a
+DATA &5555a000, &aaaaaaaa, &aaaaaaaa, &000aaa5a
+DATA &a55a0000, &aaaaaaaa, &aaaaaaaa, &0000aaaa
+DATA &a5500000, &aaaaaaaa, &aaaaaaaa, &00000aaa
+DATA &5a000000, &aaaaaaaa, &aaaaaaaa, &000000aa
+DATA &00000000, &55a50000, &00005aaa, &00000000
+DATA &00000000, &aaaa55a0, &055aaaaa, &00000000
+DATA &50000000, &aaaa555a, &5555aaaa, &00000005
+DATA &55000000, &aaaaaa55, &55aaaaaa, &00000055
+DATA &55500000, &aaaaaaaa, &a55aaaaa, &00000a5a
+DATA &a5550000, &aaaaaaaa, &a5aaaaaa, &00005aa5
+DATA &aa555000, &aaaaaaaa, &55aaaaaa, &0005aa55
+DATA &aaa5a500, &aaaaaaaa, &55aaaaaa, &00555555
+DATA &aaaaaa00, &aaaaaaaa, &555aaaaa, &00555555
+DATA &aaa55a50, &aaaaaaaa, &555aaaaa, &05555555
+DATA &aaa5a5a0, &aaaaaaaa, &555aaaaa, &05555555
+DATA &aaaaa550, &aaaaaaaa, &555aaaaa, &05555555
+DATA &aa5aa5aa, &aaaaaaaa, &555aaaaa, &55555555
+DATA &5555aaaa, &aaaaaaaa, &55aaaaaa, &55555555
+DATA &5555aaaa, &aaaaaa55, &aaaaaaaa, &55555aaa
+DATA &55555aaa, &aaaaa555, &aaaaaaaa, &5555aaaa
+DATA &55555aaa, &aaaa5555, &aaaaaaaa, &5555aaaa
+DATA &55555aaa, &a5555555, &aaaaaaaa, &555aaaaa
+DATA &5555aaaa, &a5555555, &aaaaaaaa, &555aaaaa
+DATA &555aaaa0, &aa555555, &aaaaaaaa, &0555aaaa
+DATA &55aaaaa0, &aa555555, &aaaaaaaa, &0a55aaaa
+DATA &5aaaaa00, &aaaa5555, &aaaaaaaa, &00a55aaa
+DATA &5aaaaa00, &aaaa5555, &aaaaaaaa, &000a5aaa
+DATA &5aaaa000, &aaaa5555, &aaaaaaaa, &000aaaaa
+DATA &5aaa0000, &aaaaa555, &aaaaaaaa, &0000aaaa
+DATA &aaa00000, &aaaaaa55, &aaaaaaaa, &00000aaa
+DATA &aa000000, &aaaaaa55, &aaaaaaaa, &000000aa
 FOR n% = 0 TO nwords%-1
   READ word%:rowdata%!(4 * n%) = word%
 NEXT
@@ -773,7 +773,7 @@ NEXT
 nframes% = 30
 DIM framedata% 8 * nframes%
 :
-DIM deltas% 8*868
+DIM deltas% 8*1706
 
 deltaoffset% = 0
 RESTORE +1
@@ -789,901 +789,1739 @@ NEXT
 :
 REM Image 0
 DATA 0, 0
-DATA 1, 1
-DATA 2, 2
-DATA 3, 3
-DATA 4, 4
-DATA 5, 5
-DATA 6, 6
-DATA 7, 7
-DATA 8, 8
-DATA 9, 9
-DATA 10, 10
-DATA 11, 11
-DATA 12, 12
-DATA 13, 13
-DATA 14, 14
-DATA 15, 15
-DATA 16, 16
-DATA 17, 17
-DATA 18, 17
-DATA 19, 18
-DATA 20, 19
-DATA 21, 20
-DATA 22, 21
-DATA 23, 22
-DATA 24, 23
-DATA 25, 24
-DATA 26, 25
-DATA 27, 26
-DATA 28, 27
-DATA 29, 28
-DATA 30, 29
-DATA 31, 30
+DATA 1, 0
+DATA 2, 1
+DATA 3, 1
+DATA 4, 2
+DATA 5, 2
+DATA 6, 3
+DATA 7, 3
+DATA 8, 4
+DATA 9, 4
+DATA 10, 5
+DATA 11, 5
+DATA 12, 6
+DATA 13, 6
+DATA 14, 7
+DATA 15, 7
+DATA 16, 8
+DATA 17, 8
+DATA 18, 9
+DATA 19, 9
+DATA 20, 10
+DATA 21, 10
+DATA 22, 11
+DATA 23, 11
+DATA 24, 12
+DATA 25, 12
+DATA 26, 13
+DATA 27, 13
+DATA 28, 14
+DATA 29, 14
+DATA 30, 15
+DATA 31, 15
+DATA 32, 16
+DATA 33, 16
+DATA 34, 17
+DATA 35, 17
+DATA 36, 17
+DATA 37, 17
+DATA 38, 18
+DATA 39, 18
+DATA 40, 19
+DATA 41, 19
+DATA 42, 20
+DATA 43, 20
+DATA 44, 21
+DATA 45, 21
+DATA 46, 22
+DATA 47, 22
+DATA 48, 23
+DATA 49, 23
+DATA 50, 24
+DATA 51, 24
+DATA 52, 25
+DATA 53, 25
+DATA 54, 26
+DATA 55, 26
+DATA 56, 27
+DATA 57, 27
+DATA 58, 28
+DATA 59, 28
+DATA 60, 29
+DATA 61, 29
+DATA 62, 30
+DATA 63, 30
 DATA -1, -1
 REM Image 1
 DATA 0, 31
-DATA 1, 32
-DATA 2, 33
-DATA 3, 34
-DATA 4, 35
-DATA 5, 36
-DATA 6, 37
-DATA 7, 38
-DATA 8, 39
-DATA 9, 40
-DATA 10, 41
-DATA 11, 42
-DATA 12, 43
-DATA 13, 44
-DATA 14, 45
-DATA 15, 46
-DATA 16, 47
-DATA 17, 48
-DATA 18, 49
-DATA 19, 50
-DATA 20, 51
-DATA 21, 52
-DATA 22, 53
-DATA 23, 54
-DATA 24, 55
-DATA 25, 56
-DATA 26, 57
-DATA 27, 58
-DATA 28, 59
-DATA 29, 60
+DATA 1, 31
+DATA 2, 32
+DATA 3, 32
+DATA 4, 33
+DATA 5, 33
+DATA 6, 34
+DATA 7, 34
+DATA 8, 35
+DATA 9, 35
+DATA 10, 36
+DATA 11, 36
+DATA 12, 37
+DATA 13, 37
+DATA 14, 38
+DATA 15, 38
+DATA 16, 39
+DATA 17, 39
+DATA 18, 40
+DATA 19, 40
+DATA 20, 41
+DATA 21, 41
+DATA 22, 42
+DATA 23, 42
+DATA 24, 43
+DATA 25, 43
+DATA 26, 44
+DATA 27, 44
+DATA 28, 45
+DATA 29, 45
+DATA 30, 46
+DATA 31, 46
+DATA 32, 47
+DATA 33, 47
+DATA 34, 48
+DATA 35, 48
+DATA 36, 49
+DATA 37, 49
+DATA 38, 50
+DATA 39, 50
+DATA 40, 51
+DATA 41, 51
+DATA 42, 52
+DATA 43, 52
+DATA 44, 53
+DATA 45, 53
+DATA 46, 54
+DATA 47, 54
+DATA 48, 55
+DATA 49, 55
+DATA 50, 56
+DATA 51, 56
+DATA 52, 57
+DATA 53, 57
+DATA 54, 58
+DATA 55, 58
+DATA 56, 59
+DATA 57, 59
+DATA 58, 60
+DATA 59, 60
 DATA -1, -1
 REM Image 2
 DATA 0, 61
-DATA 1, 62
-DATA 2, 63
-DATA 3, 64
-DATA 4, 65
-DATA 5, 66
-DATA 6, 67
-DATA 7, 68
-DATA 8, 69
-DATA 9, 70
-DATA 10, 71
-DATA 11, 72
-DATA 12, 73
-DATA 13, 74
-DATA 14, 75
-DATA 15, 76
-DATA 16, 77
-DATA 17, 78
-DATA 18, 79
-DATA 19, 80
-DATA 20, 81
-DATA 21, 82
-DATA 22, 83
-DATA 23, 84
-DATA 24, 85
-DATA 25, 86
-DATA 26, 87
-DATA 27, 88
-DATA 28, 89
-DATA 29, 90
+DATA 1, 61
+DATA 2, 62
+DATA 3, 62
+DATA 4, 63
+DATA 5, 63
+DATA 6, 64
+DATA 7, 64
+DATA 8, 65
+DATA 9, 65
+DATA 10, 66
+DATA 11, 66
+DATA 12, 67
+DATA 13, 67
+DATA 14, 68
+DATA 15, 68
+DATA 16, 69
+DATA 17, 69
+DATA 18, 70
+DATA 19, 70
+DATA 20, 71
+DATA 21, 71
+DATA 22, 72
+DATA 23, 72
+DATA 24, 73
+DATA 25, 73
+DATA 26, 74
+DATA 27, 74
+DATA 28, 75
+DATA 29, 75
+DATA 30, 76
+DATA 31, 76
+DATA 32, 77
+DATA 33, 77
+DATA 34, 78
+DATA 35, 78
+DATA 36, 79
+DATA 37, 79
+DATA 38, 80
+DATA 39, 80
+DATA 40, 81
+DATA 41, 81
+DATA 42, 82
+DATA 43, 82
+DATA 44, 83
+DATA 45, 83
+DATA 46, 84
+DATA 47, 84
+DATA 48, 85
+DATA 49, 85
+DATA 50, 86
+DATA 51, 86
+DATA 52, 87
+DATA 53, 87
+DATA 54, 88
+DATA 55, 88
+DATA 56, 89
+DATA 57, 89
+DATA 58, 90
+DATA 59, 90
 DATA -1, -1
 REM Image 3
 DATA 0, 91
-DATA 1, 92
-DATA 2, 93
-DATA 3, 94
-DATA 4, 95
-DATA 5, 96
-DATA 6, 97
-DATA 7, 98
-DATA 8, 99
-DATA 9, 100
-DATA 10, 101
-DATA 11, 102
-DATA 12, 103
-DATA 13, 104
-DATA 14, 105
-DATA 15, 105
-DATA 16, 106
-DATA 17, 107
-DATA 18, 108
-DATA 19, 109
-DATA 20, 110
-DATA 21, 111
-DATA 22, 112
-DATA 23, 113
-DATA 24, 114
-DATA 25, 115
-DATA 26, 116
-DATA 27, 117
-DATA 28, 118
-DATA 29, 119
+DATA 1, 91
+DATA 2, 92
+DATA 3, 92
+DATA 4, 93
+DATA 5, 93
+DATA 6, 94
+DATA 7, 94
+DATA 8, 95
+DATA 9, 95
+DATA 10, 96
+DATA 11, 96
+DATA 12, 97
+DATA 13, 97
+DATA 14, 98
+DATA 15, 98
+DATA 16, 99
+DATA 17, 99
+DATA 18, 100
+DATA 19, 100
+DATA 20, 101
+DATA 21, 101
+DATA 22, 102
+DATA 23, 102
+DATA 24, 103
+DATA 25, 103
+DATA 26, 104
+DATA 27, 104
+DATA 28, 105
+DATA 29, 105
+DATA 30, 105
+DATA 31, 105
+DATA 32, 106
+DATA 33, 106
+DATA 34, 107
+DATA 35, 107
+DATA 36, 108
+DATA 37, 108
+DATA 38, 109
+DATA 39, 109
+DATA 40, 110
+DATA 41, 110
+DATA 42, 111
+DATA 43, 111
+DATA 44, 112
+DATA 45, 112
+DATA 46, 113
+DATA 47, 113
+DATA 48, 114
+DATA 49, 114
+DATA 50, 115
+DATA 51, 115
+DATA 52, 116
+DATA 53, 116
+DATA 54, 117
+DATA 55, 117
+DATA 56, 118
+DATA 57, 118
+DATA 58, 119
+DATA 59, 119
 DATA -1, -1
 REM Image 4
 DATA 0, 120
-DATA 1, 121
-DATA 2, 122
-DATA 3, 123
-DATA 4, 124
-DATA 5, 125
-DATA 6, 126
-DATA 7, 127
-DATA 8, 128
-DATA 9, 129
-DATA 10, 130
-DATA 11, 131
-DATA 12, 132
-DATA 13, 133
-DATA 14, 134
-DATA 15, 135
-DATA 16, 136
-DATA 17, 137
-DATA 18, 138
-DATA 19, 138
-DATA 20, 139
-DATA 21, 140
-DATA 22, 140
-DATA 23, 141
-DATA 24, 142
-DATA 25, 143
-DATA 26, 144
-DATA 27, 145
-DATA 28, 146
-DATA 29, 147
+DATA 1, 120
+DATA 2, 121
+DATA 3, 121
+DATA 4, 122
+DATA 5, 122
+DATA 6, 123
+DATA 7, 123
+DATA 8, 124
+DATA 9, 124
+DATA 10, 125
+DATA 11, 125
+DATA 12, 126
+DATA 13, 126
+DATA 14, 127
+DATA 15, 127
+DATA 16, 128
+DATA 17, 128
+DATA 18, 129
+DATA 19, 129
+DATA 20, 130
+DATA 21, 130
+DATA 22, 131
+DATA 23, 131
+DATA 24, 132
+DATA 25, 132
+DATA 26, 133
+DATA 27, 133
+DATA 28, 134
+DATA 29, 134
+DATA 30, 135
+DATA 31, 135
+DATA 32, 136
+DATA 33, 136
+DATA 34, 137
+DATA 35, 137
+DATA 36, 138
+DATA 37, 138
+DATA 38, 138
+DATA 39, 138
+DATA 40, 139
+DATA 41, 139
+DATA 42, 140
+DATA 43, 140
+DATA 44, 140
+DATA 45, 140
+DATA 46, 141
+DATA 47, 141
+DATA 48, 142
+DATA 49, 142
+DATA 50, 143
+DATA 51, 143
+DATA 52, 144
+DATA 53, 144
+DATA 54, 145
+DATA 55, 145
+DATA 56, 146
+DATA 57, 146
+DATA 58, 147
+DATA 59, 147
 DATA -1, -1
 REM Image 5
-DATA 1, 148
-DATA 2, 149
-DATA 3, 150
-DATA 4, 151
-DATA 5, 152
-DATA 6, 153
-DATA 7, 154
-DATA 8, 155
-DATA 9, 131
-DATA 10, 156
-DATA 11, 157
-DATA 12, 158
-DATA 13, 159
-DATA 14, 160
-DATA 15, 161
-DATA 16, 162
-DATA 17, 163
-DATA 18, 162
-DATA 19, 164
-DATA 20, 165
-DATA 21, 166
-DATA 22, 166
-DATA 23, 167
-DATA 24, 168
-DATA 25, 169
-DATA 26, 170
-DATA 27, 171
-DATA 28, 172
-DATA 29, 173
+DATA 2, 148
+DATA 3, 148
+DATA 4, 149
+DATA 5, 149
+DATA 6, 150
+DATA 7, 150
+DATA 8, 151
+DATA 9, 151
+DATA 10, 152
+DATA 11, 152
+DATA 12, 153
+DATA 13, 153
+DATA 14, 154
+DATA 15, 154
+DATA 16, 155
+DATA 17, 155
+DATA 18, 131
+DATA 19, 131
+DATA 20, 156
+DATA 21, 156
+DATA 22, 157
+DATA 23, 157
+DATA 24, 158
+DATA 25, 158
+DATA 26, 159
+DATA 27, 159
+DATA 28, 160
+DATA 29, 160
+DATA 30, 161
+DATA 31, 161
+DATA 32, 162
+DATA 33, 162
+DATA 34, 163
+DATA 35, 163
+DATA 36, 162
+DATA 37, 162
+DATA 38, 164
+DATA 39, 164
+DATA 40, 165
+DATA 41, 165
+DATA 42, 166
+DATA 43, 166
+DATA 44, 166
+DATA 45, 166
+DATA 46, 167
+DATA 47, 167
+DATA 48, 168
+DATA 49, 168
+DATA 50, 169
+DATA 51, 169
+DATA 52, 170
+DATA 53, 170
+DATA 54, 171
+DATA 55, 171
+DATA 56, 172
+DATA 57, 172
+DATA 58, 173
+DATA 59, 173
 DATA -1, -1
 REM Image 6
 DATA 0, 61
-DATA 1, 174
-DATA 2, 175
-DATA 3, 176
-DATA 4, 177
-DATA 5, 178
-DATA 6, 179
-DATA 7, 180
-DATA 8, 181
-DATA 9, 182
-DATA 10, 183
-DATA 11, 184
-DATA 12, 185
-DATA 13, 186
-DATA 14, 187
-DATA 15, 187
-DATA 16, 188
-DATA 17, 188
-DATA 18, 188
-DATA 19, 189
-DATA 20, 190
-DATA 21, 191
-DATA 22, 191
-DATA 23, 192
-DATA 24, 193
-DATA 25, 194
-DATA 26, 195
-DATA 27, 196
-DATA 28, 197
+DATA 1, 61
+DATA 2, 174
+DATA 3, 174
+DATA 4, 175
+DATA 5, 175
+DATA 6, 176
+DATA 7, 176
+DATA 8, 177
+DATA 9, 177
+DATA 10, 178
+DATA 11, 178
+DATA 12, 179
+DATA 13, 179
+DATA 14, 180
+DATA 15, 180
+DATA 16, 181
+DATA 17, 181
+DATA 18, 182
+DATA 19, 182
+DATA 20, 183
+DATA 21, 183
+DATA 22, 184
+DATA 23, 184
+DATA 24, 185
+DATA 25, 185
+DATA 26, 186
+DATA 27, 186
+DATA 28, 187
+DATA 29, 187
+DATA 30, 187
+DATA 31, 187
+DATA 32, 188
+DATA 33, 188
+DATA 34, 188
+DATA 35, 188
+DATA 36, 188
+DATA 37, 188
+DATA 38, 189
+DATA 39, 189
+DATA 40, 190
+DATA 41, 190
+DATA 42, 191
+DATA 43, 191
+DATA 44, 191
+DATA 45, 191
+DATA 46, 192
+DATA 47, 192
+DATA 48, 193
+DATA 49, 193
+DATA 50, 194
+DATA 51, 194
+DATA 52, 195
+DATA 53, 195
+DATA 54, 196
+DATA 55, 196
+DATA 56, 197
+DATA 57, 197
 DATA -1, -1
 REM Image 7
 DATA 0, 198
-DATA 1, 199
-DATA 2, 200
-DATA 3, 201
-DATA 4, 202
-DATA 5, 203
-DATA 6, 204
-DATA 7, 205
-DATA 8, 206
-DATA 9, 207
-DATA 10, 208
-DATA 11, 209
-DATA 12, 210
-DATA 13, 211
-DATA 14, 212
-DATA 15, 212
-DATA 16, 212
-DATA 17, 213
-DATA 18, 212
-DATA 19, 214
-DATA 20, 215
-DATA 21, 216
-DATA 22, 215
-DATA 23, 217
-DATA 24, 218
-DATA 25, 219
-DATA 26, 220
-DATA 27, 221
-DATA 28, 222
+DATA 1, 198
+DATA 2, 199
+DATA 3, 199
+DATA 4, 200
+DATA 5, 200
+DATA 6, 201
+DATA 7, 201
+DATA 8, 202
+DATA 9, 202
+DATA 10, 203
+DATA 11, 203
+DATA 12, 204
+DATA 13, 204
+DATA 14, 205
+DATA 15, 205
+DATA 16, 206
+DATA 17, 206
+DATA 18, 207
+DATA 19, 207
+DATA 20, 208
+DATA 21, 208
+DATA 22, 209
+DATA 23, 209
+DATA 24, 210
+DATA 25, 210
+DATA 26, 211
+DATA 27, 211
+DATA 28, 212
+DATA 29, 212
+DATA 30, 212
+DATA 31, 212
+DATA 32, 212
+DATA 33, 212
+DATA 34, 213
+DATA 35, 213
+DATA 36, 212
+DATA 37, 212
+DATA 38, 214
+DATA 39, 214
+DATA 40, 215
+DATA 41, 215
+DATA 42, 216
+DATA 43, 216
+DATA 44, 215
+DATA 45, 215
+DATA 46, 217
+DATA 47, 217
+DATA 48, 218
+DATA 49, 218
+DATA 50, 219
+DATA 51, 219
+DATA 52, 220
+DATA 53, 220
+DATA 54, 221
+DATA 55, 221
+DATA 56, 222
+DATA 57, 222
 DATA -1, -1
 REM Image 8
 DATA 0, 223
-DATA 1, 224
-DATA 2, 225
-DATA 3, 226
-DATA 4, 227
-DATA 5, 228
-DATA 6, 229
-DATA 7, 230
-DATA 8, 231
-DATA 9, 232
-DATA 10, 233
-DATA 11, 234
-DATA 12, 235
-DATA 13, 236
-DATA 14, 237
-DATA 15, 237
-DATA 16, 238
-DATA 17, 238
-DATA 18, 239
-DATA 19, 237
-DATA 20, 240
-DATA 21, 240
-DATA 22, 241
-DATA 23, 242
-DATA 24, 243
-DATA 25, 244
-DATA 26, 245
-DATA 27, 246
+DATA 1, 223
+DATA 2, 224
+DATA 3, 224
+DATA 4, 225
+DATA 5, 225
+DATA 6, 226
+DATA 7, 226
+DATA 8, 227
+DATA 9, 227
+DATA 10, 228
+DATA 11, 228
+DATA 12, 229
+DATA 13, 229
+DATA 14, 230
+DATA 15, 230
+DATA 16, 231
+DATA 17, 231
+DATA 18, 232
+DATA 19, 232
+DATA 20, 233
+DATA 21, 233
+DATA 22, 234
+DATA 23, 234
+DATA 24, 235
+DATA 25, 235
+DATA 26, 236
+DATA 27, 236
+DATA 28, 237
+DATA 29, 237
+DATA 30, 237
+DATA 31, 237
+DATA 32, 238
+DATA 33, 238
+DATA 34, 238
+DATA 35, 238
+DATA 36, 239
+DATA 37, 239
+DATA 38, 237
+DATA 39, 237
+DATA 40, 240
+DATA 41, 240
+DATA 42, 240
+DATA 43, 240
+DATA 44, 241
+DATA 45, 241
+DATA 46, 242
+DATA 47, 242
+DATA 48, 243
+DATA 49, 243
+DATA 50, 244
+DATA 51, 244
+DATA 52, 245
+DATA 53, 245
+DATA 54, 246
+DATA 55, 246
 DATA -1, -1
 REM Image 9
 DATA 0, 247
-DATA 1, 248
-DATA 2, 249
-DATA 3, 250
-DATA 4, 251
-DATA 5, 252
-DATA 6, 253
-DATA 7, 254
-DATA 8, 255
-DATA 9, 256
-DATA 10, 234
-DATA 11, 216
-DATA 12, 257
-DATA 13, 237
-DATA 14, 257
-DATA 15, 257
-DATA 16, 258
-DATA 17, 258
-DATA 18, 259
-DATA 19, 260
-DATA 20, 261
-DATA 21, 262
-DATA 22, 263
-DATA 23, 264
-DATA 24, 265
-DATA 25, 266
-DATA 26, 267
-DATA 27, 268
+DATA 1, 247
+DATA 2, 248
+DATA 3, 248
+DATA 4, 249
+DATA 5, 249
+DATA 6, 250
+DATA 7, 250
+DATA 8, 251
+DATA 9, 251
+DATA 10, 252
+DATA 11, 252
+DATA 12, 253
+DATA 13, 253
+DATA 14, 254
+DATA 15, 254
+DATA 16, 255
+DATA 17, 255
+DATA 18, 256
+DATA 19, 256
+DATA 20, 234
+DATA 21, 234
+DATA 22, 216
+DATA 23, 216
+DATA 24, 257
+DATA 25, 257
+DATA 26, 237
+DATA 27, 237
+DATA 28, 257
+DATA 29, 257
+DATA 30, 257
+DATA 31, 257
+DATA 32, 258
+DATA 33, 258
+DATA 34, 258
+DATA 35, 258
+DATA 36, 259
+DATA 37, 259
+DATA 38, 260
+DATA 39, 260
+DATA 40, 261
+DATA 41, 261
+DATA 42, 262
+DATA 43, 262
+DATA 44, 263
+DATA 45, 263
+DATA 46, 264
+DATA 47, 264
+DATA 48, 265
+DATA 49, 265
+DATA 50, 266
+DATA 51, 266
+DATA 52, 267
+DATA 53, 267
+DATA 54, 268
+DATA 55, 268
 DATA -1, -1
 REM Image 10
 DATA 0, 269
-DATA 1, 270
-DATA 2, 271
-DATA 3, 272
-DATA 4, 273
-DATA 5, 274
-DATA 6, 275
-DATA 7, 276
-DATA 8, 217
-DATA 9, 277
-DATA 10, 216
-DATA 11, 240
-DATA 12, 260
-DATA 13, 260
-DATA 15, 260
-DATA 16, 257
-DATA 17, 278
-DATA 18, 279
-DATA 19, 280
-DATA 21, 281
-DATA 22, 282
-DATA 23, 283
-DATA 24, 284
-DATA 25, 285
-DATA 26, 286
-DATA 27, 246
-DATA 28, 287
+DATA 1, 269
+DATA 2, 270
+DATA 3, 270
+DATA 4, 271
+DATA 5, 271
+DATA 6, 272
+DATA 7, 272
+DATA 8, 273
+DATA 9, 273
+DATA 10, 274
+DATA 11, 274
+DATA 12, 275
+DATA 13, 275
+DATA 14, 276
+DATA 15, 276
+DATA 16, 217
+DATA 17, 217
+DATA 18, 277
+DATA 19, 277
+DATA 20, 216
+DATA 21, 216
+DATA 22, 240
+DATA 23, 240
+DATA 24, 260
+DATA 25, 260
+DATA 26, 260
+DATA 27, 260
+DATA 30, 260
+DATA 31, 260
+DATA 32, 257
+DATA 33, 257
+DATA 34, 278
+DATA 35, 278
+DATA 36, 279
+DATA 37, 279
+DATA 38, 280
+DATA 39, 280
+DATA 42, 281
+DATA 43, 281
+DATA 44, 282
+DATA 45, 282
+DATA 46, 283
+DATA 47, 283
+DATA 48, 284
+DATA 49, 284
+DATA 50, 285
+DATA 51, 285
+DATA 52, 286
+DATA 53, 286
+DATA 54, 246
+DATA 55, 246
+DATA 56, 287
+DATA 57, 287
 DATA -1, -1
 REM Image 11
 DATA 0, 288
-DATA 1, 289
-DATA 2, 290
-DATA 3, 291
-DATA 4, 292
-DATA 5, 293
-DATA 6, 294
-DATA 7, 295
-DATA 8, 295
-DATA 9, 241
-DATA 10, 240
-DATA 12, 257
-DATA 13, 257
-DATA 16, 258
-DATA 17, 296
-DATA 18, 297
-DATA 19, 298
-DATA 20, 299
-DATA 21, 300
-DATA 22, 301
-DATA 23, 302
-DATA 24, 303
-DATA 25, 304
-DATA 26, 305
-DATA 27, 306
-DATA 28, 222
-DATA 31, 307
+DATA 1, 288
+DATA 2, 289
+DATA 3, 289
+DATA 4, 290
+DATA 5, 290
+DATA 6, 291
+DATA 7, 291
+DATA 8, 292
+DATA 9, 292
+DATA 10, 293
+DATA 11, 293
+DATA 12, 294
+DATA 13, 294
+DATA 14, 295
+DATA 15, 295
+DATA 16, 295
+DATA 17, 295
+DATA 18, 241
+DATA 19, 241
+DATA 20, 240
+DATA 21, 240
+DATA 24, 257
+DATA 25, 257
+DATA 26, 257
+DATA 27, 257
+DATA 32, 258
+DATA 33, 258
+DATA 34, 296
+DATA 35, 296
+DATA 36, 297
+DATA 37, 297
+DATA 38, 298
+DATA 39, 298
+DATA 40, 299
+DATA 41, 299
+DATA 42, 300
+DATA 43, 300
+DATA 44, 301
+DATA 45, 301
+DATA 46, 302
+DATA 47, 302
+DATA 48, 303
+DATA 49, 303
+DATA 50, 304
+DATA 51, 304
+DATA 52, 305
+DATA 53, 305
+DATA 54, 306
+DATA 55, 306
+DATA 56, 222
+DATA 57, 222
+DATA 62, 307
+DATA 63, 307
 DATA -1, -1
 REM Image 12
 DATA 0, 247
-DATA 1, 308
-DATA 2, 309
-DATA 3, 310
-DATA 4, 311
-DATA 5, 312
-DATA 6, 313
-DATA 7, 314
-DATA 8, 264
-DATA 9, 263
-DATA 10, 261
-DATA 11, 315
-DATA 12, 259
-DATA 13, 260
-DATA 15, 316
-DATA 17, 317
-DATA 18, 318
-DATA 19, 319
-DATA 20, 320
-DATA 21, 321
-DATA 22, 322
-DATA 23, 323
-DATA 24, 324
-DATA 25, 325
-DATA 26, 326
-DATA 27, 246
+DATA 1, 247
+DATA 2, 308
+DATA 3, 308
+DATA 4, 309
+DATA 5, 309
+DATA 6, 310
+DATA 7, 310
+DATA 8, 311
+DATA 9, 311
+DATA 10, 312
+DATA 11, 312
+DATA 12, 313
+DATA 13, 313
+DATA 14, 314
+DATA 15, 314
+DATA 16, 264
+DATA 17, 264
+DATA 18, 263
+DATA 19, 263
+DATA 20, 261
+DATA 21, 261
+DATA 22, 315
+DATA 23, 315
+DATA 24, 259
+DATA 25, 259
+DATA 26, 260
+DATA 27, 260
+DATA 30, 316
+DATA 31, 316
+DATA 34, 317
+DATA 35, 317
+DATA 36, 318
+DATA 37, 318
+DATA 38, 319
+DATA 39, 319
+DATA 40, 320
+DATA 41, 320
+DATA 42, 321
+DATA 43, 321
+DATA 44, 322
+DATA 45, 322
+DATA 46, 323
+DATA 47, 323
+DATA 48, 324
+DATA 49, 324
+DATA 50, 325
+DATA 51, 325
+DATA 52, 326
+DATA 53, 326
+DATA 54, 246
+DATA 55, 246
 DATA -1, -1
 REM Image 13
 DATA 0, 327
-DATA 1, 328
-DATA 2, 329
-DATA 3, 330
-DATA 4, 331
-DATA 5, 332
-DATA 6, 333
-DATA 7, 334
-DATA 8, 334
-DATA 10, 263
-DATA 11, 263
-DATA 12, 280
-DATA 13, 335
-DATA 14, 336
-DATA 15, 337
-DATA 16, 338
-DATA 17, 339
-DATA 18, 340
-DATA 19, 341
-DATA 20, 342
-DATA 21, 343
-DATA 22, 344
-DATA 23, 345
-DATA 24, 346
-DATA 25, 347
-DATA 26, 348
-DATA 31, 349
+DATA 1, 327
+DATA 2, 328
+DATA 3, 328
+DATA 4, 329
+DATA 5, 329
+DATA 6, 330
+DATA 7, 330
+DATA 8, 331
+DATA 9, 331
+DATA 10, 332
+DATA 11, 332
+DATA 12, 333
+DATA 13, 333
+DATA 14, 334
+DATA 15, 334
+DATA 16, 334
+DATA 17, 334
+DATA 20, 263
+DATA 21, 263
+DATA 22, 263
+DATA 23, 263
+DATA 24, 280
+DATA 25, 280
+DATA 26, 335
+DATA 27, 335
+DATA 28, 336
+DATA 29, 336
+DATA 30, 337
+DATA 31, 337
+DATA 32, 338
+DATA 33, 338
+DATA 34, 339
+DATA 35, 339
+DATA 36, 340
+DATA 37, 340
+DATA 38, 341
+DATA 39, 341
+DATA 40, 342
+DATA 41, 342
+DATA 42, 343
+DATA 43, 343
+DATA 44, 344
+DATA 45, 344
+DATA 46, 345
+DATA 47, 345
+DATA 48, 346
+DATA 49, 346
+DATA 50, 347
+DATA 51, 347
+DATA 52, 348
+DATA 53, 348
+DATA 62, 349
+DATA 63, 349
 DATA -1, -1
 REM Image 14
 DATA 0, 61
-DATA 1, 350
-DATA 2, 351
-DATA 3, 352
-DATA 4, 353
-DATA 5, 354
-DATA 6, 355
-DATA 7, 356
-DATA 8, 302
-DATA 9, 357
-DATA 10, 358
-DATA 11, 359
-DATA 12, 336
-DATA 13, 360
-DATA 14, 361
-DATA 15, 362
-DATA 16, 363
-DATA 17, 364
-DATA 18, 365
-DATA 19, 366
-DATA 20, 367
-DATA 21, 368
-DATA 22, 369
-DATA 23, 370
-DATA 24, 371
-DATA 25, 372
-DATA 26, 373
-DATA 31, 327
+DATA 1, 61
+DATA 2, 350
+DATA 3, 350
+DATA 4, 351
+DATA 5, 351
+DATA 6, 352
+DATA 7, 352
+DATA 8, 353
+DATA 9, 353
+DATA 10, 354
+DATA 11, 354
+DATA 12, 355
+DATA 13, 355
+DATA 14, 356
+DATA 15, 356
+DATA 16, 302
+DATA 17, 302
+DATA 18, 357
+DATA 19, 357
+DATA 20, 358
+DATA 21, 358
+DATA 22, 359
+DATA 23, 359
+DATA 24, 336
+DATA 25, 336
+DATA 26, 360
+DATA 27, 360
+DATA 28, 361
+DATA 29, 361
+DATA 30, 362
+DATA 31, 362
+DATA 32, 363
+DATA 33, 363
+DATA 34, 364
+DATA 35, 364
+DATA 36, 365
+DATA 37, 365
+DATA 38, 366
+DATA 39, 366
+DATA 40, 367
+DATA 41, 367
+DATA 42, 368
+DATA 43, 368
+DATA 44, 369
+DATA 45, 369
+DATA 46, 370
+DATA 47, 370
+DATA 48, 371
+DATA 49, 371
+DATA 50, 372
+DATA 51, 372
+DATA 52, 373
+DATA 53, 373
+DATA 62, 327
+DATA 63, 327
 DATA -1, -1
 REM Image 15
-DATA 1, 374
-DATA 2, 375
-DATA 3, 376
-DATA 4, 377
-DATA 5, 378
-DATA 6, 379
-DATA 7, 380
-DATA 8, 381
-DATA 9, 382
-DATA 10, 383
-DATA 11, 384
-DATA 12, 385
-DATA 13, 386
-DATA 14, 387
-DATA 15, 388
-DATA 16, 389
-DATA 17, 390
-DATA 18, 391
-DATA 19, 392
-DATA 20, 393
-DATA 21, 394
-DATA 22, 395
-DATA 23, 396
-DATA 24, 397
-DATA 25, 398
-DATA 26, 399
-DATA 31, 120
+DATA 2, 374
+DATA 3, 374
+DATA 4, 375
+DATA 5, 375
+DATA 6, 376
+DATA 7, 376
+DATA 8, 377
+DATA 9, 377
+DATA 10, 378
+DATA 11, 378
+DATA 12, 379
+DATA 13, 379
+DATA 14, 380
+DATA 15, 380
+DATA 16, 381
+DATA 17, 381
+DATA 18, 382
+DATA 19, 382
+DATA 20, 383
+DATA 21, 383
+DATA 22, 384
+DATA 23, 384
+DATA 24, 385
+DATA 25, 385
+DATA 26, 386
+DATA 27, 386
+DATA 28, 387
+DATA 29, 387
+DATA 30, 388
+DATA 31, 388
+DATA 32, 389
+DATA 33, 389
+DATA 34, 390
+DATA 35, 390
+DATA 36, 391
+DATA 37, 391
+DATA 38, 392
+DATA 39, 392
+DATA 40, 393
+DATA 41, 393
+DATA 42, 394
+DATA 43, 394
+DATA 44, 395
+DATA 45, 395
+DATA 46, 396
+DATA 47, 396
+DATA 48, 397
+DATA 49, 397
+DATA 50, 398
+DATA 51, 398
+DATA 52, 399
+DATA 53, 399
+DATA 62, 120
+DATA 63, 120
 DATA -1, -1
 REM Image 16
-DATA 1, 400
-DATA 2, 401
-DATA 3, 402
-DATA 4, 403
-DATA 5, 404
-DATA 6, 405
-DATA 7, 406
-DATA 8, 406
-DATA 9, 407
-DATA 10, 408
-DATA 11, 409
-DATA 12, 410
-DATA 13, 411
-DATA 14, 412
-DATA 15, 413
-DATA 16, 414
-DATA 17, 415
-DATA 18, 416
-DATA 19, 257
-DATA 20, 417
-DATA 21, 418
-DATA 22, 419
-DATA 23, 420
-DATA 24, 421
-DATA 25, 422
-DATA 26, 423
-DATA 31, 61
+DATA 2, 400
+DATA 3, 400
+DATA 4, 401
+DATA 5, 401
+DATA 6, 402
+DATA 7, 402
+DATA 8, 403
+DATA 9, 403
+DATA 10, 404
+DATA 11, 404
+DATA 12, 405
+DATA 13, 405
+DATA 14, 406
+DATA 15, 406
+DATA 16, 406
+DATA 17, 406
+DATA 18, 407
+DATA 19, 407
+DATA 20, 408
+DATA 21, 408
+DATA 22, 409
+DATA 23, 409
+DATA 24, 410
+DATA 25, 410
+DATA 26, 411
+DATA 27, 411
+DATA 28, 412
+DATA 29, 412
+DATA 30, 413
+DATA 31, 413
+DATA 32, 414
+DATA 33, 414
+DATA 34, 415
+DATA 35, 415
+DATA 36, 416
+DATA 37, 416
+DATA 38, 257
+DATA 39, 257
+DATA 40, 417
+DATA 41, 417
+DATA 42, 418
+DATA 43, 418
+DATA 44, 419
+DATA 45, 419
+DATA 46, 420
+DATA 47, 420
+DATA 48, 421
+DATA 49, 421
+DATA 50, 422
+DATA 51, 422
+DATA 52, 423
+DATA 53, 423
+DATA 62, 61
+DATA 63, 61
 DATA -1, -1
 REM Image 17
 DATA 0, 198
-DATA 1, 424
-DATA 2, 425
-DATA 3, 426
-DATA 4, 427
-DATA 5, 428
-DATA 6, 429
-DATA 7, 430
-DATA 8, 431
-DATA 9, 432
-DATA 10, 433
-DATA 11, 434
-DATA 12, 435
-DATA 13, 436
-DATA 14, 437
-DATA 15, 438
-DATA 16, 439
-DATA 17, 440
-DATA 18, 441
-DATA 19, 442
-DATA 20, 443
-DATA 21, 444
-DATA 22, 445
-DATA 23, 446
-DATA 24, 447
-DATA 25, 448
-DATA 26, 449
+DATA 1, 198
+DATA 2, 424
+DATA 3, 424
+DATA 4, 425
+DATA 5, 425
+DATA 6, 426
+DATA 7, 426
+DATA 8, 427
+DATA 9, 427
+DATA 10, 428
+DATA 11, 428
+DATA 12, 429
+DATA 13, 429
+DATA 14, 430
+DATA 15, 430
+DATA 16, 431
+DATA 17, 431
+DATA 18, 432
+DATA 19, 432
+DATA 20, 433
+DATA 21, 433
+DATA 22, 434
+DATA 23, 434
+DATA 24, 435
+DATA 25, 435
+DATA 26, 436
+DATA 27, 436
+DATA 28, 437
+DATA 29, 437
+DATA 30, 438
+DATA 31, 438
+DATA 32, 439
+DATA 33, 439
+DATA 34, 440
+DATA 35, 440
+DATA 36, 441
+DATA 37, 441
+DATA 38, 442
+DATA 39, 442
+DATA 40, 443
+DATA 41, 443
+DATA 42, 444
+DATA 43, 444
+DATA 44, 445
+DATA 45, 445
+DATA 46, 446
+DATA 47, 446
+DATA 48, 447
+DATA 49, 447
+DATA 50, 448
+DATA 51, 448
+DATA 52, 449
+DATA 53, 449
 DATA -1, -1
 REM Image 18
 DATA 0, 450
-DATA 1, 451
-DATA 2, 452
-DATA 3, 453
-DATA 4, 454
-DATA 5, 455
-DATA 6, 456
-DATA 7, 457
-DATA 8, 458
-DATA 9, 459
-DATA 10, 460
-DATA 11, 461
-DATA 12, 462
-DATA 13, 463
-DATA 14, 464
-DATA 15, 465
-DATA 16, 466
-DATA 17, 467
-DATA 18, 468
-DATA 19, 469
-DATA 20, 470
-DATA 21, 471
-DATA 22, 472
-DATA 23, 473
-DATA 24, 474
-DATA 25, 475
-DATA 26, 195
+DATA 1, 450
+DATA 2, 451
+DATA 3, 451
+DATA 4, 452
+DATA 5, 452
+DATA 6, 453
+DATA 7, 453
+DATA 8, 454
+DATA 9, 454
+DATA 10, 455
+DATA 11, 455
+DATA 12, 456
+DATA 13, 456
+DATA 14, 457
+DATA 15, 457
+DATA 16, 458
+DATA 17, 458
+DATA 18, 459
+DATA 19, 459
+DATA 20, 460
+DATA 21, 460
+DATA 22, 461
+DATA 23, 461
+DATA 24, 462
+DATA 25, 462
+DATA 26, 463
+DATA 27, 463
+DATA 28, 464
+DATA 29, 464
+DATA 30, 465
+DATA 31, 465
+DATA 32, 466
+DATA 33, 466
+DATA 34, 467
+DATA 35, 467
+DATA 36, 468
+DATA 37, 468
+DATA 38, 469
+DATA 39, 469
+DATA 40, 470
+DATA 41, 470
+DATA 42, 471
+DATA 43, 471
+DATA 44, 472
+DATA 45, 472
+DATA 46, 473
+DATA 47, 473
+DATA 48, 474
+DATA 49, 474
+DATA 50, 475
+DATA 51, 475
+DATA 52, 195
+DATA 53, 195
 DATA -1, -1
 REM Image 19
 DATA 0, 476
-DATA 1, 477
-DATA 2, 478
-DATA 3, 479
-DATA 4, 480
-DATA 5, 481
-DATA 6, 482
-DATA 7, 483
-DATA 8, 484
-DATA 9, 485
-DATA 10, 486
-DATA 11, 487
-DATA 12, 488
-DATA 13, 489
-DATA 14, 490
-DATA 15, 491
-DATA 16, 492
-DATA 17, 493
-DATA 18, 494
-DATA 19, 495
-DATA 20, 496
-DATA 21, 497
-DATA 22, 498
-DATA 23, 499
-DATA 24, 500
-DATA 25, 501
-DATA 26, 502
+DATA 1, 476
+DATA 2, 477
+DATA 3, 477
+DATA 4, 478
+DATA 5, 478
+DATA 6, 479
+DATA 7, 479
+DATA 8, 480
+DATA 9, 480
+DATA 10, 481
+DATA 11, 481
+DATA 12, 482
+DATA 13, 482
+DATA 14, 483
+DATA 15, 483
+DATA 16, 484
+DATA 17, 484
+DATA 18, 485
+DATA 19, 485
+DATA 20, 486
+DATA 21, 486
+DATA 22, 487
+DATA 23, 487
+DATA 24, 488
+DATA 25, 488
+DATA 26, 489
+DATA 27, 489
+DATA 28, 490
+DATA 29, 490
+DATA 30, 491
+DATA 31, 491
+DATA 32, 492
+DATA 33, 492
+DATA 34, 493
+DATA 35, 493
+DATA 36, 494
+DATA 37, 494
+DATA 38, 495
+DATA 39, 495
+DATA 40, 496
+DATA 41, 496
+DATA 42, 497
+DATA 43, 497
+DATA 44, 498
+DATA 45, 498
+DATA 46, 499
+DATA 47, 499
+DATA 48, 500
+DATA 49, 500
+DATA 50, 501
+DATA 51, 501
+DATA 52, 502
+DATA 53, 502
 DATA -1, -1
 REM Image 20
 DATA 0, 503
-DATA 2, 504
-DATA 3, 505
-DATA 4, 506
-DATA 5, 507
-DATA 6, 508
-DATA 7, 509
-DATA 8, 510
-DATA 9, 511
-DATA 10, 512
-DATA 11, 513
-DATA 12, 514
-DATA 13, 515
-DATA 14, 516
-DATA 15, 517
-DATA 16, 518
-DATA 17, 519
-DATA 18, 520
-DATA 19, 521
-DATA 20, 522
-DATA 21, 523
-DATA 22, 524
-DATA 23, 525
-DATA 24, 526
-DATA 25, 527
+DATA 1, 503
+DATA 4, 504
+DATA 5, 504
+DATA 6, 505
+DATA 7, 505
+DATA 8, 506
+DATA 9, 506
+DATA 10, 507
+DATA 11, 507
+DATA 12, 508
+DATA 13, 508
+DATA 14, 509
+DATA 15, 509
+DATA 16, 510
+DATA 17, 510
+DATA 18, 511
+DATA 19, 511
+DATA 20, 512
+DATA 21, 512
+DATA 22, 513
+DATA 23, 513
+DATA 24, 514
+DATA 25, 514
+DATA 26, 515
+DATA 27, 515
+DATA 28, 516
+DATA 29, 516
+DATA 30, 517
+DATA 31, 517
+DATA 32, 518
+DATA 33, 518
+DATA 34, 519
+DATA 35, 519
+DATA 36, 520
+DATA 37, 520
+DATA 38, 521
+DATA 39, 521
+DATA 40, 522
+DATA 41, 522
+DATA 42, 523
+DATA 43, 523
+DATA 44, 524
+DATA 45, 524
+DATA 46, 525
+DATA 47, 525
+DATA 48, 526
+DATA 49, 526
+DATA 50, 527
+DATA 51, 527
 DATA -1, -1
 REM Image 21
 DATA 0, 528
-DATA 2, 529
-DATA 3, 530
-DATA 4, 531
-DATA 5, 532
-DATA 6, 533
-DATA 7, 534
-DATA 8, 535
-DATA 9, 536
-DATA 10, 537
-DATA 11, 538
-DATA 12, 539
-DATA 13, 540
-DATA 14, 541
-DATA 15, 542
-DATA 16, 543
-DATA 17, 544
-DATA 18, 545
-DATA 19, 546
-DATA 20, 547
-DATA 21, 548
-DATA 22, 549
-DATA 23, 550
-DATA 24, 551
-DATA 25, 552
+DATA 1, 528
+DATA 4, 529
+DATA 5, 529
+DATA 6, 530
+DATA 7, 530
+DATA 8, 531
+DATA 9, 531
+DATA 10, 532
+DATA 11, 532
+DATA 12, 533
+DATA 13, 533
+DATA 14, 534
+DATA 15, 534
+DATA 16, 535
+DATA 17, 535
+DATA 18, 536
+DATA 19, 536
+DATA 20, 537
+DATA 21, 537
+DATA 22, 538
+DATA 23, 538
+DATA 24, 539
+DATA 25, 539
+DATA 26, 540
+DATA 27, 540
+DATA 28, 541
+DATA 29, 541
+DATA 30, 542
+DATA 31, 542
+DATA 32, 543
+DATA 33, 543
+DATA 34, 544
+DATA 35, 544
+DATA 36, 545
+DATA 37, 545
+DATA 38, 546
+DATA 39, 546
+DATA 40, 547
+DATA 41, 547
+DATA 42, 548
+DATA 43, 548
+DATA 44, 549
+DATA 45, 549
+DATA 46, 550
+DATA 47, 550
+DATA 48, 551
+DATA 49, 551
+DATA 50, 552
+DATA 51, 552
 DATA -1, -1
 REM Image 22
 DATA 0, 247
-DATA 1, 553
-DATA 3, 554
-DATA 4, 555
-DATA 5, 556
-DATA 6, 557
-DATA 7, 558
-DATA 8, 559
-DATA 9, 560
-DATA 10, 561
-DATA 11, 562
-DATA 12, 563
-DATA 13, 564
-DATA 14, 565
-DATA 15, 566
-DATA 16, 567
-DATA 17, 568
-DATA 18, 568
-DATA 19, 569
-DATA 20, 570
-DATA 21, 571
-DATA 22, 571
-DATA 23, 98
-DATA 24, 572
-DATA 25, 573
+DATA 1, 247
+DATA 2, 553
+DATA 3, 553
+DATA 6, 554
+DATA 7, 554
+DATA 8, 555
+DATA 9, 555
+DATA 10, 556
+DATA 11, 556
+DATA 12, 557
+DATA 13, 557
+DATA 14, 558
+DATA 15, 558
+DATA 16, 559
+DATA 17, 559
+DATA 18, 560
+DATA 19, 560
+DATA 20, 561
+DATA 21, 561
+DATA 22, 562
+DATA 23, 562
+DATA 24, 563
+DATA 25, 563
+DATA 26, 564
+DATA 27, 564
+DATA 28, 565
+DATA 29, 565
+DATA 30, 566
+DATA 31, 566
+DATA 32, 567
+DATA 33, 567
+DATA 34, 568
+DATA 35, 568
+DATA 36, 568
+DATA 37, 568
+DATA 38, 569
+DATA 39, 569
+DATA 40, 570
+DATA 41, 570
+DATA 42, 571
+DATA 43, 571
+DATA 44, 571
+DATA 45, 571
+DATA 46, 98
+DATA 47, 98
+DATA 48, 572
+DATA 49, 572
+DATA 50, 573
+DATA 51, 573
 DATA -1, -1
 REM Image 23
 DATA 0, 574
-DATA 1, 575
-DATA 2, 576
-DATA 3, 577
-DATA 4, 578
-DATA 5, 579
-DATA 6, 580
-DATA 7, 581
-DATA 8, 582
-DATA 9, 583
-DATA 10, 584
-DATA 11, 585
-DATA 12, 586
-DATA 13, 587
-DATA 14, 588
-DATA 15, 589
-DATA 16, 590
-DATA 17, 591
-DATA 18, 591
-DATA 19, 592
-DATA 20, 593
-DATA 21, 594
-DATA 22, 595
-DATA 23, 596
-DATA 24, 597
-DATA 25, 598
-DATA 31, 450
+DATA 1, 574
+DATA 2, 575
+DATA 3, 575
+DATA 4, 576
+DATA 5, 576
+DATA 6, 577
+DATA 7, 577
+DATA 8, 578
+DATA 9, 578
+DATA 10, 579
+DATA 11, 579
+DATA 12, 580
+DATA 13, 580
+DATA 14, 581
+DATA 15, 581
+DATA 16, 582
+DATA 17, 582
+DATA 18, 583
+DATA 19, 583
+DATA 20, 584
+DATA 21, 584
+DATA 22, 585
+DATA 23, 585
+DATA 24, 586
+DATA 25, 586
+DATA 26, 587
+DATA 27, 587
+DATA 28, 588
+DATA 29, 588
+DATA 30, 589
+DATA 31, 589
+DATA 32, 590
+DATA 33, 590
+DATA 34, 591
+DATA 35, 591
+DATA 36, 591
+DATA 37, 591
+DATA 38, 592
+DATA 39, 592
+DATA 40, 593
+DATA 41, 593
+DATA 42, 594
+DATA 43, 594
+DATA 44, 595
+DATA 45, 595
+DATA 46, 596
+DATA 47, 596
+DATA 48, 597
+DATA 49, 597
+DATA 50, 598
+DATA 51, 598
+DATA 62, 450
+DATA 63, 450
 DATA -1, -1
 REM Image 24
 DATA 0, 599
-DATA 1, 600
-DATA 2, 601
-DATA 3, 602
-DATA 4, 603
-DATA 5, 604
-DATA 6, 605
-DATA 7, 606
-DATA 8, 607
-DATA 9, 608
-DATA 10, 609
-DATA 11, 610
-DATA 12, 611
-DATA 13, 612
-DATA 14, 613
-DATA 15, 614
-DATA 16, 614
-DATA 17, 615
-DATA 18, 616
-DATA 19, 616
-DATA 20, 617
-DATA 21, 618
-DATA 22, 619
-DATA 23, 54
-DATA 24, 620
-DATA 25, 621
-DATA 31, 622
+DATA 1, 599
+DATA 2, 600
+DATA 3, 600
+DATA 4, 601
+DATA 5, 601
+DATA 6, 602
+DATA 7, 602
+DATA 8, 603
+DATA 9, 603
+DATA 10, 604
+DATA 11, 604
+DATA 12, 605
+DATA 13, 605
+DATA 14, 606
+DATA 15, 606
+DATA 16, 607
+DATA 17, 607
+DATA 18, 608
+DATA 19, 608
+DATA 20, 609
+DATA 21, 609
+DATA 22, 610
+DATA 23, 610
+DATA 24, 611
+DATA 25, 611
+DATA 26, 612
+DATA 27, 612
+DATA 28, 613
+DATA 29, 613
+DATA 30, 614
+DATA 31, 614
+DATA 32, 614
+DATA 33, 614
+DATA 34, 615
+DATA 35, 615
+DATA 36, 616
+DATA 37, 616
+DATA 38, 616
+DATA 39, 616
+DATA 40, 617
+DATA 41, 617
+DATA 42, 618
+DATA 43, 618
+DATA 44, 619
+DATA 45, 619
+DATA 46, 54
+DATA 47, 54
+DATA 48, 620
+DATA 49, 620
+DATA 50, 621
+DATA 51, 621
+DATA 62, 622
+DATA 63, 622
 DATA -1, -1
 REM Image 25
 DATA 0, 622
-DATA 1, 623
-DATA 2, 624
-DATA 3, 625
-DATA 4, 626
-DATA 5, 627
-DATA 6, 628
-DATA 7, 629
-DATA 8, 630
-DATA 9, 631
-DATA 10, 632
-DATA 11, 633
-DATA 12, 634
-DATA 13, 635
-DATA 14, 636
-DATA 15, 637
-DATA 16, 638
-DATA 17, 639
-DATA 18, 639
-DATA 19, 640
-DATA 20, 641
-DATA 21, 642
-DATA 22, 643
-DATA 23, 644
-DATA 24, 645
-DATA 25, 646
-DATA 31, 647
+DATA 1, 622
+DATA 2, 623
+DATA 3, 623
+DATA 4, 624
+DATA 5, 624
+DATA 6, 625
+DATA 7, 625
+DATA 8, 626
+DATA 9, 626
+DATA 10, 627
+DATA 11, 627
+DATA 12, 628
+DATA 13, 628
+DATA 14, 629
+DATA 15, 629
+DATA 16, 630
+DATA 17, 630
+DATA 18, 631
+DATA 19, 631
+DATA 20, 632
+DATA 21, 632
+DATA 22, 633
+DATA 23, 633
+DATA 24, 634
+DATA 25, 634
+DATA 26, 635
+DATA 27, 635
+DATA 28, 636
+DATA 29, 636
+DATA 30, 637
+DATA 31, 637
+DATA 32, 638
+DATA 33, 638
+DATA 34, 639
+DATA 35, 639
+DATA 36, 639
+DATA 37, 639
+DATA 38, 640
+DATA 39, 640
+DATA 40, 641
+DATA 41, 641
+DATA 42, 642
+DATA 43, 642
+DATA 44, 643
+DATA 45, 643
+DATA 46, 644
+DATA 47, 644
+DATA 48, 645
+DATA 49, 645
+DATA 50, 646
+DATA 51, 646
+DATA 62, 647
+DATA 63, 647
 DATA -1, -1
 REM Image 26
 DATA 0, 648
-DATA 1, 649
-DATA 2, 650
-DATA 3, 651
-DATA 4, 652
-DATA 5, 653
-DATA 6, 654
-DATA 7, 655
-DATA 8, 656
-DATA 9, 657
-DATA 10, 658
-DATA 11, 659
-DATA 12, 660
-DATA 13, 661
-DATA 14, 662
-DATA 15, 663
-DATA 16, 664
-DATA 17, 665
-DATA 18, 665
-DATA 19, 665
-DATA 20, 666
-DATA 21, 667
-DATA 22, 668
-DATA 23, 669
-DATA 24, 670
-DATA 25, 671
-DATA 26, 672
-DATA 29, 673
-DATA 31, 30
+DATA 1, 648
+DATA 2, 649
+DATA 3, 649
+DATA 4, 650
+DATA 5, 650
+DATA 6, 651
+DATA 7, 651
+DATA 8, 652
+DATA 9, 652
+DATA 10, 653
+DATA 11, 653
+DATA 12, 654
+DATA 13, 654
+DATA 14, 655
+DATA 15, 655
+DATA 16, 656
+DATA 17, 656
+DATA 18, 657
+DATA 19, 657
+DATA 20, 658
+DATA 21, 658
+DATA 22, 659
+DATA 23, 659
+DATA 24, 660
+DATA 25, 660
+DATA 26, 661
+DATA 27, 661
+DATA 28, 662
+DATA 29, 662
+DATA 30, 663
+DATA 31, 663
+DATA 32, 664
+DATA 33, 664
+DATA 34, 665
+DATA 35, 665
+DATA 36, 665
+DATA 37, 665
+DATA 38, 665
+DATA 39, 665
+DATA 40, 666
+DATA 41, 666
+DATA 42, 667
+DATA 43, 667
+DATA 44, 668
+DATA 45, 668
+DATA 46, 669
+DATA 47, 669
+DATA 48, 670
+DATA 49, 670
+DATA 50, 671
+DATA 51, 671
+DATA 52, 672
+DATA 53, 672
+DATA 58, 673
+DATA 59, 673
+DATA 62, 30
+DATA 63, 30
 DATA -1, -1
 REM Image 27
 DATA 0, 674
-DATA 1, 675
-DATA 2, 676
-DATA 3, 677
-DATA 4, 678
-DATA 5, 679
-DATA 6, 680
-DATA 7, 681
-DATA 8, 682
-DATA 9, 683
-DATA 10, 684
-DATA 11, 685
-DATA 12, 686
-DATA 13, 687
-DATA 14, 688
-DATA 15, 689
-DATA 16, 690
-DATA 17, 691
-DATA 18, 692
-DATA 19, 692
-DATA 20, 693
-DATA 21, 694
-DATA 22, 695
-DATA 23, 696
-DATA 24, 697
-DATA 25, 698
-DATA 26, 312
-DATA 27, 699
-DATA 28, 700
-DATA 29, 173
+DATA 1, 674
+DATA 2, 675
+DATA 3, 675
+DATA 4, 676
+DATA 5, 676
+DATA 6, 677
+DATA 7, 677
+DATA 8, 678
+DATA 9, 678
+DATA 10, 679
+DATA 11, 679
+DATA 12, 680
+DATA 13, 680
+DATA 14, 681
+DATA 15, 681
+DATA 16, 682
+DATA 17, 682
+DATA 18, 683
+DATA 19, 683
+DATA 20, 684
+DATA 21, 684
+DATA 22, 685
+DATA 23, 685
+DATA 24, 686
+DATA 25, 686
+DATA 26, 687
+DATA 27, 687
+DATA 28, 688
+DATA 29, 688
+DATA 30, 689
+DATA 31, 689
+DATA 32, 690
+DATA 33, 690
+DATA 34, 691
+DATA 35, 691
+DATA 36, 692
+DATA 37, 692
+DATA 38, 692
+DATA 39, 692
+DATA 40, 693
+DATA 41, 693
+DATA 42, 694
+DATA 43, 694
+DATA 44, 695
+DATA 45, 695
+DATA 46, 696
+DATA 47, 696
+DATA 48, 697
+DATA 49, 697
+DATA 50, 698
+DATA 51, 698
+DATA 52, 312
+DATA 53, 312
+DATA 54, 699
+DATA 55, 699
+DATA 56, 700
+DATA 57, 700
+DATA 58, 173
+DATA 59, 173
 DATA -1, -1
 REM Image 28
 DATA 0, 701
-DATA 1, 702
-DATA 2, 703
-DATA 3, 704
-DATA 4, 705
-DATA 5, 706
-DATA 6, 707
-DATA 7, 708
-DATA 8, 709
-DATA 9, 710
-DATA 10, 711
-DATA 11, 711
-DATA 12, 712
-DATA 13, 713
-DATA 14, 714
-DATA 15, 715
-DATA 16, 716
-DATA 17, 717
-DATA 18, 718
-DATA 19, 719
-DATA 20, 720
-DATA 21, 721
-DATA 22, 721
-DATA 23, 722
-DATA 24, 723
-DATA 25, 724
-DATA 26, 725
-DATA 27, 726
-DATA 28, 727
+DATA 1, 701
+DATA 2, 702
+DATA 3, 702
+DATA 4, 703
+DATA 5, 703
+DATA 6, 704
+DATA 7, 704
+DATA 8, 705
+DATA 9, 705
+DATA 10, 706
+DATA 11, 706
+DATA 12, 707
+DATA 13, 707
+DATA 14, 708
+DATA 15, 708
+DATA 16, 709
+DATA 17, 709
+DATA 18, 710
+DATA 19, 710
+DATA 20, 711
+DATA 21, 711
+DATA 22, 711
+DATA 23, 711
+DATA 24, 712
+DATA 25, 712
+DATA 26, 713
+DATA 27, 713
+DATA 28, 714
+DATA 29, 714
+DATA 30, 715
+DATA 31, 715
+DATA 32, 716
+DATA 33, 716
+DATA 34, 717
+DATA 35, 717
+DATA 36, 718
+DATA 37, 718
+DATA 38, 719
+DATA 39, 719
+DATA 40, 720
+DATA 41, 720
+DATA 42, 721
+DATA 43, 721
+DATA 44, 721
+DATA 45, 721
+DATA 46, 722
+DATA 47, 722
+DATA 48, 723
+DATA 49, 723
+DATA 50, 724
+DATA 51, 724
+DATA 52, 725
+DATA 53, 725
+DATA 54, 726
+DATA 55, 726
+DATA 56, 727
+DATA 57, 727
 DATA -1, -1
 REM Image 29
 DATA 0, 728
-DATA 1, 729
-DATA 2, 730
-DATA 3, 731
-DATA 4, 732
-DATA 5, 733
-DATA 6, 734
-DATA 7, 735
-DATA 8, 736
-DATA 9, 737
-DATA 10, 738
-DATA 11, 739
-DATA 12, 740
-DATA 13, 741
-DATA 14, 742
-DATA 15, 743
-DATA 16, 744
-DATA 17, 745
-DATA 18, 745
-DATA 19, 746
-DATA 20, 747
-DATA 21, 748
-DATA 22, 748
-DATA 23, 749
-DATA 24, 750
-DATA 25, 751
-DATA 26, 752
-DATA 27, 753
-DATA 28, 754
+DATA 1, 728
+DATA 2, 729
+DATA 3, 729
+DATA 4, 730
+DATA 5, 730
+DATA 6, 731
+DATA 7, 731
+DATA 8, 732
+DATA 9, 732
+DATA 10, 733
+DATA 11, 733
+DATA 12, 734
+DATA 13, 734
+DATA 14, 735
+DATA 15, 735
+DATA 16, 736
+DATA 17, 736
+DATA 18, 737
+DATA 19, 737
+DATA 20, 738
+DATA 21, 738
+DATA 22, 739
+DATA 23, 739
+DATA 24, 740
+DATA 25, 740
+DATA 26, 741
+DATA 27, 741
+DATA 28, 742
+DATA 29, 742
+DATA 30, 743
+DATA 31, 743
+DATA 32, 744
+DATA 33, 744
+DATA 34, 745
+DATA 35, 745
+DATA 36, 745
+DATA 37, 745
+DATA 38, 746
+DATA 39, 746
+DATA 40, 747
+DATA 41, 747
+DATA 42, 748
+DATA 43, 748
+DATA 44, 748
+DATA 45, 748
+DATA 46, 749
+DATA 47, 749
+DATA 48, 750
+DATA 49, 750
+DATA 50, 751
+DATA 51, 751
+DATA 52, 752
+DATA 53, 752
+DATA 54, 753
+DATA 55, 753
+DATA 56, 754
+DATA 57, 754
 DATA -1, -1
 :
 DIM worddata% 10
