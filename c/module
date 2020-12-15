@@ -1,4 +1,9 @@
-/* Test code for running the hourglass */
+/**
+ * Module code for an hourglass.
+ *
+ * The code here sets up the basics of things, with the interrupt and pointer setup
+ * all handled in assembler.
+ */
 
 #include <stdlib.h>
 #include <stdio.h>

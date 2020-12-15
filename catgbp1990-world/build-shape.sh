@@ -28,8 +28,8 @@ exclude_args=(-define png:exclude-chunks=${exclude_chunks})
 convert "${exclude_args[@]}" source.gif -coalesce frame_%d.png
 
 # RISC OS Classic cannot have pointers larger than 32 pixels wide.
-width=32
-height=32
+width=64
+height=64
 
 # Set these to the active point, from top left (or empty to use the default of the center)
 activex=

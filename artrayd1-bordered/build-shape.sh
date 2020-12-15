@@ -28,8 +28,8 @@ exclude_args=(-define png:exclude-chunks=${exclude_chunks})
 convert "${exclude_args[@]}" source.gif -coalesce frame_%d.png
 
 # RISC OS Classic cannot have pointers larger than 32 pixels wide.
-width=32
-height=32
+width=64
+height=64
 
 # Set these to the active point, from top left (or empty to use the default of the center)
 activex=
@@ -79,6 +79,27 @@ EOM
 # - Put a black border around the outside edge
 # - Ensure that the white background is transparent
 for i in $( seq 0 29 ) ; do
+    # The amount we need to expand the inner section of the hourglass by varies depending on
+    # the size of the pointer.
+    close_size=4
+    erode_size=1
+    if [[ $width -gt 96 ]] ; then
+        close_size=11
+        erode_size=5
+    elif [[ $width -gt 84 ]] ; then
+        close_size=10
+        erode_size=5
+    elif [[ $width -gt 76 ]] ; then
+        close_size=9
+        erode_size=4
+    elif [[ $width -gt 64 ]] ; then
+        close_size=8
+        erode_size=2
+    elif [[ $width -gt 32 ]] ; then
+        close_size=7
+        erode_size=2
+    fi
+
     convert "${exclude_args[@]}" \
             frame_$i.png -shave 163x113 -gravity northeast -chop 2x2 \
             -resize ${width}x${height} +dither \
@@ -88,8 +109,8 @@ for i in $( seq 0 29 ) ; do
                 -bordercolor white -border 8x8 -transparent white \
                 -colors 2 \
                 -channel A \
-                    -morphology Close Disk \
-                    -morphology Erode Diamond \
+                    -morphology Close Disk:${close_size} \
+                    -morphology Erode Diamond:${erode_size} \
                 +channel \
                 -shave 8x8 \
                 -background white -alpha remove \
