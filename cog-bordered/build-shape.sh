@@ -33,8 +33,9 @@ for step in $(seq 0 ${rotations}) ; do
 done
 
 # RISC OS Classic cannot have pointers larger than 32 pixels wide.
+# We have 8 rows for the percentage at the bottom
 width=32
-height=32
+height=24
 
 # Set these to the active point, from top left (or empty to use the default of the center)
 activex=
@@ -47,16 +48,17 @@ frameperiod=3
 #palette=("255 255 255" "0 153 14" "0 74 0" "0 228 0")
 # The 3 greens palette won't work because the image has a 3D effect applied that is wrong
 # as you rotate. So just use 1 green.
-palette=("255 255 255" "0 153 14")
+palette=("255 255 255" "0 153 14" "255 255 255" "0 0 0")
 
 # The palette we take from the generated frames, which is different because we introduce another colour.
-generatedpalette=("${palette[@]}" "0 0 0")
+generatedpalette=("${palette[@]}")
 
 # The palette to use for the actual hourglass
 # Regular hourglass uses "255 255 255" "213 246 255" "0 161 255" "0 0 0".
 # Standard pointer uses "255 255 255" "0 255 255" "0 0 153"
 riscospalette=("${generatedpalette[@]}")
 riscospalette[0]="192 192 192"
+riscospalette[2]="192 192 192"
 
 
 # Report we started
@@ -84,7 +86,9 @@ EOM
 for i in $( seq 0 ${rotations} ) ; do
     convert "${exclude_args[@]}" \
             frame_$i.png \
-            -resize ${width}x${height} +dither \
+            -resize ${width}x${height} -gravity center \
+            -extent ${width}x${height} \
+            +dither \
             -remap palette.ppm \
             -alpha on -fuzz 20% -transparent white -background white \
             \(  +clone \

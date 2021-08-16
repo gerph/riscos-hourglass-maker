@@ -64,6 +64,20 @@ _kernel_oserror *swi_smash(void)
 }
 
 
+/**
+ * Set the percentage on the hourglass.
+ *
+ * Note: Does not honour the stacking of percentages.
+ */
+_kernel_oserror *swi_percentage(int percentage)
+{
+    if (percentage < 0 || percentage > 100)
+        percentage = 100;
+    hourglass_percentage(hg, percentage);
+    return NULL;
+}
+
+
 /***************************************************************************
  * Function:     Mod_Init
  * Description:  Initialise the module, setting up vectors, callbacks and
@@ -181,8 +195,7 @@ _kernel_oserror *Mod_SWI(int number, _kernel_swi_regs *r, void *pw)
             return swi_start(r->r[0]);
 
         case Hourglass_Percentage - Hourglass_00:
-            /* Not implemented */
-            return NULL;
+            return swi_percentage(r->r[0]);
 
         case Hourglass_LEDs - Hourglass_00:
             /* Not implemented */

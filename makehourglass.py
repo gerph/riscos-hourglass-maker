@@ -9,6 +9,8 @@ import os
 import pprint
 import sys
 
+import percentage
+
 # We want to use the 'shape.py' from the working directory
 sys.path.append('.')
 
@@ -27,6 +29,19 @@ import shape
 # If you were to have a repetative hourglass which was wider than 2 words,
 # you might turn this off again, but it doesn't offer any benefit right now.
 direct_rowdata = True
+
+# Percentage parameters
+percentage_digits_file = 'digits.json'
+percentage_vspace = 1
+percentage_bar_enabled = True
+percentage_bar_height = 7
+percentage_bar_bgcolour = 2
+percentage_bgcolour = 0
+percentage_digits_enabled = True
+percentage_digits_border = 1
+percentage_digits_bgcolour = 2
+percentage_bar_hspace = 2
+percentage_inset = 0
 
 
 # Number of bits per pixel
@@ -102,6 +117,81 @@ for rowindexes in images_rowindexes[1:]:
 #pprint.pprint(images_rowindexes)
 #pprint.pprint(rowdata)
 #pprint.pprint(deltas[0])
+
+
+# Construct the bitmap data for the percentages
+# (try the current directory first, then fall back to the makehourglass.py directory)
+digits_file = percentage_digits_file
+if not os.path.isfile(digits_file):
+    digits_file = os.path.join(os.path.dirname(__file__), digits_file)
+space = shape.width - percentage_inset * 2
+bar_width = 0
+
+percentage_height = 0
+if percentage_digits_enabled:
+    percentage_chars = percentage.Characters(digits_file)
+    # The digits might be "99%"
+    space -= percentage_chars.width * 3
+    space -= percentage_digits_border * 2
+if percentage_bar_enabled:
+    if percentage_digits_enabled:
+        space -= percentage_bar_hspace
+    bar_width = space if space > 0 else 0
+
+if percentage_bar_enabled or percentage_digits_enabled:
+    percentage_bitmaps = []
+    percentage_worddata = []
+    bar = percentage.ProgressBar(bar_width, percentage_bar_height, fill=percentage_bar_bgcolour)
+    for pct in range(0, 100):
+        bm = percentage.Bitmap(0, 0)
+        if percentage_bar_enabled:
+            bar_bm = bar.bitmap(pct)
+            if percentage_digits_enabled:
+                bar_bm.append_columns(percentage_bar_hspace)
+            bm.append(bar_bm)
+        else:
+            percentage_bm = percentage.Bitmap(0, 0)
+            bm.append(percentage_bm)
+
+        if percentage_digits_enabled:
+            pad = ''
+            if percentage_bar_enabled:
+                if pct < 10:
+                    pad = ' '
+            percentage_bm = percentage_chars.bitmap('{}%{}'.format(pct, pad), fg=3, bg=percentage_digits_bgcolour)
+            percentage_bm.border(size=percentage_digits_border, colour=percentage_digits_bgcolour)
+            #pprint.pprint(percentage_bm.grid)
+            bm.append(percentage_bm, align=0)
+
+        bm.set_width(width=shape.width - percentage_inset * 2, align=0)
+        bm.replace(0, percentage_bgcolour)
+        bm.set_width(width=shape.width, align=0)
+        bm.append_rows(rows=percentage_vspace, top=True)
+
+        percentage_bitmaps.append(bm)
+        percentage_worddata.append(bm.word_data())
+        percentage_height = bm.height
+
+    # Now let's see if we can reduce the frame data by finding common bitmaps
+    # This is only going to work out efficiently for the percentage alone - the
+    # digits will all be different, but oh well.
+    percentage_offset = 0
+    percentage_offsets = []
+    percentage_worddata_size = 4 * len(percentage_worddata[0]) * len(percentage_worddata[0][0])
+    for pct in range(0, 100):
+        # Look at all the preceding words, to see if we can find a block that's the same
+        seen_percentage_offset = None
+        for prior_pct in range(pct):
+            if percentage_worddata[pct] == percentage_worddata[prior_pct]:
+                seen_percentage_offset = percentage_offsets[prior_pct]
+                break
+        if seen_percentage_offset is None:
+            percentage_offsets.append(percentage_offset)
+            percentage_offset += percentage_worddata_size
+            #pprint.pprint(percentage_bitmaps[pct].grid)
+        else:
+            percentage_offsets.append(seen_percentage_offset)
+            percentage_worddata[pct] = None
 
 
 def make_basic(rows, rowdata, deltas, images_rowindexes, filename):
@@ -255,16 +345,20 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes,filename):
     lines.append("nframes           * {}".format(len(deltas)))
     lines.append("active_x          * {}".format(shape.activex))
     lines.append("active_y          * {}".format(shape.activey))
+    if percentage_height:
+        lines.append("percentage_height        * {}".format(percentage_height))
+        lines.append("percentage_worddata_size * {}".format(percentage_worddata_size))
     lines.append("")
     lines.append("; Workspace for changing the hourglass rendition")
     lines.append("                  ^ 0, r12")
     lines.append("hg_framenum       # 4                         ; frame number")
-    lines.append("hg_percentage     # 4                         ; percentage to show (N/I)")
+    lines.append("hg_percentage     # 4                         ; percentage to show")
+    lines.append("hg_percentagenow  # 4                         ; percentage being shown")
     lines.append("hg_leds           # 4                         ; LED flags (N/I)")
     lines.append("hg_oldpointer     # 4                         ; Old pointer configuration")
     lines.append("hg_oldcolours     # 4 * 3                     ; Old palette entries")
     lines.append("hg_word           # 12                        ; OS_Word block")
-    lines.append("hg_currentdata    # 4 * wordsperrow * height  ; Current data for the hourglass")
+    lines.append("hg_currentdata    # 4 * wordsperrow * (height + percentage_height)  ; Current data for the hourglass")
     lines.append("hg_workspacesize  * :INDEX: @                 ; Size of this workspace")
     lines.append("")
     lines.append("; SWI numbers")
@@ -322,6 +416,25 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes,filename):
     for index, offset in enumerate(framedelta_offsets):
         lines.append("          DCD     {}  ; frame {}".format(offset, index))
 
+    # Now the data for the percentage
+    if percentage_height:
+        lines.append("")
+        lines.append("; Offsets into the data for each percentage line")
+        lines.append("percentage_offsets")
+        for index, offset in enumerate(percentage_offsets):
+            lines.append("          DCD     {}  ; {}%".format(offset, index))
+
+        lines.append("")
+        lines.append("; Data for the rows to append for the percentage")
+        lines.append("percentage_data")
+        for index, rowdata in enumerate(percentage_worddata):
+            if rowdata is None:
+                continue
+            lines.append("          ; {}%".format(index))
+            for rowindex, words in enumerate(rowdata):
+                lines.append("          DCD     {}".format(', '.join('&{:08x}'.format(word) for word in words)))
+
+
     lines.append("")
     lines.append("; Palette data")
     lines.append("palette")
@@ -357,8 +470,11 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes,filename):
     lines.append("          MOV     r12, r0")
     lines.append("          MOV     r0, #0")
     lines.append("          STR     r0, hg_framenum")
-    lines.append("          STR     r0, hg_percentage")
     lines.append("          STR     r0, hg_leds")
+    lines.append("          MOV     r0, #-1")
+    lines.append("          STR     r0, hg_percentagenow")
+    lines.append("          MOV     r0, #100")
+    lines.append("          STR     r0, hg_percentage")
     lines.append("          LDR     r0, wordblock_0")
     lines.append("          STR     r0, hg_word")
     lines.append("          LDR     r0, wordblock_4")
@@ -446,6 +562,11 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes,filename):
     lines.append("          STMFD   sp!, {r4, r5, lr}")
     lines.append("          SUB     sp, sp, #8")
     lines.append("          MOV     r12, r0")
+
+    lines.append("          MOV     r0, #-1")
+    lines.append("          STR     r0, hg_percentagenow")
+    lines.append("          MOV     r0, #100")
+    lines.append("          STR     r0, hg_percentage")
 
     lines.append("          LDR     r4, hg_oldpointer               ; work out the old pointer shape")
     lines.append("          BIC     r4, r4, #127                    ; turn off the pointer whilst we change colours")
@@ -544,7 +665,41 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes,filename):
     lines.append("")
 
     lines.append("rowend")
-    # FIXME: Toggle the hourglass pointer number
+    # Decide whether we need to handle the percentage we're going to show
+    if percentage_height:
+        lines.append("          LDR     r14, hg_percentage")
+        lines.append("          LDR     r0, hg_percentagenow")
+        lines.append("          TEQ     r0, r14")
+        lines.append("          BEQ     percentage_up_to_date")
+        lines.append("")
+        lines.append("          TEQ     r14, #100")
+        lines.append("          MOVEQ   r0, #height")
+        lines.append("          MOVNE   r0, #height + percentage_height")
+        lines.append("          STRB    r0, hg_word + 3                 ; update pointer height for percentage block")
+        lines.append("          STR     r14, hg_percentagenow")
+        lines.append("          BEQ     percentage_up_to_date")
+        lines.append("")
+        lines.append("          ADRL    r1, percentage_offsets")
+        lines.append("          LDR     r0, [r1, r14, LSL #2]           ; offset within percentage data")
+        lines.append("          ADRL    r1, percentage_data")
+        lines.append("          ADD     r1, r1, r0")
+
+        lines.append("          ADD     r3, r5, #wordsperrow * 4 * height ; move to the end of the frame data")
+        lines.append("          GBLA    worddata_to_copy")
+        lines.append("worddata_to_copy SETA percentage_worddata_size")
+        lines.append("          WHILE   worddata_to_copy > 4 * 4")
+        lines.append("          LDMIA   r1!, {r0, r2, r4, lr}           ; read a word from rowdata")
+        lines.append("          STMIA   r3!, {r0, r2, r4, lr}           ; store into the currentdata")
+        lines.append("worddata_to_copy SETA worddata_to_copy - 4 * 4")
+        lines.append("          WEND")
+        lines.append("          WHILE   worddata_to_copy > 0")
+        lines.append("          LDR     r0, [r1], #4                    ; read trailing word")
+        lines.append("          STR     r0, [r3], #4                    ; store trailing word")
+        lines.append("worddata_to_copy SETA worddata_to_copy - 4")
+        lines.append("          WEND")
+        lines.append("")
+        lines.append("percentage_up_to_date")
+
     lines.append("          MOV     r0, #21                         ; Set Pointer parameters")
     lines.append("          ADR     r1, hg_word")
     lines.append("          SWI     XOS_Word")
@@ -575,7 +730,7 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes,filename):
     lines.append("          STMFD   sp!, {r0-r3, r4, r5, r12, lr}")
     lines.append("          MOV     r0, r12")
     lines.append("          MRS     r4, CPSR")
-    lines.append("          AND     r1, r4, #&F")
+    lines.append("          BIC     r1, r4, #&F")
     lines.append("          ORR     r1, r1, #&3")
     lines.append("          MSR     CPSR_csxf, r1                    ; Enter SVC mode (keep bitness)")
 
@@ -585,6 +740,19 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes,filename):
 
     lines.append("          MSR     CPSR_cxsf, r4                    ; Restore the mode")
     lines.append("          LDMFD   sp!, {r0-r3, r4, r5, r12, pc}")
+
+    lines.append("")
+    lines.append("; Set the percentage of the hourglass")
+    lines.append("; =>  R0 = hourglass workspace")
+    lines.append(";     R1 = percentage (0-99, or 100 to turn the percentage off)")
+    hlines.append("void hourglass_percentage(hourglass_workspace_t *ws, int percentage);")
+    lines.append("hourglass_percentage SIGNATURE")
+    lines.append("          STMFD   sp!, {r4, r5, lr}")
+    lines.append("          EXPORT  hourglass_percentage")
+    lines.append("          MOV     r12, r0")
+    lines.append("          STR     r1, hg_percentage")
+    lines.append("          LDMFD   sp!, {r4, r5, pc}")
+
 
     lines.append("")
     lines.append("          END")
