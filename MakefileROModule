@@ -16,3 +16,4 @@ OBJS       = \
 include CModule
 
 ${OZDIR}.module: h.modhead
+${OZDIR}.modhead: VersionNum

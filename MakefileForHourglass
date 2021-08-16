@@ -40,7 +40,7 @@ else
 	@echo Not building C test.
 endif
 
-rm32/Hourglass,ffa: s/asm ../cmhg/modhead ../c/module
+rm32/Hourglass,ffa: s/asm ../cmhg/modhead ../c/module ../VersionNum
 ifeq (${USE_ROBUILD},)
 	riscos-amu -f ../MakefileROModule BUILD32=1 MODULE_SUFFIX=${MODULE_SUFFIX}
 else
