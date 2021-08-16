@@ -575,7 +575,7 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes,filename):
     lines.append("          STMFD   sp!, {r0-r3, r4, r5, r12, lr}")
     lines.append("          MOV     r0, r12")
     lines.append("          MRS     r4, CPSR")
-    lines.append("          AND     r1, r4, #&F")
+    lines.append("          BIC     r1, r4, #&F")
     lines.append("          ORR     r1, r1, #&3")
     lines.append("          MSR     CPSR_csxf, r1                    ; Enter SVC mode (keep bitness)")
 
