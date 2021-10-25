@@ -384,904 +384,904 @@ percentage_offsets
 percentage_data
           ; 0%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaaab, &aaaaefe0
-          DCD     &eaaaaaab, &aaaeaee0
-          DCD     &eaaaaaab, &aaabaee0
-          DCD     &eaaaaaab, &aaaaeee0
-          DCD     &eaaaaaab, &aaaeafe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaaab, &aaaebafe
+          DCD     &83aaaaab, &aaaeaaee
+          DCD     &83aaaaab, &aaaffeee
+          DCD     &83aaaaab, &aaaaaeee
+          DCD     &83aaaaab, &aaabaefe
+          DCD     &83ffffff, &aaaaaaaa
           ; 1%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaaab, &aaaaebe0
-          DCD     &eaaaaaab, &aaaeaba0
-          DCD     &eaaaaaab, &aaababa0
-          DCD     &eaaaaaab, &aaaaeba0
-          DCD     &eaaaaaab, &aaaeafe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaaab, &aaaebaba
+          DCD     &83aaaaab, &aaaeaabe
+          DCD     &83aaaaab, &aaaffeba
+          DCD     &83aaaaab, &aaaaaeba
+          DCD     &83aaaaab, &aaabaeba
+          DCD     &83ffffff, &aaaaaaaa
           ; 2%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaaab, &aaaaefe0
-          DCD     &eaaaaaab, &aaaeaea0
-          DCD     &eaaaaaab, &aaabafe0
-          DCD     &eaaaaaab, &aaaaeae0
-          DCD     &eaaaaaab, &aaaeafe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaaab, &aaaebafe
+          DCD     &83aaaaab, &aaaeaaea
+          DCD     &83aaaaab, &aaaffefe
+          DCD     &83aaaaab, &aaaaaeae
+          DCD     &83aaaaab, &aaabaefe
+          DCD     &83ffffff, &aaaaaaaa
           ; 3%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaaab, &aaaaefe0
-          DCD     &eaaaaaab, &aaaeaea0
-          DCD     &eaaaaaab, &aaabafa0
-          DCD     &eaaaaaab, &aaaaeea0
-          DCD     &eaaaaaab, &aaaeafe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaaab, &aaaebafe
+          DCD     &83aaaaab, &aaaeaaea
+          DCD     &83aaaaab, &aaaffefe
+          DCD     &83aaaaab, &aaaaaeea
+          DCD     &83aaaaab, &aaabaefe
+          DCD     &83ffffff, &aaaaaaaa
           ; 4%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaaab, &aaaaeee0
-          DCD     &eaaaaaab, &aaaeaee0
-          DCD     &eaaaaaab, &aaabafe0
-          DCD     &eaaaaaab, &aaaaeea0
-          DCD     &eaaaaaab, &aaaeaea0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaaab, &aaaebaee
+          DCD     &83aaaaab, &aaaeaaee
+          DCD     &83aaaaab, &aaaffefe
+          DCD     &83aaaaab, &aaaaaeea
+          DCD     &83aaaaab, &aaabaeea
+          DCD     &83ffffff, &aaaaaaaa
           ; 5%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaaab, &aaaaefe0
-          DCD     &eaaaaaab, &aaaeaae0
-          DCD     &eaaaaaab, &aaabafe0
-          DCD     &eaaaaaab, &aaaaeea0
-          DCD     &eaaaaaab, &aaaeafe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaaab, &aaaebafe
+          DCD     &83aaaaab, &aaaeaaae
+          DCD     &83aaaaab, &aaaffefe
+          DCD     &83aaaaab, &aaaaaeea
+          DCD     &83aaaaab, &aaabaefe
+          DCD     &83ffffff, &aaaaaaaa
           ; 6%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaaab, &aaaaebe0
-          DCD     &eaaaaaab, &aaaeaae0
-          DCD     &eaaaaaab, &aaabafe0
-          DCD     &eaaaaaab, &aaaaeee0
-          DCD     &eaaaaaab, &aaaeafe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaaab, &aaaebafe
+          DCD     &83aaaaab, &aaaeaaae
+          DCD     &83aaaaab, &aaaffefe
+          DCD     &83aaaaab, &aaaaaeee
+          DCD     &83aaaaab, &aaabaefe
+          DCD     &83ffffff, &aaaaaaaa
           ; 7%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaaa7, &aaaaefe0
-          DCD     &eaaaaaa7, &aaaeaea0
-          DCD     &eaaaaaa7, &aaababa0
-          DCD     &eaaaaaa7, &aaaaeba0
-          DCD     &eaaaaaa7, &aaaeaba0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaaab, &aaaebafe
+          DCD     &83aaaaab, &aaaeaaea
+          DCD     &83aaaaab, &aaaffeea
+          DCD     &83aaaaab, &aaaaaeea
+          DCD     &83aaaaab, &aaabaeea
+          DCD     &83ffffff, &aaaaaaaa
           ; 8%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaaa7, &aaaaefa0
-          DCD     &eaaaaaa7, &aaaeafa0
-          DCD     &eaaaaaa7, &aaabafe0
-          DCD     &eaaaaaa7, &aaaaeee0
-          DCD     &eaaaaaa7, &aaaeafe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaaab, &aaaebafe
+          DCD     &83aaaaab, &aaaeaaee
+          DCD     &83aaaaab, &aaaffefe
+          DCD     &83aaaaab, &aaaaaeee
+          DCD     &83aaaaab, &aaabaefe
+          DCD     &83ffffff, &aaaaaaaa
           ; 9%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaaa7, &aaaaefe0
-          DCD     &eaaaaaa7, &aaaeaee0
-          DCD     &eaaaaaa7, &aaabafe0
-          DCD     &eaaaaaa7, &aaaaeea0
-          DCD     &eaaaaaa7, &aaaeafa0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaaa7, &aaaebafe
+          DCD     &83aaaaa7, &aaaeaaee
+          DCD     &83aaaaa7, &aaaffefe
+          DCD     &83aaaaa7, &aaaaaeea
+          DCD     &83aaaaa7, &aaabaefe
+          DCD     &83ffffff, &aaaaaaaa
           ; 10%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaaa7, &aaefebe0
-          DCD     &eaaaaaa7, &aeaeeba0
-          DCD     &eaaaaaa7, &abaeeba0
-          DCD     &eaaaaaa7, &aaeeeba0
-          DCD     &eaaaaaa7, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaaa7, &baebfaba
+          DCD     &83aaaaa7, &baabbabe
+          DCD     &83aaaaa7, &bffbbaba
+          DCD     &83aaaaa7, &aabbbaba
+          DCD     &83aaaaa7, &aebbfaba
+          DCD     &83ffffff, &aaaaaaaa
           ; 11%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaaa7, &aaebebe0
-          DCD     &eaaaaaa7, &aeababa0
-          DCD     &eaaaaaa7, &abababa0
-          DCD     &eaaaaaa7, &aaebaba0
-          DCD     &eaaaaaa7, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaaa7, &baeaeaba
+          DCD     &83aaaaa7, &baaafabe
+          DCD     &83aaaaa7, &bffaeaba
+          DCD     &83aaaaa7, &aabaeaba
+          DCD     &83aaaaa7, &aebaeaba
+          DCD     &83ffffff, &aaaaaaaa
           ; 12%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaaa7, &aaefebe0
-          DCD     &eaaaaaa7, &aeaeaba0
-          DCD     &eaaaaaa7, &abafeba0
-          DCD     &eaaaaaa7, &aaeaeba0
-          DCD     &eaaaaaa7, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaaa7, &baebfaba
+          DCD     &83aaaaa7, &baabaabe
+          DCD     &83aaaaa7, &bffbfaba
+          DCD     &83aaaaa7, &aabababa
+          DCD     &83aaaaa7, &aebbfaba
+          DCD     &83ffffff, &aaaaaaaa
           ; 13%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaaa7, &aaefebe0
-          DCD     &eaaaaaa7, &aeaeaba0
-          DCD     &eaaaaaa7, &abafaba0
-          DCD     &eaaaaaa7, &aaeeaba0
-          DCD     &eaaaaaa7, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaaa7, &baebfaba
+          DCD     &83aaaaa7, &baabaabe
+          DCD     &83aaaaa7, &bffbfaba
+          DCD     &83aaaaa7, &aabbaaba
+          DCD     &83aaaaa7, &aebbfaba
+          DCD     &83ffffff, &aaaaaaaa
           ; 14%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaa97, &aaeeebe0
-          DCD     &eaaaaa97, &aeaeeba0
-          DCD     &eaaaaa97, &abafeba0
-          DCD     &eaaaaa97, &aaeeaba0
-          DCD     &eaaaaa97, &aeaeafe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaaa7, &baebbaba
+          DCD     &83aaaaa7, &baabbabe
+          DCD     &83aaaaa7, &bffbfaba
+          DCD     &83aaaaa7, &aabbaaba
+          DCD     &83aaaaa7, &aebbaaba
+          DCD     &83ffffff, &aaaaaaaa
           ; 15%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaa97, &aaefebe0
-          DCD     &eaaaaa97, &aeaaeba0
-          DCD     &eaaaaa97, &abafeba0
-          DCD     &eaaaaa97, &aaeeaba0
-          DCD     &eaaaaa97, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaaa7, &baebfaba
+          DCD     &83aaaaa7, &baaababe
+          DCD     &83aaaaa7, &bffbfaba
+          DCD     &83aaaaa7, &aabbaaba
+          DCD     &83aaaaa7, &aebbfaba
+          DCD     &83ffffff, &aaaaaaaa
           ; 16%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaa97, &aaebebe0
-          DCD     &eaaaaa97, &aeaaeba0
-          DCD     &eaaaaa97, &abafeba0
-          DCD     &eaaaaa97, &aaeeeba0
-          DCD     &eaaaaa97, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaaa7, &baebfaba
+          DCD     &83aaaaa7, &baaababe
+          DCD     &83aaaaa7, &bffbfaba
+          DCD     &83aaaaa7, &aabbbaba
+          DCD     &83aaaaa7, &aebbfaba
+          DCD     &83ffffff, &aaaaaaaa
           ; 17%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaa97, &aaefebe0
-          DCD     &eaaaaa97, &aeaeaba0
-          DCD     &eaaaaa97, &abababa0
-          DCD     &eaaaaa97, &aaebaba0
-          DCD     &eaaaaa97, &aeabafe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaa97, &baebfaba
+          DCD     &83aaaa97, &baabaabe
+          DCD     &83aaaa97, &bffbaaba
+          DCD     &83aaaa97, &aabbaaba
+          DCD     &83aaaa97, &aebbaaba
+          DCD     &83ffffff, &aaaaaaaa
           ; 18%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaa97, &aaefabe0
-          DCD     &eaaaaa97, &aeafaba0
-          DCD     &eaaaaa97, &abafeba0
-          DCD     &eaaaaa97, &aaeeeba0
-          DCD     &eaaaaa97, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaa97, &baebfaba
+          DCD     &83aaaa97, &baabbabe
+          DCD     &83aaaa97, &bffbfaba
+          DCD     &83aaaa97, &aabbbaba
+          DCD     &83aaaa97, &aebbfaba
+          DCD     &83ffffff, &aaaaaaaa
           ; 19%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaa97, &aaefebe0
-          DCD     &eaaaaa97, &aeaeeba0
-          DCD     &eaaaaa97, &abafeba0
-          DCD     &eaaaaa97, &aaeeaba0
-          DCD     &eaaaaa97, &aeafafe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaa97, &baebfaba
+          DCD     &83aaaa97, &baabbabe
+          DCD     &83aaaa97, &bffbfaba
+          DCD     &83aaaa97, &aabbaaba
+          DCD     &83aaaa97, &aebbfaba
+          DCD     &83ffffff, &aaaaaaaa
           ; 20%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaa57, &aaefefe0
-          DCD     &eaaaaa57, &aeaeeea0
-          DCD     &eaaaaa57, &abaeefe0
-          DCD     &eaaaaa57, &aaeeeae0
-          DCD     &eaaaaa57, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaa97, &baebfafe
+          DCD     &83aaaa97, &baabbaea
+          DCD     &83aaaa97, &bffbbafe
+          DCD     &83aaaa97, &aabbbaae
+          DCD     &83aaaa97, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 21%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaa57, &aaebefe0
-          DCD     &eaaaaa57, &aeabaea0
-          DCD     &eaaaaa57, &ababafe0
-          DCD     &eaaaaa57, &aaebaae0
-          DCD     &eaaaaa57, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaa97, &baeaeafe
+          DCD     &83aaaa97, &baaafaea
+          DCD     &83aaaa97, &bffaeafe
+          DCD     &83aaaa97, &aabaeaae
+          DCD     &83aaaa97, &aebaeafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 22%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaa57, &aaefefe0
-          DCD     &eaaaaa57, &aeaeaea0
-          DCD     &eaaaaa57, &abafefe0
-          DCD     &eaaaaa57, &aaeaeae0
-          DCD     &eaaaaa57, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaa97, &baebfafe
+          DCD     &83aaaa97, &baabaaea
+          DCD     &83aaaa97, &bffbfafe
+          DCD     &83aaaa97, &aababaae
+          DCD     &83aaaa97, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 23%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaa57, &aaefefe0
-          DCD     &eaaaaa57, &aeaeaea0
-          DCD     &eaaaaa57, &abafafe0
-          DCD     &eaaaaa57, &aaeeaae0
-          DCD     &eaaaaa57, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaa97, &baebfafe
+          DCD     &83aaaa97, &baabaaea
+          DCD     &83aaaa97, &bffbfafe
+          DCD     &83aaaa97, &aabbaaae
+          DCD     &83aaaa97, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 24%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaa57, &aaeeefe0
-          DCD     &eaaaaa57, &aeaeeea0
-          DCD     &eaaaaa57, &abafefe0
-          DCD     &eaaaaa57, &aaeeaae0
-          DCD     &eaaaaa57, &aeaeafe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaa97, &baebbafe
+          DCD     &83aaaa97, &baabbaea
+          DCD     &83aaaa97, &bffbfafe
+          DCD     &83aaaa97, &aabbaaae
+          DCD     &83aaaa97, &aebbaafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 25%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaa57, &aaefefe0
-          DCD     &eaaaaa57, &aeaaeea0
-          DCD     &eaaaaa57, &abafefe0
-          DCD     &eaaaaa57, &aaeeaae0
-          DCD     &eaaaaa57, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaa57, &baebfafe
+          DCD     &83aaaa57, &baaabaea
+          DCD     &83aaaa57, &bffbfafe
+          DCD     &83aaaa57, &aabbaaae
+          DCD     &83aaaa57, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 26%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaaa57, &aaebefe0
-          DCD     &eaaaaa57, &aeaaeea0
-          DCD     &eaaaaa57, &abafefe0
-          DCD     &eaaaaa57, &aaeeeae0
-          DCD     &eaaaaa57, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaa57, &baebfafe
+          DCD     &83aaaa57, &baaabaea
+          DCD     &83aaaa57, &bffbfafe
+          DCD     &83aaaa57, &aabbbaae
+          DCD     &83aaaa57, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 27%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaa957, &aaefefe0
-          DCD     &eaaaa957, &aeaeaea0
-          DCD     &eaaaa957, &ababafe0
-          DCD     &eaaaa957, &aaebaae0
-          DCD     &eaaaa957, &aeabafe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaa57, &baebfafe
+          DCD     &83aaaa57, &baabaaea
+          DCD     &83aaaa57, &bffbaafe
+          DCD     &83aaaa57, &aabbaaae
+          DCD     &83aaaa57, &aebbaafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 28%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaa957, &aaefafe0
-          DCD     &eaaaa957, &aeafaea0
-          DCD     &eaaaa957, &abafefe0
-          DCD     &eaaaa957, &aaeeeae0
-          DCD     &eaaaa957, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaa57, &baebfafe
+          DCD     &83aaaa57, &baabbaea
+          DCD     &83aaaa57, &bffbfafe
+          DCD     &83aaaa57, &aabbbaae
+          DCD     &83aaaa57, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 29%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaa957, &aaefefe0
-          DCD     &eaaaa957, &aeaeeea0
-          DCD     &eaaaa957, &abafefe0
-          DCD     &eaaaa957, &aaeeaae0
-          DCD     &eaaaa957, &aeafafe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaa57, &baebfafe
+          DCD     &83aaaa57, &baabbaea
+          DCD     &83aaaa57, &bffbfafe
+          DCD     &83aaaa57, &aabbaaae
+          DCD     &83aaaa57, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 30%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaa957, &aaefefe0
-          DCD     &eaaaa957, &aeaeeea0
-          DCD     &eaaaa957, &abaeefa0
-          DCD     &eaaaa957, &aaeeeea0
-          DCD     &eaaaa957, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaa57, &baebfafe
+          DCD     &83aaaa57, &baabbaea
+          DCD     &83aaaa57, &bffbbafe
+          DCD     &83aaaa57, &aabbbaea
+          DCD     &83aaaa57, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 31%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaa957, &aaebefe0
-          DCD     &eaaaa957, &aeabaea0
-          DCD     &eaaaa957, &ababafa0
-          DCD     &eaaaa957, &aaebaea0
-          DCD     &eaaaa957, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaa57, &baeaeafe
+          DCD     &83aaaa57, &baaafaea
+          DCD     &83aaaa57, &bffaeafe
+          DCD     &83aaaa57, &aabaeaea
+          DCD     &83aaaa57, &aebaeafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 32%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaa957, &aaefefe0
-          DCD     &eaaaa957, &aeaeaea0
-          DCD     &eaaaa957, &abafefa0
-          DCD     &eaaaa957, &aaeaeea0
-          DCD     &eaaaa957, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaa57, &baebfafe
+          DCD     &83aaaa57, &baabaaea
+          DCD     &83aaaa57, &bffbfafe
+          DCD     &83aaaa57, &aababaea
+          DCD     &83aaaa57, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 33%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaa957, &aaefefe0
-          DCD     &eaaaa957, &aeaeaea0
-          DCD     &eaaaa957, &abafafa0
-          DCD     &eaaaa957, &aaeeaea0
-          DCD     &eaaaa957, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaaa57, &baebfafe
+          DCD     &83aaaa57, &baabaaea
+          DCD     &83aaaa57, &bffbfafe
+          DCD     &83aaaa57, &aabbaaea
+          DCD     &83aaaa57, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 34%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaa557, &aaeeefe0
-          DCD     &eaaaa557, &aeaeeea0
-          DCD     &eaaaa557, &abafefa0
-          DCD     &eaaaa557, &aaeeaea0
-          DCD     &eaaaa557, &aeaeafe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaa957, &baebbafe
+          DCD     &83aaa957, &baabbaea
+          DCD     &83aaa957, &bffbfafe
+          DCD     &83aaa957, &aabbaaea
+          DCD     &83aaa957, &aebbaafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 35%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaa557, &aaefefe0
-          DCD     &eaaaa557, &aeaaeea0
-          DCD     &eaaaa557, &abafefa0
-          DCD     &eaaaa557, &aaeeaea0
-          DCD     &eaaaa557, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaa957, &baebfafe
+          DCD     &83aaa957, &baaabaea
+          DCD     &83aaa957, &bffbfafe
+          DCD     &83aaa957, &aabbaaea
+          DCD     &83aaa957, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 36%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaa557, &aaebefe0
-          DCD     &eaaaa557, &aeaaeea0
-          DCD     &eaaaa557, &abafefa0
-          DCD     &eaaaa557, &aaeeeea0
-          DCD     &eaaaa557, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaa957, &baebfafe
+          DCD     &83aaa957, &baaabaea
+          DCD     &83aaa957, &bffbfafe
+          DCD     &83aaa957, &aabbbaea
+          DCD     &83aaa957, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 37%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaa557, &aaefefe0
-          DCD     &eaaaa557, &aeaeaea0
-          DCD     &eaaaa557, &ababafa0
-          DCD     &eaaaa557, &aaebaea0
-          DCD     &eaaaa557, &aeabafe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaa957, &baebfafe
+          DCD     &83aaa957, &baabaaea
+          DCD     &83aaa957, &bffbaafe
+          DCD     &83aaa957, &aabbaaea
+          DCD     &83aaa957, &aebbaafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 38%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaa557, &aaefafe0
-          DCD     &eaaaa557, &aeafaea0
-          DCD     &eaaaa557, &abafefa0
-          DCD     &eaaaa557, &aaeeeea0
-          DCD     &eaaaa557, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaa957, &baebfafe
+          DCD     &83aaa957, &baabbaea
+          DCD     &83aaa957, &bffbfafe
+          DCD     &83aaa957, &aabbbaea
+          DCD     &83aaa957, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 39%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaaa557, &aaefefe0
-          DCD     &eaaaa557, &aeaeeea0
-          DCD     &eaaaa557, &abafefa0
-          DCD     &eaaaa557, &aaeeaea0
-          DCD     &eaaaa557, &aeafafe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaa957, &baebfafe
+          DCD     &83aaa957, &baabbaea
+          DCD     &83aaa957, &bffbfafe
+          DCD     &83aaa957, &aabbaaea
+          DCD     &83aaa957, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 40%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaa9557, &aaefeee0
-          DCD     &eaaa9557, &aeaeeee0
-          DCD     &eaaa9557, &abaeefe0
-          DCD     &eaaa9557, &aaeeeea0
-          DCD     &eaaa9557, &aeafeea0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaa957, &baebfaee
+          DCD     &83aaa957, &baabbaee
+          DCD     &83aaa957, &bffbbafe
+          DCD     &83aaa957, &aabbbaea
+          DCD     &83aaa957, &aebbfaea
+          DCD     &83ffffff, &aaaaaaaa
           ; 41%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaa9557, &aaebeee0
-          DCD     &eaaa9557, &aeabaee0
-          DCD     &eaaa9557, &ababafe0
-          DCD     &eaaa9557, &aaebaea0
-          DCD     &eaaa9557, &aeafeea0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaa957, &baeaeaee
+          DCD     &83aaa957, &baaafaee
+          DCD     &83aaa957, &bffaeafe
+          DCD     &83aaa957, &aabaeaea
+          DCD     &83aaa957, &aebaeaea
+          DCD     &83ffffff, &aaaaaaaa
           ; 42%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaa9557, &aaefeee0
-          DCD     &eaaa9557, &aeaeaee0
-          DCD     &eaaa9557, &abafefe0
-          DCD     &eaaa9557, &aaeaeea0
-          DCD     &eaaa9557, &aeafeea0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaa557, &baebfaee
+          DCD     &83aaa557, &baabaaee
+          DCD     &83aaa557, &bffbfafe
+          DCD     &83aaa557, &aababaea
+          DCD     &83aaa557, &aebbfaea
+          DCD     &83ffffff, &aaaaaaaa
           ; 43%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaa9557, &aaefeee0
-          DCD     &eaaa9557, &aeaeaee0
-          DCD     &eaaa9557, &abafafe0
-          DCD     &eaaa9557, &aaeeaea0
-          DCD     &eaaa9557, &aeafeea0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaa557, &baebfaee
+          DCD     &83aaa557, &baabaaee
+          DCD     &83aaa557, &bffbfafe
+          DCD     &83aaa557, &aabbaaea
+          DCD     &83aaa557, &aebbfaea
+          DCD     &83ffffff, &aaaaaaaa
           ; 44%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaa9557, &aaeeeee0
-          DCD     &eaaa9557, &aeaeeee0
-          DCD     &eaaa9557, &abafefe0
-          DCD     &eaaa9557, &aaeeaea0
-          DCD     &eaaa9557, &aeaeaea0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaa557, &baebbaee
+          DCD     &83aaa557, &baabbaee
+          DCD     &83aaa557, &bffbfafe
+          DCD     &83aaa557, &aabbaaea
+          DCD     &83aaa557, &aebbaaea
+          DCD     &83ffffff, &aaaaaaaa
           ; 45%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaa9557, &aaefeee0
-          DCD     &eaaa9557, &aeaaeee0
-          DCD     &eaaa9557, &abafefe0
-          DCD     &eaaa9557, &aaeeaea0
-          DCD     &eaaa9557, &aeafeea0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaa557, &baebfaee
+          DCD     &83aaa557, &baaabaee
+          DCD     &83aaa557, &bffbfafe
+          DCD     &83aaa557, &aabbaaea
+          DCD     &83aaa557, &aebbfaea
+          DCD     &83ffffff, &aaaaaaaa
           ; 46%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaa9557, &aaebeee0
-          DCD     &eaaa9557, &aeaaeee0
-          DCD     &eaaa9557, &abafefe0
-          DCD     &eaaa9557, &aaeeeea0
-          DCD     &eaaa9557, &aeafeea0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaa557, &baebfaee
+          DCD     &83aaa557, &baaabaee
+          DCD     &83aaa557, &bffbfafe
+          DCD     &83aaa557, &aabbbaea
+          DCD     &83aaa557, &aebbfaea
+          DCD     &83ffffff, &aaaaaaaa
           ; 47%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaa5557, &aaefeee0
-          DCD     &eaaa5557, &aeaeaee0
-          DCD     &eaaa5557, &ababafe0
-          DCD     &eaaa5557, &aaebaea0
-          DCD     &eaaa5557, &aeabaea0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaa557, &baebfaee
+          DCD     &83aaa557, &baabaaee
+          DCD     &83aaa557, &bffbaafe
+          DCD     &83aaa557, &aabbaaea
+          DCD     &83aaa557, &aebbaaea
+          DCD     &83ffffff, &aaaaaaaa
           ; 48%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaa5557, &aaefaee0
-          DCD     &eaaa5557, &aeafaee0
-          DCD     &eaaa5557, &abafefe0
-          DCD     &eaaa5557, &aaeeeea0
-          DCD     &eaaa5557, &aeafeea0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaa557, &baebfaee
+          DCD     &83aaa557, &baabbaee
+          DCD     &83aaa557, &bffbfafe
+          DCD     &83aaa557, &aabbbaea
+          DCD     &83aaa557, &aebbfaea
+          DCD     &83ffffff, &aaaaaaaa
           ; 49%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaa5557, &aaefeee0
-          DCD     &eaaa5557, &aeaeeee0
-          DCD     &eaaa5557, &abafefe0
-          DCD     &eaaa5557, &aaeeaea0
-          DCD     &eaaa5557, &aeafaea0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aaa557, &baebfaee
+          DCD     &83aaa557, &baabbaee
+          DCD     &83aaa557, &bffbfafe
+          DCD     &83aaa557, &aabbaaea
+          DCD     &83aaa557, &aebbfaea
+          DCD     &83ffffff, &aaaaaaaa
           ; 50%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaa5557, &aaefefe0
-          DCD     &eaaa5557, &aeaeeae0
-          DCD     &eaaa5557, &abaeefe0
-          DCD     &eaaa5557, &aaeeeea0
-          DCD     &eaaa5557, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aa9557, &baebfafe
+          DCD     &83aa9557, &baabbaae
+          DCD     &83aa9557, &bffbbafe
+          DCD     &83aa9557, &aabbbaea
+          DCD     &83aa9557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 51%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaa5557, &aaebefe0
-          DCD     &eaaa5557, &aeabaae0
-          DCD     &eaaa5557, &ababafe0
-          DCD     &eaaa5557, &aaebaea0
-          DCD     &eaaa5557, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aa9557, &baeaeafe
+          DCD     &83aa9557, &baaafaae
+          DCD     &83aa9557, &bffaeafe
+          DCD     &83aa9557, &aabaeaea
+          DCD     &83aa9557, &aebaeafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 52%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaa5557, &aaefefe0
-          DCD     &eaaa5557, &aeaeaae0
-          DCD     &eaaa5557, &abafefe0
-          DCD     &eaaa5557, &aaeaeea0
-          DCD     &eaaa5557, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aa9557, &baebfafe
+          DCD     &83aa9557, &baabaaae
+          DCD     &83aa9557, &bffbfafe
+          DCD     &83aa9557, &aababaea
+          DCD     &83aa9557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 53%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaaa5557, &aaefefe0
-          DCD     &eaaa5557, &aeaeaae0
-          DCD     &eaaa5557, &abafafe0
-          DCD     &eaaa5557, &aaeeaea0
-          DCD     &eaaa5557, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aa9557, &baebfafe
+          DCD     &83aa9557, &baabaaae
+          DCD     &83aa9557, &bffbfafe
+          DCD     &83aa9557, &aabbaaea
+          DCD     &83aa9557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 54%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaa95557, &aaeeefe0
-          DCD     &eaa95557, &aeaeeae0
-          DCD     &eaa95557, &abafefe0
-          DCD     &eaa95557, &aaeeaea0
-          DCD     &eaa95557, &aeaeafe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aa9557, &baebbafe
+          DCD     &83aa9557, &baabbaae
+          DCD     &83aa9557, &bffbfafe
+          DCD     &83aa9557, &aabbaaea
+          DCD     &83aa9557, &aebbaafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 55%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaa95557, &aaefefe0
-          DCD     &eaa95557, &aeaaeae0
-          DCD     &eaa95557, &abafefe0
-          DCD     &eaa95557, &aaeeaea0
-          DCD     &eaa95557, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aa9557, &baebfafe
+          DCD     &83aa9557, &baaabaae
+          DCD     &83aa9557, &bffbfafe
+          DCD     &83aa9557, &aabbaaea
+          DCD     &83aa9557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 56%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaa95557, &aaebefe0
-          DCD     &eaa95557, &aeaaeae0
-          DCD     &eaa95557, &abafefe0
-          DCD     &eaa95557, &aaeeeea0
-          DCD     &eaa95557, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aa9557, &baebfafe
+          DCD     &83aa9557, &baaabaae
+          DCD     &83aa9557, &bffbfafe
+          DCD     &83aa9557, &aabbbaea
+          DCD     &83aa9557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 57%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaa95557, &aaefefe0
-          DCD     &eaa95557, &aeaeaae0
-          DCD     &eaa95557, &ababafe0
-          DCD     &eaa95557, &aaebaea0
-          DCD     &eaa95557, &aeabafe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aa9557, &baebfafe
+          DCD     &83aa9557, &baabaaae
+          DCD     &83aa9557, &bffbaafe
+          DCD     &83aa9557, &aabbaaea
+          DCD     &83aa9557, &aebbaafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 58%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaa95557, &aaefafe0
-          DCD     &eaa95557, &aeafaae0
-          DCD     &eaa95557, &abafefe0
-          DCD     &eaa95557, &aaeeeea0
-          DCD     &eaa95557, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aa9557, &baebfafe
+          DCD     &83aa9557, &baabbaae
+          DCD     &83aa9557, &bffbfafe
+          DCD     &83aa9557, &aabbbaea
+          DCD     &83aa9557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 59%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaa95557, &aaefefe0
-          DCD     &eaa95557, &aeaeeae0
-          DCD     &eaa95557, &abafefe0
-          DCD     &eaa95557, &aaeeaea0
-          DCD     &eaa95557, &aeafafe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aa5557, &baebfafe
+          DCD     &83aa5557, &baabbaae
+          DCD     &83aa5557, &bffbfafe
+          DCD     &83aa5557, &aabbaaea
+          DCD     &83aa5557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 60%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaa55557, &aaefebe0
-          DCD     &eaa55557, &aeaeeae0
-          DCD     &eaa55557, &abaeefe0
-          DCD     &eaa55557, &aaeeeee0
-          DCD     &eaa55557, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aa5557, &baebfafe
+          DCD     &83aa5557, &baabbaae
+          DCD     &83aa5557, &bffbbafe
+          DCD     &83aa5557, &aabbbaee
+          DCD     &83aa5557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 61%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaa55557, &aaebebe0
-          DCD     &eaa55557, &aeabaae0
-          DCD     &eaa55557, &ababafe0
-          DCD     &eaa55557, &aaebaee0
-          DCD     &eaa55557, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aa5557, &baeaeafe
+          DCD     &83aa5557, &baaafaae
+          DCD     &83aa5557, &bffaeafe
+          DCD     &83aa5557, &aabaeaee
+          DCD     &83aa5557, &aebaeafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 62%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaa55557, &aaefebe0
-          DCD     &eaa55557, &aeaeaae0
-          DCD     &eaa55557, &abafefe0
-          DCD     &eaa55557, &aaeaeee0
-          DCD     &eaa55557, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aa5557, &baebfafe
+          DCD     &83aa5557, &baabaaae
+          DCD     &83aa5557, &bffbfafe
+          DCD     &83aa5557, &aababaee
+          DCD     &83aa5557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 63%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaa55557, &aaefebe0
-          DCD     &eaa55557, &aeaeaae0
-          DCD     &eaa55557, &abafafe0
-          DCD     &eaa55557, &aaeeaee0
-          DCD     &eaa55557, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aa5557, &baebfafe
+          DCD     &83aa5557, &baabaaae
+          DCD     &83aa5557, &bffbfafe
+          DCD     &83aa5557, &aabbaaee
+          DCD     &83aa5557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 64%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaa55557, &aaeeebe0
-          DCD     &eaa55557, &aeaeeae0
-          DCD     &eaa55557, &abafefe0
-          DCD     &eaa55557, &aaeeaee0
-          DCD     &eaa55557, &aeaeafe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aa5557, &baebbafe
+          DCD     &83aa5557, &baabbaae
+          DCD     &83aa5557, &bffbfafe
+          DCD     &83aa5557, &aabbaaee
+          DCD     &83aa5557, &aebbaafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 65%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaa55557, &aaefebe0
-          DCD     &eaa55557, &aeaaeae0
-          DCD     &eaa55557, &abafefe0
-          DCD     &eaa55557, &aaeeaee0
-          DCD     &eaa55557, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aa5557, &baebfafe
+          DCD     &83aa5557, &baaabaae
+          DCD     &83aa5557, &bffbfafe
+          DCD     &83aa5557, &aabbaaee
+          DCD     &83aa5557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 66%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &eaa55557, &aaebebe0
-          DCD     &eaa55557, &aeaaeae0
-          DCD     &eaa55557, &abafefe0
-          DCD     &eaa55557, &aaeeeee0
-          DCD     &eaa55557, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83aa5557, &baebfafe
+          DCD     &83aa5557, &baaabaae
+          DCD     &83aa5557, &bffbfafe
+          DCD     &83aa5557, &aabbbaee
+          DCD     &83aa5557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 67%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &ea955557, &aaefebe0
-          DCD     &ea955557, &aeaeaae0
-          DCD     &ea955557, &ababafe0
-          DCD     &ea955557, &aaebaee0
-          DCD     &ea955557, &aeabafe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83a95557, &baebfafe
+          DCD     &83a95557, &baabaaae
+          DCD     &83a95557, &bffbaafe
+          DCD     &83a95557, &aabbaaee
+          DCD     &83a95557, &aebbaafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 68%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &ea955557, &aaefabe0
-          DCD     &ea955557, &aeafaae0
-          DCD     &ea955557, &abafefe0
-          DCD     &ea955557, &aaeeeee0
-          DCD     &ea955557, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83a95557, &baebfafe
+          DCD     &83a95557, &baabbaae
+          DCD     &83a95557, &bffbfafe
+          DCD     &83a95557, &aabbbaee
+          DCD     &83a95557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 69%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &ea955557, &aaefebe0
-          DCD     &ea955557, &aeaeeae0
-          DCD     &ea955557, &abafefe0
-          DCD     &ea955557, &aaeeaee0
-          DCD     &ea955557, &aeafafe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83a95557, &baebfafe
+          DCD     &83a95557, &baabbaae
+          DCD     &83a95557, &bffbfafe
+          DCD     &83a95557, &aabbaaee
+          DCD     &83a95557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 70%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &ea955557, &aaefefe0
-          DCD     &ea955557, &aeaeeea0
-          DCD     &ea955557, &abaeeba0
-          DCD     &ea955557, &aaeeeba0
-          DCD     &ea955557, &aeafeba0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83a95557, &baebfafe
+          DCD     &83a95557, &baabbaea
+          DCD     &83a95557, &bffbbaea
+          DCD     &83a95557, &aabbbaea
+          DCD     &83a95557, &aebbfaea
+          DCD     &83ffffff, &aaaaaaaa
           ; 71%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &ea955557, &aaebefe0
-          DCD     &ea955557, &aeabaea0
-          DCD     &ea955557, &abababa0
-          DCD     &ea955557, &aaebaba0
-          DCD     &ea955557, &aeafeba0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83a95557, &baeaeafe
+          DCD     &83a95557, &baaafaea
+          DCD     &83a95557, &bffaeaea
+          DCD     &83a95557, &aabaeaea
+          DCD     &83a95557, &aebaeaea
+          DCD     &83ffffff, &aaaaaaaa
           ; 72%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &ea955557, &aaefefe0
-          DCD     &ea955557, &aeaeaea0
-          DCD     &ea955557, &abafeba0
-          DCD     &ea955557, &aaeaeba0
-          DCD     &ea955557, &aeafeba0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83a95557, &baebfafe
+          DCD     &83a95557, &baabaaea
+          DCD     &83a95557, &bffbfaea
+          DCD     &83a95557, &aababaea
+          DCD     &83a95557, &aebbfaea
+          DCD     &83ffffff, &aaaaaaaa
           ; 73%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &ea955557, &aaefefe0
-          DCD     &ea955557, &aeaeaea0
-          DCD     &ea955557, &abafaba0
-          DCD     &ea955557, &aaeeaba0
-          DCD     &ea955557, &aeafeba0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83a95557, &baebfafe
+          DCD     &83a95557, &baabaaea
+          DCD     &83a95557, &bffbfaea
+          DCD     &83a95557, &aabbaaea
+          DCD     &83a95557, &aebbfaea
+          DCD     &83ffffff, &aaaaaaaa
           ; 74%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &ea555557, &aaeeefe0
-          DCD     &ea555557, &aeaeeea0
-          DCD     &ea555557, &abafeba0
-          DCD     &ea555557, &aaeeaba0
-          DCD     &ea555557, &aeaeaba0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83a95557, &baebbafe
+          DCD     &83a95557, &baabbaea
+          DCD     &83a95557, &bffbfaea
+          DCD     &83a95557, &aabbaaea
+          DCD     &83a95557, &aebbaaea
+          DCD     &83ffffff, &aaaaaaaa
           ; 75%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &ea555557, &aaefefe0
-          DCD     &ea555557, &aeaaeea0
-          DCD     &ea555557, &abafeba0
-          DCD     &ea555557, &aaeeaba0
-          DCD     &ea555557, &aeafeba0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83a55557, &baebfafe
+          DCD     &83a55557, &baaabaea
+          DCD     &83a55557, &bffbfaea
+          DCD     &83a55557, &aabbaaea
+          DCD     &83a55557, &aebbfaea
+          DCD     &83ffffff, &aaaaaaaa
           ; 76%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &ea555557, &aaebefe0
-          DCD     &ea555557, &aeaaeea0
-          DCD     &ea555557, &abafeba0
-          DCD     &ea555557, &aaeeeba0
-          DCD     &ea555557, &aeafeba0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83a55557, &baebfafe
+          DCD     &83a55557, &baaabaea
+          DCD     &83a55557, &bffbfaea
+          DCD     &83a55557, &aabbbaea
+          DCD     &83a55557, &aebbfaea
+          DCD     &83ffffff, &aaaaaaaa
           ; 77%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &ea555557, &aaefefe0
-          DCD     &ea555557, &aeaeaea0
-          DCD     &ea555557, &abababa0
-          DCD     &ea555557, &aaebaba0
-          DCD     &ea555557, &aeababa0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83a55557, &baebfafe
+          DCD     &83a55557, &baabaaea
+          DCD     &83a55557, &bffbaaea
+          DCD     &83a55557, &aabbaaea
+          DCD     &83a55557, &aebbaaea
+          DCD     &83ffffff, &aaaaaaaa
           ; 78%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &ea555557, &aaefafe0
-          DCD     &ea555557, &aeafaea0
-          DCD     &ea555557, &abafeba0
-          DCD     &ea555557, &aaeeeba0
-          DCD     &ea555557, &aeafeba0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83a55557, &baebfafe
+          DCD     &83a55557, &baabbaea
+          DCD     &83a55557, &bffbfaea
+          DCD     &83a55557, &aabbbaea
+          DCD     &83a55557, &aebbfaea
+          DCD     &83ffffff, &aaaaaaaa
           ; 79%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &ea555557, &aaefefe0
-          DCD     &ea555557, &aeaeeea0
-          DCD     &ea555557, &abafeba0
-          DCD     &ea555557, &aaeeaba0
-          DCD     &ea555557, &aeafaba0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83a55557, &baebfafe
+          DCD     &83a55557, &baabbaea
+          DCD     &83a55557, &bffbfaea
+          DCD     &83a55557, &aabbaaea
+          DCD     &83a55557, &aebbfaea
+          DCD     &83ffffff, &aaaaaaaa
           ; 80%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &e9555557, &aaefefa0
-          DCD     &e9555557, &aeaeefa0
-          DCD     &e9555557, &abaeefe0
-          DCD     &e9555557, &aaeeeee0
-          DCD     &e9555557, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83a55557, &baebfafe
+          DCD     &83a55557, &baabbaee
+          DCD     &83a55557, &bffbbafe
+          DCD     &83a55557, &aabbbaee
+          DCD     &83a55557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 81%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &e9555557, &aaebefa0
-          DCD     &e9555557, &aeabafa0
-          DCD     &e9555557, &ababafe0
-          DCD     &e9555557, &aaebaee0
-          DCD     &e9555557, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83a55557, &baeaeafe
+          DCD     &83a55557, &baaafaee
+          DCD     &83a55557, &bffaeafe
+          DCD     &83a55557, &aabaeaee
+          DCD     &83a55557, &aebaeafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 82%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &e9555557, &aaefefa0
-          DCD     &e9555557, &aeaeafa0
-          DCD     &e9555557, &abafefe0
-          DCD     &e9555557, &aaeaeee0
-          DCD     &e9555557, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83a55557, &baebfafe
+          DCD     &83a55557, &baabaaee
+          DCD     &83a55557, &bffbfafe
+          DCD     &83a55557, &aababaee
+          DCD     &83a55557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 83%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &e9555557, &aaefefa0
-          DCD     &e9555557, &aeaeafa0
-          DCD     &e9555557, &abafafe0
-          DCD     &e9555557, &aaeeaee0
-          DCD     &e9555557, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83a55557, &baebfafe
+          DCD     &83a55557, &baabaaee
+          DCD     &83a55557, &bffbfafe
+          DCD     &83a55557, &aabbaaee
+          DCD     &83a55557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 84%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &e9555557, &aaeeefa0
-          DCD     &e9555557, &aeaeefa0
-          DCD     &e9555557, &abafefe0
-          DCD     &e9555557, &aaeeaee0
-          DCD     &e9555557, &aeaeafe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83955557, &baebbafe
+          DCD     &83955557, &baabbaee
+          DCD     &83955557, &bffbfafe
+          DCD     &83955557, &aabbaaee
+          DCD     &83955557, &aebbaafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 85%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &e9555557, &aaefefa0
-          DCD     &e9555557, &aeaaefa0
-          DCD     &e9555557, &abafefe0
-          DCD     &e9555557, &aaeeaee0
-          DCD     &e9555557, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83955557, &baebfafe
+          DCD     &83955557, &baaabaee
+          DCD     &83955557, &bffbfafe
+          DCD     &83955557, &aabbaaee
+          DCD     &83955557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 86%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &e9555557, &aaebefa0
-          DCD     &e9555557, &aeaaefa0
-          DCD     &e9555557, &abafefe0
-          DCD     &e9555557, &aaeeeee0
-          DCD     &e9555557, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83955557, &baebfafe
+          DCD     &83955557, &baaabaee
+          DCD     &83955557, &bffbfafe
+          DCD     &83955557, &aabbbaee
+          DCD     &83955557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 87%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &e5555557, &aaefefa0
-          DCD     &e5555557, &aeaeafa0
-          DCD     &e5555557, &ababafe0
-          DCD     &e5555557, &aaebaee0
-          DCD     &e5555557, &aeabafe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83955557, &baebfafe
+          DCD     &83955557, &baabaaee
+          DCD     &83955557, &bffbaafe
+          DCD     &83955557, &aabbaaee
+          DCD     &83955557, &aebbaafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 88%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &e5555557, &aaefafa0
-          DCD     &e5555557, &aeafafa0
-          DCD     &e5555557, &abafefe0
-          DCD     &e5555557, &aaeeeee0
-          DCD     &e5555557, &aeafefe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83955557, &baebfafe
+          DCD     &83955557, &baabbaee
+          DCD     &83955557, &bffbfafe
+          DCD     &83955557, &aabbbaee
+          DCD     &83955557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 89%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &e5555557, &aaefefa0
-          DCD     &e5555557, &aeaeefa0
-          DCD     &e5555557, &abafefe0
-          DCD     &e5555557, &aaeeaee0
-          DCD     &e5555557, &aeafafe0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83955557, &baebfafe
+          DCD     &83955557, &baabbaee
+          DCD     &83955557, &bffbfafe
+          DCD     &83955557, &aabbaaee
+          DCD     &83955557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 90%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &e5555557, &aaefefe0
-          DCD     &e5555557, &aeaeeee0
-          DCD     &e5555557, &abaeefe0
-          DCD     &e5555557, &aaeeeea0
-          DCD     &e5555557, &aeafefa0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83955557, &baebfafe
+          DCD     &83955557, &baabbaee
+          DCD     &83955557, &bffbbafe
+          DCD     &83955557, &aabbbaea
+          DCD     &83955557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 91%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &e5555557, &aaebefe0
-          DCD     &e5555557, &aeabaee0
-          DCD     &e5555557, &ababafe0
-          DCD     &e5555557, &aaebaea0
-          DCD     &e5555557, &aeafefa0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83955557, &baeaeafe
+          DCD     &83955557, &baaafaee
+          DCD     &83955557, &bffaeafe
+          DCD     &83955557, &aabaeaea
+          DCD     &83955557, &aebaeafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 92%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &e5555557, &aaefefe0
-          DCD     &e5555557, &aeaeaee0
-          DCD     &e5555557, &abafefe0
-          DCD     &e5555557, &aaeaeea0
-          DCD     &e5555557, &aeafefa0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83555557, &baebfafe
+          DCD     &83555557, &baabaaee
+          DCD     &83555557, &bffbfafe
+          DCD     &83555557, &aababaea
+          DCD     &83555557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 93%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &e5555557, &aaefefe0
-          DCD     &e5555557, &aeaeaee0
-          DCD     &e5555557, &abafafe0
-          DCD     &e5555557, &aaeeaea0
-          DCD     &e5555557, &aeafefa0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83555557, &baebfafe
+          DCD     &83555557, &baabaaee
+          DCD     &83555557, &bffbfafe
+          DCD     &83555557, &aabbaaea
+          DCD     &83555557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 94%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &d5555557, &aaeeefe0
-          DCD     &d5555557, &aeaeeee0
-          DCD     &d5555557, &abafefe0
-          DCD     &d5555557, &aaeeaea0
-          DCD     &d5555557, &aeaeafa0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83555557, &baebbafe
+          DCD     &83555557, &baabbaee
+          DCD     &83555557, &bffbfafe
+          DCD     &83555557, &aabbaaea
+          DCD     &83555557, &aebbaafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 95%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &d5555557, &aaefefe0
-          DCD     &d5555557, &aeaaeee0
-          DCD     &d5555557, &abafefe0
-          DCD     &d5555557, &aaeeaea0
-          DCD     &d5555557, &aeafefa0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83555557, &baebfafe
+          DCD     &83555557, &baaabaee
+          DCD     &83555557, &bffbfafe
+          DCD     &83555557, &aabbaaea
+          DCD     &83555557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 96%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &d5555557, &aaebefe0
-          DCD     &d5555557, &aeaaeee0
-          DCD     &d5555557, &abafefe0
-          DCD     &d5555557, &aaeeeea0
-          DCD     &d5555557, &aeafefa0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83555557, &baebfafe
+          DCD     &83555557, &baaabaee
+          DCD     &83555557, &bffbfafe
+          DCD     &83555557, &aabbbaea
+          DCD     &83555557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 97%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &d5555557, &aaefefe0
-          DCD     &d5555557, &aeaeaee0
-          DCD     &d5555557, &ababafe0
-          DCD     &d5555557, &aaebaea0
-          DCD     &d5555557, &aeabafa0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83555557, &baebfafe
+          DCD     &83555557, &baabaaee
+          DCD     &83555557, &bffbaafe
+          DCD     &83555557, &aabbaaea
+          DCD     &83555557, &aebbaafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 98%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &d5555557, &aaefafe0
-          DCD     &d5555557, &aeafaee0
-          DCD     &d5555557, &abafefe0
-          DCD     &d5555557, &aaeeeea0
-          DCD     &d5555557, &aeafefa0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83555557, &baebfafe
+          DCD     &83555557, &baabbaee
+          DCD     &83555557, &bffbfafe
+          DCD     &83555557, &aabbbaea
+          DCD     &83555557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
           ; 99%
           DCD     &00000000, &00000000
-          DCD     &ffffffff, &aaaaaaa0
-          DCD     &d5555557, &aaefefe0
-          DCD     &d5555557, &aeaeeee0
-          DCD     &d5555557, &abafefe0
-          DCD     &d5555557, &aaeeaea0
-          DCD     &d5555557, &aeafafa0
-          DCD     &ffffffff, &aaaaaaa0
+          DCD     &83ffffff, &aaaaaaaa
+          DCD     &83555557, &baebfafe
+          DCD     &83555557, &baabbaee
+          DCD     &83555557, &bffbfafe
+          DCD     &83555557, &aabbaaea
+          DCD     &83555557, &aebbfafe
+          DCD     &83ffffff, &aaaaaaaa
 
 ; Palette data
 palette

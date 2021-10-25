@@ -9,5 +9,6 @@ void hourglass_start(hourglass_workspace_t *ws);
 void hourglass_stop(hourglass_workspace_t *ws);
 void hourglass_frame(hourglass_workspace_t *ws);
 void hourglass_frame_irq(void);
+void hourglass_percentage(hourglass_workspace_t *ws, int percentage);
 
 #endif /* HOURGLASS_ASM_H */

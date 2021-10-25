@@ -32,7 +32,7 @@ convert "${exclude_args[@]}" -size ${srcsize} source.svg \
 
 # RISC OS Classic cannot have pointers larger than 32 pixels wide.
 width=32
-height=34
+height=32
 
 # Set these to the active point, from top left (or empty to use the default of the center)
 activex=0

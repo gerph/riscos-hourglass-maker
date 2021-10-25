@@ -9,16 +9,18 @@ nwords            * 1510
 nframes           * 30
 active_x          * 16
 active_y          * 16
+percentage_height        * 0
 
 ; Workspace for changing the hourglass rendition
                   ^ 0, r12
 hg_framenum       # 4                         ; frame number
-hg_percentage     # 4                         ; percentage to show (N/I)
+hg_percentage     # 4                         ; percentage to show
+hg_percentagenow  # 4                         ; percentage being shown
 hg_leds           # 4                         ; LED flags (N/I)
 hg_oldpointer     # 4                         ; Old pointer configuration
 hg_oldcolours     # 4 * 3                     ; Old palette entries
 hg_word           # 12                        ; OS_Word block
-hg_currentdata    # 4 * wordsperrow * height  ; Current data for the hourglass
+hg_currentdata    # 4 * wordsperrow * (height + percentage_height)  ; Current data for the hourglass
 hg_workspacesize  * :INDEX: @                 ; Size of this workspace
 
 ; SWI numbers
@@ -999,8 +1001,11 @@ hourglass_init SIGNATURE
           MOV     r12, r0
           MOV     r0, #0
           STR     r0, hg_framenum
-          STR     r0, hg_percentage
           STR     r0, hg_leds
+          MOV     r0, #-1
+          STR     r0, hg_percentagenow
+          MOV     r0, #100
+          STR     r0, hg_percentage
           LDR     r0, wordblock_0
           STR     r0, hg_word
           LDR     r0, wordblock_4
@@ -1093,6 +1098,10 @@ hourglass_stop SIGNATURE
           STMFD   sp!, {r4, r5, lr}
           SUB     sp, sp, #8
           MOV     r12, r0
+          MOV     r0, #-1
+          STR     r0, hg_percentagenow
+          MOV     r0, #100
+          STR     r0, hg_percentage
           LDR     r4, hg_oldpointer               ; work out the old pointer shape
           BIC     r4, r4, #127                    ; turn off the pointer whilst we change colours
           MOV     r0, #106                        ; select pointer
@@ -1203,5 +1212,15 @@ hourglass_frame_irq SIGNATURE
           MOV     lr, r5
           MSR     CPSR_cxsf, r4                    ; Restore the mode
           LDMFD   sp!, {r0-r3, r4, r5, r12, pc}
+
+; Set the percentage of the hourglass
+; =>  R0 = hourglass workspace
+;     R1 = percentage (0-99, or 100 to turn the percentage off)
+hourglass_percentage SIGNATURE
+          STMFD   sp!, {r4, r5, lr}
+          EXPORT  hourglass_percentage
+          MOV     r12, r0
+          STR     r1, hg_percentage
+          LDMFD   sp!, {r4, r5, pc}
 
           END

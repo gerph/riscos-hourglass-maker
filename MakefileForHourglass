@@ -30,7 +30,7 @@ clean:
 shape.py frame_0.png: ${SOURCE} build-shape.sh
 	./build-shape.sh
 
-hourglass_basic,fd1 s/asm: shape.py ../makehourglass.py
+hourglass_basic,fd1 s/asm: shape.py ../makehourglass.py ../percentage.py ../digits.json
 	../makehourglass.py
 
 aif32/hourglass_test,ff8: s/asm ../c/hourglass_test

@@ -47,7 +47,8 @@ frameperiod=3
 #palette=("255 255 255" "0 153 14" "0 74 0" "0 228 0")
 # The 3 greens palette won't work because the image has a 3D effect applied that is wrong
 # as you rotate. So just use 1 green.
-palette=("255 255 255" "0 153 14")
+# Other colours are for the progress bar
+palette=("255 255 255" "0 153 14" "192 192 192" "0 0 0")
 
 # The palette we take from the generated frames
 generatedpalette=("${palette[@]}")

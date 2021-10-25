@@ -31,17 +31,18 @@ import shape
 direct_rowdata = True
 
 # Percentage parameters
-percentage_digits_file = 'digits.json'
-percentage_vspace = 1
-percentage_bar_enabled = True
-percentage_bar_height = 7
-percentage_bar_bgcolour = 2
-percentage_bgcolour = 0
-percentage_digits_enabled = True
-percentage_digits_border = 1
-percentage_digits_bgcolour = 2
-percentage_bar_hspace = 2
-percentage_inset = 0
+percentage_digits_file = getattr(shape, 'percentage_digits_file', 'digits.json')
+percentage_vspace = getattr(shape, 'percentage_vspace', 1)
+percentage_bar_enabled = getattr(shape, 'percentage_bar_enabled', True)
+percentage_bar_height = getattr(shape, 'percentage_bar_height', 7)
+percentage_bar_bgcolour = getattr(shape, 'percentage_bar_bgcolour', 2)
+percentage_bgcolour = getattr(shape, 'percentage_bgcolour', 0)
+percentage_digits_enabled = getattr(shape, 'percentage_digits_enabled', True)
+percentage_digits_border = getattr(shape, 'percentage_digits_border', 1)
+percentage_digits_bgcolour = getattr(shape, 'percentage_digits_bgcolour', 2)
+percentage_bar_hspace = getattr(shape, 'percentage_bar_hspace', 2)
+percentage_inset = getattr(shape, 'percentage_inset', 0)
+
 
 
 # Number of bits per pixel
@@ -192,6 +193,79 @@ if percentage_bar_enabled or percentage_digits_enabled:
         else:
             percentage_offsets.append(seen_percentage_offset)
             percentage_worddata[pct] = None
+
+
+# Auto-disable if it wouldn't work.
+if shape.height + percentage_height > 32:
+    # Everything is keyed off percentage_height
+    percentage_height = 0
+
+
+def make_python(filename):
+    """
+    Write out a Python fragment to defind the content of the hourglass.
+    """
+    lines = []
+    def python_int(word):
+        #if word & (1<<31):
+        #    word = -(word - (1<<32))
+        #    return '-&{:08x}'.format(word)
+        return '0x{:08x}'.format(word)
+
+    lines.append("class HourglassData(object):")
+    lines.append('    """')
+    lines.append('    Container holding data for the Hourglass.')
+    lines.append('    """')
+    lines.append("    period_cs = {}".format(shape.frameperiod))
+    lines.append("    active_x = {}".format(shape.activex))
+    lines.append("    active_y = {}".format(shape.activey))
+    lines.append("")
+    lines.append("    palette = [")
+    for r, g, b in shape.palette[1:]:
+        lines.append("            ({}, {}, {}),".format(r, g, b))
+    lines.append("        ]")
+    lines.append("")
+    lines.append("    width = {}".format((shape.width + 15) & ~15))
+    lines.append("    height = {}".format(shape.height))
+    lines.append("    frames = [")
+
+    for index, image in enumerate(shape.images):
+        imagerows = []
+        lines.append("        [")
+        lines.append("            # frame {}".format(index))
+        for rowstring in image:
+            words = rowstring_to_words(rowstring)
+            words = [python_int(word) for word in words]
+            lines.append("            {},".format(', '.join(words)))
+        lines.append("        ],")
+
+    lines.append("    ]")
+
+    lines.append("    percentage_height = {}".format(percentage_height))
+    if percentage_height:
+        lines.append("    percentage_worddata_size = {}".format(percentage_worddata_size))
+        lines.append("    percentages = {")
+        index_lookup = dict((v, pct) for (pct, v) in enumerate(percentage_offsets) if percentage_worddata[pct] is not None)
+        last_index = -1
+        for index, image in enumerate(percentage_worddata):
+            if image:
+                lines.append("        {}: [".format(index))
+                for words in image:
+                    words = [python_int(word) for word in words]
+                    lines.append("            {},".format(', '.join(words)))
+                lines.append("        ],")
+            else:
+                # This is a duplicate of...
+                lines.append("        {}: {},".format(index, index_lookup[percentage_offsets[index]]))
+        lines.append("    }")
+    else:
+        lines.append("    percentage_worddata_size = 0")
+
+    if sys.platform == 'riscos':
+        filename = filename[:-3] + '/py'
+    with open(filename, 'w') as fh:
+        for line in lines:
+            fh.write("{}\n".format(line))
 
 
 def make_basic(rows, rowdata, deltas, images_rowindexes, filename):
@@ -345,8 +419,8 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes,filename):
     lines.append("nframes           * {}".format(len(deltas)))
     lines.append("active_x          * {}".format(shape.activex))
     lines.append("active_y          * {}".format(shape.activey))
+    lines.append("percentage_height        * {}".format(percentage_height))
     if percentage_height:
-        lines.append("percentage_height        * {}".format(percentage_height))
         lines.append("percentage_worddata_size * {}".format(percentage_worddata_size))
     lines.append("")
     lines.append("; Workspace for changing the hourglass rendition")
@@ -778,4 +852,5 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes,filename):
 
 
 make_basic(rows, rowdata, deltas, images_rowindexes, filename='hourglass_basic')
+make_python(filename='hourglass_frames.py')
 make_objasm(rows, rowdata, deltas, images_rowindexes, filename='asm')

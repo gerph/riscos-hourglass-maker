@@ -29,7 +29,7 @@ convert "${exclude_args[@]}" source.gif -coalesce frame_%d.png
 
 # RISC OS Classic cannot have pointers larger than 32 pixels wide.
 width=32
-height=32
+height=24
 
 # Set these to the active point, from top left (or empty to use the default of the center)
 activex=
@@ -80,10 +80,13 @@ EOM
 # - Ensure that the white background is transparent
 for i in $( seq 0 29 ) ; do
     convert "${exclude_args[@]}" \
-            frame_$i.png -shave 163x113 -gravity northeast -chop 2x2 \
+            frame_$i.png -shave 160x110 -gravity northeast -chop 2x2 \
             -resize ${width}x${height} +dither \
+            -gravity center -background white \
+            -extent ${width}x${height} \
+            +dither \
             -remap palette.ppm \
-            -alpha on -fuzz 20% -transparent white -background white \
+            -alpha on -fuzz 20% -transparent white \
             \(  +clone \
                 -bordercolor white -border 8x8 -transparent white \
                 -colors 2 \
