@@ -1,14 +1,14 @@
           AREA |C$$code|, CODE, READONLY
 
 ; constants
-width             * 32
-height            * 32
+width             * 64
+height            * 64
 period            * 3
-wordsperrow       * 2
-nwords            * 1510
+wordsperrow       * 4
+nwords            * 3020
 nframes           * 30
-active_x          * 16
-active_y          * 16
+active_x          * 32
+active_y          * 32
 
 ; Workspace for changing the hourglass rendition
                   ^ 0, r12
@@ -40,936 +40,1774 @@ $label
 ; Data for deltas between frames
 deltas
           ; frame 0
-          DCD     &00000000, &65000000, &000000a5
-          DCD     &00000008, &a9640000, &00001aaa
-          DCD     &00000010, &a5554000, &0001aaaa
-          DCD     &00000018, &a9555000, &0005aaaa
-          DCD     &00000020, &aaa55400, &00196aaa
-          DCD     &00000028, &aaa95500, &0069aaaa
-          DCD     &00000030, &aaaa5540, &0296aaaa
-          DCD     &00000038, &aaaaa960, &0555aaaa
-          DCD     &00000040, &aaaaaa50, &0555aaaa
-          DCD     &00000048, &aaaaaa98, &1555aaaa
-          DCD     &00000050, &aaaaa958, &1555aaaa
-          DCD     &00000058, &aaaaa9a8, &1555aaaa
-          DCD     &00000060, &aaa966aa, &5556aaaa
-          DCD     &00000068, &aa5556aa, &5556aaaa
-          DCD     &00000070, &a5555aaa, &569aaaaa
-          DCD     &00000078, &a5555aaa, &5aaaaaaa
-          DCD     &00000080, &55555aaa, &5aaaaaaa
-          DCD     &00000088, &55555aaa, &5aaaaa95
-          DCD     &00000090, &55555aaa, &5aaaaa95
-          DCD     &00000098, &55556aaa, &5aaaaaa5
-          DCD     &000000a0, &55556aa8, &1aaaaaa5
-          DCD     &000000a8, &5556aaa8, &16aaaaa5
-          DCD     &000000b0, &5556aaa8, &16aaaaa9
-          DCD     &000000b8, &9556aaa0, &06aaaaaa
-          DCD     &000000c0, &9556aaa0, &02aaaaaa
-          DCD     &000000c8, &a556aa80, &02aaaaaa
-          DCD     &000000d0, &a956aa00, &00aaaaaa
-          DCD     &000000d8, &aa5aa800, &002aaaaa
-          DCD     &000000e0, &aa5aa000, &000aaaaa
-          DCD     &000000e8, &aa6a8000, &0000aaaa
-          DCD     &000000f0, &aaa80000, &00002aaa
-          DCD     &000000f8, &aa000000, &000000aa
+          DCD     &00000000, &00000000, &5a550000, &0000aa55, &00000000
+          DCD     &00000010, &00000000, &5a550000, &0000aa55, &00000000
+          DCD     &00000020, &00000000, &aaa55a50, &05aaaaaa, &00000000
+          DCD     &00000030, &00000000, &aaa55a50, &05aaaaaa, &00000000
+          DCD     &00000040, &50000000, &aa555555, &aaaaaaaa, &00000005
+          DCD     &00000050, &50000000, &aa555555, &aaaaaaaa, &00000005
+          DCD     &00000060, &55000000, &aaa55555, &aaaaaaaa, &00000055
+          DCD     &00000070, &55000000, &aaa55555, &aaaaaaaa, &00000055
+          DCD     &00000080, &55500000, &aaaaaa55, &5aaaaaaa, &000005a5
+          DCD     &00000090, &55500000, &aaaaaa55, &5aaaaaaa, &000005a5
+          DCD     &000000a0, &55550000, &aaaaaaa5, &aaaaaaaa, &00005aa5
+          DCD     &000000b0, &55550000, &aaaaaaa5, &aaaaaaaa, &00005aa5
+          DCD     &000000c0, &55555000, &aaaaaaaa, &aaaaaaaa, &000aa55a
+          DCD     &000000d0, &55555000, &aaaaaaaa, &aaaaaaaa, &000aa55a
+          DCD     &000000e0, &aaa55a00, &aaaaaaaa, &aaaaaaaa, &00555555
+          DCD     &000000f0, &aaa55a00, &aaaaaaaa, &aaaaaaaa, &00555555
+          DCD     &00000100, &aaaa5500, &aaaaaaaa, &aaaaaaaa, &00555555
+          DCD     &00000110, &aaaa5500, &aaaaaaaa, &aaaaaaaa, &00555555
+          DCD     &00000120, &aaaaa5a0, &aaaaaaaa, &aaaaaaaa, &05555555
+          DCD     &00000130, &aaaaa5a0, &aaaaaaaa, &aaaaaaaa, &05555555
+          DCD     &00000140, &aaa555a0, &aaaaaaaa, &aaaaaaaa, &05555555
+          DCD     &00000150, &aaa555a0, &aaaaaaaa, &aaaaaaaa, &05555555
+          DCD     &00000160, &aaa5aaa0, &aaaaaaaa, &aaaaaaaa, &05555555
+          DCD     &00000170, &aaa5aaa0, &aaaaaaaa, &aaaaaaaa, &05555555
+          DCD     &00000180, &5a5aaaaa, &aaaaaaa5, &aaaaaaaa, &5555555a
+          DCD     &00000190, &5a5aaaaa, &aaaaaaa5, &aaaaaaaa, &5555555a
+          DCD     &000001a0, &555aaaaa, &aaaa5555, &aaaaaaaa, &5555555a
+          DCD     &000001b0, &555aaaaa, &aaaa5555, &aaaaaaaa, &5555555a
+          DCD     &000001c0, &55aaaaaa, &aa555555, &aaaaaaaa, &555aa5aa
+          DCD     &000001d0, &55aaaaaa, &aa555555, &aaaaaaaa, &555aa5aa
+          DCD     &000001e0, &55aaaaaa, &aa555555, &aaaaaaaa, &55aaaaaa
+          DCD     &000001f0, &55aaaaaa, &aa555555, &aaaaaaaa, &55aaaaaa
+          DCD     &00000200, &55aaaaaa, &55555555, &aaaaaaaa, &55aaaaaa
+          DCD     &00000210, &55aaaaaa, &55555555, &aaaaaaaa, &55aaaaaa
+          DCD     &00000220, &55aaaaaa, &55555555, &aaaaa555, &55aaaaaa
+          DCD     &00000230, &55aaaaaa, &55555555, &aaaaa555, &55aaaaaa
+          DCD     &00000240, &55aaaaaa, &55555555, &aaaaa555, &55aaaaaa
+          DCD     &00000250, &55aaaaaa, &55555555, &aaaaa555, &55aaaaaa
+          DCD     &00000260, &5aaaaaaa, &55555555, &aaaaaa55, &55aaaaaa
+          DCD     &00000270, &5aaaaaaa, &55555555, &aaaaaa55, &55aaaaaa
+          DCD     &00000280, &5aaaaaa0, &55555555, &aaaaaa55, &05aaaaaa
+          DCD     &00000290, &5aaaaaa0, &55555555, &aaaaaa55, &05aaaaaa
+          DCD     &000002a0, &aaaaaaa0, &5555555a, &aaaaaa55, &055aaaaa
+          DCD     &000002b0, &aaaaaaa0, &5555555a, &aaaaaa55, &055aaaaa
+          DCD     &000002c0, &aaaaaaa0, &5555555a, &aaaaaaa5, &055aaaaa
+          DCD     &000002d0, &aaaaaaa0, &5555555a, &aaaaaaa5, &055aaaaa
+          DCD     &000002e0, &aaaaaa00, &a555555a, &aaaaaaaa, &005aaaaa
+          DCD     &000002f0, &aaaaaa00, &a555555a, &aaaaaaaa, &005aaaaa
+          DCD     &00000300, &aaaaaa00, &a555555a, &aaaaaaaa, &000aaaaa
+          DCD     &00000310, &aaaaaa00, &a555555a, &aaaaaaaa, &000aaaaa
+          DCD     &00000320, &aaaaa000, &aa55555a, &aaaaaaaa, &000aaaaa
+          DCD     &00000330, &aaaaa000, &aa55555a, &aaaaaaaa, &000aaaaa
+          DCD     &00000340, &aaaa0000, &aaa5555a, &aaaaaaaa, &0000aaaa
+          DCD     &00000350, &aaaa0000, &aaa5555a, &aaaaaaaa, &0000aaaa
+          DCD     &00000360, &aaa00000, &aaaa55aa, &aaaaaaaa, &00000aaa
+          DCD     &00000370, &aaa00000, &aaaa55aa, &aaaaaaaa, &00000aaa
+          DCD     &00000380, &aa000000, &aaaa55aa, &aaaaaaaa, &000000aa
+          DCD     &00000390, &aa000000, &aaaa55aa, &aaaaaaaa, &000000aa
+          DCD     &000003a0, &a0000000, &aaaa5aaa, &aaaaaaaa, &00000000
+          DCD     &000003b0, &a0000000, &aaaa5aaa, &aaaaaaaa, &00000000
+          DCD     &000003c0, &00000000, &aaaaaaa0, &0aaaaaaa, &00000000
+          DCD     &000003d0, &00000000, &aaaaaaa0, &0aaaaaaa, &00000000
+          DCD     &000003e0, &00000000, &aaaa0000, &0000aaaa, &00000000
+          DCD     &000003f0, &00000000, &aaaa0000, &0000aaaa, &00000000
           DCD     -1
           ; frame 1
-          DCD     &00000000, &55000000, &00000056
-          DCD     &00000008, &96540000, &00002aaa
-          DCD     &00000010, &a5554000, &0002aaaa
-          DCD     &00000018, &95555000, &000aaaaa
-          DCD     &00000020, &aa555800, &0016aaaa
-          DCD     &00000028, &aa955600, &009aaaaa
-          DCD     &00000030, &aaa55580, &015aaaaa
-          DCD     &00000038, &aaa6a5a0, &055aaaaa
-          DCD     &00000040, &aaaaa9a0, &055aaaaa
-          DCD     &00000048, &aaaaa9a8, &155aaaaa
-          DCD     &00000050, &aaaa95a8, &156aaaaa
-          DCD     &00000058, &aaaa5aa8, &156aaaaa
-          DCD     &00000060, &a55a6aaa, &556aaaaa
-          DCD     &00000068, &9555aaaa, &55aaaaaa
-          DCD     &00000070, &5556aaaa, &6aaaaaa9
-          DCD     &00000078, &5556aaaa, &aaaaaaa5
-          DCD     &00000080, &5556aaaa, &aaaaaa55
-          DCD     &00000088, &5556aaaa, &aaaaa555
-          DCD     &00000090, &5556aaaa, &aaaa9555
-          DCD     &00000098, &555aaaaa, &aaaaa555
-          DCD     &000000a0, &556aaaa8, &2aaaa955
-          DCD     &000000a8, &55aaaaa8, &2aaaa955
-          DCD     &000000b0, &55aaaaa8, &2aaaaa55
-          DCD     &000000b8, &55aaaaa0, &0aaaaaa5
-          DCD     &000000c0, &55aaaaa0, &02aaaaa5
-          DCD     &000000c8, &55aaaa80, &02aaaaa9
-          DCD     &000000d0, &55aaaa00, &00aaaaaa
-          DCD     &000000d8, &a5aaa800, &002aaaaa
-          DCD     &000000e0, &a5aaa000, &000aaaaa
-          DCD     &000000e8, &a6aa8000, &0000aaaa
+          DCD     &00000000, &00000000, &55550000, &0000555a, &00000000
+          DCD     &00000010, &00000000, &55550000, &0000555a, &00000000
+          DCD     &00000020, &00000000, &a55a5550, &0aaaaaaa, &00000000
+          DCD     &00000030, &00000000, &a55a5550, &0aaaaaaa, &00000000
+          DCD     &00000040, &50000000, &aa555555, &aaaaaaaa, &0000000a
+          DCD     &00000050, &50000000, &aa555555, &aaaaaaaa, &0000000a
+          DCD     &00000060, &55000000, &a5555555, &aaaaaaaa, &000000aa
+          DCD     &00000070, &55000000, &a5555555, &aaaaaaaa, &000000aa
+          DCD     &00000080, &55a00000, &aaaa5555, &aaaaaaaa, &0000055a
+          DCD     &00000090, &55a00000, &aaaa5555, &aaaaaaaa, &0000055a
+          DCD     &000000a0, &555a0000, &aaaaa555, &aaaaaaaa, &0000a5aa
+          DCD     &000000b0, &555a0000, &aaaaa555, &aaaaaaaa, &0000a5aa
+          DCD     &000000c0, &5555a000, &aaaaaa55, &aaaaaaaa, &000555aa
+          DCD     &000000d0, &5555a000, &aaaaaa55, &aaaaaaaa, &000555aa
+          DCD     &000000e0, &aa55aa00, &aaaaaa5a, &aaaaaaaa, &005555aa
+          DCD     &000000f0, &aa55aa00, &aaaaaa5a, &aaaaaaaa, &005555aa
+          DCD     &00000100, &aaa5aa00, &aaaaaaaa, &aaaaaaaa, &005555aa
+          DCD     &00000110, &aaa5aa00, &aaaaaaaa, &aaaaaaaa, &005555aa
+          DCD     &00000120, &aaa5aaa0, &aaaaaaaa, &aaaaaaaa, &055555aa
+          DCD     &00000130, &aaa5aaa0, &aaaaaaaa, &aaaaaaaa, &055555aa
+          DCD     &00000140, &a555aaa0, &aaaaaaaa, &aaaaaaaa, &05555aaa
+          DCD     &00000150, &a555aaa0, &aaaaaaaa, &aaaaaaaa, &05555aaa
+          DCD     &00000160, &55aaaaa0, &aaaaaaaa, &aaaaaaaa, &05555aaa
+          DCD     &00000170, &55aaaaa0, &aaaaaaaa, &aaaaaaaa, &05555aaa
+          DCD     &00000180, &5aaaaaaa, &aa5555aa, &aaaaaaaa, &55555aaa
+          DCD     &00000190, &5aaaaaaa, &aa5555aa, &aaaaaaaa, &55555aaa
+          DCD     &000001a0, &aaaaaaaa, &a5555555, &aaaaaaaa, &5555aaaa
+          DCD     &000001b0, &aaaaaaaa, &a5555555, &aaaaaaaa, &5555aaaa
+          DCD     &000001c0, &aaaaaaaa, &5555555a, &aaaaaaa5, &5aaaaaaa
+          DCD     &000001d0, &aaaaaaaa, &5555555a, &aaaaaaa5, &5aaaaaaa
+          DCD     &000001e0, &aaaaaaaa, &5555555a, &aaaaaa55, &aaaaaaaa
+          DCD     &000001f0, &aaaaaaaa, &5555555a, &aaaaaa55, &aaaaaaaa
+          DCD     &00000200, &aaaaaaaa, &5555555a, &aaaa5555, &aaaaaaaa
+          DCD     &00000210, &aaaaaaaa, &5555555a, &aaaa5555, &aaaaaaaa
+          DCD     &00000220, &aaaaaaaa, &5555555a, &aa555555, &aaaaaaaa
+          DCD     &00000230, &aaaaaaaa, &5555555a, &aa555555, &aaaaaaaa
+          DCD     &00000240, &aaaaaaaa, &5555555a, &a5555555, &aaaaaaaa
+          DCD     &00000250, &aaaaaaaa, &5555555a, &a5555555, &aaaaaaaa
+          DCD     &00000260, &aaaaaaaa, &555555aa, &aa555555, &aaaaaaaa
+          DCD     &00000270, &aaaaaaaa, &555555aa, &aa555555, &aaaaaaaa
+          DCD     &00000280, &aaaaaaa0, &55555aaa, &aaa55555, &0aaaaaaa
+          DCD     &00000290, &aaaaaaa0, &55555aaa, &aaa55555, &0aaaaaaa
+          DCD     &000002a0, &aaaaaaa0, &5555aaaa, &aaa55555, &0aaaaaaa
+          DCD     &000002b0, &aaaaaaa0, &5555aaaa, &aaa55555, &0aaaaaaa
+          DCD     &000002c0, &aaaaaaa0, &5555aaaa, &aaaa5555, &0aaaaaaa
+          DCD     &000002d0, &aaaaaaa0, &5555aaaa, &aaaa5555, &0aaaaaaa
+          DCD     &000002e0, &aaaaaa00, &5555aaaa, &aaaaaa55, &00aaaaaa
+          DCD     &000002f0, &aaaaaa00, &5555aaaa, &aaaaaa55, &00aaaaaa
+          DCD     &00000300, &aaaaaa00, &5555aaaa, &aaaaaa55, &000aaaaa
+          DCD     &00000310, &aaaaaa00, &5555aaaa, &aaaaaa55, &000aaaaa
+          DCD     &00000320, &aaaaa000, &5555aaaa, &aaaaaaa5, &000aaaaa
+          DCD     &00000330, &aaaaa000, &5555aaaa, &aaaaaaa5, &000aaaaa
+          DCD     &00000340, &aaaa0000, &5555aaaa, &aaaaaaaa, &0000aaaa
+          DCD     &00000350, &aaaa0000, &5555aaaa, &aaaaaaaa, &0000aaaa
+          DCD     &00000360, &aaa00000, &aa55aaaa, &aaaaaaaa, &00000aaa
+          DCD     &00000370, &aaa00000, &aa55aaaa, &aaaaaaaa, &00000aaa
+          DCD     &00000380, &aa000000, &aa55aaaa, &aaaaaaaa, &000000aa
+          DCD     &00000390, &aa000000, &aa55aaaa, &aaaaaaaa, &000000aa
+          DCD     &000003a0, &a0000000, &aa5aaaaa, &aaaaaaaa, &00000000
+          DCD     &000003b0, &a0000000, &aa5aaaaa, &aaaaaaaa, &00000000
           DCD     -1
           ; frame 2
-          DCD     &00000000, &55000000, &00000055
-          DCD     &00000008, &69540000, &00002aa9
-          DCD     &00000010, &55558000, &0002aaa5
-          DCD     &00000018, &55556000, &000aaaa9
-          DCD     &00000020, &95556800, &002aaaaa
-          DCD     &00000028, &a5555a00, &006aaaaa
-          DCD     &00000030, &a9555680, &01aaaaaa
-          DCD     &00000038, &aaa956a0, &05aaaaaa
-          DCD     &00000040, &aaaa56a0, &05aaaaaa
-          DCD     &00000048, &aaaa5aa8, &15aaaaaa
-          DCD     &00000050, &aaa55aa8, &16aaaaaa
-          DCD     &00000058, &aa96aaa8, &16aaaa9a
-          DCD     &00000060, &5a9aaaaa, &56aaaaa5
-          DCD     &00000068, &556aaaaa, &5aaaaa95
-          DCD     &00000070, &55aaaaaa, &5aaaa955
-          DCD     &00000078, &55aaaaaa, &aaaaa555
-          DCD     &00000080, &55aaaaaa, &aaaa5555
-          DCD     &00000088, &55aaaaaa, &aaa95555
-          DCD     &00000090, &56aaaaaa, &aaa55555
-          DCD     &00000098, &56aaaaaa, &aaa95555
-          DCD     &000000a0, &5aaaaaa8, &2aa95555
-          DCD     &000000a8, &6aaaaaa8, &2aa95555
-          DCD     &000000b0, &6aaaaaa8, &2aaa5555
-          DCD     &000000b8, &6aaaaaa0, &0aaaa555
-          DCD     &000000c0, &6aaaaaa0, &02aaa955
-          DCD     &000000c8, &6aaaaa80, &02aaaa55
-          DCD     &000000d0, &6aaaaa00, &00aaaa95
-          DCD     &000000d8, &6aaaa800, &002aaaaa
-          DCD     &000000e0, &6aaaa000, &000aaaaa
-          DCD     &000000e8, &6aaa8000, &0000aaaa
+          DCD     &00000000, &00000000, &55550000, &00005555, &00000000
+          DCD     &00000010, &00000000, &55550000, &00005555, &00000000
+          DCD     &00000020, &00000000, &5aa55550, &0aaaaaa5, &00000000
+          DCD     &00000030, &00000000, &5aa55550, &0aaaaaa5, &00000000
+          DCD     &00000040, &a0000000, &55555555, &aaaaaa55, &0000000a
+          DCD     &00000050, &a0000000, &55555555, &aaaaaa55, &0000000a
+          DCD     &00000060, &5a000000, &55555555, &aaaaaaa5, &000000aa
+          DCD     &00000070, &5a000000, &55555555, &aaaaaaa5, &000000aa
+          DCD     &00000080, &5aa00000, &a5555555, &aaaaaaaa, &00000aaa
+          DCD     &00000090, &5aa00000, &a5555555, &aaaaaaaa, &00000aaa
+          DCD     &000000a0, &55aa0000, &aa555555, &aaaaaaaa, &00005aaa
+          DCD     &000000b0, &55aa0000, &aa555555, &aaaaaaaa, &00005aaa
+          DCD     &000000c0, &555aa000, &aaa55555, &aaaaaaaa, &0005aaaa
+          DCD     &000000d0, &555aa000, &aaa55555, &aaaaaaaa, &0005aaaa
+          DCD     &000000e0, &555aaa00, &aaaaaaa5, &aaaaaaaa, &0055aaaa
+          DCD     &000000f0, &555aaa00, &aaaaaaa5, &aaaaaaaa, &0055aaaa
+          DCD     &00000100, &555aaa00, &aaaaaaaa, &aaaaaaaa, &0055aaaa
+          DCD     &00000110, &555aaa00, &aaaaaaaa, &aaaaaaaa, &0055aaaa
+          DCD     &00000120, &55aaaaa0, &aaaaaaaa, &aaaaaaaa, &0555aaaa
+          DCD     &00000130, &55aaaaa0, &aaaaaaaa, &aaaaaaaa, &0555aaaa
+          DCD     &00000140, &55aaaaa0, &aaaaaa55, &aaaaaaaa, &055aaaaa
+          DCD     &00000150, &55aaaaa0, &aaaaaa55, &aaaaaaaa, &055aaaaa
+          DCD     &00000160, &aaaaaaa0, &aaaaa55a, &aaaaa5aa, &055aaaaa
+          DCD     &00000170, &aaaaaaa0, &aaaaa55a, &aaaaa5aa, &055aaaaa
+          DCD     &00000180, &aaaaaaaa, &55aaa5aa, &aaaaaa55, &555aaaaa
+          DCD     &00000190, &aaaaaaaa, &55aaa5aa, &aaaaaa55, &555aaaaa
+          DCD     &000001a0, &aaaaaaaa, &55555aaa, &aaaaa555, &55aaaaaa
+          DCD     &000001b0, &aaaaaaaa, &55555aaa, &aaaaa555, &55aaaaaa
+          DCD     &000001c0, &aaaaaaaa, &5555aaaa, &aaa55555, &55aaaaaa
+          DCD     &000001d0, &aaaaaaaa, &5555aaaa, &aaa55555, &55aaaaaa
+          DCD     &000001e0, &aaaaaaaa, &5555aaaa, &aa555555, &aaaaaaaa
+          DCD     &000001f0, &aaaaaaaa, &5555aaaa, &aa555555, &aaaaaaaa
+          DCD     &00000200, &aaaaaaaa, &5555aaaa, &55555555, &aaaaaaaa
+          DCD     &00000210, &aaaaaaaa, &5555aaaa, &55555555, &aaaaaaaa
+          DCD     &00000220, &aaaaaaaa, &5555aaaa, &55555555, &aaaaaaa5
+          DCD     &00000230, &aaaaaaaa, &5555aaaa, &55555555, &aaaaaaa5
+          DCD     &00000240, &aaaaaaaa, &555aaaaa, &55555555, &aaaaaa55
+          DCD     &00000250, &aaaaaaaa, &555aaaaa, &55555555, &aaaaaa55
+          DCD     &00000260, &aaaaaaaa, &555aaaaa, &55555555, &aaaaaaa5
+          DCD     &00000270, &aaaaaaaa, &555aaaaa, &55555555, &aaaaaaa5
+          DCD     &00000280, &aaaaaaa0, &55aaaaaa, &55555555, &0aaaaaa5
+          DCD     &00000290, &aaaaaaa0, &55aaaaaa, &55555555, &0aaaaaa5
+          DCD     &000002a0, &aaaaaaa0, &5aaaaaaa, &55555555, &0aaaaaa5
+          DCD     &000002b0, &aaaaaaa0, &5aaaaaaa, &55555555, &0aaaaaa5
+          DCD     &000002c0, &aaaaaaa0, &5aaaaaaa, &55555555, &0aaaaaaa
+          DCD     &000002d0, &aaaaaaa0, &5aaaaaaa, &55555555, &0aaaaaaa
+          DCD     &000002e0, &aaaaaa00, &5aaaaaaa, &aa555555, &00aaaaaa
+          DCD     &000002f0, &aaaaaa00, &5aaaaaaa, &aa555555, &00aaaaaa
+          DCD     &00000300, &aaaaaa00, &5aaaaaaa, &aaa55555, &000aaaaa
+          DCD     &00000310, &aaaaaa00, &5aaaaaaa, &aaa55555, &000aaaaa
+          DCD     &00000320, &aaaaa000, &5aaaaaaa, &aaaa5555, &000aaaaa
+          DCD     &00000330, &aaaaa000, &5aaaaaaa, &aaaa5555, &000aaaaa
+          DCD     &00000340, &aaaa0000, &5aaaaaaa, &aaaaa555, &0000aaaa
+          DCD     &00000350, &aaaa0000, &5aaaaaaa, &aaaaa555, &0000aaaa
+          DCD     &00000360, &aaa00000, &5aaaaaaa, &aaaaaaaa, &00000aaa
+          DCD     &00000370, &aaa00000, &5aaaaaaa, &aaaaaaaa, &00000aaa
+          DCD     &00000380, &aa000000, &5aaaaaaa, &aaaaaaaa, &000000aa
+          DCD     &00000390, &aa000000, &5aaaaaaa, &aaaaaaaa, &000000aa
+          DCD     &000003a0, &a0000000, &5aaaaaaa, &aaaaaaaa, &00000000
+          DCD     &000003b0, &a0000000, &5aaaaaaa, &aaaaaaaa, &00000000
           DCD     -1
           ; frame 3
-          DCD     &00000000, &55000000, &00000065
-          DCD     &00000008, &a5540000, &00002a95
-          DCD     &00000010, &55568000, &0002aa55
-          DCD     &00000018, &5555a000, &000aaa55
-          DCD     &00000020, &55556800, &002aaaa5
-          DCD     &00000028, &55555a00, &00aaaaa9
-          DCD     &00000030, &55556a80, &02aaaaaa
-          DCD     &00000038, &6a556aa0, &0aaaaaaa
-          DCD     &00000040, &aa96aaa0, &0aaaaaaa
-          DCD     &00000048, &a696aaa8, &2aaaaaaa
-          DCD     &00000050, &a55aaaa8, &2aaaaaaa
-          DCD     &00000058, &96aaaaa8, &2aaaaaaa
-          DCD     &00000060, &9aaaaaaa, &aaaaaa5a
-          DCD     &00000068, &6aaaaaaa, &aaaa9555
-          DCD     &00000070, &aaaaaaaa, &aaa95555
-          DCD     &00000078, &aaaaaaaa, &aaa95555
-          DCD     &00000080, &aaaaaaaa, &aa955555
-          DCD     &00000088, &aaaaaaaa, &aa555555
-          DCD     &00000090, &aaaaaaaa, &a9555556
-          DCD     &00000098, &aaaaaaaa, &aa555556
-          DCD     &000000a0, &aaaaaaa8, &2a95555a
-          DCD     &000000a8, &aaaaaaa8, &2a95556a
-          DCD     &000000b0, &aaaaaaa8, &2aa5556a
-          DCD     &000000b8, &aaaaaaa0, &0aa9556a
-          DCD     &000000c0, &aaaaaaa0, &02aa556a
-          DCD     &000000c8, &aaaaaa80, &02aa955a
-          DCD     &000000d0, &aaaaaa00, &00aaa55a
-          DCD     &000000d8, &aaaaa800, &002aaa56
-          DCD     &000000e0, &aaaaa000, &000aaa96
-          DCD     &000000e8, &aaaa8000, &0000aaa6
+          DCD     &00000000, &00000000, &55550000, &00005a55, &00000000
+          DCD     &00000010, &00000000, &55550000, &00005a55, &00000000
+          DCD     &00000020, &00000000, &aa555550, &0aaaa555, &00000000
+          DCD     &00000030, &00000000, &aa555550, &0aaaa555, &00000000
+          DCD     &00000040, &a0000000, &5555555a, &aaaa5555, &0000000a
+          DCD     &00000050, &a0000000, &5555555a, &aaaa5555, &0000000a
+          DCD     &00000060, &aa000000, &55555555, &aaaa5555, &000000aa
+          DCD     &00000070, &aa000000, &55555555, &aaaa5555, &000000aa
+          DCD     &00000080, &5aa00000, &55555555, &aaaaaa55, &00000aaa
+          DCD     &00000090, &5aa00000, &55555555, &aaaaaa55, &00000aaa
+          DCD     &000000a0, &55aa0000, &55555555, &aaaaaaa5, &0000aaaa
+          DCD     &000000b0, &55aa0000, &55555555, &aaaaaaa5, &0000aaaa
+          DCD     &000000c0, &5aaaa000, &55555555, &aaaaaaaa, &000aaaaa
+          DCD     &000000d0, &5aaaa000, &55555555, &aaaaaaaa, &000aaaaa
+          DCD     &000000e0, &5aaaaa00, &5aaa5555, &aaaaaaaa, &00aaaaaa
+          DCD     &000000f0, &5aaaaa00, &5aaa5555, &aaaaaaaa, &00aaaaaa
+          DCD     &00000100, &aaaaaa00, &aaaaa55a, &aaaaaaaa, &00aaaaaa
+          DCD     &00000110, &aaaaaa00, &aaaaa55a, &aaaaaaaa, &00aaaaaa
+          DCD     &00000120, &aaaaaaa0, &aa5aa55a, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000130, &aaaaaaa0, &aa5aa55a, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000140, &aaaaaaa0, &aa5555aa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000150, &aaaaaaa0, &aa5555aa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000160, &aaaaaaa0, &a55aaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000170, &aaaaaaa0, &a55aaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000180, &aaaaaaaa, &a5aaaaaa, &aaaa55aa, &aaaaaaaa
+          DCD     &00000190, &aaaaaaaa, &a5aaaaaa, &aaaa55aa, &aaaaaaaa
+          DCD     &000001a0, &aaaaaaaa, &5aaaaaaa, &a5555555, &aaaaaaaa
+          DCD     &000001b0, &aaaaaaaa, &5aaaaaaa, &a5555555, &aaaaaaaa
+          DCD     &000001c0, &aaaaaaaa, &aaaaaaaa, &55555555, &aaaaaaa5
+          DCD     &000001d0, &aaaaaaaa, &aaaaaaaa, &55555555, &aaaaaaa5
+          DCD     &000001e0, &aaaaaaaa, &aaaaaaaa, &55555555, &aaaaaaa5
+          DCD     &000001f0, &aaaaaaaa, &aaaaaaaa, &55555555, &aaaaaaa5
+          DCD     &00000200, &aaaaaaaa, &aaaaaaaa, &55555555, &aaaaa555
+          DCD     &00000210, &aaaaaaaa, &aaaaaaaa, &55555555, &aaaaa555
+          DCD     &00000220, &aaaaaaaa, &aaaaaaaa, &55555555, &aaaa5555
+          DCD     &00000230, &aaaaaaaa, &aaaaaaaa, &55555555, &aaaa5555
+          DCD     &00000240, &aaaaaaaa, &aaaaaaaa, &5555555a, &aaa55555
+          DCD     &00000250, &aaaaaaaa, &aaaaaaaa, &5555555a, &aaa55555
+          DCD     &00000260, &aaaaaaaa, &aaaaaaaa, &5555555a, &aaaa5555
+          DCD     &00000270, &aaaaaaaa, &aaaaaaaa, &5555555a, &aaaa5555
+          DCD     &00000280, &aaaaaaa0, &aaaaaaaa, &555555aa, &0aaaa555
+          DCD     &00000290, &aaaaaaa0, &aaaaaaaa, &555555aa, &0aaaa555
+          DCD     &000002a0, &aaaaaaa0, &aaaaaaaa, &55555aaa, &0aaaa555
+          DCD     &000002b0, &aaaaaaa0, &aaaaaaaa, &55555aaa, &0aaaa555
+          DCD     &000002c0, &aaaaaaa0, &aaaaaaaa, &55555aaa, &0aaaaa55
+          DCD     &000002d0, &aaaaaaa0, &aaaaaaaa, &55555aaa, &0aaaaa55
+          DCD     &000002e0, &aaaaaa00, &aaaaaaaa, &55555aaa, &00aaaaa5
+          DCD     &000002f0, &aaaaaa00, &aaaaaaaa, &55555aaa, &00aaaaa5
+          DCD     &00000300, &aaaaaa00, &aaaaaaaa, &55555aaa, &000aaaaa
+          DCD     &00000310, &aaaaaa00, &aaaaaaaa, &55555aaa, &000aaaaa
+          DCD     &00000320, &aaaaa000, &aaaaaaaa, &a55555aa, &000aaaaa
+          DCD     &00000330, &aaaaa000, &aaaaaaaa, &a55555aa, &000aaaaa
+          DCD     &00000340, &aaaa0000, &aaaaaaaa, &aa5555aa, &0000aaaa
+          DCD     &00000350, &aaaa0000, &aaaaaaaa, &aa5555aa, &0000aaaa
+          DCD     &00000360, &aaa00000, &aaaaaaaa, &aaaa555a, &00000aaa
+          DCD     &00000370, &aaa00000, &aaaaaaaa, &aaaa555a, &00000aaa
+          DCD     &00000380, &aa000000, &aaaaaaaa, &aaaaa55a, &000000aa
+          DCD     &00000390, &aa000000, &aaaaaaaa, &aaaaa55a, &000000aa
+          DCD     &000003a0, &a0000000, &aaaaaaaa, &aaaaaa5a, &00000000
+          DCD     &000003b0, &a0000000, &aaaaaaaa, &aaaaaa5a, &00000000
           DCD     -1
           ; frame 4
-          DCD     &00000000, &55000000, &00000095
-          DCD     &00000008, &55580000, &00002a9a
-          DCD     &00000010, &555a8000, &0002a555
-          DCD     &00000018, &555aa000, &000a9555
-          DCD     &00000020, &5556a800, &002aa955
-          DCD     &00000028, &5556aa00, &00aaaa55
-          DCD     &00000030, &555aaa80, &02aaaa95
-          DCD     &00000038, &556aaaa0, &0aaaaaaa
-          DCD     &00000040, &95aaaaa0, &0aaaaaaa
-          DCD     &00000048, &95aaaaa8, &2aaaaaaa
-          DCD     &00000050, &56aaaaa8, &2aaaaaa9
-          DCD     &00000058, &aaaaaaa8, &2aaaaa95
-          DCD     &00000060, &aaaaaaaa, &aaaa969a
-          DCD     &00000068, &aaaaaaaa, &aaa5556a
-          DCD     &00000070, &aaaaaaaa, &aa9556aa
-          DCD     &00000078, &aaaaaaaa, &aa5555aa
-          DCD     &00000080, &aaaaaaaa, &a95555aa
-          DCD     &00000088, &aaaaaaaa, &9555556a
-          DCD     &00000090, &aaaaaaaa, &a55555aa
-          DCD     &00000098, &aaaaaaaa, &a55555aa
-          DCD     &000000a0, &aaaaaaa8, &255556aa
-          DCD     &000000a8, &aaaaaaa8, &29555aaa
-          DCD     &000000b0, &aaaaaaa8, &29555aaa
-          DCD     &000000b8, &aaaaaaa0, &0a555aaa
-          DCD     &000000c0, &aaaaaaa0, &02955aaa
-          DCD     &000000c8, &aaaaaa80, &02a556aa
-          DCD     &000000d0, &aaaaaa00, &00a956aa
-          DCD     &000000d8, &aaaaa800, &002a95aa
-          DCD     &000000e0, &aaaaa000, &000aa5aa
-          DCD     &000000e8, &aaaa8000, &0000a96a
+          DCD     &00000000, &00000000, &55550000, &0000a555, &00000000
+          DCD     &00000010, &00000000, &55550000, &0000a555, &00000000
+          DCD     &00000020, &00000000, &555555a0, &0aaaa5aa, &00000000
+          DCD     &00000030, &00000000, &555555a0, &0aaaa5aa, &00000000
+          DCD     &00000040, &a0000000, &555555aa, &aa555555, &0000000a
+          DCD     &00000050, &a0000000, &555555aa, &aa555555, &0000000a
+          DCD     &00000060, &aa000000, &555555aa, &a5555555, &000000aa
+          DCD     &00000070, &aa000000, &555555aa, &a5555555, &000000aa
+          DCD     &00000080, &aaa00000, &5555555a, &aaa55555, &00000aaa
+          DCD     &00000090, &aaa00000, &5555555a, &aaa55555, &00000aaa
+          DCD     &000000a0, &aaaa0000, &5555555a, &aaaa5555, &0000aaaa
+          DCD     &000000b0, &aaaa0000, &5555555a, &aaaa5555, &0000aaaa
+          DCD     &000000c0, &aaaaa000, &555555aa, &aaaaa555, &000aaaaa
+          DCD     &000000d0, &aaaaa000, &555555aa, &aaaaa555, &000aaaaa
+          DCD     &000000e0, &aaaaaa00, &55555aaa, &aaaaaaaa, &00aaaaaa
+          DCD     &000000f0, &aaaaaa00, &55555aaa, &aaaaaaaa, &00aaaaaa
+          DCD     &00000100, &aaaaaa00, &a555aaaa, &aaaaaaaa, &00aaaaaa
+          DCD     &00000110, &aaaaaa00, &a555aaaa, &aaaaaaaa, &00aaaaaa
+          DCD     &00000120, &aaaaaaa0, &a555aaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000130, &aaaaaaa0, &a555aaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000140, &aaaaaaa0, &555aaaaa, &aaaaaaa5, &0aaaaaaa
+          DCD     &00000150, &aaaaaaa0, &555aaaaa, &aaaaaaa5, &0aaaaaaa
+          DCD     &00000160, &aaaaaaa0, &aaaaaaaa, &aaaaa555, &0aaaaaaa
+          DCD     &00000170, &aaaaaaa0, &aaaaaaaa, &aaaaa555, &0aaaaaaa
+          DCD     &00000180, &aaaaaaaa, &aaaaaaaa, &a55aa5aa, &aaaaaaaa
+          DCD     &00000190, &aaaaaaaa, &aaaaaaaa, &a55aa5aa, &aaaaaaaa
+          DCD     &000001a0, &aaaaaaaa, &aaaaaaaa, &55555aaa, &aaaaaa55
+          DCD     &000001b0, &aaaaaaaa, &aaaaaaaa, &55555aaa, &aaaaaa55
+          DCD     &000001c0, &aaaaaaaa, &aaaaaaaa, &555aaaaa, &aaaaa555
+          DCD     &000001d0, &aaaaaaaa, &aaaaaaaa, &555aaaaa, &aaaaa555
+          DCD     &000001e0, &aaaaaaaa, &aaaaaaaa, &5555aaaa, &aaaa5555
+          DCD     &000001f0, &aaaaaaaa, &aaaaaaaa, &5555aaaa, &aaaa5555
+          DCD     &00000200, &aaaaaaaa, &aaaaaaaa, &5555aaaa, &aaa55555
+          DCD     &00000210, &aaaaaaaa, &aaaaaaaa, &5555aaaa, &aaa55555
+          DCD     &00000220, &aaaaaaaa, &aaaaaaaa, &55555aaa, &a5555555
+          DCD     &00000230, &aaaaaaaa, &aaaaaaaa, &55555aaa, &a5555555
+          DCD     &00000240, &aaaaaaaa, &aaaaaaaa, &5555aaaa, &aa555555
+          DCD     &00000250, &aaaaaaaa, &aaaaaaaa, &5555aaaa, &aa555555
+          DCD     &00000260, &aaaaaaaa, &aaaaaaaa, &5555aaaa, &aa555555
+          DCD     &00000270, &aaaaaaaa, &aaaaaaaa, &5555aaaa, &aa555555
+          DCD     &00000280, &aaaaaaa0, &aaaaaaaa, &555aaaaa, &0a555555
+          DCD     &00000290, &aaaaaaa0, &aaaaaaaa, &555aaaaa, &0a555555
+          DCD     &000002a0, &aaaaaaa0, &aaaaaaaa, &55aaaaaa, &0aa55555
+          DCD     &000002b0, &aaaaaaa0, &aaaaaaaa, &55aaaaaa, &0aa55555
+          DCD     &000002c0, &aaaaaaa0, &aaaaaaaa, &55aaaaaa, &0aa55555
+          DCD     &000002d0, &aaaaaaa0, &aaaaaaaa, &55aaaaaa, &0aa55555
+          DCD     &000002e0, &aaaaaa00, &aaaaaaaa, &55aaaaaa, &00aa5555
+          DCD     &000002f0, &aaaaaa00, &aaaaaaaa, &55aaaaaa, &00aa5555
+          DCD     &00000300, &aaaaaa00, &aaaaaaaa, &55aaaaaa, &000aa555
+          DCD     &00000310, &aaaaaa00, &aaaaaaaa, &55aaaaaa, &000aa555
+          DCD     &00000320, &aaaaa000, &aaaaaaaa, &555aaaaa, &000aaa55
+          DCD     &00000330, &aaaaa000, &aaaaaaaa, &555aaaaa, &000aaa55
+          DCD     &00000340, &aaaa0000, &aaaaaaaa, &555aaaaa, &0000aaa5
+          DCD     &00000350, &aaaa0000, &aaaaaaaa, &555aaaaa, &0000aaa5
+          DCD     &00000360, &aaa00000, &aaaaaaaa, &a555aaaa, &00000aaa
+          DCD     &00000370, &aaa00000, &aaaaaaaa, &a555aaaa, &00000aaa
+          DCD     &00000380, &aa000000, &aaaaaaaa, &aa55aaaa, &000000aa
+          DCD     &00000390, &aa000000, &aaaaaaaa, &aa55aaaa, &000000aa
+          DCD     &000003a0, &a0000000, &aaaaaaaa, &aaa55aaa, &00000000
+          DCD     &000003b0, &a0000000, &aaaaaaaa, &aaa55aaa, &00000000
           DCD     -1
           ; frame 5
-          DCD     &00000008, &55a80000, &000029a5
-          DCD     &00000010, &55aa8000, &00029555
-          DCD     &00000018, &55aaa000, &000a9555
-          DCD     &00000020, &55aaa800, &002a9555
-          DCD     &00000028, &55aaaa00, &00aa9555
-          DCD     &00000030, &56aaaa80, &02aaa555
-          DCD     &00000038, &56aaaaa0, &0aaaaa95
-          DCD     &00000040, &6aaaaaa0, &0aaaaaa5
-          DCD     &00000048, &aaaaaaa8, &2aaaaa95
-          DCD     &00000050, &aaaaaaa8, &2aaaa956
-          DCD     &00000058, &aaaaaaa8, &2aaa95aa
-          DCD     &00000060, &aaaaaaaa, &aaa69aaa
-          DCD     &00000068, &aaaaaaaa, &aa556aaa
-          DCD     &00000070, &aaaaaaaa, &a955aaaa
-          DCD     &00000078, &aaaaaaaa, &a555aaaa
-          DCD     &00000080, &aaaaaaaa, &95556aaa
-          DCD     &00000088, &aaaaaaaa, &55556aaa
-          DCD     &00000090, &aaaaaaaa, &95556aaa
-          DCD     &00000098, &aaaaaaaa, &9555aaaa
-          DCD     &000000a0, &aaaaaaa8, &1555aaaa
-          DCD     &000000a8, &aaaaaaa8, &2556aaaa
-          DCD     &000000b0, &aaaaaaa8, &2556aaaa
-          DCD     &000000b8, &aaaaaaa0, &0956aaaa
-          DCD     &000000c0, &aaaaaaa0, &0255aaaa
-          DCD     &000000c8, &aaaaaa80, &0295aaaa
-          DCD     &000000d0, &aaaaaa00, &00a56aaa
-          DCD     &000000d8, &aaaaa800, &002a6aaa
-          DCD     &000000e0, &aaaaa000, &000a9aaa
-          DCD     &000000e8, &aaaa8000, &0000aaaa
+          DCD     &00000020, &00000000, &5555aaa0, &0aa5aa55, &00000000
+          DCD     &00000030, &00000000, &5555aaa0, &0aa5aa55, &00000000
+          DCD     &00000040, &a0000000, &5555aaaa, &a5555555, &0000000a
+          DCD     &00000050, &a0000000, &5555aaaa, &a5555555, &0000000a
+          DCD     &00000060, &aa000000, &5555aaaa, &a5555555, &000000aa
+          DCD     &00000070, &aa000000, &5555aaaa, &a5555555, &000000aa
+          DCD     &00000080, &aaa00000, &5555aaaa, &a5555555, &00000aaa
+          DCD     &00000090, &aaa00000, &5555aaaa, &a5555555, &00000aaa
+          DCD     &000000a0, &aaaa0000, &5555aaaa, &a5555555, &0000aaaa
+          DCD     &000000b0, &aaaa0000, &5555aaaa, &a5555555, &0000aaaa
+          DCD     &000000c0, &aaaaa000, &555aaaaa, &aa555555, &000aaaaa
+          DCD     &000000d0, &aaaaa000, &555aaaaa, &aa555555, &000aaaaa
+          DCD     &000000e0, &aaaaaa00, &555aaaaa, &aaaaa555, &00aaaaaa
+          DCD     &000000f0, &aaaaaa00, &555aaaaa, &aaaaa555, &00aaaaaa
+          DCD     &00000100, &aaaaaa00, &5aaaaaaa, &aaaaaa55, &00aaaaaa
+          DCD     &00000110, &aaaaaa00, &5aaaaaaa, &aaaaaa55, &00aaaaaa
+          DCD     &00000120, &aaaaaaa0, &aaaaaaaa, &aaaaa555, &0aaaaaaa
+          DCD     &00000130, &aaaaaaa0, &aaaaaaaa, &aaaaa555, &0aaaaaaa
+          DCD     &00000140, &aaaaaaa0, &aaaaaaaa, &aaa5555a, &0aaaaaaa
+          DCD     &00000150, &aaaaaaa0, &aaaaaaaa, &aaa5555a, &0aaaaaaa
+          DCD     &00000160, &aaaaaaa0, &aaaaaaaa, &a555aaaa, &0aaaaaaa
+          DCD     &00000170, &aaaaaaa0, &aaaaaaaa, &a555aaaa, &0aaaaaaa
+          DCD     &00000180, &aaaaaaaa, &aaaaaaaa, &a5aaaaaa, &aaaaaa5a
+          DCD     &00000190, &aaaaaaaa, &aaaaaaaa, &a5aaaaaa, &aaaaaa5a
+          DCD     &000001a0, &aaaaaaaa, &aaaaaaaa, &5aaaaaaa, &aaaa5555
+          DCD     &000001b0, &aaaaaaaa, &aaaaaaaa, &5aaaaaaa, &aaaa5555
+          DCD     &000001c0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aaa55555
+          DCD     &000001d0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aaa55555
+          DCD     &000001e0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aa555555
+          DCD     &000001f0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aa555555
+          DCD     &00000200, &aaaaaaaa, &aaaaaaaa, &5aaaaaaa, &a5555555
+          DCD     &00000210, &aaaaaaaa, &aaaaaaaa, &5aaaaaaa, &a5555555
+          DCD     &00000220, &aaaaaaaa, &aaaaaaaa, &5aaaaaaa, &55555555
+          DCD     &00000230, &aaaaaaaa, &aaaaaaaa, &5aaaaaaa, &55555555
+          DCD     &00000240, &aaaaaaaa, &aaaaaaaa, &5aaaaaaa, &a5555555
+          DCD     &00000250, &aaaaaaaa, &aaaaaaaa, &5aaaaaaa, &a5555555
+          DCD     &00000260, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &a5555555
+          DCD     &00000270, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &a5555555
+          DCD     &00000280, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &05555555
+          DCD     &00000290, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &05555555
+          DCD     &000002a0, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0a55555a
+          DCD     &000002b0, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0a55555a
+          DCD     &000002c0, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0a55555a
+          DCD     &000002d0, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0a55555a
+          DCD     &000002e0, &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &00a5555a
+          DCD     &000002f0, &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &00a5555a
+          DCD     &00000300, &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &000a5555
+          DCD     &00000310, &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &000a5555
+          DCD     &00000320, &aaaaa000, &aaaaaaaa, &aaaaaaaa, &000aa555
+          DCD     &00000330, &aaaaa000, &aaaaaaaa, &aaaaaaaa, &000aa555
+          DCD     &00000340, &aaaa0000, &aaaaaaaa, &5aaaaaaa, &0000aa55
+          DCD     &00000350, &aaaa0000, &aaaaaaaa, &5aaaaaaa, &0000aa55
+          DCD     &00000360, &aaa00000, &aaaaaaaa, &5aaaaaaa, &00000aaa
+          DCD     &00000370, &aaa00000, &aaaaaaaa, &5aaaaaaa, &00000aaa
+          DCD     &00000380, &aa000000, &aaaaaaaa, &a5aaaaaa, &000000aa
+          DCD     &00000390, &aa000000, &aaaaaaaa, &a5aaaaaa, &000000aa
+          DCD     &000003a0, &a0000000, &aaaaaaaa, &aaaaaaaa, &00000000
+          DCD     &000003b0, &a0000000, &aaaaaaaa, &aaaaaaaa, &00000000
           DCD     -1
           ; frame 6
-          DCD     &00000000, &55000000, &00000055
-          DCD     &00000008, &56a80000, &00001a95
-          DCD     &00000010, &5aaa8000, &00015555
-          DCD     &00000018, &6aaaa000, &00095555
-          DCD     &00000020, &6aaaa800, &00255555
-          DCD     &00000028, &6aaaaa00, &00a55555
-          DCD     &00000030, &aaaaaa80, &02a95555
-          DCD     &00000038, &aaaaaaa0, &0aaaa556
-          DCD     &00000040, &aaaaaaa0, &0aaaa966
-          DCD     &00000048, &aaaaaaa8, &2aaaa56a
-          DCD     &00000050, &aaaaaaa8, &2aaa55aa
-          DCD     &00000058, &aaaaaaa8, &2aa96aaa
-          DCD     &00000060, &aaaaaaaa, &aa56aaaa
-          DCD     &00000068, &aaaaaaaa, &a55aaaaa
-          DCD     &00000070, &aaaaaaaa, &955aaaaa
-          DCD     &00000078, &aaaaaaaa, &955aaaaa
-          DCD     &00000080, &aaaaaaaa, &555aaaaa
-          DCD     &00000088, &aaaaaaaa, &555aaaaa
-          DCD     &00000090, &aaaaaaaa, &555aaaaa
-          DCD     &00000098, &aaaaaaaa, &556aaaaa
-          DCD     &000000a0, &aaaaaaa8, &156aaaaa
-          DCD     &000000a8, &aaaaaaa8, &15aaaaaa
-          DCD     &000000b0, &aaaaaaa8, &15aaaaaa
-          DCD     &000000b8, &aaaaaaa0, &056aaaaa
-          DCD     &000000c0, &aaaaaaa0, &015aaaaa
-          DCD     &000000c8, &aaaaaa80, &025aaaaa
-          DCD     &000000d0, &aaaaaa00, &00a6aaaa
-          DCD     &000000d8, &aaaaa800, &0029aaaa
-          DCD     &000000e0, &aaaaa000, &000a6aaa
+          DCD     &00000000, &00000000, &55550000, &00005555, &00000000
+          DCD     &00000010, &00000000, &55550000, &00005555, &00000000
+          DCD     &00000020, &00000000, &555aaaa0, &05aaa555, &00000000
+          DCD     &00000030, &00000000, &555aaaa0, &05aaa555, &00000000
+          DCD     &00000040, &a0000000, &55aaaaaa, &55555555, &00000005
+          DCD     &00000050, &a0000000, &55aaaaaa, &55555555, &00000005
+          DCD     &00000060, &aa000000, &5aaaaaaa, &55555555, &000000a5
+          DCD     &00000070, &aa000000, &5aaaaaaa, &55555555, &000000a5
+          DCD     &00000080, &aaa00000, &5aaaaaaa, &55555555, &00000a55
+          DCD     &00000090, &aaa00000, &5aaaaaaa, &55555555, &00000a55
+          DCD     &000000a0, &aaaa0000, &5aaaaaaa, &55555555, &0000aa55
+          DCD     &000000b0, &aaaa0000, &5aaaaaaa, &55555555, &0000aa55
+          DCD     &000000c0, &aaaaa000, &aaaaaaaa, &55555555, &000aaaa5
+          DCD     &000000d0, &aaaaa000, &aaaaaaaa, &55555555, &000aaaa5
+          DCD     &000000e0, &aaaaaa00, &aaaaaaaa, &aa55555a, &00aaaaaa
+          DCD     &000000f0, &aaaaaa00, &aaaaaaaa, &aa55555a, &00aaaaaa
+          DCD     &00000100, &aaaaaa00, &aaaaaaaa, &aaa55a5a, &00aaaaaa
+          DCD     &00000110, &aaaaaa00, &aaaaaaaa, &aaa55a5a, &00aaaaaa
+          DCD     &00000120, &aaaaaaa0, &aaaaaaaa, &aa555aaa, &0aaaaaaa
+          DCD     &00000130, &aaaaaaa0, &aaaaaaaa, &aa555aaa, &0aaaaaaa
+          DCD     &00000140, &aaaaaaa0, &aaaaaaaa, &5555aaaa, &0aaaaaaa
+          DCD     &00000150, &aaaaaaa0, &aaaaaaaa, &5555aaaa, &0aaaaaaa
+          DCD     &00000160, &aaaaaaa0, &aaaaaaaa, &5aaaaaaa, &0aaaaaa5
+          DCD     &00000170, &aaaaaaa0, &aaaaaaaa, &5aaaaaaa, &0aaaaaa5
+          DCD     &00000180, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aaaa555a
+          DCD     &00000190, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aaaa555a
+          DCD     &000001a0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aa5555aa
+          DCD     &000001b0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aa5555aa
+          DCD     &000001c0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &a55555aa
+          DCD     &000001d0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &a55555aa
+          DCD     &000001e0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &a55555aa
+          DCD     &000001f0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &a55555aa
+          DCD     &00000200, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &555555aa
+          DCD     &00000210, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &555555aa
+          DCD     &00000220, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &555555aa
+          DCD     &00000230, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &555555aa
+          DCD     &00000240, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &555555aa
+          DCD     &00000250, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &555555aa
+          DCD     &00000260, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &55555aaa
+          DCD     &00000270, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &55555aaa
+          DCD     &00000280, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &05555aaa
+          DCD     &00000290, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &05555aaa
+          DCD     &000002a0, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0555aaaa
+          DCD     &000002b0, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0555aaaa
+          DCD     &000002c0, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0555aaaa
+          DCD     &000002d0, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0555aaaa
+          DCD     &000002e0, &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &00555aaa
+          DCD     &000002f0, &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &00555aaa
+          DCD     &00000300, &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &000555aa
+          DCD     &00000310, &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &000555aa
+          DCD     &00000320, &aaaaa000, &aaaaaaaa, &aaaaaaaa, &000a55aa
+          DCD     &00000330, &aaaaa000, &aaaaaaaa, &aaaaaaaa, &000a55aa
+          DCD     &00000340, &aaaa0000, &aaaaaaaa, &aaaaaaaa, &0000aa5a
+          DCD     &00000350, &aaaa0000, &aaaaaaaa, &aaaaaaaa, &0000aa5a
+          DCD     &00000360, &aaa00000, &aaaaaaaa, &aaaaaaaa, &00000aa5
+          DCD     &00000370, &aaa00000, &aaaaaaaa, &aaaaaaaa, &00000aa5
+          DCD     &00000380, &aa000000, &aaaaaaaa, &5aaaaaaa, &000000aa
+          DCD     &00000390, &aa000000, &aaaaaaaa, &5aaaaaaa, &000000aa
           DCD     -1
           ; frame 7
-          DCD     &00000000, &56000000, &00000055
-          DCD     &00000008, &6aa80000, &00001a55
-          DCD     &00000010, &aaaa8000, &00015555
-          DCD     &00000018, &aaaaa000, &00055556
-          DCD     &00000020, &aaaaa800, &00155556
-          DCD     &00000028, &aaaaaa00, &0095555a
-          DCD     &00000030, &aaaaaa80, &0295556a
-          DCD     &00000038, &aaaaaaa0, &0aaa55aa
-          DCD     &00000040, &aaaaaaa0, &0aaa5aaa
-          DCD     &00000048, &aaaaaaa8, &2aaa5aaa
-          DCD     &00000050, &aaaaaaa8, &2a956aaa
-          DCD     &00000058, &aaaaaaa8, &2a5aaaaa
-          DCD     &00000060, &aaaaaaaa, &aa6aaaaa
-          DCD     &00000068, &aaaaaaaa, &95aaaaaa
-          DCD     &00000070, &aaaaaaaa, &56aaaaaa
-          DCD     &00000078, &aaaaaaaa, &56aaaaaa
-          DCD     &00000080, &aaaaaaaa, &56aaaaaa
-          DCD     &00000088, &aaaaaaaa, &55aaaaaa
-          DCD     &00000090, &aaaaaaaa, &56aaaaaa
-          DCD     &00000098, &aaaaaaaa, &96aaaaaa
-          DCD     &000000a0, &aaaaaaa8, &16aaaaaa
-          DCD     &000000a8, &aaaaaaa8, &1aaaaaaa
-          DCD     &000000b0, &aaaaaaa8, &16aaaaaa
-          DCD     &000000b8, &aaaaaaa0, &06aaaaaa
-          DCD     &000000c0, &aaaaaaa0, &01aaaaaa
-          DCD     &000000c8, &aaaaaa80, &016aaaaa
-          DCD     &000000d0, &aaaaaa00, &009aaaaa
-          DCD     &000000d8, &aaaaa800, &0026aaaa
-          DCD     &000000e0, &aaaaa000, &000aaaaa
+          DCD     &00000000, &00000000, &555a0000, &00005555, &00000000
+          DCD     &00000010, &00000000, &555a0000, &00005555, &00000000
+          DCD     &00000020, &00000000, &5aaaaaa0, &05aa5555, &00000000
+          DCD     &00000030, &00000000, &5aaaaaa0, &05aa5555, &00000000
+          DCD     &00000040, &a0000000, &aaaaaaaa, &55555555, &00000005
+          DCD     &00000050, &a0000000, &aaaaaaaa, &55555555, &00000005
+          DCD     &00000060, &aa000000, &aaaaaaaa, &5555555a, &00000055
+          DCD     &00000070, &aa000000, &aaaaaaaa, &5555555a, &00000055
+          DCD     &00000080, &aaa00000, &aaaaaaaa, &5555555a, &00000555
+          DCD     &00000090, &aaa00000, &aaaaaaaa, &5555555a, &00000555
+          DCD     &000000a0, &aaaa0000, &aaaaaaaa, &555555aa, &0000a555
+          DCD     &000000b0, &aaaa0000, &aaaaaaaa, &555555aa, &0000a555
+          DCD     &000000c0, &aaaaa000, &aaaaaaaa, &55555aaa, &000aa555
+          DCD     &000000d0, &aaaaa000, &aaaaaaaa, &55555aaa, &000aa555
+          DCD     &000000e0, &aaaaaa00, &aaaaaaaa, &5555aaaa, &00aaaaaa
+          DCD     &000000f0, &aaaaaa00, &aaaaaaaa, &5555aaaa, &00aaaaaa
+          DCD     &00000100, &aaaaaa00, &aaaaaaaa, &55aaaaaa, &00aaaaaa
+          DCD     &00000110, &aaaaaa00, &aaaaaaaa, &55aaaaaa, &00aaaaaa
+          DCD     &00000120, &aaaaaaa0, &aaaaaaaa, &55aaaaaa, &0aaaaaaa
+          DCD     &00000130, &aaaaaaa0, &aaaaaaaa, &55aaaaaa, &0aaaaaaa
+          DCD     &00000140, &aaaaaaa0, &aaaaaaaa, &5aaaaaaa, &0aaaa555
+          DCD     &00000150, &aaaaaaa0, &aaaaaaaa, &5aaaaaaa, &0aaaa555
+          DCD     &00000160, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0aaa55aa
+          DCD     &00000170, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0aaa55aa
+          DCD     &00000180, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aaaa5aaa
+          DCD     &00000190, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aaaa5aaa
+          DCD     &000001a0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &a555aaaa
+          DCD     &000001b0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &a555aaaa
+          DCD     &000001c0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &555aaaaa
+          DCD     &000001d0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &555aaaaa
+          DCD     &000001e0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &555aaaaa
+          DCD     &000001f0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &555aaaaa
+          DCD     &00000200, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &555aaaaa
+          DCD     &00000210, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &555aaaaa
+          DCD     &00000220, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &5555aaaa
+          DCD     &00000230, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &5555aaaa
+          DCD     &00000240, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &555aaaaa
+          DCD     &00000250, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &555aaaaa
+          DCD     &00000260, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &a55aaaaa
+          DCD     &00000270, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &a55aaaaa
+          DCD     &00000280, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &055aaaaa
+          DCD     &00000290, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &055aaaaa
+          DCD     &000002a0, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &05aaaaaa
+          DCD     &000002b0, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &05aaaaaa
+          DCD     &000002c0, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &055aaaaa
+          DCD     &000002d0, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &055aaaaa
+          DCD     &000002e0, &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &005aaaaa
+          DCD     &000002f0, &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &005aaaaa
+          DCD     &00000300, &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &0005aaaa
+          DCD     &00000310, &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &0005aaaa
+          DCD     &00000320, &aaaaa000, &aaaaaaaa, &aaaaaaaa, &00055aaa
+          DCD     &00000330, &aaaaa000, &aaaaaaaa, &aaaaaaaa, &00055aaa
+          DCD     &00000340, &aaaa0000, &aaaaaaaa, &aaaaaaaa, &0000a5aa
+          DCD     &00000350, &aaaa0000, &aaaaaaaa, &aaaaaaaa, &0000a5aa
+          DCD     &00000360, &aaa00000, &aaaaaaaa, &aaaaaaaa, &00000a5a
+          DCD     &00000370, &aaa00000, &aaaaaaaa, &aaaaaaaa, &00000a5a
+          DCD     &00000380, &aa000000, &aaaaaaaa, &aaaaaaaa, &000000aa
+          DCD     &00000390, &aa000000, &aaaaaaaa, &aaaaaaaa, &000000aa
           DCD     -1
           ; frame 8
-          DCD     &00000000, &59000000, &00000055
-          DCD     &00000008, &a6a40000, &00002555
-          DCD     &00000010, &aaaa8000, &0001555a
-          DCD     &00000018, &aaaaa000, &0005556a
-          DCD     &00000020, &aaaaa800, &001555aa
-          DCD     &00000028, &aaaaaa00, &005556aa
-          DCD     &00000030, &aaaaaa80, &02555aaa
-          DCD     &00000038, &aaaaaaa0, &09556aaa
-          DCD     &00000040, &aaaaaaa0, &0a95aaaa
-          DCD     &00000048, &aaaaaaa8, &2a96aaaa
-          DCD     &00000050, &aaaaaaa8, &295aaaaa
-          DCD     &00000058, &aaaaaaa8, &25aaaaaa
-          DCD     &00000060, &aaaaaaaa, &a6aaaaaa
-          DCD     &00000068, &aaaaaaaa, &5aaaaaaa
-          DCD     &00000070, &aaaaaaaa, &6aaaaaaa
-          DCD     &00000078, &aaaaaaaa, &6aaaaaaa
-          DCD     &00000080, &aaaaaaa9, &6aaaaaaa
-          DCD     &00000088, &aaaaaaa9, &6aaaaaaa
-          DCD     &00000090, &aaaaaaa5, &6aaaaaaa
-          DCD     &00000098, &aaaaaaaa, &6aaaaaaa
-          DCD     &000000a0, &aaaaaaa8, &2aaaaaaa
-          DCD     &000000a8, &aaaaaaa8, &2aaaaaaa
-          DCD     &000000b0, &aaaaaaa4, &1aaaaaaa
-          DCD     &000000b8, &aaaaaaa0, &0aaaaaaa
-          DCD     &000000c0, &aaaaaa90, &02aaaaaa
-          DCD     &000000c8, &aaaaaa80, &01aaaaaa
-          DCD     &000000d0, &aaaa9a00, &00aaaaaa
-          DCD     &000000d8, &aaaaa800, &002aaaaa
+          DCD     &00000000, &00000000, &55a50000, &00005555, &00000000
+          DCD     &00000010, &00000000, &55a50000, &00005555, &00000000
+          DCD     &00000020, &00000000, &aa5aaa50, &0a555555, &00000000
+          DCD     &00000030, &00000000, &aa5aaa50, &0a555555, &00000000
+          DCD     &00000040, &a0000000, &aaaaaaaa, &555555aa, &00000005
+          DCD     &00000050, &a0000000, &aaaaaaaa, &555555aa, &00000005
+          DCD     &00000060, &aa000000, &aaaaaaaa, &55555aaa, &00000055
+          DCD     &00000070, &aa000000, &aaaaaaaa, &55555aaa, &00000055
+          DCD     &00000080, &aaa00000, &aaaaaaaa, &5555aaaa, &00000555
+          DCD     &00000090, &aaa00000, &aaaaaaaa, &5555aaaa, &00000555
+          DCD     &000000a0, &aaaa0000, &aaaaaaaa, &555aaaaa, &00005555
+          DCD     &000000b0, &aaaa0000, &aaaaaaaa, &555aaaaa, &00005555
+          DCD     &000000c0, &aaaaa000, &aaaaaaaa, &55aaaaaa, &000a5555
+          DCD     &000000d0, &aaaaa000, &aaaaaaaa, &55aaaaaa, &000a5555
+          DCD     &000000e0, &aaaaaa00, &aaaaaaaa, &5aaaaaaa, &00a55555
+          DCD     &000000f0, &aaaaaa00, &aaaaaaaa, &5aaaaaaa, &00a55555
+          DCD     &00000100, &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &00aaa555
+          DCD     &00000110, &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &00aaa555
+          DCD     &00000120, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0aaaa55a
+          DCD     &00000130, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0aaaa55a
+          DCD     &00000140, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0aa555aa
+          DCD     &00000150, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0aa555aa
+          DCD     &00000160, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0a55aaaa
+          DCD     &00000170, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0a55aaaa
+          DCD     &00000180, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aa5aaaaa
+          DCD     &00000190, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aa5aaaaa
+          DCD     &000001a0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &55aaaaaa
+          DCD     &000001b0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &55aaaaaa
+          DCD     &000001c0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &5aaaaaaa
+          DCD     &000001d0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &5aaaaaaa
+          DCD     &000001e0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &5aaaaaaa
+          DCD     &000001f0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &5aaaaaaa
+          DCD     &00000200, &aaaaaaa5, &aaaaaaaa, &aaaaaaaa, &5aaaaaaa
+          DCD     &00000210, &aaaaaaa5, &aaaaaaaa, &aaaaaaaa, &5aaaaaaa
+          DCD     &00000220, &aaaaaaa5, &aaaaaaaa, &aaaaaaaa, &5aaaaaaa
+          DCD     &00000230, &aaaaaaa5, &aaaaaaaa, &aaaaaaaa, &5aaaaaaa
+          DCD     &00000240, &aaaaaa55, &aaaaaaaa, &aaaaaaaa, &5aaaaaaa
+          DCD     &00000250, &aaaaaa55, &aaaaaaaa, &aaaaaaaa, &5aaaaaaa
+          DCD     &00000260, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &5aaaaaaa
+          DCD     &00000270, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &5aaaaaaa
+          DCD     &00000280, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000290, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002a0, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002b0, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002c0, &aaaaaa50, &aaaaaaaa, &aaaaaaaa, &05aaaaaa
+          DCD     &000002d0, &aaaaaa50, &aaaaaaaa, &aaaaaaaa, &05aaaaaa
+          DCD     &000002e0, &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &00aaaaaa
+          DCD     &000002f0, &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &00aaaaaa
+          DCD     &00000300, &aaaaa500, &aaaaaaaa, &aaaaaaaa, &000aaaaa
+          DCD     &00000310, &aaaaa500, &aaaaaaaa, &aaaaaaaa, &000aaaaa
+          DCD     &00000320, &aaaaa000, &aaaaaaaa, &aaaaaaaa, &0005aaaa
+          DCD     &00000330, &aaaaa000, &aaaaaaaa, &aaaaaaaa, &0005aaaa
+          DCD     &00000340, &a5aa0000, &aaaaaaaa, &aaaaaaaa, &0000aaaa
+          DCD     &00000350, &a5aa0000, &aaaaaaaa, &aaaaaaaa, &0000aaaa
+          DCD     &00000360, &aaa00000, &aaaaaaaa, &aaaaaaaa, &00000aaa
+          DCD     &00000370, &aaa00000, &aaaaaaaa, &aaaaaaaa, &00000aaa
           DCD     -1
           ; frame 9
-          DCD     &00000000, &55000000, &000000a9
-          DCD     &00000008, &9a980000, &0000155a
-          DCD     &00000010, &aaa98000, &000155aa
-          DCD     &00000018, &aaaaa000, &000556aa
-          DCD     &00000020, &aaaaa800, &00155aaa
-          DCD     &00000028, &aaaaaa00, &00556aaa
-          DCD     &00000030, &aaaaaa80, &0155aaaa
-          DCD     &00000038, &aaaaaaa0, &0a56aaaa
-          DCD     &00000040, &aaaaaaa0, &095aaaaa
-          DCD     &00000048, &aaaaaaa8, &29aaaaaa
-          DCD     &00000050, &aaaaaaa8, &25aaaaaa
-          DCD     &00000058, &aaaaaaa8, &1aaaaaaa
-          DCD     &00000060, &aaaaaaaa, &aaaaaaaa
-          DCD     &00000068, &aaaaaaaa, &6aaaaaaa
-          DCD     &00000070, &aaaaaaaa, &aaaaaaaa
-          DCD     &00000078, &aaaaaaaa, &aaaaaaaa
-          DCD     &00000080, &aaaaaaa5, &aaaaaaaa
-          DCD     &00000088, &aaaaaaa5, &aaaaaaaa
-          DCD     &00000090, &aaaaaa66, &aaaaaaaa
-          DCD     &00000098, &aaaaaaa9, &aaaaaaaa
-          DCD     &000000a0, &aaaaaaa4, &2aaaaaaa
-          DCD     &000000a8, &aaaaa6a4, &2aaaaaaa
-          DCD     &000000b0, &aaaaaa94, &2aaaaaaa
-          DCD     &000000b8, &aaaaaa50, &0aaaaaaa
-          DCD     &000000c0, &aaaaaa60, &02aaaaaa
-          DCD     &000000c8, &aaaaa940, &02aaaaaa
-          DCD     &000000d0, &aaa9aa00, &00aaaaaa
-          DCD     &000000d8, &aaa9a800, &002aaaaa
+          DCD     &00000000, &00000000, &55550000, &0000aaa5, &00000000
+          DCD     &00000010, &00000000, &55550000, &0000aaa5, &00000000
+          DCD     &00000020, &00000000, &a5aaa5a0, &055555aa, &00000000
+          DCD     &00000030, &00000000, &a5aaa5a0, &055555aa, &00000000
+          DCD     &00000040, &a0000000, &aaaaaaa5, &5555aaaa, &00000005
+          DCD     &00000050, &a0000000, &aaaaaaa5, &5555aaaa, &00000005
+          DCD     &00000060, &aa000000, &aaaaaaaa, &555aaaaa, &00000055
+          DCD     &00000070, &aa000000, &aaaaaaaa, &555aaaaa, &00000055
+          DCD     &00000080, &aaa00000, &aaaaaaaa, &55aaaaaa, &00000555
+          DCD     &00000090, &aaa00000, &aaaaaaaa, &55aaaaaa, &00000555
+          DCD     &000000a0, &aaaa0000, &aaaaaaaa, &5aaaaaaa, &00005555
+          DCD     &000000b0, &aaaa0000, &aaaaaaaa, &5aaaaaaa, &00005555
+          DCD     &000000c0, &aaaaa000, &aaaaaaaa, &aaaaaaaa, &00055555
+          DCD     &000000d0, &aaaaa000, &aaaaaaaa, &aaaaaaaa, &00055555
+          DCD     &000000e0, &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &00aa555a
+          DCD     &000000f0, &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &00aa555a
+          DCD     &00000100, &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &00a555aa
+          DCD     &00000110, &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &00a555aa
+          DCD     &00000120, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0aa5aaaa
+          DCD     &00000130, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0aa5aaaa
+          DCD     &00000140, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0a55aaaa
+          DCD     &00000150, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0a55aaaa
+          DCD     &00000160, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &05aaaaaa
+          DCD     &00000170, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &05aaaaaa
+          DCD     &00000180, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000190, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001a0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &5aaaaaaa
+          DCD     &000001b0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &5aaaaaaa
+          DCD     &000001c0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001d0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001e0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001f0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000200, &aaaaaa55, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000210, &aaaaaa55, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000220, &aaaaaa55, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000230, &aaaaaa55, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000240, &aaaa5a5a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000250, &aaaa5a5a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000260, &aaaaaaa5, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000270, &aaaaaaa5, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000280, &aaaaaa50, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000290, &aaaaaa50, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002a0, &aa5aaa50, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002b0, &aa5aaa50, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002c0, &aaaaa550, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002d0, &aaaaa550, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002e0, &aaaa5500, &aaaaaaaa, &aaaaaaaa, &00aaaaaa
+          DCD     &000002f0, &aaaa5500, &aaaaaaaa, &aaaaaaaa, &00aaaaaa
+          DCD     &00000300, &aaaa5a00, &aaaaaaaa, &aaaaaaaa, &000aaaaa
+          DCD     &00000310, &aaaa5a00, &aaaaaaaa, &aaaaaaaa, &000aaaaa
+          DCD     &00000320, &aaa55000, &aaaaaaaa, &aaaaaaaa, &000aaaaa
+          DCD     &00000330, &aaa55000, &aaaaaaaa, &aaaaaaaa, &000aaaaa
+          DCD     &00000340, &aaaa0000, &aaaaaaa5, &aaaaaaaa, &0000aaaa
+          DCD     &00000350, &aaaa0000, &aaaaaaa5, &aaaaaaaa, &0000aaaa
+          DCD     &00000360, &aaa00000, &aaaaaaa5, &aaaaaaaa, &00000aaa
+          DCD     &00000370, &aaa00000, &aaaaaaa5, &aaaaaaaa, &00000aaa
           DCD     -1
           ; frame 10
-          DCD     &00000000, &95000000, &00000055
-          DCD     &00000008, &aa540000, &000015a6
-          DCD     &00000010, &aaaa4000, &00015aaa
-          DCD     &00000018, &aaaa9000, &00056aaa
-          DCD     &00000020, &aaaaa400, &0015aaaa
-          DCD     &00000028, &aaaaaa00, &0056aaaa
-          DCD     &00000030, &aaaaaa40, &015aaaaa
-          DCD     &00000038, &aaaaaa90, &09aaaaaa
-          DCD     &00000040, &aaaaaaa0, &06aaaaaa
-          DCD     &00000048, &aaaaaaa8, &26aaaaaa
-          DCD     &00000050, &aaaaaaa8, &1aaaaaaa
-          DCD     &00000058, &aaaaaaa8, &2aaaaaaa
-          DCD     &00000060, &aaaaaaa9, &aaaaaaaa
-          DCD     &00000068, &aaaaaaa9, &aaaaaaaa
-          DCD     &00000078, &aaaaaaa9, &aaaaaaaa
-          DCD     &00000080, &aaaaaaaa, &aaaaaaaa
-          DCD     &00000088, &aaaaaa9a, &aaaaaaaa
-          DCD     &00000090, &aaaaaa5a, &aaaaaaaa
-          DCD     &00000098, &aaaaaa96, &aaaaaaaa
-          DCD     &000000a8, &aaaaaa54, &2aaaaaaa
-          DCD     &000000b0, &aaaaa954, &2aaaaaaa
-          DCD     &000000b8, &aaaaa550, &0aaaaaaa
-          DCD     &000000c0, &aaaaa550, &02aaaaaa
-          DCD     &000000c8, &aaaaa580, &02aaaaaa
-          DCD     &000000d0, &aaaaa600, &00aaaaaa
-          DCD     &000000d8, &aaaaa800, &002aaaaa
-          DCD     &000000e0, &aa9aa000, &000aaaaa
+          DCD     &00000000, &00000000, &a5550000, &00005555, &00000000
+          DCD     &00000010, &00000000, &a5550000, &00005555, &00000000
+          DCD     &00000020, &00000000, &aaaa5550, &0555aa5a, &00000000
+          DCD     &00000030, &00000000, &aaaa5550, &0555aa5a, &00000000
+          DCD     &00000040, &50000000, &aaaaaaaa, &55aaaaaa, &00000005
+          DCD     &00000050, &50000000, &aaaaaaaa, &55aaaaaa, &00000005
+          DCD     &00000060, &a5000000, &aaaaaaaa, &5aaaaaaa, &00000055
+          DCD     &00000070, &a5000000, &aaaaaaaa, &5aaaaaaa, &00000055
+          DCD     &00000080, &aa500000, &aaaaaaaa, &aaaaaaaa, &00000555
+          DCD     &00000090, &aa500000, &aaaaaaaa, &aaaaaaaa, &00000555
+          DCD     &000000a0, &aaaa0000, &aaaaaaaa, &aaaaaaaa, &0000555a
+          DCD     &000000b0, &aaaa0000, &aaaaaaaa, &aaaaaaaa, &0000555a
+          DCD     &000000c0, &aaaa5000, &aaaaaaaa, &aaaaaaaa, &000555aa
+          DCD     &000000d0, &aaaa5000, &aaaaaaaa, &aaaaaaaa, &000555aa
+          DCD     &000000e0, &aaaaa500, &aaaaaaaa, &aaaaaaaa, &00a5aaaa
+          DCD     &000000f0, &aaaaa500, &aaaaaaaa, &aaaaaaaa, &00a5aaaa
+          DCD     &00000100, &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &005aaaaa
+          DCD     &00000110, &aaaaaa00, &aaaaaaaa, &aaaaaaaa, &005aaaaa
+          DCD     &00000120, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0a5aaaaa
+          DCD     &00000130, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0a5aaaaa
+          DCD     &00000140, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &05aaaaaa
+          DCD     &00000150, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &05aaaaaa
+          DCD     &00000160, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000170, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000180, &aaaaaaa5, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000190, &aaaaaaa5, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001a0, &aaaaaaa5, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001b0, &aaaaaaa5, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001e0, &aaaaaaa5, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001f0, &aaaaaaa5, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000200, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000210, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000220, &aaaaa5aa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000230, &aaaaa5aa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000240, &aaaa55aa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000250, &aaaa55aa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000260, &aaaaa55a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000270, &aaaaa55a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000002a0, &aaaa5550, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002b0, &aaaa5550, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002c0, &aaa55550, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002d0, &aaa55550, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002e0, &aa555500, &aaaaaaaa, &aaaaaaaa, &00aaaaaa
+          DCD     &000002f0, &aa555500, &aaaaaaaa, &aaaaaaaa, &00aaaaaa
+          DCD     &00000300, &aa555500, &aaaaaaaa, &aaaaaaaa, &000aaaaa
+          DCD     &00000310, &aa555500, &aaaaaaaa, &aaaaaaaa, &000aaaaa
+          DCD     &00000320, &aa55a000, &aaaaaaaa, &aaaaaaaa, &000aaaaa
+          DCD     &00000330, &aa55a000, &aaaaaaaa, &aaaaaaaa, &000aaaaa
+          DCD     &00000340, &aa5a0000, &aaaaaaaa, &aaaaaaaa, &0000aaaa
+          DCD     &00000350, &aa5a0000, &aaaaaaaa, &aaaaaaaa, &0000aaaa
+          DCD     &00000360, &aaa00000, &aaaaaaaa, &aaaaaaaa, &00000aaa
+          DCD     &00000370, &aaa00000, &aaaaaaaa, &aaaaaaaa, &00000aaa
+          DCD     &00000380, &aa000000, &aaaaa5aa, &aaaaaaaa, &000000aa
+          DCD     &00000390, &aa000000, &aaaaa5aa, &aaaaaaaa, &000000aa
           DCD     -1
           ; frame 11
-          DCD     &00000000, &55000000, &0000005a
-          DCD     &00000008, &a9540000, &0000166a
-          DCD     &00000010, &aa694000, &00016aaa
-          DCD     &00000018, &aaa95000, &0006aaaa
-          DCD     &00000020, &aaaaa400, &001aaaaa
-          DCD     &00000028, &aaaaaa00, &006aaaaa
-          DCD     &00000030, &aaaaa940, &01aaaaaa
-          DCD     &00000038, &aaaaaa90, &06aaaaaa
-          DCD     &00000040, &aaaaaa90, &06aaaaaa
-          DCD     &00000048, &aaaaaaa4, &1aaaaaaa
-          DCD     &00000050, &aaaaaaa8, &2aaaaaaa
-          DCD     &00000060, &aaaaaaaa, &aaaaaaaa
-          DCD     &00000068, &aaaaaaaa, &aaaaaaaa
-          DCD     &00000080, &aaaaaaa5, &aaaaaaaa
-          DCD     &00000088, &aaaaa996, &aaaaaaaa
-          DCD     &00000090, &aaaaa5a6, &aaaaaaaa
-          DCD     &00000098, &aaaa6a6a, &aaaaaaaa
-          DCD     &000000a0, &aaaaa658, &2aaaaaaa
-          DCD     &000000a8, &aaaaa558, &2aaaaaaa
-          DCD     &000000b0, &aaaa9558, &2aaaaaaa
-          DCD     &000000b8, &aaaa5550, &0aaaaaaa
-          DCD     &000000c0, &aaaa5560, &02aaaaaa
-          DCD     &000000c8, &aaaa5a80, &02aaaaaa
-          DCD     &000000d0, &aaaa6a00, &00aaaaaa
-          DCD     &000000d8, &a6aaa800, &002aaaaa
-          DCD     &000000e0, &aaaaa000, &000aaaaa
-          DCD     &000000f8, &95000000, &000000aa
+          DCD     &00000000, &00000000, &55550000, &000055aa, &00000000
+          DCD     &00000010, &00000000, &55550000, &000055aa, &00000000
+          DCD     &00000020, &00000000, &aaa55550, &055a5aaa, &00000000
+          DCD     &00000030, &00000000, &aaa55550, &055a5aaa, &00000000
+          DCD     &00000040, &50000000, &aaaa5aa5, &5aaaaaaa, &00000005
+          DCD     &00000050, &50000000, &aaaa5aa5, &5aaaaaaa, &00000005
+          DCD     &00000060, &55000000, &aaaaaaa5, &aaaaaaaa, &0000005a
+          DCD     &00000070, &55000000, &aaaaaaa5, &aaaaaaaa, &0000005a
+          DCD     &00000080, &aa500000, &aaaaaaaa, &aaaaaaaa, &000005aa
+          DCD     &00000090, &aa500000, &aaaaaaaa, &aaaaaaaa, &000005aa
+          DCD     &000000a0, &aaaa0000, &aaaaaaaa, &aaaaaaaa, &00005aaa
+          DCD     &000000b0, &aaaa0000, &aaaaaaaa, &aaaaaaaa, &00005aaa
+          DCD     &000000c0, &aaa55000, &aaaaaaaa, &aaaaaaaa, &0005aaaa
+          DCD     &000000d0, &aaa55000, &aaaaaaaa, &aaaaaaaa, &0005aaaa
+          DCD     &000000e0, &aaaaa500, &aaaaaaaa, &aaaaaaaa, &005aaaaa
+          DCD     &000000f0, &aaaaa500, &aaaaaaaa, &aaaaaaaa, &005aaaaa
+          DCD     &00000100, &aaaaa500, &aaaaaaaa, &aaaaaaaa, &005aaaaa
+          DCD     &00000110, &aaaaa500, &aaaaaaaa, &aaaaaaaa, &005aaaaa
+          DCD     &00000120, &aaaaaa50, &aaaaaaaa, &aaaaaaaa, &05aaaaaa
+          DCD     &00000130, &aaaaaa50, &aaaaaaaa, &aaaaaaaa, &05aaaaaa
+          DCD     &00000140, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000150, &aaaaaaa0, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000180, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000190, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001a0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001b0, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000200, &aaaaaa55, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000210, &aaaaaa55, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000220, &aaa5a55a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000230, &aaa5a55a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000240, &aa55aa5a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000250, &aa55aa5a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000260, &5aaa5aaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000270, &5aaa5aaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000280, &aa5a55a0, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000290, &aa5a55a0, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002a0, &aa5555a0, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002b0, &aa5555a0, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002c0, &a55555a0, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002d0, &a55555a0, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002e0, &55555500, &aaaaaaaa, &aaaaaaaa, &00aaaaaa
+          DCD     &000002f0, &55555500, &aaaaaaaa, &aaaaaaaa, &00aaaaaa
+          DCD     &00000300, &55555a00, &aaaaaaaa, &aaaaaaaa, &000aaaaa
+          DCD     &00000310, &55555a00, &aaaaaaaa, &aaaaaaaa, &000aaaaa
+          DCD     &00000320, &55aaa000, &aaaaaaaa, &aaaaaaaa, &000aaaaa
+          DCD     &00000330, &55aaa000, &aaaaaaaa, &aaaaaaaa, &000aaaaa
+          DCD     &00000340, &5aaa0000, &aaaaaaaa, &aaaaaaaa, &0000aaaa
+          DCD     &00000350, &5aaa0000, &aaaaaaaa, &aaaaaaaa, &0000aaaa
+          DCD     &00000360, &aaa00000, &aa5aaaaa, &aaaaaaaa, &00000aaa
+          DCD     &00000370, &aaa00000, &aa5aaaaa, &aaaaaaaa, &00000aaa
+          DCD     &00000380, &aa000000, &aaaaaaaa, &aaaaaaaa, &000000aa
+          DCD     &00000390, &aa000000, &aaaaaaaa, &aaaaaaaa, &000000aa
+          DCD     &000003e0, &00000000, &a5550000, &0000aaaa, &00000000
+          DCD     &000003f0, &00000000, &a5550000, &0000aaaa, &00000000
           DCD     -1
           ; frame 12
-          DCD     &00000000, &55000000, &000000a9
-          DCD     &00000008, &99940000, &00002aaa
-          DCD     &00000010, &a6954000, &0002aaaa
-          DCD     &00000018, &aaa55000, &000aaaaa
-          DCD     &00000020, &aaaa5400, &002aaaaa
-          DCD     &00000028, &aaaaa500, &00aaaaaa
-          DCD     &00000030, &aaaa6940, &02aaaaaa
-          DCD     &00000038, &aaaaa950, &0aaaaaaa
-          DCD     &00000040, &aaaaaa50, &0aaaaaaa
-          DCD     &00000048, &aaaaaa94, &2aaaaaaa
-          DCD     &00000050, &aaaaaaa4, &2aaaaaaa
-          DCD     &00000058, &aaaaaa64, &2aaaaaaa
-          DCD     &00000060, &aaaaaa66, &aaaaaaaa
-          DCD     &00000068, &aaaaaaa9, &aaaaaaaa
-          DCD     &00000078, &aaaaaaa6, &aaaaaaaa
-          DCD     &00000088, &aa9a5aaa, &aaaaaaaa
-          DCD     &00000090, &aaa96aaa, &aaaaaaaa
-          DCD     &00000098, &aaaa66aa, &aaaaaaaa
-          DCD     &000000a0, &aaaaa5a8, &2aaaaaaa
-          DCD     &000000a8, &aaa955a8, &2aaaaaaa
-          DCD     &000000b0, &aaa55568, &2aaaaaaa
-          DCD     &000000b8, &aa955560, &0aaaaaaa
-          DCD     &000000c0, &aa9555a0, &02aaaaaa
-          DCD     &000000c8, &aa95a580, &02aaaaaa
-          DCD     &000000d0, &aa56aa00, &00aaaaaa
-          DCD     &000000d8, &aaaaa800, &002aaaaa
+          DCD     &00000000, &00000000, &55550000, &0000aaa5, &00000000
+          DCD     &00000010, &00000000, &55550000, &0000aaa5, &00000000
+          DCD     &00000020, &00000000, &a5a5a550, &0aaaaaaa, &00000000
+          DCD     &00000030, &00000000, &a5a5a550, &0aaaaaaa, &00000000
+          DCD     &00000040, &50000000, &aa5aa555, &aaaaaaaa, &0000000a
+          DCD     &00000050, &50000000, &aa5aa555, &aaaaaaaa, &0000000a
+          DCD     &00000060, &55000000, &aaaaaa55, &aaaaaaaa, &000000aa
+          DCD     &00000070, &55000000, &aaaaaa55, &aaaaaaaa, &000000aa
+          DCD     &00000080, &55500000, &aaaaaaaa, &aaaaaaaa, &00000aaa
+          DCD     &00000090, &55500000, &aaaaaaaa, &aaaaaaaa, &00000aaa
+          DCD     &000000a0, &aa550000, &aaaaaaaa, &aaaaaaaa, &0000aaaa
+          DCD     &000000b0, &aa550000, &aaaaaaaa, &aaaaaaaa, &0000aaaa
+          DCD     &000000c0, &5aa55000, &aaaaaaaa, &aaaaaaaa, &000aaaaa
+          DCD     &000000d0, &5aa55000, &aaaaaaaa, &aaaaaaaa, &000aaaaa
+          DCD     &000000e0, &aaa55500, &aaaaaaaa, &aaaaaaaa, &00aaaaaa
+          DCD     &000000f0, &aaa55500, &aaaaaaaa, &aaaaaaaa, &00aaaaaa
+          DCD     &00000100, &aaaa5500, &aaaaaaaa, &aaaaaaaa, &00aaaaaa
+          DCD     &00000110, &aaaa5500, &aaaaaaaa, &aaaaaaaa, &00aaaaaa
+          DCD     &00000120, &aaaaa550, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000130, &aaaaa550, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000140, &aaaaaa50, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000150, &aaaaaa50, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000160, &aaaa5a50, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000170, &aaaa5a50, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000180, &aaaa5a5a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000190, &aaaa5a5a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001a0, &aaaaaaa5, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001b0, &aaaaaaa5, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001e0, &aaaaaa5a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001f0, &aaaaaa5a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000220, &55aaaaaa, &aaaaa5aa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000230, &55aaaaaa, &aaaaa5aa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000240, &5aaaaaaa, &aaaaaaa5, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000250, &5aaaaaaa, &aaaaaaa5, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000260, &5a5aaaaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000270, &5a5aaaaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000280, &aa55aaa0, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000290, &aa55aaa0, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002a0, &5555aaa0, &aaaaaaa5, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002b0, &5555aaa0, &aaaaaaa5, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002c0, &55555aa0, &aaaaaa55, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002d0, &55555aa0, &aaaaaa55, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002e0, &55555a00, &aaaaa555, &aaaaaaaa, &00aaaaaa
+          DCD     &000002f0, &55555a00, &aaaaa555, &aaaaaaaa, &00aaaaaa
+          DCD     &00000300, &5555aa00, &aaaaa555, &aaaaaaaa, &000aaaaa
+          DCD     &00000310, &5555aa00, &aaaaa555, &aaaaaaaa, &000aaaaa
+          DCD     &00000320, &aa55a000, &aaaaa555, &aaaaaaaa, &000aaaaa
+          DCD     &00000330, &aa55a000, &aaaaa555, &aaaaaaaa, &000aaaaa
+          DCD     &00000340, &aaaa0000, &aaaa555a, &aaaaaaaa, &0000aaaa
+          DCD     &00000350, &aaaa0000, &aaaa555a, &aaaaaaaa, &0000aaaa
+          DCD     &00000360, &aaa00000, &aaaaaaaa, &aaaaaaaa, &00000aaa
+          DCD     &00000370, &aaa00000, &aaaaaaaa, &aaaaaaaa, &00000aaa
           DCD     -1
           ; frame 13
-          DCD     &00000000, &55000000, &000000a5
-          DCD     &00000008, &69540000, &00002aaa
-          DCD     &00000010, &69554000, &0002aaaa
-          DCD     &00000018, &aa555000, &000aaaaa
-          DCD     &00000020, &aaa55400, &002aaaaa
-          DCD     &00000028, &aa665500, &00aaaaaa
-          DCD     &00000030, &aaa69540, &02aaaaaa
-          DCD     &00000038, &aaaa9550, &0aaaaaaa
-          DCD     &00000040, &aaaa9550, &0aaaaaaa
-          DCD     &00000050, &aaaaaa94, &2aaaaaaa
-          DCD     &00000058, &aaaaaa94, &2aaaaaaa
-          DCD     &00000060, &aaaaaa96, &aaaaaaaa
-          DCD     &00000068, &aaaa9aa6, &aaaaaaaa
-          DCD     &00000070, &aaaaa9aa, &aaaaaaaa
-          DCD     &00000078, &aaaaa566, &aaaaaaaa
-          DCD     &00000080, &aaa5aa5a, &aaaaaaaa
-          DCD     &00000088, &aa56aaaa, &aaaaaaaa
-          DCD     &00000090, &a99aa5aa, &aaaaaaaa
-          DCD     &00000098, &aaa9aaaa, &aaaaaaaa
-          DCD     &000000a0, &aa695aa8, &2aaaaa9a
-          DCD     &000000a8, &aa555aa8, &2aaaaaaa
-          DCD     &000000b0, &a95555a8, &2aaaaaaa
-          DCD     &000000b8, &a55556a0, &0aaaaaaa
-          DCD     &000000c0, &a55556a0, &02aaaaaa
-          DCD     &000000c8, &a55a9a80, &02aaaaaa
-          DCD     &000000d0, &a96aaa00, &00aaaaaa
-          DCD     &000000f8, &55000000, &000000aa
+          DCD     &00000000, &00000000, &55550000, &0000aa55, &00000000
+          DCD     &00000010, &00000000, &55550000, &0000aa55, &00000000
+          DCD     &00000020, &00000000, &5aa55550, &0aaaaaaa, &00000000
+          DCD     &00000030, &00000000, &5aa55550, &0aaaaaaa, &00000000
+          DCD     &00000040, &50000000, &5aa55555, &aaaaaaaa, &0000000a
+          DCD     &00000050, &50000000, &5aa55555, &aaaaaaaa, &0000000a
+          DCD     &00000060, &55000000, &aaaa5555, &aaaaaaaa, &000000aa
+          DCD     &00000070, &55000000, &aaaa5555, &aaaaaaaa, &000000aa
+          DCD     &00000080, &55500000, &aaaaaa55, &aaaaaaaa, &00000aaa
+          DCD     &00000090, &55500000, &aaaaaa55, &aaaaaaaa, &00000aaa
+          DCD     &000000a0, &55550000, &aaaa5a5a, &aaaaaaaa, &0000aaaa
+          DCD     &000000b0, &55550000, &aaaa5a5a, &aaaaaaaa, &0000aaaa
+          DCD     &000000c0, &a5555000, &aaaaaa5a, &aaaaaaaa, &000aaaaa
+          DCD     &000000d0, &a5555000, &aaaaaa5a, &aaaaaaaa, &000aaaaa
+          DCD     &000000e0, &a5555500, &aaaaaaaa, &aaaaaaaa, &00aaaaaa
+          DCD     &000000f0, &a5555500, &aaaaaaaa, &aaaaaaaa, &00aaaaaa
+          DCD     &00000100, &a5555500, &aaaaaaaa, &aaaaaaaa, &00aaaaaa
+          DCD     &00000110, &a5555500, &aaaaaaaa, &aaaaaaaa, &00aaaaaa
+          DCD     &00000140, &aaaaa550, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000150, &aaaaa550, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000160, &aaaaa550, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000170, &aaaaa550, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000180, &aaaaa55a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000190, &aaaaa55a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001a0, &a5aaaa5a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001b0, &a5aaaa5a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001c0, &aaa5aaaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001d0, &aaa5aaaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001e0, &aa555a5a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001f0, &aa555a5a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000200, &aaaa55aa, &aaaaaa55, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000210, &aaaa55aa, &aaaaaa55, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000220, &aaaaaaaa, &aaaa555a, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000230, &aaaaaaaa, &aaaa555a, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000240, &aa55aaaa, &aaa5a5aa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000250, &aa55aaaa, &aaa5a5aa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000260, &aaaaaaaa, &aaaaaaa5, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000270, &aaaaaaaa, &aaaaaaa5, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000280, &55aaaaa0, &aaaa5aa5, &aaaaa5aa, &0aaaaaaa
+          DCD     &00000290, &55aaaaa0, &aaaa5aa5, &aaaaa5aa, &0aaaaaaa
+          DCD     &000002a0, &55aaaaa0, &aaaa5555, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002b0, &55aaaaa0, &aaaa5555, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002c0, &5555aaa0, &aaa55555, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002d0, &5555aaa0, &aaa55555, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002e0, &555aaa00, &aa555555, &aaaaaaaa, &00aaaaaa
+          DCD     &000002f0, &555aaa00, &aa555555, &aaaaaaaa, &00aaaaaa
+          DCD     &00000300, &555aaa00, &aa555555, &aaaaaaaa, &000aaaaa
+          DCD     &00000310, &555aaa00, &aa555555, &aaaaaaaa, &000aaaaa
+          DCD     &00000320, &a5aaa000, &aa5555aa, &aaaaaaaa, &000aaaaa
+          DCD     &00000330, &a5aaa000, &aa5555aa, &aaaaaaaa, &000aaaaa
+          DCD     &00000340, &aaaa0000, &aaa55aaa, &aaaaaaaa, &0000aaaa
+          DCD     &00000350, &aaaa0000, &aaa55aaa, &aaaaaaaa, &0000aaaa
+          DCD     &000003e0, &00000000, &55550000, &0000aaaa, &00000000
+          DCD     &000003f0, &00000000, &55550000, &0000aaaa, &00000000
           DCD     -1
           ; frame 14
-          DCD     &00000000, &55000000, &00000055
-          DCD     &00000008, &95540000, &00002aaa
-          DCD     &00000010, &95554000, &0002aaaa
-          DCD     &00000018, &a5555000, &000aaaaa
-          DCD     &00000020, &aa555400, &002aaaaa
-          DCD     &00000028, &a6655500, &00aaaaaa
-          DCD     &00000030, &aaa55540, &02aaaaaa
-          DCD     &00000038, &aaa95550, &0aaaaaaa
-          DCD     &00000040, &aaaa5550, &0aaaaaaa
-          DCD     &00000048, &aaaa9554, &2aaaaaaa
-          DCD     &00000050, &aaa9a964, &2aaaaaaa
-          DCD     &00000058, &aaa9a968, &2aaaaaaa
-          DCD     &00000060, &aaaaa9aa, &aaaaaaaa
-          DCD     &00000068, &aaa6aaaa, &aaaaaaaa
-          DCD     &00000070, &aaaaaa6a, &aaaaaaaa
-          DCD     &00000078, &aaaa966a, &aaaaaaaa
-          DCD     &00000080, &aa6a956a, &aaaaaaaa
-          DCD     &00000088, &56aaaaaa, &aaaaaaa6
-          DCD     &00000090, &5aa9aaaa, &aaaaaaaa
-          DCD     &00000098, &9a6aaaaa, &aaaaaaaa
-          DCD     &000000a0, &9a5aaaa8, &2aaaaaaa
-          DCD     &000000a8, &5556aaa8, &2aaaa9aa
-          DCD     &000000b0, &55556aa8, &2aaaaaa9
-          DCD     &000000b8, &55556aa0, &0aaaaaa9
-          DCD     &000000c0, &5555aaa0, &02aaaaa5
-          DCD     &000000c8, &56a5aa80, &02aaaaa9
-          DCD     &000000d0, &5aaaaa00, &00aaaaa9
-          DCD     &000000f8, &55000000, &000000a5
+          DCD     &00000000, &00000000, &55550000, &00005555, &00000000
+          DCD     &00000010, &00000000, &55550000, &00005555, &00000000
+          DCD     &00000020, &00000000, &a5555550, &0aaaaaaa, &00000000
+          DCD     &00000030, &00000000, &a5555550, &0aaaaaaa, &00000000
+          DCD     &00000040, &50000000, &a5555555, &aaaaaaaa, &0000000a
+          DCD     &00000050, &50000000, &a5555555, &aaaaaaaa, &0000000a
+          DCD     &00000060, &55000000, &aa555555, &aaaaaaaa, &000000aa
+          DCD     &00000070, &55000000, &aa555555, &aaaaaaaa, &000000aa
+          DCD     &00000080, &55500000, &aaaa5555, &aaaaaaaa, &00000aaa
+          DCD     &00000090, &55500000, &aaaa5555, &aaaaaaaa, &00000aaa
+          DCD     &000000a0, &55550000, &aa5a5a55, &aaaaaaaa, &0000aaaa
+          DCD     &000000b0, &55550000, &aa5a5a55, &aaaaaaaa, &0000aaaa
+          DCD     &000000c0, &55555000, &aaaaaa55, &aaaaaaaa, &000aaaaa
+          DCD     &000000d0, &55555000, &aaaaaa55, &aaaaaaaa, &000aaaaa
+          DCD     &000000e0, &55555500, &aaaaaaa5, &aaaaaaaa, &00aaaaaa
+          DCD     &000000f0, &55555500, &aaaaaaa5, &aaaaaaaa, &00aaaaaa
+          DCD     &00000100, &55555500, &aaaaaaaa, &aaaaaaaa, &00aaaaaa
+          DCD     &00000110, &55555500, &aaaaaaaa, &aaaaaaaa, &00aaaaaa
+          DCD     &00000120, &a5555550, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000130, &a5555550, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000140, &aaa55a50, &aaaaaaa5, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000150, &aaa55a50, &aaaaaaa5, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000160, &aaa55aa0, &aaaaaaa5, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000170, &aaa55aa0, &aaaaaaa5, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000180, &aaa5aaaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000190, &aaa5aaaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001a0, &aaaaaaaa, &aaaaaa5a, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001b0, &aaaaaaaa, &aaaaaa5a, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001c0, &aaaa5aaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001d0, &aaaa5aaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001e0, &a55a5aaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001f0, &a55a5aaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000200, &a5555aaa, &aaaa5aaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000210, &a5555aaa, &aaaa5aaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000220, &aaaaaaaa, &555aaaaa, &aaaaaa5a, &aaaaaaaa
+          DCD     &00000230, &aaaaaaaa, &555aaaaa, &aaaaaa5a, &aaaaaaaa
+          DCD     &00000240, &aaaaaaaa, &55aaaaa5, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000250, &aaaaaaaa, &55aaaaa5, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000260, &aaaaaaaa, &a5aa5aaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000270, &aaaaaaaa, &a5aa5aaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000280, &aaaaaaa0, &a5aa55aa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000290, &aaaaaaa0, &a5aa55aa, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002a0, &aaaaaaa0, &5555555a, &aaa5aaaa, &0aaaaaaa
+          DCD     &000002b0, &aaaaaaa0, &5555555a, &aaa5aaaa, &0aaaaaaa
+          DCD     &000002c0, &5aaaaaa0, &55555555, &aaaaaaa5, &0aaaaaaa
+          DCD     &000002d0, &5aaaaaa0, &55555555, &aaaaaaa5, &0aaaaaaa
+          DCD     &000002e0, &5aaaaa00, &55555555, &aaaaaaa5, &00aaaaaa
+          DCD     &000002f0, &5aaaaa00, &55555555, &aaaaaaa5, &00aaaaaa
+          DCD     &00000300, &aaaaaa00, &55555555, &aaaaaa55, &000aaaaa
+          DCD     &00000310, &aaaaaa00, &55555555, &aaaaaa55, &000aaaaa
+          DCD     &00000320, &aaaaa000, &555aaa55, &aaaaaaa5, &000aaaaa
+          DCD     &00000330, &aaaaa000, &555aaa55, &aaaaaaa5, &000aaaaa
+          DCD     &00000340, &aaaa0000, &55aaaaaa, &aaaaaaa5, &0000aaaa
+          DCD     &00000350, &aaaa0000, &55aaaaaa, &aaaaaaa5, &0000aaaa
+          DCD     &000003e0, &00000000, &55550000, &0000aa55, &00000000
+          DCD     &000003f0, &00000000, &55550000, &0000aa55, &00000000
           DCD     -1
           ; frame 15
-          DCD     &00000008, &55540000, &000029a9
-          DCD     &00000010, &55554000, &0002a9a9
-          DCD     &00000018, &55555000, &000aaaaa
-          DCD     &00000020, &96555400, &002aaaaa
-          DCD     &00000028, &aa555500, &00aaaaa9
-          DCD     &00000030, &aa555540, &02aaaaaa
-          DCD     &00000038, &aa555550, &0aaaaaaa
-          DCD     &00000040, &aa955550, &0aaaaaaa
-          DCD     &00000048, &aaa95554, &2aaaaaaa
-          DCD     &00000050, &aaaa5698, &2aaaaaaa
-          DCD     &00000058, &a9a95a98, &2aaaaaaa
-          DCD     &00000060, &a9aa6aaa, &aaaaaaaa
-          DCD     &00000068, &a5aaaaaa, &aaaaaaaa
-          DCD     &00000070, &aa9a9aaa, &aaaaaaaa
-          DCD     &00000078, &aa95a6aa, &aaaaaaaa
-          DCD     &00000080, &6a565aaa, &aaaaaaaa
-          DCD     &00000088, &aa6aaaaa, &aaaaaa96
-          DCD     &00000090, &aaa6aaaa, &aaaa6a5a
-          DCD     &00000098, &6aaaaaaa, &aaaaaaaa
-          DCD     &000000a0, &56aaaaa8, &2aaaaa9a
-          DCD     &000000a8, &55aaaaa8, &2aaaaa95
-          DCD     &000000b0, &555aaaa8, &2aaaaa55
-          DCD     &000000b8, &555aaaa0, &0aaaa955
-          DCD     &000000c0, &555aaaa0, &02aaa955
-          DCD     &000000c8, &696aaa80, &02aaaa55
-          DCD     &000000d0, &aaaaaa00, &00aaaa96
-          DCD     &000000f8, &55000000, &00000095
+          DCD     &00000020, &00000000, &55555550, &0aa5aaa5, &00000000
+          DCD     &00000030, &00000000, &55555550, &0aa5aaa5, &00000000
+          DCD     &00000040, &50000000, &55555555, &aaa5aaa5, &0000000a
+          DCD     &00000050, &50000000, &55555555, &aaa5aaa5, &0000000a
+          DCD     &00000060, &55000000, &55555555, &aaaaaaaa, &000000aa
+          DCD     &00000070, &55000000, &55555555, &aaaaaaaa, &000000aa
+          DCD     &00000080, &55500000, &a55a5555, &aaaaaaaa, &00000aaa
+          DCD     &00000090, &55500000, &a55a5555, &aaaaaaaa, &00000aaa
+          DCD     &000000a0, &55550000, &aaaa5555, &aaaaaaa5, &0000aaaa
+          DCD     &000000b0, &55550000, &aaaa5555, &aaaaaaa5, &0000aaaa
+          DCD     &000000c0, &55555000, &aaaa5555, &aaaaaaaa, &000aaaaa
+          DCD     &000000d0, &55555000, &aaaa5555, &aaaaaaaa, &000aaaaa
+          DCD     &000000e0, &55555500, &aaaa5555, &aaaaaaaa, &00aaaaaa
+          DCD     &000000f0, &55555500, &aaaa5555, &aaaaaaaa, &00aaaaaa
+          DCD     &00000100, &55555500, &aaaaa555, &aaaaaaaa, &00aaaaaa
+          DCD     &00000110, &55555500, &aaaaa555, &aaaaaaaa, &00aaaaaa
+          DCD     &00000120, &55555550, &aaaaaaa5, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000130, &55555550, &aaaaaaa5, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000140, &555aa5a0, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000150, &555aa5a0, &aaaaaaaa, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000160, &55aaa5a0, &aaa5aaa5, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000170, &55aaa5a0, &aaa5aaa5, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000180, &5aaaaaaa, &aaa5aaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000190, &5aaaaaaa, &aaa5aaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001a0, &aaaaaaaa, &aa55aaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001b0, &aaaaaaaa, &aa55aaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001c0, &a5aaaaaa, &aaaaa5aa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001d0, &a5aaaaaa, &aaaaa5aa, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001e0, &aa5aaaaa, &aaaaa555, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001f0, &aa5aaaaa, &aaaaa555, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000200, &55aaaaaa, &5aaa555a, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000210, &55aaaaaa, &5aaa555a, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000220, &aaaaaaaa, &aaaa5aaa, &aaaaa55a, &aaaaaaaa
+          DCD     &00000230, &aaaaaaaa, &aaaa5aaa, &aaaaa55a, &aaaaaaaa
+          DCD     &00000240, &aaaaaaaa, &aaaaaa5a, &5aaa55aa, &aaaaaaaa
+          DCD     &00000250, &aaaaaaaa, &aaaaaa5a, &5aaa55aa, &aaaaaaaa
+          DCD     &00000260, &aaaaaaaa, &5aaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000270, &aaaaaaaa, &5aaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000280, &aaaaaaa0, &555aaaaa, &aaaaa5aa, &0aaaaaaa
+          DCD     &00000290, &aaaaaaa0, &555aaaaa, &aaaaa5aa, &0aaaaaaa
+          DCD     &000002a0, &aaaaaaa0, &5555aaaa, &aaaaa555, &0aaaaaaa
+          DCD     &000002b0, &aaaaaaa0, &5555aaaa, &aaaaa555, &0aaaaaaa
+          DCD     &000002c0, &aaaaaaa0, &555555aa, &aaaa5555, &0aaaaaaa
+          DCD     &000002d0, &aaaaaaa0, &555555aa, &aaaa5555, &0aaaaaaa
+          DCD     &000002e0, &aaaaaa00, &555555aa, &aaa55555, &00aaaaaa
+          DCD     &000002f0, &aaaaaa00, &555555aa, &aaa55555, &00aaaaaa
+          DCD     &00000300, &aaaaaa00, &555555aa, &aaa55555, &000aaaaa
+          DCD     &00000310, &aaaaaa00, &555555aa, &aaa55555, &000aaaaa
+          DCD     &00000320, &aaaaa000, &5aa55aaa, &aaaa5555, &000aaaaa
+          DCD     &00000330, &aaaaa000, &5aa55aaa, &aaaa5555, &000aaaaa
+          DCD     &00000340, &aaaa0000, &aaaaaaaa, &aaaaa55a, &0000aaaa
+          DCD     &00000350, &aaaa0000, &aaaaaaaa, &aaaaa55a, &0000aaaa
+          DCD     &000003e0, &00000000, &55550000, &0000a555, &00000000
+          DCD     &000003f0, &00000000, &55550000, &0000a555, &00000000
           DCD     -1
           ; frame 16
-          DCD     &00000008, &55580000, &00001595
-          DCD     &00000010, &55554000, &00029a95
-          DCD     &00000018, &55555000, &000aaa95
-          DCD     &00000020, &55555400, &002aaaa9
-          DCD     &00000028, &95555500, &00aaaa65
-          DCD     &00000030, &55555540, &02aaaaa6
-          DCD     &00000038, &55555550, &0aaaaaaa
-          DCD     &00000040, &55555550, &0aaaaaaa
-          DCD     &00000048, &aa95a594, &2aaaaaaa
-          DCD     &00000050, &6a95a9a4, &2aaaaaaa
-          DCD     &00000058, &6a55a9a8, &2aaaaaaa
-          DCD     &00000060, &aa99aaaa, &aaaaaaa9
-          DCD     &00000068, &aaaaaaaa, &aaaaaaa9
-          DCD     &00000070, &a6a6aaaa, &aaaaaaaa
-          DCD     &00000078, &556aaaaa, &aaaaaaa6
-          DCD     &00000080, &a596aaaa, &aaaaa9aa
-          DCD     &00000088, &aaaaaaaa, &aaa995aa
-          DCD     &00000090, &5aaaaaaa, &aaaa65aa
-          DCD     &00000098, &aaaaaaaa, &aaaaaaaa
-          DCD     &000000a0, &aaaaaaa8, &2aaaa695
-          DCD     &000000a8, &6aaaaaa8, &2aaa9555
-          DCD     &000000b0, &56aaaaa8, &2aaa9555
-          DCD     &000000b8, &56aaaaa0, &0aaa5555
-          DCD     &000000c0, &56aaaaa0, &02aa5555
-          DCD     &000000c8, &5aaaaa80, &02aa555a
-          DCD     &000000d0, &aaaaaa00, &00aa95aa
-          DCD     &000000f8, &55000000, &00000055
+          DCD     &00000020, &00000000, &555555a0, &0555a555, &00000000
+          DCD     &00000030, &00000000, &555555a0, &0555a555, &00000000
+          DCD     &00000040, &50000000, &55555555, &a5aaa555, &0000000a
+          DCD     &00000050, &50000000, &55555555, &a5aaa555, &0000000a
+          DCD     &00000060, &55000000, &55555555, &aaaaa555, &000000aa
+          DCD     &00000070, &55000000, &55555555, &aaaaa555, &000000aa
+          DCD     &00000080, &55500000, &55555555, &aaaaaaa5, &00000aaa
+          DCD     &00000090, &55500000, &55555555, &aaaaaaa5, &00000aaa
+          DCD     &000000a0, &55550000, &a5555555, &aaaa5a55, &0000aaaa
+          DCD     &000000b0, &55550000, &a5555555, &aaaa5a55, &0000aaaa
+          DCD     &000000c0, &55555000, &55555555, &aaaaaa5a, &000aaaaa
+          DCD     &000000d0, &55555000, &55555555, &aaaaaa5a, &000aaaaa
+          DCD     &000000e0, &55555500, &55555555, &aaaaaaaa, &00aaaaaa
+          DCD     &000000f0, &55555500, &55555555, &aaaaaaaa, &00aaaaaa
+          DCD     &00000100, &55555500, &55555555, &aaaaaaaa, &00aaaaaa
+          DCD     &00000110, &55555500, &55555555, &aaaaaaaa, &00aaaaaa
+          DCD     &00000120, &aa55a550, &aaaaa555, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000130, &aa55a550, &aaaaa555, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000140, &aaa5aa50, &5aaaa555, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000150, &aaa5aa50, &5aaaa555, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000160, &aaa5aaa0, &5aaa5555, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000170, &aaa5aaa0, &5aaa5555, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000180, &aaaaaaaa, &aaaaa5a5, &aaaaaaa5, &aaaaaaaa
+          DCD     &00000190, &aaaaaaaa, &aaaaa5a5, &aaaaaaa5, &aaaaaaaa
+          DCD     &000001a0, &aaaaaaaa, &aaaaaaaa, &aaaaaaa5, &aaaaaaaa
+          DCD     &000001b0, &aaaaaaaa, &aaaaaaaa, &aaaaaaa5, &aaaaaaaa
+          DCD     &000001c0, &aaaaaaaa, &aa5aaa5a, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001d0, &aaaaaaaa, &aa5aaa5a, &aaaaaaaa, &aaaaaaaa
+          DCD     &000001e0, &aaaaaaaa, &55555aaa, &aaaaaa5a, &aaaaaaaa
+          DCD     &000001f0, &aaaaaaaa, &55555aaa, &aaaaaa5a, &aaaaaaaa
+          DCD     &00000200, &aaaaaaaa, &aa55a55a, &aaa5aaaa, &aaaaaaaa
+          DCD     &00000210, &aaaaaaaa, &aa55a55a, &aaa5aaaa, &aaaaaaaa
+          DCD     &00000220, &aaaaaaaa, &aaaaaaaa, &a555aaaa, &aaaaaaa5
+          DCD     &00000230, &aaaaaaaa, &aaaaaaaa, &a555aaaa, &aaaaaaa5
+          DCD     &00000240, &aaaaaaaa, &55aaaaaa, &5a55aaaa, &aaaaaaaa
+          DCD     &00000250, &aaaaaaaa, &55aaaaaa, &5a55aaaa, &aaaaaaaa
+          DCD     &00000260, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000270, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000280, &aaaaaaa0, &aaaaaaaa, &aa5aa555, &0aaaaaaa
+          DCD     &00000290, &aaaaaaa0, &aaaaaaaa, &aa5aa555, &0aaaaaaa
+          DCD     &000002a0, &aaaaaaa0, &5aaaaaaa, &a5555555, &0aaaaaaa
+          DCD     &000002b0, &aaaaaaa0, &5aaaaaaa, &a5555555, &0aaaaaaa
+          DCD     &000002c0, &aaaaaaa0, &555aaaaa, &a5555555, &0aaaaaaa
+          DCD     &000002d0, &aaaaaaa0, &555aaaaa, &a5555555, &0aaaaaaa
+          DCD     &000002e0, &aaaaaa00, &555aaaaa, &55555555, &00aaaaaa
+          DCD     &000002f0, &aaaaaa00, &555aaaaa, &55555555, &00aaaaaa
+          DCD     &00000300, &aaaaaa00, &555aaaaa, &55555555, &000aaaaa
+          DCD     &00000310, &aaaaaa00, &555aaaaa, &55555555, &000aaaaa
+          DCD     &00000320, &aaaaa000, &55aaaaaa, &555555aa, &000aaaaa
+          DCD     &00000330, &aaaaa000, &55aaaaaa, &555555aa, &000aaaaa
+          DCD     &00000340, &aaaa0000, &aaaaaaaa, &a555aaaa, &0000aaaa
+          DCD     &00000350, &aaaa0000, &aaaaaaaa, &a555aaaa, &0000aaaa
+          DCD     &000003e0, &00000000, &55550000, &00005555, &00000000
+          DCD     &000003f0, &00000000, &55550000, &00005555, &00000000
           DCD     -1
           ; frame 17
-          DCD     &00000000, &56000000, &00000055
-          DCD     &00000008, &55680000, &00002a55
-          DCD     &00000010, &55568000, &0002a955
-          DCD     &00000018, &55556000, &000aa955
-          DCD     &00000020, &55555400, &002a9a55
-          DCD     &00000028, &55555500, &00aa9aa5
-          DCD     &00000030, &55555540, &02aaaa95
-          DCD     &00000038, &55555550, &0aaaaa95
-          DCD     &00000040, &55555550, &0aaaaaa5
-          DCD     &00000048, &95596558, &2aaaaaaa
-          DCD     &00000050, &a56a6a94, &2aaaaa6a
-          DCD     &00000058, &95aa9aa4, &2aaaaa6a
-          DCD     &00000060, &9aaa5aa5, &aaaaaa6a
-          DCD     &00000068, &a9aaaaa9, &aaaaa9aa
-          DCD     &00000070, &a6aaaaa9, &aaaaaa96
-          DCD     &00000078, &a9aaaaa9, &aaaaaaa5
-          DCD     &00000080, &96aaaaaa, &aaa95a65
-          DCD     &00000088, &9aaaaaaa, &a695aaaa
-          DCD     &00000090, &aaaaaaaa, &aa9aaaa9
-          DCD     &00000098, &aaaaaaaa, &aaaa9aaa
-          DCD     &000000a0, &aaaaaaa8, &2aa995aa
-          DCD     &000000a8, &aaaaaaa8, &2aa9556a
-          DCD     &000000b0, &aaaaaaa8, &2aa55556
-          DCD     &000000b8, &aaaaaaa0, &0a955555
-          DCD     &000000c0, &aaaaaaa0, &02a55555
-          DCD     &000000c8, &aaaaaa80, &02a95695
-          DCD     &000000d0, &aaaaaa00, &00aa9aaa
+          DCD     &00000000, &00000000, &555a0000, &00005555, &00000000
+          DCD     &00000010, &00000000, &555a0000, &00005555, &00000000
+          DCD     &00000020, &00000000, &55555aa0, &0aaa5555, &00000000
+          DCD     &00000030, &00000000, &55555aa0, &0aaa5555, &00000000
+          DCD     &00000040, &a0000000, &5555555a, &aaa55555, &0000000a
+          DCD     &00000050, &a0000000, &5555555a, &aaa55555, &0000000a
+          DCD     &00000060, &5a000000, &55555555, &aaa55555, &000000aa
+          DCD     &00000070, &5a000000, &55555555, &aaa55555, &000000aa
+          DCD     &00000080, &55500000, &55555555, &a5aa5555, &00000aaa
+          DCD     &00000090, &55500000, &55555555, &a5aa5555, &00000aaa
+          DCD     &000000a0, &55550000, &55555555, &a5aaaa55, &0000aaaa
+          DCD     &000000b0, &55550000, &55555555, &a5aaaa55, &0000aaaa
+          DCD     &000000c0, &55555000, &55555555, &aaaaa555, &000aaaaa
+          DCD     &000000d0, &55555000, &55555555, &aaaaa555, &000aaaaa
+          DCD     &000000e0, &55555500, &55555555, &aaaaa555, &00aaaaaa
+          DCD     &000000f0, &55555500, &55555555, &aaaaa555, &00aaaaaa
+          DCD     &00000100, &55555500, &55555555, &aaaaaa55, &00aaaaaa
+          DCD     &00000110, &55555500, &55555555, &aaaaaa55, &00aaaaaa
+          DCD     &00000120, &5a5555a0, &a55555a5, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000130, &5a5555a0, &a55555a5, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000140, &5aaaa550, &aa555aaa, &aaaa5aaa, &0aaaaaaa
+          DCD     &00000150, &5aaaa550, &aa555aaa, &aaaa5aaa, &0aaaaaaa
+          DCD     &00000160, &a5aaaa50, &a555aaaa, &aaaa5aaa, &0aaaaaaa
+          DCD     &00000170, &a5aaaa50, &a555aaaa, &aaaa5aaa, &0aaaaaaa
+          DCD     &00000180, &55aaaa55, &a5aaaaaa, &aaaa5aaa, &aaaaaaaa
+          DCD     &00000190, &55aaaa55, &a5aaaaaa, &aaaa5aaa, &aaaaaaaa
+          DCD     &000001a0, &aaaaaaa5, &aaa5aaaa, &aaa5aaaa, &aaaaaaaa
+          DCD     &000001b0, &aaaaaaa5, &aaa5aaaa, &aaa5aaaa, &aaaaaaaa
+          DCD     &000001c0, &aaaaaaa5, &aa5aaaaa, &aaaaa55a, &aaaaaaaa
+          DCD     &000001d0, &aaaaaaa5, &aa5aaaaa, &aaaaa55a, &aaaaaaaa
+          DCD     &000001e0, &aaaaaaa5, &aaa5aaaa, &aaaaaa55, &aaaaaaaa
+          DCD     &000001f0, &aaaaaaa5, &aaa5aaaa, &aaaaaa55, &aaaaaaaa
+          DCD     &00000200, &aaaaaaaa, &a55aaaaa, &55aa5a55, &aaaaaaa5
+          DCD     &00000210, &aaaaaaaa, &a55aaaaa, &55aa5a55, &aaaaaaa5
+          DCD     &00000220, &aaaaaaaa, &a5aaaaaa, &aaaaaaaa, &aa5aa555
+          DCD     &00000230, &aaaaaaaa, &a5aaaaaa, &aaaaaaaa, &aa5aa555
+          DCD     &00000240, &aaaaaaaa, &aaaaaaaa, &aaaaaaa5, &aaaaa5aa
+          DCD     &00000250, &aaaaaaaa, &aaaaaaaa, &aaaaaaa5, &aaaaa5aa
+          DCD     &00000260, &aaaaaaaa, &aaaaaaaa, &a5aaaaaa, &aaaaaaaa
+          DCD     &00000270, &aaaaaaaa, &aaaaaaaa, &a5aaaaaa, &aaaaaaaa
+          DCD     &00000280, &aaaaaaa0, &aaaaaaaa, &a555aaaa, &0aaaaaa5
+          DCD     &00000290, &aaaaaaa0, &aaaaaaaa, &a555aaaa, &0aaaaaa5
+          DCD     &000002a0, &aaaaaaa0, &aaaaaaaa, &55555aaa, &0aaaaaa5
+          DCD     &000002b0, &aaaaaaa0, &aaaaaaaa, &55555aaa, &0aaaaaa5
+          DCD     &000002c0, &aaaaaaa0, &aaaaaaaa, &5555555a, &0aaaaa55
+          DCD     &000002d0, &aaaaaaa0, &aaaaaaaa, &5555555a, &0aaaaa55
+          DCD     &000002e0, &aaaaaa00, &aaaaaaaa, &55555555, &00aaa555
+          DCD     &000002f0, &aaaaaa00, &aaaaaaaa, &55555555, &00aaa555
+          DCD     &00000300, &aaaaaa00, &aaaaaaaa, &55555555, &000aaa55
+          DCD     &00000310, &aaaaaa00, &aaaaaaaa, &55555555, &000aaa55
+          DCD     &00000320, &aaaaa000, &aaaaaaaa, &555aa555, &000aaaa5
+          DCD     &00000330, &aaaaa000, &aaaaaaaa, &555aa555, &000aaaa5
+          DCD     &00000340, &aaaa0000, &aaaaaaaa, &a5aaaaaa, &0000aaaa
+          DCD     &00000350, &aaaa0000, &aaaaaaaa, &a5aaaaaa, &0000aaaa
           DCD     -1
           ; frame 18
-          DCD     &00000000, &5a000000, &00000055
-          DCD     &00000008, &55540000, &00002555
-          DCD     &00000010, &55554000, &00029555
-          DCD     &00000018, &55555000, &000a9555
-          DCD     &00000020, &55555400, &002a9555
-          DCD     &00000028, &55555500, &00a99555
-          DCD     &00000030, &55555580, &02aaa555
-          DCD     &00000038, &55555550, &0aaaa555
-          DCD     &00000040, &55555550, &0aaaa955
-          DCD     &00000048, &5955a554, &2aaaaa95
-          DCD     &00000050, &6a56a954, &2aaa9aa5
-          DCD     &00000058, &6aa6aa54, &2aaa9a95
-          DCD     &00000060, &aaa6aa55, &aaaa6a96
-          DCD     &00000068, &aa9aaa95, &aaaa6aaa
-          DCD     &00000070, &aaaaaa95, &aaaaa5a9
-          DCD     &00000078, &aaaaaaa5, &aaa99569
-          DCD     &00000080, &aaaaaaa5, &aaaa5965
-          DCD     &00000088, &aaaaaaa9, &a56a9aa6
-          DCD     &00000090, &aaaaaaa5, &a96a95aa
-          DCD     &00000098, &aaaaaaa5, &aa66aaaa
-          DCD     &000000a0, &aaaaaa64, &2a656aaa
-          DCD     &000000a8, &aaaaaa64, &2a556aaa
-          DCD     &000000b0, &aaaaaa64, &2a5555aa
-          DCD     &000000b8, &aaaaaaa0, &0a5555aa
-          DCD     &000000c0, &aaaaaa90, &029555aa
-          DCD     &000000c8, &aaaaaa80, &02a5a6aa
-          DCD     &000000d0, &aaaaaa00, &00a6aaaa
+          DCD     &00000000, &00000000, &55aa0000, &00005555, &00000000
+          DCD     &00000010, &00000000, &55aa0000, &00005555, &00000000
+          DCD     &00000020, &00000000, &55555550, &0a555555, &00000000
+          DCD     &00000030, &00000000, &55555550, &0a555555, &00000000
+          DCD     &00000040, &50000000, &55555555, &a5555555, &0000000a
+          DCD     &00000050, &50000000, &55555555, &a5555555, &0000000a
+          DCD     &00000060, &55000000, &55555555, &a5555555, &000000aa
+          DCD     &00000070, &55000000, &55555555, &a5555555, &000000aa
+          DCD     &00000080, &55500000, &55555555, &a5555555, &00000aaa
+          DCD     &00000090, &55500000, &55555555, &a5555555, &00000aaa
+          DCD     &000000a0, &55550000, &55555555, &a5555555, &0000aaa5
+          DCD     &000000b0, &55550000, &55555555, &a5555555, &0000aaa5
+          DCD     &000000c0, &5555a000, &55555555, &aa555555, &000aaaaa
+          DCD     &000000d0, &5555a000, &55555555, &aa555555, &000aaaaa
+          DCD     &000000e0, &55555500, &55555555, &aa555555, &00aaaaaa
+          DCD     &000000f0, &55555500, &55555555, &aa555555, &00aaaaaa
+          DCD     &00000100, &55555500, &55555555, &aaa55555, &00aaaaaa
+          DCD     &00000110, &55555500, &55555555, &aaa55555, &00aaaaaa
+          DCD     &00000120, &aa555550, &55a55555, &aaaaa555, &0aaaaaaa
+          DCD     &00000130, &aa555550, &55a55555, &aaaaa555, &0aaaaaaa
+          DCD     &00000140, &aaa55550, &5aaa555a, &a5aaaa55, &0aaaaaaa
+          DCD     &00000150, &aaa55550, &5aaa555a, &a5aaaa55, &0aaaaaaa
+          DCD     &00000160, &aaaa5550, &5aaaaa5a, &a5aaa555, &0aaaaaaa
+          DCD     &00000170, &aaaa5550, &5aaaaa5a, &a5aaa555, &0aaaaaaa
+          DCD     &00000180, &aaaa5555, &aaaaaa5a, &5aaaa55a, &aaaaaaaa
+          DCD     &00000190, &aaaa5555, &aaaaaa5a, &5aaaa55a, &aaaaaaaa
+          DCD     &000001a0, &aaaaa555, &aaaaa5aa, &5aaaaaaa, &aaaaaaaa
+          DCD     &000001b0, &aaaaa555, &aaaaa5aa, &5aaaaaaa, &aaaaaaaa
+          DCD     &000001c0, &aaaaa555, &aaaaaaaa, &aa55aaa5, &aaaaaaaa
+          DCD     &000001d0, &aaaaa555, &aaaaaaaa, &aa55aaa5, &aaaaaaaa
+          DCD     &000001e0, &aaaaaa55, &aaaaaaaa, &a5555aa5, &aaaaaaa5
+          DCD     &000001f0, &aaaaaa55, &aaaaaaaa, &a5555aa5, &aaaaaaa5
+          DCD     &00000200, &aaaaaa55, &aaaaaaaa, &55a55a55, &aaaaaaaa
+          DCD     &00000210, &aaaaaa55, &aaaaaaaa, &55a55a55, &aaaaaaaa
+          DCD     &00000220, &aaaaaaa5, &aaaaaaaa, &a5aaaa5a, &aa555aaa
+          DCD     &00000230, &aaaaaaa5, &aaaaaaaa, &a5aaaa5a, &aa555aaa
+          DCD     &00000240, &aaaaaa55, &aaaaaaaa, &a555aaaa, &aaa55aaa
+          DCD     &00000250, &aaaaaa55, &aaaaaaaa, &a555aaaa, &aaa55aaa
+          DCD     &00000260, &aaaaaa55, &aaaaaaaa, &aaaaaaaa, &aaaa5a5a
+          DCD     &00000270, &aaaaaa55, &aaaaaaaa, &aaaaaaaa, &aaaa5a5a
+          DCD     &00000280, &aaaa5a50, &aaaaaaaa, &5aaaaaaa, &0aaa5a55
+          DCD     &00000290, &aaaa5a50, &aaaaaaaa, &5aaaaaaa, &0aaa5a55
+          DCD     &000002a0, &aaaa5a50, &aaaaaaaa, &5aaaaaaa, &0aaa5555
+          DCD     &000002b0, &aaaa5a50, &aaaaaaaa, &5aaaaaaa, &0aaa5555
+          DCD     &000002c0, &aaaa5a50, &aaaaaaaa, &5555aaaa, &0aaa5555
+          DCD     &000002d0, &aaaa5a50, &aaaaaaaa, &5555aaaa, &0aaa5555
+          DCD     &000002e0, &aaaaaa00, &aaaaaaaa, &5555aaaa, &00aa5555
+          DCD     &000002f0, &aaaaaa00, &aaaaaaaa, &5555aaaa, &00aa5555
+          DCD     &00000300, &aaaaa500, &aaaaaaaa, &5555aaaa, &000aa555
+          DCD     &00000310, &aaaaa500, &aaaaaaaa, &5555aaaa, &000aa555
+          DCD     &00000320, &aaaaa000, &aaaaaaaa, &aa5aaaaa, &000aaa55
+          DCD     &00000330, &aaaaa000, &aaaaaaaa, &aa5aaaaa, &000aaa55
+          DCD     &00000340, &aaaa0000, &aaaaaaaa, &aaaaaaaa, &0000aa5a
+          DCD     &00000350, &aaaa0000, &aaaaaaaa, &aaaaaaaa, &0000aa5a
           DCD     -1
           ; frame 19
-          DCD     &00000000, &66000000, &00000055
-          DCD     &00000008, &55540000, &00001555
-          DCD     &00000010, &55558000, &00025555
-          DCD     &00000018, &55555000, &00095555
-          DCD     &00000020, &55555400, &00295555
-          DCD     &00000028, &55555600, &009a5555
-          DCD     &00000030, &55555680, &029a5555
-          DCD     &00000038, &55555550, &0aa95555
-          DCD     &00000040, &555a5550, &0aaa5555
-          DCD     &00000048, &55aa5554, &2aaa9556
-          DCD     &00000050, &95aa9554, &2aa6a55a
-          DCD     &00000058, &a5aaa554, &2aa6a56a
-          DCD     &00000060, &a5aaa555, &aa9aa66a
-          DCD     &00000068, &aaaaa555, &aa9aaaaa
-          DCD     &00000070, &aaaaa955, &aaa9a9aa
-          DCD     &00000078, &aaaaaa55, &aa6969aa
-          DCD     &00000080, &aaaaaa55, &a9a569aa
-          DCD     &00000088, &aaaaaa95, &a6a6a6aa
-          DCD     &00000090, &aaaaaa95, &9a956aaa
-          DCD     &00000098, &aaaaaa56, &a9aaaaaa
-          DCD     &000000a0, &aaaaa654, &265aaaaa
-          DCD     &000000a8, &aaaaa694, &255aaaaa
-          DCD     &000000b0, &aaaaa658, &25556aaa
-          DCD     &000000b8, &aaaaaa50, &05556aaa
-          DCD     &000000c0, &aaaaaa60, &01556aaa
-          DCD     &000000c8, &aaaaaa80, &02696aaa
-          DCD     &000000d0, &aaaaaa00, &00aaaaaa
+          DCD     &00000000, &00000000, &5a5a0000, &00005555, &00000000
+          DCD     &00000010, &00000000, &5a5a0000, &00005555, &00000000
+          DCD     &00000020, &00000000, &55555550, &05555555, &00000000
+          DCD     &00000030, &00000000, &55555550, &05555555, &00000000
+          DCD     &00000040, &a0000000, &55555555, &55555555, &0000000a
+          DCD     &00000050, &a0000000, &55555555, &55555555, &0000000a
+          DCD     &00000060, &55000000, &55555555, &55555555, &000000a5
+          DCD     &00000070, &55000000, &55555555, &55555555, &000000a5
+          DCD     &00000080, &55500000, &55555555, &55555555, &00000aa5
+          DCD     &00000090, &55500000, &55555555, &55555555, &00000aa5
+          DCD     &000000a0, &555a0000, &55555555, &55555555, &0000a5aa
+          DCD     &000000b0, &555a0000, &55555555, &55555555, &0000a5aa
+          DCD     &000000c0, &555aa000, &55555555, &55555555, &000aa5aa
+          DCD     &000000d0, &555aa000, &55555555, &55555555, &000aa5aa
+          DCD     &000000e0, &55555500, &55555555, &55555555, &00aaaaa5
+          DCD     &000000f0, &55555500, &55555555, &55555555, &00aaaaa5
+          DCD     &00000100, &55555500, &555555aa, &55555555, &00aaaaaa
+          DCD     &00000110, &55555500, &555555aa, &55555555, &00aaaaaa
+          DCD     &00000120, &55555550, &5555aaaa, &a555555a, &0aaaaaaa
+          DCD     &00000130, &55555550, &5555aaaa, &a555555a, &0aaaaaaa
+          DCD     &00000140, &a5555550, &a555aaaa, &aa5555aa, &0aaaaa5a
+          DCD     &00000150, &a5555550, &a555aaaa, &aa5555aa, &0aaaaa5a
+          DCD     &00000160, &aa555550, &aa55aaaa, &aa555aaa, &0aaaaa5a
+          DCD     &00000170, &aa555550, &aa55aaaa, &aa555aaa, &0aaaaa5a
+          DCD     &00000180, &aa555555, &aa55aaaa, &aa5a5aaa, &aaaaa5aa
+          DCD     &00000190, &aa555555, &aa55aaaa, &aa5a5aaa, &aaaaa5aa
+          DCD     &000001a0, &aa555555, &aaaaaaaa, &aaaaaaaa, &aaaaa5aa
+          DCD     &000001b0, &aa555555, &aaaaaaaa, &aaaaaaaa, &aaaaa5aa
+          DCD     &000001c0, &aaa55555, &aaaaaaaa, &aaa5aaaa, &aaaaaaa5
+          DCD     &000001d0, &aaa55555, &aaaaaaaa, &aaa5aaaa, &aaaaaaa5
+          DCD     &000001e0, &aaaa5555, &aaaaaaaa, &5aa5aaaa, &aaaa5aa5
+          DCD     &000001f0, &aaaa5555, &aaaaaaaa, &5aa5aaaa, &aaaa5aa5
+          DCD     &00000200, &aaaa5555, &aaaaaaaa, &5aa5aaaa, &aaa5aa55
+          DCD     &00000210, &aaaa5555, &aaaaaaaa, &5aa5aaaa, &aaa5aa55
+          DCD     &00000220, &aaaaa555, &aaaaaaaa, &aa5aaaaa, &aa5aaa5a
+          DCD     &00000230, &aaaaa555, &aaaaaaaa, &aa5aaaaa, &aa5aaa5a
+          DCD     &00000240, &aaaaa555, &aaaaaaaa, &5aaaaaaa, &a5aaa555
+          DCD     &00000250, &aaaaa555, &aaaaaaaa, &5aaaaaaa, &a5aaa555
+          DCD     &00000260, &aaaa555a, &aaaaaaaa, &aaaaaaaa, &aaa5aaaa
+          DCD     &00000270, &aaaa555a, &aaaaaaaa, &aaaaaaaa, &aaa5aaaa
+          DCD     &00000280, &aa5a5550, &aaaaaaaa, &aaaaaaaa, &0a5a55aa
+          DCD     &00000290, &aa5a5550, &aaaaaaaa, &aaaaaaaa, &0a5a55aa
+          DCD     &000002a0, &aa5aa550, &aaaaaaaa, &aaaaaaaa, &0a5555aa
+          DCD     &000002b0, &aa5aa550, &aaaaaaaa, &aaaaaaaa, &0a5555aa
+          DCD     &000002c0, &aa5a55a0, &aaaaaaaa, &5aaaaaaa, &0a555555
+          DCD     &000002d0, &aa5a55a0, &aaaaaaaa, &5aaaaaaa, &0a555555
+          DCD     &000002e0, &aaaa5500, &aaaaaaaa, &5aaaaaaa, &00555555
+          DCD     &000002f0, &aaaa5500, &aaaaaaaa, &5aaaaaaa, &00555555
+          DCD     &00000300, &aaaa5a00, &aaaaaaaa, &5aaaaaaa, &00055555
+          DCD     &00000310, &aaaa5a00, &aaaaaaaa, &5aaaaaaa, &00055555
+          DCD     &00000320, &aaaaa000, &aaaaaaaa, &5aaaaaaa, &000a5aa5
+          DCD     &00000330, &aaaaa000, &aaaaaaaa, &5aaaaaaa, &000a5aa5
+          DCD     &00000340, &aaaa0000, &aaaaaaaa, &aaaaaaaa, &0000aaaa
+          DCD     &00000350, &aaaa0000, &aaaaaaaa, &aaaaaaaa, &0000aaaa
           DCD     -1
           ; frame 20
-          DCD     &00000000, &6a000000, &00000056
-          DCD     &00000010, &55558000, &00015555
-          DCD     &00000018, &55555000, &00055555
-          DCD     &00000020, &55569400, &00155555
-          DCD     &00000028, &55555500, &00955555
-          DCD     &00000030, &55556a40, &01a55555
-          DCD     &00000038, &55555550, &0a955555
-          DCD     &00000040, &56955550, &0a955555
-          DCD     &00000048, &6a955554, &2aa95695
-          DCD     &00000050, &6aa55554, &2aaa56a5
-          DCD     &00000058, &aaa95554, &2aa95aa5
-          DCD     &00000060, &aaa95555, &aaa9aaa9
-          DCD     &00000068, &aaa95555, &aaaaaaa6
-          DCD     &00000070, &aaaa5555, &aa6a5aaa
-          DCD     &00000078, &aaaa9556, &aa5a6aaa
-          DCD     &00000080, &aaaaa556, &9a5aaaaa
-          DCD     &00000088, &aaaaa556, &6aa9aaaa
-          DCD     &00000090, &aaaaa556, &6aa6aaaa
-          DCD     &00000098, &aaaaa556, &aaaaaaaa
-          DCD     &000000a0, &aaa9a554, &25aaaaaa
-          DCD     &000000a8, &aaa96558, &15aaaaaa
-          DCD     &000000b0, &aaa96558, &155aaaaa
-          DCD     &000000b8, &aaa9a960, &0556aaaa
-          DCD     &000000c0, &aaaaa9a0, &0156aaaa
-          DCD     &000000c8, &aaaaa980, &01a6aaaa
+          DCD     &00000000, &00000000, &5aaa0000, &0000555a, &00000000
+          DCD     &00000010, &00000000, &5aaa0000, &0000555a, &00000000
+          DCD     &00000040, &a0000000, &55555555, &55555555, &00000005
+          DCD     &00000050, &a0000000, &55555555, &55555555, &00000005
+          DCD     &00000060, &55000000, &55555555, &55555555, &00000055
+          DCD     &00000070, &55000000, &55555555, &55555555, &00000055
+          DCD     &00000080, &a5500000, &5555555a, &55555555, &00000555
+          DCD     &00000090, &a5500000, &5555555a, &55555555, &00000555
+          DCD     &000000a0, &55550000, &55555555, &55555555, &0000a555
+          DCD     &000000b0, &55550000, &55555555, &55555555, &0000a555
+          DCD     &000000c0, &5aaa5000, &55555555, &55555555, &0005aa55
+          DCD     &000000d0, &5aaa5000, &55555555, &55555555, &0005aa55
+          DCD     &000000e0, &55555500, &55555555, &55555555, &00aaa555
+          DCD     &000000f0, &55555500, &55555555, &55555555, &00aaa555
+          DCD     &00000100, &55555500, &555aa555, &55555555, &00aaa555
+          DCD     &00000110, &55555500, &555aa555, &55555555, &00aaa555
+          DCD     &00000120, &55555550, &5aaaa555, &555aa555, &0aaaaaa5
+          DCD     &00000130, &55555550, &5aaaa555, &555aa555, &0aaaaaa5
+          DCD     &00000140, &55555550, &5aaaaa55, &555aaa55, &0aaaaaaa
+          DCD     &00000150, &55555550, &5aaaaa55, &555aaa55, &0aaaaaaa
+          DCD     &00000160, &55555550, &aaaaaaa5, &55aaaa55, &0aaaaaa5
+          DCD     &00000170, &55555550, &aaaaaaa5, &55aaaa55, &0aaaaaa5
+          DCD     &00000180, &55555555, &aaaaaaa5, &aaaaaaa5, &aaaaaaa5
+          DCD     &00000190, &55555555, &aaaaaaa5, &aaaaaaa5, &aaaaaaa5
+          DCD     &000001a0, &55555555, &aaaaaaa5, &aaaaaa5a, &aaaaaaaa
+          DCD     &000001b0, &55555555, &aaaaaaa5, &aaaaaa5a, &aaaaaaaa
+          DCD     &000001c0, &55555555, &aaaaaaaa, &55aaaaaa, &aaaa5aaa
+          DCD     &000001d0, &55555555, &aaaaaaaa, &55aaaaaa, &aaaa5aaa
+          DCD     &000001e0, &a555555a, &aaaaaaaa, &5aaaaaaa, &aaaa55aa
+          DCD     &000001f0, &a555555a, &aaaaaaaa, &5aaaaaaa, &aaaa55aa
+          DCD     &00000200, &aa55555a, &aaaaaaaa, &aaaaaaaa, &a5aa55aa
+          DCD     &00000210, &aa55555a, &aaaaaaaa, &aaaaaaaa, &a5aa55aa
+          DCD     &00000220, &aa55555a, &aaaaaaaa, &aaaaaaaa, &5aaaaaa5
+          DCD     &00000230, &aa55555a, &aaaaaaaa, &aaaaaaaa, &5aaaaaa5
+          DCD     &00000240, &aa55555a, &aaaaaaaa, &aaaaaaaa, &5aaaaa5a
+          DCD     &00000250, &aa55555a, &aaaaaaaa, &aaaaaaaa, &5aaaaa5a
+          DCD     &00000260, &aa55555a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000270, &aa55555a, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000280, &aa555550, &aaaaaaa5, &aaaaaaaa, &0a55aaaa
+          DCD     &00000290, &aa555550, &aaaaaaa5, &aaaaaaaa, &0a55aaaa
+          DCD     &000002a0, &5a5555a0, &aaaaaaa5, &aaaaaaaa, &0555aaaa
+          DCD     &000002b0, &5a5555a0, &aaaaaaa5, &aaaaaaaa, &0555aaaa
+          DCD     &000002c0, &5a5555a0, &aaaaaaa5, &aaaaaaaa, &055555aa
+          DCD     &000002d0, &5a5555a0, &aaaaaaa5, &aaaaaaaa, &055555aa
+          DCD     &000002e0, &aaa55a00, &aaaaaaa5, &aaaaaaaa, &0055555a
+          DCD     &000002f0, &aaa55a00, &aaaaaaa5, &aaaaaaaa, &0055555a
+          DCD     &00000300, &aaa5aa00, &aaaaaaaa, &aaaaaaaa, &0005555a
+          DCD     &00000310, &aaa5aa00, &aaaaaaaa, &aaaaaaaa, &0005555a
+          DCD     &00000320, &aaa5a000, &aaaaaaaa, &aaaaaaaa, &0005aa5a
+          DCD     &00000330, &aaa5a000, &aaaaaaaa, &aaaaaaaa, &0005aa5a
           DCD     -1
           ; frame 21
-          DCD     &00000000, &a5000000, &000000aa
-          DCD     &00000010, &55554000, &00015555
-          DCD     &00000018, &55655000, &00055555
-          DCD     &00000020, &55596400, &00155555
-          DCD     &00000028, &5555aa00, &00955555
-          DCD     &00000030, &5556a940, &02555555
-          DCD     &00000038, &56555550, &09555555
-          DCD     &00000040, &a9555550, &09555556
-          DCD     &00000048, &95555554, &2955555a
-          DCD     &00000050, &a5555554, &2a95656a
-          DCD     &00000058, &aa555554, &2a59a96a
-          DCD     &00000060, &aa555555, &aa6aa9aa
-          DCD     &00000068, &aa555555, &aaaaa6aa
-          DCD     &00000070, &aa95556a, &a696aaaa
-          DCD     &00000078, &aaa5556a, &a6aaaaaa
-          DCD     &00000080, &aaa9556a, &aa6aaaaa
-          DCD     &00000088, &aaaa556a, &aa6aaaaa
-          DCD     &00000090, &aaaa556a, &aaaaaaaa
-          DCD     &00000098, &aaa9556a, &6aaaaaaa
-          DCD     &000000a0, &aa695568, &1aaaaaaa
-          DCD     &000000a8, &aa5a55a8, &1aaaaaaa
-          DCD     &000000b0, &aa6a55a8, &15aaaaaa
-          DCD     &000000b8, &aa6956a0, &05aaaaaa
-          DCD     &000000c0, &aaa95aa0, &01aaaaaa
-          DCD     &000000c8, &aaa96a80, &02aaaaaa
+          DCD     &00000000, &00000000, &aa550000, &0000aaaa, &00000000
+          DCD     &00000010, &00000000, &aa550000, &0000aaaa, &00000000
+          DCD     &00000040, &50000000, &55555555, &55555555, &00000005
+          DCD     &00000050, &50000000, &55555555, &55555555, &00000005
+          DCD     &00000060, &55000000, &55555a55, &55555555, &00000055
+          DCD     &00000070, &55000000, &55555a55, &55555555, &00000055
+          DCD     &00000080, &5a500000, &555555a5, &55555555, &00000555
+          DCD     &00000090, &5a500000, &555555a5, &55555555, &00000555
+          DCD     &000000a0, &aaaa0000, &55555555, &55555555, &0000a555
+          DCD     &000000b0, &aaaa0000, &55555555, &55555555, &0000a555
+          DCD     &000000c0, &aaa55000, &5555555a, &55555555, &000a5555
+          DCD     &000000d0, &aaa55000, &5555555a, &55555555, &000a5555
+          DCD     &000000e0, &55555500, &555a5555, &55555555, &00a55555
+          DCD     &000000f0, &55555500, &555a5555, &55555555, &00a55555
+          DCD     &00000100, &55555500, &aaa55555, &5555555a, &00a55555
+          DCD     &00000110, &55555500, &aaa55555, &5555555a, &00a55555
+          DCD     &00000120, &55555550, &a5555555, &555555aa, &0aa55555
+          DCD     &00000130, &55555550, &a5555555, &555555aa, &0aa55555
+          DCD     &00000140, &55555550, &aa555555, &5a555aaa, &0aaaa555
+          DCD     &00000150, &55555550, &aa555555, &5a555aaa, &0aaaa555
+          DCD     &00000160, &55555550, &aaaa5555, &aaa55aaa, &0aaa55a5
+          DCD     &00000170, &55555550, &aaaa5555, &aaa55aaa, &0aaa55a5
+          DCD     &00000180, &55555555, &aaaa5555, &aaa5aaaa, &aaaa5aaa
+          DCD     &00000190, &55555555, &aaaa5555, &aaa5aaaa, &aaaa5aaa
+          DCD     &000001a0, &55555555, &aaaa5555, &aa5aaaaa, &aaaaaaaa
+          DCD     &000001b0, &55555555, &aaaa5555, &aa5aaaaa, &aaaaaaaa
+          DCD     &000001c0, &55555aaa, &aaaaa555, &aaaaaaaa, &aa5aa55a
+          DCD     &000001d0, &55555aaa, &aaaaa555, &aaaaaaaa, &aa5aa55a
+          DCD     &000001e0, &55555aaa, &aaaaaa55, &aaaaaaaa, &aa5aaaaa
+          DCD     &000001f0, &55555aaa, &aaaaaa55, &aaaaaaaa, &aa5aaaaa
+          DCD     &00000200, &55555aaa, &aaaaaaa5, &aaaaaaaa, &aaaa5aaa
+          DCD     &00000210, &55555aaa, &aaaaaaa5, &aaaaaaaa, &aaaa5aaa
+          DCD     &00000220, &55555aaa, &aaaaaaaa, &aaaaaaaa, &aaaa5aaa
+          DCD     &00000230, &55555aaa, &aaaaaaaa, &aaaaaaaa, &aaaa5aaa
+          DCD     &00000240, &55555aaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000250, &55555aaa, &aaaaaaaa, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000260, &55555aaa, &aaaaaaa5, &aaaaaaaa, &5aaaaaaa
+          DCD     &00000270, &55555aaa, &aaaaaaa5, &aaaaaaaa, &5aaaaaaa
+          DCD     &00000280, &55555aa0, &aaaa5aa5, &aaaaaaaa, &05aaaaaa
+          DCD     &00000290, &55555aa0, &aaaa5aa5, &aaaaaaaa, &05aaaaaa
+          DCD     &000002a0, &5555aaa0, &aaaa55aa, &aaaaaaaa, &05aaaaaa
+          DCD     &000002b0, &5555aaa0, &aaaa55aa, &aaaaaaaa, &05aaaaaa
+          DCD     &000002c0, &5555aaa0, &aaaa5aaa, &aaaaaaaa, &0555aaaa
+          DCD     &000002d0, &5555aaa0, &aaaa5aaa, &aaaaaaaa, &0555aaaa
+          DCD     &000002e0, &555aaa00, &aaaa5aa5, &aaaaaaaa, &0055aaaa
+          DCD     &000002f0, &555aaa00, &aaaa5aa5, &aaaaaaaa, &0055aaaa
+          DCD     &00000300, &55aaaa00, &aaaaaaa5, &aaaaaaaa, &0005aaaa
+          DCD     &00000310, &55aaaa00, &aaaaaaa5, &aaaaaaaa, &0005aaaa
+          DCD     &00000320, &5aaaa000, &aaaaaaa5, &aaaaaaaa, &000aaaaa
+          DCD     &00000330, &5aaaa000, &aaaaaaa5, &aaaaaaaa, &000aaaaa
           DCD     -1
           ; frame 22
-          DCD     &00000000, &55000000, &000000a9
-          DCD     &00000008, &55940000, &00001555
-          DCD     &00000018, &9a555000, &00055555
-          DCD     &00000020, &555aa400, &00155555
-          DCD     &00000028, &556a6900, &00555556
-          DCD     &00000030, &55a65540, &01555555
-          DCD     &00000038, &55555560, &05555555
-          DCD     &00000040, &55555550, &05555596
-          DCD     &00000048, &56555554, &255956a5
-          DCD     &00000050, &55555554, &25695aa5
-          DCD     &00000058, &59555554, &29a96aaa
-          DCD     &00000060, &65555555, &a5a96aaa
-          DCD     &00000068, &55555556, &a6a5aaaa
-          DCD     &00000070, &95555696, &a6aaaaaa
-          DCD     &00000078, &a55556aa, &9aaaaaaa
-          DCD     &00000080, &a95556aa, &9aaaaaaa
-          DCD     &00000088, &aa5556aa, &aaaaaaaa
-          DCD     &00000090, &aa5556aa, &aaaaaaaa
-          DCD     &00000098, &a95556aa, &aaaaaaaa
-          DCD     &000000a0, &695556a8, &2aaaaaaa
-          DCD     &000000a8, &5a555aa8, &2aaaaaaa
-          DCD     &000000b0, &5a555aa8, &2aaaaaaa
-          DCD     &000000b8, &6a556aa0, &0aaaaaaa
-          DCD     &000000c0, &aa95aaa0, &02aaaaaa
-          DCD     &000000c8, &aa96aa80, &02aaaaaa
+          DCD     &00000000, &00000000, &55550000, &0000aaa5, &00000000
+          DCD     &00000010, &00000000, &55550000, &0000aaa5, &00000000
+          DCD     &00000020, &00000000, &5555a550, &05555555, &00000000
+          DCD     &00000030, &00000000, &5555a550, &05555555, &00000000
+          DCD     &00000060, &55000000, &a5aa5555, &55555555, &00000055
+          DCD     &00000070, &55000000, &a5aa5555, &55555555, &00000055
+          DCD     &00000080, &aa500000, &555555aa, &55555555, &00000555
+          DCD     &00000090, &aa500000, &555555aa, &55555555, &00000555
+          DCD     &000000a0, &5aa50000, &55555aaa, &5555555a, &00005555
+          DCD     &000000b0, &5aa50000, &55555aaa, &5555555a, &00005555
+          DCD     &000000c0, &55555000, &5555aa5a, &55555555, &00055555
+          DCD     &000000d0, &55555000, &5555aa5a, &55555555, &00055555
+          DCD     &000000e0, &55555a00, &55555555, &55555555, &00555555
+          DCD     &000000f0, &55555a00, &55555555, &55555555, &00555555
+          DCD     &00000100, &55555500, &55555555, &5555a55a, &00555555
+          DCD     &00000110, &55555500, &55555555, &5555a55a, &00555555
+          DCD     &00000120, &55555550, &555a5555, &555aaa55, &0a5555a5
+          DCD     &00000130, &55555550, &555a5555, &555aaa55, &0a5555a5
+          DCD     &00000140, &55555550, &55555555, &55aaaa55, &0a555aa5
+          DCD     &00000150, &55555550, &55555555, &55aaaa55, &0a555aa5
+          DCD     &00000160, &55555550, &55a55555, &5aaaaaaa, &0aa5aaa5
+          DCD     &00000170, &55555550, &55a55555, &5aaaaaaa, &0aa5aaa5
+          DCD     &00000180, &55555555, &5a555555, &5aaaaaaa, &aa55aaa5
+          DCD     &00000190, &55555555, &5a555555, &5aaaaaaa, &aa55aaa5
+          DCD     &000001a0, &5555555a, &55555555, &aaaaaaaa, &aa5aaa55
+          DCD     &000001b0, &5555555a, &55555555, &aaaaaaaa, &aa5aaa55
+          DCD     &000001c0, &555aa55a, &a5555555, &aaaaaaaa, &aa5aaaaa
+          DCD     &000001d0, &555aa55a, &a5555555, &aaaaaaaa, &aa5aaaaa
+          DCD     &000001e0, &555aaaaa, &aa555555, &aaaaaaaa, &a5aaaaaa
+          DCD     &000001f0, &555aaaaa, &aa555555, &aaaaaaaa, &a5aaaaaa
+          DCD     &00000200, &555aaaaa, &aaa55555, &aaaaaaaa, &a5aaaaaa
+          DCD     &00000210, &555aaaaa, &aaa55555, &aaaaaaaa, &a5aaaaaa
+          DCD     &00000220, &555aaaaa, &aaaa5555, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000230, &555aaaaa, &aaaa5555, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000240, &555aaaaa, &aaaa5555, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000250, &555aaaaa, &aaaa5555, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000260, &555aaaaa, &aaa55555, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000270, &555aaaaa, &aaa55555, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000280, &555aaaa0, &5aa55555, &aaaaaaaa, &0aaaaaaa
+          DCD     &00000290, &555aaaa0, &5aa55555, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002a0, &55aaaaa0, &55aa5555, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002b0, &55aaaaa0, &55aa5555, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002c0, &55aaaaa0, &55aa5555, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002d0, &55aaaaa0, &55aa5555, &aaaaaaaa, &0aaaaaaa
+          DCD     &000002e0, &5aaaaa00, &5aaa5555, &aaaaaaaa, &00aaaaaa
+          DCD     &000002f0, &5aaaaa00, &5aaa5555, &aaaaaaaa, &00aaaaaa
+          DCD     &00000300, &aaaaaa00, &aaaaa555, &aaaaaaaa, &000aaaaa
+          DCD     &00000310, &aaaaaa00, &aaaaa555, &aaaaaaaa, &000aaaaa
+          DCD     &00000320, &aaaaa000, &aaaaa55a, &aaaaaaaa, &000aaaaa
+          DCD     &00000330, &aaaaa000, &aaaaa55a, &aaaaaaaa, &000aaaaa
           DCD     -1
           ; frame 23
-          DCD     &00000000, &56000000, &000000a5
-          DCD     &00000008, &59a80000, &00001555
-          DCD     &00000010, &555a8000, &00025555
-          DCD     &00000018, &a555a000, &00055559
-          DCD     &00000020, &556a6800, &00155565
-          DCD     &00000028, &5a969a00, &00555555
-          DCD     &00000030, &69655680, &01555555
-          DCD     &00000038, &555556a0, &09555555
-          DCD     &00000040, &555555a0, &05556995
-          DCD     &00000048, &95555568, &1555a555
-          DCD     &00000050, &55555568, &2656a956
-          DCD     &00000058, &55555558, &1a9aaa95
-          DCD     &00000060, &5555555a, &aa6aaa55
-          DCD     &00000068, &5555556a, &9aaaaa95
-          DCD     &00000070, &5555596a, &9aaaaa95
-          DCD     &00000078, &55556aaa, &9aaaaaa5
-          DCD     &00000080, &55556aaa, &aaaaaaa9
-          DCD     &00000088, &5555aaaa, &aaaaaaaa
-          DCD     &00000090, &5555aaaa, &aaaaaaaa
-          DCD     &00000098, &6556aaaa, &aaaaaaaa
-          DCD     &000000a0, &5555aaa8, &2aaaaa9a
-          DCD     &000000a8, &9555aaa8, &2aaaaa96
-          DCD     &000000b0, &9556aaa8, &2aaaaa96
-          DCD     &000000b8, &9556aaa0, &0aaaaaaa
-          DCD     &000000c0, &a55aaaa0, &02aaaaaa
-          DCD     &000000c8, &a96aaa80, &02aaaaaa
-          DCD     &000000f8, &5a000000, &00000055
+          DCD     &00000000, &00000000, &555a0000, &0000aa55, &00000000
+          DCD     &00000010, &00000000, &555a0000, &0000aa55, &00000000
+          DCD     &00000020, &00000000, &55a5aaa0, &05555555, &00000000
+          DCD     &00000030, &00000000, &55a5aaa0, &05555555, &00000000
+          DCD     &00000040, &a0000000, &555555aa, &55555555, &0000000a
+          DCD     &00000050, &a0000000, &555555aa, &55555555, &0000000a
+          DCD     &00000060, &aa000000, &aa555555, &555555a5, &00000055
+          DCD     &00000070, &aa000000, &aa555555, &555555a5, &00000055
+          DCD     &00000080, &5aa00000, &55555aaa, &55555a55, &00000555
+          DCD     &00000090, &5aa00000, &55555aaa, &55555a55, &00000555
+          DCD     &000000a0, &a5aa0000, &55aaa55a, &55555555, &00005555
+          DCD     &000000b0, &a5aa0000, &55aaa55a, &55555555, &00005555
+          DCD     &000000c0, &555aa000, &5aa55a55, &55555555, &00055555
+          DCD     &000000d0, &555aa000, &5aa55a55, &55555555, &00055555
+          DCD     &000000e0, &555aaa00, &55555555, &55555555, &00a55555
+          DCD     &000000f0, &555aaa00, &55555555, &55555555, &00a55555
+          DCD     &00000100, &5555aa00, &55555555, &5aa5a555, &00555555
+          DCD     &00000110, &5555aa00, &55555555, &5aa5a555, &00555555
+          DCD     &00000120, &55555aa0, &a5555555, &aa555555, &05555555
+          DCD     &00000130, &55555aa0, &a5555555, &aa555555, &05555555
+          DCD     &00000140, &55555aa0, &55555555, &aaa5555a, &0a5a555a
+          DCD     &00000150, &55555aa0, &55555555, &aaa5555a, &0a5a555a
+          DCD     &00000160, &555555a0, &55555555, &aaaaa555, &05aaa5aa
+          DCD     &00000170, &555555a0, &55555555, &aaaaa555, &05aaa5aa
+          DCD     &00000180, &555555aa, &55555555, &aaaa5555, &aaaa5aaa
+          DCD     &00000190, &555555aa, &55555555, &aaaa5555, &aaaa5aaa
+          DCD     &000001a0, &55555aaa, &55555555, &aaaaa555, &a5aaaaaa
+          DCD     &000001b0, &55555aaa, &55555555, &aaaaa555, &a5aaaaaa
+          DCD     &000001c0, &55a55aaa, &55555555, &aaaaa555, &a5aaaaaa
+          DCD     &000001d0, &55a55aaa, &55555555, &aaaaa555, &a5aaaaaa
+          DCD     &000001e0, &5aaaaaaa, &55555555, &aaaaaa55, &a5aaaaaa
+          DCD     &000001f0, &5aaaaaaa, &55555555, &aaaaaa55, &a5aaaaaa
+          DCD     &00000200, &5aaaaaaa, &55555555, &aaaaaaa5, &aaaaaaaa
+          DCD     &00000210, &5aaaaaaa, &55555555, &aaaaaaa5, &aaaaaaaa
+          DCD     &00000220, &aaaaaaaa, &55555555, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000230, &aaaaaaaa, &55555555, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000240, &aaaaaaaa, &55555555, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000250, &aaaaaaaa, &55555555, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000260, &aaaaaaaa, &5a55555a, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000270, &aaaaaaaa, &5a55555a, &aaaaaaaa, &aaaaaaaa
+          DCD     &00000280, &aaaaaaa0, &55555555, &aaaaa5aa, &0aaaaaaa
+          DCD     &00000290, &aaaaaaa0, &55555555, &aaaaa5aa, &0aaaaaaa
+          DCD     &000002a0, &aaaaaaa0, &a5555555, &aaaaa55a, &0aaaaaaa
+          DCD     &000002b0, &aaaaaaa0, &a5555555, &aaaaa55a, &0aaaaaaa
+          DCD     &000002c0, &aaaaaaa0, &a555555a, &aaaaa55a, &0aaaaaaa
+          DCD     &000002d0, &aaaaaaa0, &a555555a, &aaaaa55a, &0aaaaaaa
+          DCD     &000002e0, &aaaaaa00, &a555555a, &aaaaaaaa, &00aaaaaa
+          DCD     &000002f0, &aaaaaa00, &a555555a, &aaaaaaaa, &00aaaaaa
+          DCD     &00000300, &aaaaaa00, &aa5555aa, &aaaaaaaa, &000aaaaa
+          DCD     &00000310, &aaaaaa00, &aa5555aa, &aaaaaaaa, &000aaaaa
+          DCD     &00000320, &aaaaa000, &aaa55aaa, &aaaaaaaa, &000aaaaa
+          DCD     &00000330, &aaaaa000, &aaa55aaa, &aaaaaaaa, &000aaaaa
+          DCD     &000003e0, &00000000, &55aa0000, &00005555, &00000000
+          DCD     &000003f0, &00000000, &55aa0000, &00005555, &00000000
           DCD     -1
           ; frame 24
-          DCD     &00000000, &6a000000, &00000099
-          DCD     &00000008, &9aa80000, &00001555
-          DCD     &00000010, &55aa8000, &00015555
-          DCD     &00000018, &555aa000, &00055655
-          DCD     &00000020, &96a6a800, &00155555
-          DCD     &00000028, &aa59aa00, &00555556
-          DCD     &00000030, &59556a80, &0155555a
-          DCD     &00000038, &55556aa0, &05555555
-          DCD     &00000040, &55555aa0, &055a5565
-          DCD     &00000048, &555556a8, &15695555
-          DCD     &00000050, &555556a8, &19aa5595
-          DCD     &00000058, &555555a8, &29aa9655
-          DCD     &00000060, &555555aa, &aaaa9955
-          DCD     &00000068, &555556aa, &66aa9555
-          DCD     &00000070, &55566aaa, &6aaaa555
-          DCD     &00000078, &556aaaaa, &aaaaa955
-          DCD     &00000080, &556aaaaa, &aaaaa955
-          DCD     &00000088, &556aaaa9, &aaaaaa55
-          DCD     &00000090, &55aaaaa9, &aaaaaa55
-          DCD     &00000098, &55aaaaa9, &aaaaaa55
-          DCD     &000000a0, &55aaaaa8, &2aaa9a55
-          DCD     &000000a8, &55aaaaa8, &2aaaa695
-          DCD     &000000b0, &55aaaaa4, &2aaaa6a5
-          DCD     &000000b8, &55aaaaa0, &0aaaaaa5
-          DCD     &000000c0, &56aaaaa0, &02aaaaa9
-          DCD     &000000c8, &5aaaaa80, &02aaaaaa
-          DCD     &000000f8, &aa000000, &00000055
+          DCD     &00000000, &00000000, &5aaa0000, &0000a5a5, &00000000
+          DCD     &00000010, &00000000, &5aaa0000, &0000a5a5, &00000000
+          DCD     &00000020, &00000000, &a5aaaaa0, &05555555, &00000000
+          DCD     &00000030, &00000000, &a5aaaaa0, &05555555, &00000000
+          DCD     &00000040, &a0000000, &5555aaaa, &55555555, &00000005
+          DCD     &00000050, &a0000000, &5555aaaa, &55555555, &00000005
+          DCD     &00000060, &aa000000, &555555aa, &555a5555, &00000055
+          DCD     &00000070, &aa000000, &555555aa, &555a5555, &00000055
+          DCD     &00000080, &aaa00000, &a55aaa5a, &55555555, &00000555
+          DCD     &00000090, &aaa00000, &a55aaa5a, &55555555, &00000555
+          DCD     &000000a0, &aaaa0000, &aaaa55a5, &5555555a, &00005555
+          DCD     &000000b0, &aaaa0000, &aaaa55a5, &5555555a, &00005555
+          DCD     &000000c0, &5aaaa000, &55a55555, &555555aa, &00055555
+          DCD     &000000d0, &5aaaa000, &55a55555, &555555aa, &00055555
+          DCD     &000000e0, &5aaaaa00, &55555555, &55555555, &00555555
+          DCD     &000000f0, &5aaaaa00, &55555555, &55555555, &00555555
+          DCD     &00000100, &55aaaa00, &55555555, &55555a55, &005555aa
+          DCD     &00000110, &55aaaa00, &55555555, &55555a55, &005555aa
+          DCD     &00000120, &555aaaa0, &55555555, &55555555, &05555aa5
+          DCD     &00000130, &555aaaa0, &55555555, &55555555, &05555aa5
+          DCD     &00000140, &555aaaa0, &55555555, &5555a555, &05a5aaaa
+          DCD     &00000150, &555aaaa0, &55555555, &5555a555, &05a5aaaa
+          DCD     &00000160, &5555aaa0, &55555555, &a55a5555, &0aa5aaaa
+          DCD     &00000170, &5555aaa0, &55555555, &a55a5555, &0aa5aaaa
+          DCD     &00000180, &5555aaaa, &55555555, &a5a55555, &aaaaaaaa
+          DCD     &00000190, &5555aaaa, &55555555, &a5a55555, &aaaaaaaa
+          DCD     &000001a0, &555aaaaa, &55555555, &a5555555, &5a5aaaaa
+          DCD     &000001b0, &555aaaaa, &55555555, &a5555555, &5a5aaaaa
+          DCD     &000001c0, &5aaaaaaa, &5555555a, &aa555555, &5aaaaaaa
+          DCD     &000001d0, &5aaaaaaa, &5555555a, &aa555555, &5aaaaaaa
+          DCD     &000001e0, &aaaaaaaa, &55555aaa, &aaa55555, &aaaaaaaa
+          DCD     &000001f0, &aaaaaaaa, &55555aaa, &aaa55555, &aaaaaaaa
+          DCD     &00000200, &aaaaaaaa, &55555aaa, &aaa55555, &aaaaaaaa
+          DCD     &00000210, &aaaaaaaa, &55555aaa, &aaa55555, &aaaaaaaa
+          DCD     &00000220, &aaaaaaa5, &55555aaa, &aaaa5555, &aaaaaaaa
+          DCD     &00000230, &aaaaaaa5, &55555aaa, &aaaa5555, &aaaaaaaa
+          DCD     &00000240, &aaaaaaa5, &5555aaaa, &aaaa5555, &aaaaaaaa
+          DCD     &00000250, &aaaaaaa5, &5555aaaa, &aaaa5555, &aaaaaaaa
+          DCD     &00000260, &aaaaaaa5, &5555aaaa, &aaaa5555, &aaaaaaaa
+          DCD     &00000270, &aaaaaaa5, &5555aaaa, &aaaa5555, &aaaaaaaa
+          DCD     &00000280, &aaaaaaa0, &5555aaaa, &a5aa5555, &0aaaaaaa
+          DCD     &00000290, &aaaaaaa0, &5555aaaa, &a5aa5555, &0aaaaaaa
+          DCD     &000002a0, &aaaaaaa0, &5555aaaa, &aa5aa555, &0aaaaaaa
+          DCD     &000002b0, &aaaaaaa0, &5555aaaa, &aa5aa555, &0aaaaaaa
+          DCD     &000002c0, &aaaaaa50, &5555aaaa, &aa5aaa55, &0aaaaaaa
+          DCD     &000002d0, &aaaaaa50, &5555aaaa, &aa5aaa55, &0aaaaaaa
+          DCD     &000002e0, &aaaaaa00, &5555aaaa, &aaaaaa55, &00aaaaaa
+          DCD     &000002f0, &aaaaaa00, &5555aaaa, &aaaaaa55, &00aaaaaa
+          DCD     &00000300, &aaaaaa00, &555aaaaa, &aaaaaaa5, &000aaaaa
+          DCD     &00000310, &aaaaaa00, &555aaaaa, &aaaaaaa5, &000aaaaa
+          DCD     &00000320, &aaaaa000, &55aaaaaa, &aaaaaaaa, &000aaaaa
+          DCD     &00000330, &aaaaa000, &55aaaaaa, &aaaaaaaa, &000aaaaa
+          DCD     &000003e0, &00000000, &aaaa0000, &00005555, &00000000
+          DCD     &000003f0, &00000000, &aaaa0000, &00005555, &00000000
           DCD     -1
           ; frame 25
-          DCD     &00000000, &aa000000, &00000055
-          DCD     &00000008, &5aa80000, &00001556
-          DCD     &00000010, &556a8000, &00015555
-          DCD     &00000018, &55aaa000, &00056595
-          DCD     &00000020, &996aa800, &00159556
-          DCD     &00000028, &59aaaa00, &005556aa
-          DCD     &00000030, &555aaa80, &01555596
-          DCD     &00000038, &5556aaa0, &05565555
-          DCD     &00000040, &5555aaa0, &05595955
-          DCD     &00000048, &55556aa8, &16956555
-          DCD     &00000050, &55556aa8, &16955555
-          DCD     &00000058, &55556aa8, &1aa99555
-          DCD     &00000060, &55556aaa, &9aa65555
-          DCD     &00000068, &55556aaa, &aaa55555
-          DCD     &00000070, &56aaaaa9, &aaa95555
-          DCD     &00000078, &5aaaaaa9, &aaa95555
-          DCD     &00000080, &5aaaaaa9, &aaaa5955
-          DCD     &00000088, &6aaaaa95, &aaaa9555
-          DCD     &00000090, &6aaaaa95, &aaaa9555
-          DCD     &00000098, &aaaaaa95, &aaaa5555
-          DCD     &000000a0, &6aaaaa94, &2aa65555
-          DCD     &000000a8, &6aaaaa94, &2aa9a555
-          DCD     &000000b0, &aaaaaaa4, &2aa9a555
-          DCD     &000000b8, &aaaaaa90, &0aaaa955
-          DCD     &000000c0, &aaaaaa90, &02aaaa55
-          DCD     &000000c8, &aaaaaa80, &02aaaa95
-          DCD     &000000f8, &aa000000, &0000005a
+          DCD     &00000000, &00000000, &aaaa0000, &00005555, &00000000
+          DCD     &00000010, &00000000, &aaaa0000, &00005555, &00000000
+          DCD     &00000020, &00000000, &55aaaaa0, &0555555a, &00000000
+          DCD     &00000030, &00000000, &55aaaaa0, &0555555a, &00000000
+          DCD     &00000040, &a0000000, &55555aaa, &55555555, &00000005
+          DCD     &00000050, &a0000000, &55555aaa, &55555555, &00000005
+          DCD     &00000060, &aa000000, &5555aaaa, &5a55a555, &00000055
+          DCD     &00000070, &aa000000, &5555aaaa, &5a55a555, &00000055
+          DCD     &00000080, &aaa00000, &a5a55aaa, &a555555a, &00000555
+          DCD     &00000090, &aaa00000, &a5a55aaa, &a555555a, &00000555
+          DCD     &000000a0, &aaaa0000, &55a5aaaa, &555aaaaa, &00005555
+          DCD     &000000b0, &aaaa0000, &55a5aaaa, &555aaaaa, &00005555
+          DCD     &000000c0, &aaaaa000, &555555aa, &5555a55a, &00055555
+          DCD     &000000d0, &aaaaa000, &555555aa, &5555a55a, &00055555
+          DCD     &000000e0, &aaaaaa00, &5555555a, &55555555, &0055555a
+          DCD     &000000f0, &aaaaaa00, &5555555a, &55555555, &0055555a
+          DCD     &00000100, &aaaaaa00, &55555555, &55a55555, &005555a5
+          DCD     &00000110, &aaaaaa00, &55555555, &55a55555, &005555a5
+          DCD     &00000120, &5aaaaaa0, &55555555, &5a555555, &055aa555
+          DCD     &00000130, &5aaaaaa0, &55555555, &5a555555, &055aa555
+          DCD     &00000140, &5aaaaaa0, &55555555, &55555555, &055aa555
+          DCD     &00000150, &5aaaaaa0, &55555555, &55555555, &055aa555
+          DCD     &00000160, &5aaaaaa0, &55555555, &a5555555, &05aaaaa5
+          DCD     &00000170, &5aaaaaa0, &55555555, &a5555555, &05aaaaa5
+          DCD     &00000180, &5aaaaaaa, &55555555, &55555555, &a5aaaa5a
+          DCD     &00000190, &5aaaaaaa, &55555555, &55555555, &a5aaaa5a
+          DCD     &000001a0, &5aaaaaaa, &55555555, &55555555, &aaaaaa55
+          DCD     &000001b0, &5aaaaaaa, &55555555, &55555555, &aaaaaa55
+          DCD     &000001c0, &aaaaaaa5, &555aaaaa, &55555555, &aaaaaaa5
+          DCD     &000001d0, &aaaaaaa5, &555aaaaa, &55555555, &aaaaaaa5
+          DCD     &000001e0, &aaaaaaa5, &55aaaaaa, &55555555, &aaaaaaa5
+          DCD     &000001f0, &aaaaaaa5, &55aaaaaa, &55555555, &aaaaaaa5
+          DCD     &00000200, &aaaaaaa5, &55aaaaaa, &55a55555, &aaaaaaaa
+          DCD     &00000210, &aaaaaaa5, &55aaaaaa, &55a55555, &aaaaaaaa
+          DCD     &00000220, &aaaaa555, &5aaaaaaa, &a5555555, &aaaaaaaa
+          DCD     &00000230, &aaaaa555, &5aaaaaaa, &a5555555, &aaaaaaaa
+          DCD     &00000240, &aaaaa555, &5aaaaaaa, &a5555555, &aaaaaaaa
+          DCD     &00000250, &aaaaa555, &5aaaaaaa, &a5555555, &aaaaaaaa
+          DCD     &00000260, &aaaaa555, &aaaaaaaa, &55555555, &aaaaaaaa
+          DCD     &00000270, &aaaaa555, &aaaaaaaa, &55555555, &aaaaaaaa
+          DCD     &00000280, &aaaaa550, &5aaaaaaa, &55555555, &0aaaaa5a
+          DCD     &00000290, &aaaaa550, &5aaaaaaa, &55555555, &0aaaaa5a
+          DCD     &000002a0, &aaaaa550, &5aaaaaaa, &aa555555, &0aaaaaa5
+          DCD     &000002b0, &aaaaa550, &5aaaaaaa, &aa555555, &0aaaaaa5
+          DCD     &000002c0, &aaaaaa50, &aaaaaaaa, &aa555555, &0aaaaaa5
+          DCD     &000002d0, &aaaaaa50, &aaaaaaaa, &aa555555, &0aaaaaa5
+          DCD     &000002e0, &aaaaa500, &aaaaaaaa, &aaa55555, &00aaaaaa
+          DCD     &000002f0, &aaaaa500, &aaaaaaaa, &aaa55555, &00aaaaaa
+          DCD     &00000300, &aaaaa500, &aaaaaaaa, &aaaa5555, &000aaaaa
+          DCD     &00000310, &aaaaa500, &aaaaaaaa, &aaaa5555, &000aaaaa
+          DCD     &00000320, &aaaaa000, &aaaaaaaa, &aaaaa555, &000aaaaa
+          DCD     &00000330, &aaaaa000, &aaaaaaaa, &aaaaa555, &000aaaaa
+          DCD     &000003e0, &00000000, &aaaa0000, &000055aa, &00000000
+          DCD     &000003f0, &00000000, &aaaa0000, &000055aa, &00000000
           DCD     -1
           ; frame 26
-          DCD     &00000000, &aa000000, &00000056
-          DCD     &00000008, &aaa80000, &000015a5
-          DCD     &00000010, &6aaa8000, &00015555
-          DCD     &00000018, &6aaaa000, &00055955
-          DCD     &00000020, &96aaa800, &0015955a
-          DCD     &00000028, &6aaaaa00, &005556a5
-          DCD     &00000030, &56aaaa80, &01555995
-          DCD     &00000038, &55aaaaa0, &05555555
-          DCD     &00000040, &556aaaa0, &05565555
-          DCD     &00000048, &555aaaa4, &29555555
-          DCD     &00000050, &555aaaa8, &29555555
-          DCD     &00000058, &555aaaa8, &2a655555
-          DCD     &00000060, &556aaaa9, &a9955555
-          DCD     &00000068, &556aaaa9, &a9555555
-          DCD     &00000070, &aaaaaaa5, &aa555556
-          DCD     &00000078, &aaaaaaa5, &aa55555a
-          DCD     &00000080, &aaaaaa95, &aa95555a
-          DCD     &00000088, &aaaaa955, &aaa5556a
-          DCD     &00000090, &aaaaa955, &aaa5556a
-          DCD     &00000098, &aaaaa955, &aaa5556a
-          DCD     &000000a0, &aaaaa954, &2aa5556a
-          DCD     &000000a8, &aaaaa954, &2a65556a
-          DCD     &000000b0, &aaaaa954, &2a99556a
-          DCD     &000000b8, &aaaaaa50, &0aaa556a
-          DCD     &000000c0, &aaaaaa50, &02aa95aa
-          DCD     &000000c8, &aaaaaa40, &02aaa5aa
-          DCD     &000000d0, &aaaaa900, &00aaaaaa
-          DCD     &000000e8, &aaaa4000, &0000aaaa
-          DCD     &000000f8, &aa000000, &000000aa
+          DCD     &00000000, &00000000, &aaaa0000, &0000555a, &00000000
+          DCD     &00000010, &00000000, &aaaa0000, &0000555a, &00000000
+          DCD     &00000020, &00000000, &aaaaaaa0, &0555aa55, &00000000
+          DCD     &00000030, &00000000, &aaaaaaa0, &0555aa55, &00000000
+          DCD     &00000040, &a0000000, &5aaaaaaa, &55555555, &00000005
+          DCD     &00000050, &a0000000, &5aaaaaaa, &55555555, &00000005
+          DCD     &00000060, &aa000000, &5aaaaaaa, &55a55555, &00000055
+          DCD     &00000070, &aa000000, &5aaaaaaa, &55a55555, &00000055
+          DCD     &00000080, &aaa00000, &a55aaaaa, &a55555aa, &00000555
+          DCD     &00000090, &aaa00000, &a55aaaaa, &a55555aa, &00000555
+          DCD     &000000a0, &aaaa0000, &5aaaaaaa, &555aaa55, &00005555
+          DCD     &000000b0, &aaaa0000, &5aaaaaaa, &555aaa55, &00005555
+          DCD     &000000c0, &aaaaa000, &555aaaaa, &55a5a555, &00055555
+          DCD     &000000d0, &aaaaa000, &555aaaaa, &55a5a555, &00055555
+          DCD     &000000e0, &aaaaaa00, &5555aaaa, &55555555, &00555555
+          DCD     &000000f0, &aaaaaa00, &5555aaaa, &55555555, &00555555
+          DCD     &00000100, &aaaaaa00, &55555aaa, &55555555, &0055555a
+          DCD     &00000110, &aaaaaa00, &55555aaa, &55555555, &0055555a
+          DCD     &00000120, &aaaaaa50, &555555aa, &55555555, &0aa55555
+          DCD     &00000130, &aaaaaa50, &555555aa, &55555555, &0aa55555
+          DCD     &00000140, &aaaaaaa0, &555555aa, &55555555, &0aa55555
+          DCD     &00000150, &aaaaaaa0, &555555aa, &55555555, &0aa55555
+          DCD     &00000160, &aaaaaaa0, &555555aa, &55555555, &0aaa5a55
+          DCD     &00000170, &aaaaaaa0, &555555aa, &55555555, &0aaa5a55
+          DCD     &00000180, &aaaaaaa5, &55555aaa, &55555555, &aaa5a555
+          DCD     &00000190, &aaaaaaa5, &55555aaa, &55555555, &aaa5a555
+          DCD     &000001a0, &aaaaaaa5, &55555aaa, &55555555, &aaa55555
+          DCD     &000001b0, &aaaaaaa5, &55555aaa, &55555555, &aaa55555
+          DCD     &000001c0, &aaaaaa55, &aaaaaaaa, &5555555a, &aaaa5555
+          DCD     &000001d0, &aaaaaa55, &aaaaaaaa, &5555555a, &aaaa5555
+          DCD     &000001e0, &aaaaaa55, &aaaaaaaa, &555555aa, &aaaa5555
+          DCD     &000001f0, &aaaaaa55, &aaaaaaaa, &555555aa, &aaaa5555
+          DCD     &00000200, &aaaaa555, &aaaaaaaa, &555555aa, &aaaaa555
+          DCD     &00000210, &aaaaa555, &aaaaaaaa, &555555aa, &aaaaa555
+          DCD     &00000220, &aaa55555, &aaaaaaaa, &55555aaa, &aaaaaa55
+          DCD     &00000230, &aaa55555, &aaaaaaaa, &55555aaa, &aaaaaa55
+          DCD     &00000240, &aaa55555, &aaaaaaaa, &55555aaa, &aaaaaa55
+          DCD     &00000250, &aaa55555, &aaaaaaaa, &55555aaa, &aaaaaa55
+          DCD     &00000260, &aaa55555, &aaaaaaaa, &55555aaa, &aaaaaa55
+          DCD     &00000270, &aaa55555, &aaaaaaaa, &55555aaa, &aaaaaa55
+          DCD     &00000280, &aaa55550, &aaaaaaaa, &55555aaa, &0aaaaa55
+          DCD     &00000290, &aaa55550, &aaaaaaaa, &55555aaa, &0aaaaa55
+          DCD     &000002a0, &aaa55550, &aaaaaaaa, &55555aaa, &0aaa5a55
+          DCD     &000002b0, &aaa55550, &aaaaaaaa, &55555aaa, &0aaa5a55
+          DCD     &000002c0, &aaa55550, &aaaaaaaa, &55555aaa, &0aaaa5a5
+          DCD     &000002d0, &aaa55550, &aaaaaaaa, &55555aaa, &0aaaa5a5
+          DCD     &000002e0, &aaaa5500, &aaaaaaaa, &55555aaa, &00aaaaaa
+          DCD     &000002f0, &aaaa5500, &aaaaaaaa, &55555aaa, &00aaaaaa
+          DCD     &00000300, &aaaa5500, &aaaaaaaa, &a555aaaa, &000aaaaa
+          DCD     &00000310, &aaaa5500, &aaaaaaaa, &a555aaaa, &000aaaaa
+          DCD     &00000320, &aaaa5000, &aaaaaaaa, &aa55aaaa, &000aaaaa
+          DCD     &00000330, &aaaa5000, &aaaaaaaa, &aa55aaaa, &000aaaaa
+          DCD     &00000340, &aaa50000, &aaaaaaaa, &aaaaaaaa, &0000aaaa
+          DCD     &00000350, &aaa50000, &aaaaaaaa, &aaaaaaaa, &0000aaaa
+          DCD     &000003a0, &50000000, &aaaaaaaa, &aaaaaaaa, &00000000
+          DCD     &000003b0, &50000000, &aaaaaaaa, &aaaaaaaa, &00000000
+          DCD     &000003e0, &00000000, &aaaa0000, &0000aaaa, &00000000
+          DCD     &000003f0, &00000000, &aaaa0000, &0000aaaa, &00000000
           DCD     -1
           ; frame 27
-          DCD     &00000000, &a9000000, &000000aa
-          DCD     &00000008, &aa980000, &00001556
-          DCD     &00000010, &aaa94000, &0001555a
-          DCD     &00000018, &aaaa5000, &00055556
-          DCD     &00000020, &aaaaa800, &001655a5
-          DCD     &00000028, &aaaaaa00, &00556559
-          DCD     &00000030, &aaaaaa80, &02595555
-          DCD     &00000038, &6aaaaaa0, &09555555
-          DCD     &00000040, &5aaaaaa0, &09555555
-          DCD     &00000048, &5aaaaaa4, &25955555
-          DCD     &00000050, &5aaaaaa8, &25555555
-          DCD     &00000058, &56aaaaa8, &25555555
-          DCD     &00000060, &5aaaaa96, &a9555555
-          DCD     &00000068, &6aaaaa95, &a5555555
-          DCD     &00000070, &aaaaaa56, &a55555a9
-          DCD     &00000078, &aaaaaa55, &a5555aaa
-          DCD     &00000080, &aaaaa555, &a9955aaa
-          DCD     &00000088, &aaaa5555, &a9555aaa
-          DCD     &00000090, &aaaa5556, &a9556aaa
-          DCD     &00000098, &aaaa5556, &a9556aaa
-          DCD     &000000a0, &aaaa5554, &2a555aaa
-          DCD     &000000a8, &aaaa5558, &2a555aaa
-          DCD     &000000b0, &aaaa9558, &2a955aaa
-          DCD     &000000b8, &aaaa9550, &0aa95aaa
-          DCD     &000000c0, &aaaa9560, &02a96aaa
-          DCD     &000000c8, &aaaaa540, &02aa6aaa
-          DCD     &000000d0, &aaaaa500, &00aaaaaa
-          DCD     &000000d8, &aaaaa400, &002aaaaa
-          DCD     &000000e0, &aaaa9000, &000aaaaa
-          DCD     &000000e8, &aaaa8000, &0000aaaa
+          DCD     &00000000, &00000000, &aaa50000, &0000aaaa, &00000000
+          DCD     &00000010, &00000000, &aaa50000, &0000aaaa, &00000000
+          DCD     &00000020, &00000000, &aaaaa5a0, &0555555a, &00000000
+          DCD     &00000030, &00000000, &aaaaa5a0, &0555555a, &00000000
+          DCD     &00000040, &50000000, &aaaaaaa5, &555555aa, &00000005
+          DCD     &00000050, &50000000, &aaaaaaa5, &555555aa, &00000005
+          DCD     &00000060, &55000000, &aaaaaaaa, &5555555a, &00000055
+          DCD     &00000070, &55000000, &aaaaaaaa, &5555555a, &00000055
+          DCD     &00000080, &aaa00000, &aaaaaaaa, &5555aa55, &0000055a
+          DCD     &00000090, &aaa00000, &aaaaaaaa, &5555aa55, &0000055a
+          DCD     &000000a0, &aaaa0000, &aaaaaaaa, &5a5555a5, &00005555
+          DCD     &000000b0, &aaaa0000, &aaaaaaaa, &5a5555a5, &00005555
+          DCD     &000000c0, &aaaaa000, &aaaaaaaa, &55555555, &000a55a5
+          DCD     &000000d0, &aaaaa000, &aaaaaaaa, &55555555, &000a55a5
+          DCD     &000000e0, &aaaaaa00, &5aaaaaaa, &55555555, &00a55555
+          DCD     &000000f0, &aaaaaa00, &5aaaaaaa, &55555555, &00a55555
+          DCD     &00000100, &aaaaaa00, &55aaaaaa, &55555555, &00a55555
+          DCD     &00000110, &aaaaaa00, &55aaaaaa, &55555555, &00a55555
+          DCD     &00000120, &aaaaaa50, &55aaaaaa, &55555555, &0a55a555
+          DCD     &00000130, &aaaaaa50, &55aaaaaa, &55555555, &0a55a555
+          DCD     &00000140, &aaaaaaa0, &55aaaaaa, &55555555, &0a555555
+          DCD     &00000150, &aaaaaaa0, &55aaaaaa, &55555555, &0a555555
+          DCD     &00000160, &aaaaaaa0, &555aaaaa, &55555555, &0a555555
+          DCD     &00000170, &aaaaaaa0, &555aaaaa, &55555555, &0a555555
+          DCD     &00000180, &aaaaa55a, &55aaaaaa, &55555555, &aaa55555
+          DCD     &00000190, &aaaaa55a, &55aaaaaa, &55555555, &aaa55555
+          DCD     &000001a0, &aaaaa555, &5aaaaaaa, &55555555, &aa555555
+          DCD     &000001b0, &aaaaa555, &5aaaaaaa, &55555555, &aa555555
+          DCD     &000001c0, &aaaa555a, &aaaaaaaa, &5555aaa5, &aa555555
+          DCD     &000001d0, &aaaa555a, &aaaaaaaa, &5555aaa5, &aa555555
+          DCD     &000001e0, &aaaa5555, &aaaaaaaa, &55aaaaaa, &aa555555
+          DCD     &000001f0, &aaaa5555, &aaaaaaaa, &55aaaaaa, &aa555555
+          DCD     &00000200, &aa555555, &aaaaaaaa, &55aaaaaa, &aaa5a555
+          DCD     &00000210, &aa555555, &aaaaaaaa, &55aaaaaa, &aaa5a555
+          DCD     &00000220, &55555555, &aaaaaaaa, &55aaaaaa, &aaa55555
+          DCD     &00000230, &55555555, &aaaaaaaa, &55aaaaaa, &aaa55555
+          DCD     &00000240, &5555555a, &aaaaaaaa, &5aaaaaaa, &aaa55555
+          DCD     &00000250, &5555555a, &aaaaaaaa, &5aaaaaaa, &aaa55555
+          DCD     &00000260, &5555555a, &aaaaaaaa, &5aaaaaaa, &aaa55555
+          DCD     &00000270, &5555555a, &aaaaaaaa, &5aaaaaaa, &aaa55555
+          DCD     &00000280, &55555550, &aaaaaaaa, &55aaaaaa, &0aaa5555
+          DCD     &00000290, &55555550, &aaaaaaaa, &55aaaaaa, &0aaa5555
+          DCD     &000002a0, &555555a0, &aaaaaaaa, &55aaaaaa, &0aaa5555
+          DCD     &000002b0, &555555a0, &aaaaaaaa, &55aaaaaa, &0aaa5555
+          DCD     &000002c0, &a55555a0, &aaaaaaaa, &55aaaaaa, &0aaaa555
+          DCD     &000002d0, &a55555a0, &aaaaaaaa, &55aaaaaa, &0aaaa555
+          DCD     &000002e0, &a5555500, &aaaaaaaa, &55aaaaaa, &00aaaaa5
+          DCD     &000002f0, &a5555500, &aaaaaaaa, &55aaaaaa, &00aaaaa5
+          DCD     &00000300, &a5555a00, &aaaaaaaa, &5aaaaaaa, &000aaaa5
+          DCD     &00000310, &a5555a00, &aaaaaaaa, &5aaaaaaa, &000aaaa5
+          DCD     &00000320, &aa555000, &aaaaaaaa, &5aaaaaaa, &000aaaaa
+          DCD     &00000330, &aa555000, &aaaaaaaa, &5aaaaaaa, &000aaaaa
+          DCD     &00000340, &aa550000, &aaaaaaaa, &aaaaaaaa, &0000aaaa
+          DCD     &00000350, &aa550000, &aaaaaaaa, &aaaaaaaa, &0000aaaa
+          DCD     &00000360, &aa500000, &aaaaaaaa, &aaaaaaaa, &00000aaa
+          DCD     &00000370, &aa500000, &aaaaaaaa, &aaaaaaaa, &00000aaa
+          DCD     &00000380, &a5000000, &aaaaaaaa, &aaaaaaaa, &000000aa
+          DCD     &00000390, &a5000000, &aaaaaaaa, &aaaaaaaa, &000000aa
+          DCD     &000003a0, &a0000000, &aaaaaaaa, &aaaaaaaa, &00000000
+          DCD     &000003b0, &a0000000, &aaaaaaaa, &aaaaaaaa, &00000000
           DCD     -1
           ; frame 28
-          DCD     &00000000, &a5000000, &0000006a
-          DCD     &00000008, &aaa40000, &000016aa
-          DCD     &00000010, &aaa94000, &000156aa
-          DCD     &00000018, &aaaa5000, &000555aa
-          DCD     &00000020, &aaaaa400, &0019696a
-          DCD     &00000028, &aaaaa900, &005555aa
-          DCD     &00000030, &aaaaaa40, &0199556a
-          DCD     &00000038, &aaaaaa90, &0555555a
-          DCD     &00000040, &aaaaaaa0, &0655555a
-          DCD     &00000048, &aaaaaa98, &15555556
-          DCD     &00000050, &aaaaaaa4, &15555556
-          DCD     &00000058, &aaaaaaa4, &15555556
-          DCD     &00000060, &aaaaa966, &95555556
-          DCD     &00000068, &aaaaa95a, &9555555a
-          DCD     &00000070, &aaaa955a, &9555a56a
-          DCD     &00000078, &aaaa955a, &9556aaaa
-          DCD     &00000080, &aaa95556, &9556aaaa
-          DCD     &00000088, &aa955556, &955aaaaa
-          DCD     &00000090, &aa55555a, &a55aaaaa
-          DCD     &00000098, &aa95555a, &a55aaaaa
-          DCD     &000000a0, &aa955558, &2956aaaa
-          DCD     &000000a8, &aa955568, &2956aaaa
-          DCD     &000000b0, &aa955568, &2956aaaa
-          DCD     &000000b8, &aaa955a0, &0a96aaaa
-          DCD     &000000c0, &aaa955a0, &02a6aaaa
-          DCD     &000000c8, &aaaa5580, &02a6aaaa
-          DCD     &000000d0, &aaaa9600, &00aaaaaa
-          DCD     &000000d8, &aaaa9400, &002aaaaa
-          DCD     &000000e0, &aaaa6000, &000aaaaa
+          DCD     &00000000, &00000000, &aa550000, &00005aaa, &00000000
+          DCD     &00000010, &00000000, &aa550000, &00005aaa, &00000000
+          DCD     &00000020, &00000000, &aaaaaa50, &055aaaaa, &00000000
+          DCD     &00000030, &00000000, &aaaaaa50, &055aaaaa, &00000000
+          DCD     &00000040, &50000000, &aaaaaaa5, &555aaaaa, &00000005
+          DCD     &00000050, &50000000, &aaaaaaa5, &555aaaaa, &00000005
+          DCD     &00000060, &55000000, &aaaaaaaa, &5555aaaa, &00000055
+          DCD     &00000070, &55000000, &aaaaaaaa, &5555aaaa, &00000055
+          DCD     &00000080, &aa500000, &aaaaaaaa, &5aa55aaa, &000005a5
+          DCD     &00000090, &aa500000, &aaaaaaaa, &5aa55aaa, &000005a5
+          DCD     &000000a0, &aaa50000, &aaaaaaaa, &5555aaaa, &00005555
+          DCD     &000000b0, &aaa50000, &aaaaaaaa, &5555aaaa, &00005555
+          DCD     &000000c0, &aaaa5000, &aaaaaaaa, &55555aaa, &0005a5a5
+          DCD     &000000d0, &aaaa5000, &aaaaaaaa, &55555aaa, &0005a5a5
+          DCD     &000000e0, &aaaaa500, &aaaaaaaa, &555555aa, &00555555
+          DCD     &000000f0, &aaaaa500, &aaaaaaaa, &555555aa, &00555555
+          DCD     &00000100, &aaaaaa00, &aaaaaaaa, &555555aa, &005a5555
+          DCD     &00000110, &aaaaaa00, &aaaaaaaa, &555555aa, &005a5555
+          DCD     &00000120, &aaaaa5a0, &aaaaaaaa, &5555555a, &05555555
+          DCD     &00000130, &aaaaa5a0, &aaaaaaaa, &5555555a, &05555555
+          DCD     &00000140, &aaaaaa50, &aaaaaaaa, &5555555a, &05555555
+          DCD     &00000150, &aaaaaa50, &aaaaaaaa, &5555555a, &05555555
+          DCD     &00000160, &aaaaaa50, &aaaaaaaa, &5555555a, &05555555
+          DCD     &00000170, &aaaaaa50, &aaaaaaaa, &5555555a, &05555555
+          DCD     &00000180, &aaa55a5a, &aaaaaaaa, &5555555a, &a5555555
+          DCD     &00000190, &aaa55a5a, &aaaaaaaa, &5555555a, &a5555555
+          DCD     &000001a0, &aaa555aa, &aaaaaaaa, &555555aa, &a5555555
+          DCD     &000001b0, &aaa555aa, &aaaaaaaa, &555555aa, &a5555555
+          DCD     &000001c0, &a55555aa, &aaaaaaaa, &aa555aaa, &a5555555
+          DCD     &000001d0, &a55555aa, &aaaaaaaa, &aa555aaa, &a5555555
+          DCD     &000001e0, &a55555aa, &aaaaaaaa, &aaaaaaaa, &a555555a
+          DCD     &000001f0, &a55555aa, &aaaaaaaa, &aaaaaaaa, &a555555a
+          DCD     &00000200, &5555555a, &aaaaaaa5, &aaaaaaaa, &a555555a
+          DCD     &00000210, &5555555a, &aaaaaaa5, &aaaaaaaa, &a555555a
+          DCD     &00000220, &5555555a, &aaaaa555, &aaaaaaaa, &a55555aa
+          DCD     &00000230, &5555555a, &aaaaa555, &aaaaaaaa, &a55555aa
+          DCD     &00000240, &555555aa, &aaaa5555, &aaaaaaaa, &aa5555aa
+          DCD     &00000250, &555555aa, &aaaa5555, &aaaaaaaa, &aa5555aa
+          DCD     &00000260, &555555aa, &aaaaa555, &aaaaaaaa, &aa5555aa
+          DCD     &00000270, &555555aa, &aaaaa555, &aaaaaaaa, &aa5555aa
+          DCD     &00000280, &555555a0, &aaaaa555, &aaaaaaaa, &0aa5555a
+          DCD     &00000290, &555555a0, &aaaaa555, &aaaaaaaa, &0aa5555a
+          DCD     &000002a0, &55555aa0, &aaaaa555, &aaaaaaaa, &0aa5555a
+          DCD     &000002b0, &55555aa0, &aaaaa555, &aaaaaaaa, &0aa5555a
+          DCD     &000002c0, &55555aa0, &aaaaa555, &aaaaaaaa, &0aa5555a
+          DCD     &000002d0, &55555aa0, &aaaaa555, &aaaaaaaa, &0aa5555a
+          DCD     &000002e0, &5555aa00, &aaaaaaa5, &aaaaaaaa, &00aaa55a
+          DCD     &000002f0, &5555aa00, &aaaaaaa5, &aaaaaaaa, &00aaa55a
+          DCD     &00000300, &5555aa00, &aaaaaaa5, &aaaaaaaa, &000aaa5a
+          DCD     &00000310, &5555aa00, &aaaaaaa5, &aaaaaaaa, &000aaa5a
+          DCD     &00000320, &5555a000, &aaaaaaaa, &aaaaaaaa, &000aaa5a
+          DCD     &00000330, &5555a000, &aaaaaaaa, &aaaaaaaa, &000aaa5a
+          DCD     &00000340, &a55a0000, &aaaaaaaa, &aaaaaaaa, &0000aaaa
+          DCD     &00000350, &a55a0000, &aaaaaaaa, &aaaaaaaa, &0000aaaa
+          DCD     &00000360, &a5500000, &aaaaaaaa, &aaaaaaaa, &00000aaa
+          DCD     &00000370, &a5500000, &aaaaaaaa, &aaaaaaaa, &00000aaa
+          DCD     &00000380, &5a000000, &aaaaaaaa, &aaaaaaaa, &000000aa
+          DCD     &00000390, &5a000000, &aaaaaaaa, &aaaaaaaa, &000000aa
           DCD     -1
           ; frame 29
-          DCD     &00000000, &59000000, &0000006a
-          DCD     &00000008, &aa580000, &000016aa
-          DCD     &00000010, &aa564000, &000155aa
-          DCD     &00000018, &aaa55000, &00055aaa
-          DCD     &00000020, &aaaa5400, &002696aa
-          DCD     &00000028, &aaaa9500, &00699aaa
-          DCD     &00000030, &aaaaa540, &01a55aaa
-          DCD     &00000038, &aaaaa990, &05555aaa
-          DCD     &00000040, &aaaaaaa0, &055556aa
-          DCD     &00000048, &aaaaa964, &155556aa
-          DCD     &00000050, &aaaaa998, &155556aa
-          DCD     &00000058, &aaaaaa94, &155556aa
-          DCD     &00000060, &aaaaa69a, &555556aa
-          DCD     &00000068, &aaaa55aa, &55555aaa
-          DCD     &00000070, &aaa555aa, &556aaaaa
-          DCD     &00000078, &aa95556a, &55aaaaaa
-          DCD     &00000080, &aa55556a, &55aaaaaa
-          DCD     &00000088, &9555556a, &56aaaaaa
-          DCD     &00000090, &9555556a, &56aaaaaa
-          DCD     &00000098, &955555aa, &56aaaaaa
-          DCD     &000000a0, &a55556a8, &15aaaaaa
-          DCD     &000000a8, &a5555aa8, &25aaaaaa
-          DCD     &000000b0, &a5555aa8, &25aaaaaa
-          DCD     &000000b8, &aa556aa0, &096aaaaa
-          DCD     &000000c0, &aa556aa0, &026aaaaa
-          DCD     &000000c8, &aa556a80, &02aaaaaa
-          DCD     &000000d0, &aa956a00, &00aaaaaa
-          DCD     &000000d8, &aaa5a800, &002aaaaa
-          DCD     &000000e0, &aaa5a000, &000aaaaa
+          DCD     &00000000, &00000000, &55a50000, &00005aaa, &00000000
+          DCD     &00000010, &00000000, &55a50000, &00005aaa, &00000000
+          DCD     &00000020, &00000000, &aaaa55a0, &055aaaaa, &00000000
+          DCD     &00000030, &00000000, &aaaa55a0, &055aaaaa, &00000000
+          DCD     &00000040, &50000000, &aaaa555a, &5555aaaa, &00000005
+          DCD     &00000050, &50000000, &aaaa555a, &5555aaaa, &00000005
+          DCD     &00000060, &55000000, &aaaaaa55, &55aaaaaa, &00000055
+          DCD     &00000070, &55000000, &aaaaaa55, &55aaaaaa, &00000055
+          DCD     &00000080, &55500000, &aaaaaaaa, &a55aaaaa, &00000a5a
+          DCD     &00000090, &55500000, &aaaaaaaa, &a55aaaaa, &00000a5a
+          DCD     &000000a0, &a5550000, &aaaaaaaa, &a5aaaaaa, &00005aa5
+          DCD     &000000b0, &a5550000, &aaaaaaaa, &a5aaaaaa, &00005aa5
+          DCD     &000000c0, &aa555000, &aaaaaaaa, &55aaaaaa, &0005aa55
+          DCD     &000000d0, &aa555000, &aaaaaaaa, &55aaaaaa, &0005aa55
+          DCD     &000000e0, &aaa5a500, &aaaaaaaa, &55aaaaaa, &00555555
+          DCD     &000000f0, &aaa5a500, &aaaaaaaa, &55aaaaaa, &00555555
+          DCD     &00000100, &aaaaaa00, &aaaaaaaa, &555aaaaa, &00555555
+          DCD     &00000110, &aaaaaa00, &aaaaaaaa, &555aaaaa, &00555555
+          DCD     &00000120, &aaa55a50, &aaaaaaaa, &555aaaaa, &05555555
+          DCD     &00000130, &aaa55a50, &aaaaaaaa, &555aaaaa, &05555555
+          DCD     &00000140, &aaa5a5a0, &aaaaaaaa, &555aaaaa, &05555555
+          DCD     &00000150, &aaa5a5a0, &aaaaaaaa, &555aaaaa, &05555555
+          DCD     &00000160, &aaaaa550, &aaaaaaaa, &555aaaaa, &05555555
+          DCD     &00000170, &aaaaa550, &aaaaaaaa, &555aaaaa, &05555555
+          DCD     &00000180, &aa5aa5aa, &aaaaaaaa, &555aaaaa, &55555555
+          DCD     &00000190, &aa5aa5aa, &aaaaaaaa, &555aaaaa, &55555555
+          DCD     &000001a0, &5555aaaa, &aaaaaaaa, &55aaaaaa, &55555555
+          DCD     &000001b0, &5555aaaa, &aaaaaaaa, &55aaaaaa, &55555555
+          DCD     &000001c0, &5555aaaa, &aaaaaa55, &aaaaaaaa, &55555aaa
+          DCD     &000001d0, &5555aaaa, &aaaaaa55, &aaaaaaaa, &55555aaa
+          DCD     &000001e0, &55555aaa, &aaaaa555, &aaaaaaaa, &5555aaaa
+          DCD     &000001f0, &55555aaa, &aaaaa555, &aaaaaaaa, &5555aaaa
+          DCD     &00000200, &55555aaa, &aaaa5555, &aaaaaaaa, &5555aaaa
+          DCD     &00000210, &55555aaa, &aaaa5555, &aaaaaaaa, &5555aaaa
+          DCD     &00000220, &55555aaa, &a5555555, &aaaaaaaa, &555aaaaa
+          DCD     &00000230, &55555aaa, &a5555555, &aaaaaaaa, &555aaaaa
+          DCD     &00000240, &55555aaa, &a5555555, &aaaaaaaa, &555aaaaa
+          DCD     &00000250, &55555aaa, &a5555555, &aaaaaaaa, &555aaaaa
+          DCD     &00000260, &5555aaaa, &a5555555, &aaaaaaaa, &555aaaaa
+          DCD     &00000270, &5555aaaa, &a5555555, &aaaaaaaa, &555aaaaa
+          DCD     &00000280, &555aaaa0, &aa555555, &aaaaaaaa, &0555aaaa
+          DCD     &00000290, &555aaaa0, &aa555555, &aaaaaaaa, &0555aaaa
+          DCD     &000002a0, &55aaaaa0, &aa555555, &aaaaaaaa, &0a55aaaa
+          DCD     &000002b0, &55aaaaa0, &aa555555, &aaaaaaaa, &0a55aaaa
+          DCD     &000002c0, &55aaaaa0, &aa555555, &aaaaaaaa, &0a55aaaa
+          DCD     &000002d0, &55aaaaa0, &aa555555, &aaaaaaaa, &0a55aaaa
+          DCD     &000002e0, &5aaaaa00, &aaaa5555, &aaaaaaaa, &00a55aaa
+          DCD     &000002f0, &5aaaaa00, &aaaa5555, &aaaaaaaa, &00a55aaa
+          DCD     &00000300, &5aaaaa00, &aaaa5555, &aaaaaaaa, &000a5aaa
+          DCD     &00000310, &5aaaaa00, &aaaa5555, &aaaaaaaa, &000a5aaa
+          DCD     &00000320, &5aaaa000, &aaaa5555, &aaaaaaaa, &000aaaaa
+          DCD     &00000330, &5aaaa000, &aaaa5555, &aaaaaaaa, &000aaaaa
+          DCD     &00000340, &5aaa0000, &aaaaa555, &aaaaaaaa, &0000aaaa
+          DCD     &00000350, &5aaa0000, &aaaaa555, &aaaaaaaa, &0000aaaa
+          DCD     &00000360, &aaa00000, &aaaaaa55, &aaaaaaaa, &00000aaa
+          DCD     &00000370, &aaa00000, &aaaaaa55, &aaaaaaaa, &00000aaa
+          DCD     &00000380, &aa000000, &aaaaaa55, &aaaaaaaa, &000000aa
+          DCD     &00000390, &aa000000, &aaaaaa55, &aaaaaaaa, &000000aa
           DCD     -1
 
 ; Offsets into the deltas for each frame
 frame_deltas
           DCD     0  ; frame 0
-          DCD     388  ; frame 1
-          DCD     752  ; frame 2
-          DCD     1116  ; frame 3
-          DCD     1480  ; frame 4
-          DCD     1844  ; frame 5
-          DCD     2196  ; frame 6
-          DCD     2548  ; frame 7
-          DCD     2900  ; frame 8
-          DCD     3240  ; frame 9
-          DCD     3580  ; frame 10
-          DCD     3908  ; frame 11
-          DCD     4236  ; frame 12
-          DCD     4552  ; frame 13
-          DCD     4880  ; frame 14
-          DCD     5220  ; frame 15
-          DCD     5548  ; frame 16
-          DCD     5876  ; frame 17
-          DCD     6204  ; frame 18
-          DCD     6532  ; frame 19
-          DCD     6860  ; frame 20
-          DCD     7164  ; frame 21
-          DCD     7468  ; frame 22
-          DCD     7772  ; frame 23
-          DCD     8100  ; frame 24
-          DCD     8428  ; frame 25
-          DCD     8756  ; frame 26
-          DCD     9108  ; frame 27
-          DCD     9472  ; frame 28
-          DCD     9824  ; frame 29
+          DCD     1284  ; frame 1
+          DCD     2488  ; frame 2
+          DCD     3692  ; frame 3
+          DCD     4896  ; frame 4
+          DCD     6100  ; frame 5
+          DCD     7264  ; frame 6
+          DCD     8428  ; frame 7
+          DCD     9592  ; frame 8
+          DCD     10716  ; frame 9
+          DCD     11840  ; frame 10
+          DCD     12924  ; frame 11
+          DCD     14008  ; frame 12
+          DCD     15052  ; frame 13
+          DCD     16136  ; frame 14
+          DCD     17260  ; frame 15
+          DCD     18344  ; frame 16
+          DCD     19428  ; frame 17
+          DCD     20512  ; frame 18
+          DCD     21596  ; frame 19
+          DCD     22680  ; frame 20
+          DCD     23684  ; frame 21
+          DCD     24688  ; frame 22
+          DCD     25692  ; frame 23
+          DCD     26776  ; frame 24
+          DCD     27860  ; frame 25
+          DCD     28944  ; frame 26
+          DCD     30108  ; frame 27
+          DCD     31312  ; frame 28
+          DCD     32476  ; frame 29
 
 ; Palette data
 palette
@@ -989,7 +1827,12 @@ hourglass_getframeperiod SIGNATURE
 ; <=  R0 = size of hourglass workspace
 hourglass_getwssize SIGNATURE
           EXPORT  hourglass_getwssize
+    [ hg_workspacesize < &400
           MOV     r0, #hg_workspacesize
+    |
+          MOV     r0, #hg_workspacesize :AND: 1023
+          ORR     r0, r0, #hg_workspacesize :AND: (1023<<10)
+    ]
           MOV     pc, lr
 
 ; Initialisation function
