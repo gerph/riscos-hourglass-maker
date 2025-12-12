@@ -4,8 +4,8 @@ This repository contains some hourglass modules for RISC OS.
 
 The modules are constructed from animated GIFs through a number of transformations:
 
-* The GIF is split into its compnent frames using ImageMagick.
-* The frames processeed into what will be used as the frames of the hourglass:
+* The GIF is split into its component frames using ImageMagick.
+* The frames processed into what will be used as the frames of the hourglass:
     * They are trimmed to remove borders.
     * Colour are changed to reduce the colours to the 3 available on RISC OS.
     * Shape transformations may add borders.

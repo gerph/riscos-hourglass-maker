@@ -4,8 +4,6 @@
 
 SOURCE = $(wildcard source.*)
 
-ROFILES = rm32/Hourglass,ffa aif32/hourglass_test,ff8
-
 # RISC OS Build tool to use
 ROBUILD = riscos-build-online
 
@@ -14,6 +12,14 @@ MODULE_SUFFIX = Custom_module
 else
 MODULE_SUFFIX = Shape:_${MODULE_NAME}
 endif
+ifeq (${BUILD64},1)
+ARCHSUFFIX=64
+else
+ARCHSUFFIX=32
+endif
+
+ROFILES = rm${ARCHSUFFIX}/Hourglass,ffa aif${ARCHSUFFIX}/hourglass_test,ff8
+
 
 all: frame_0.png hourglass_basic,fd1 ${ROFILES}
 
@@ -26,23 +32,45 @@ clean:
 	-rm frame*.png simple*.png example.png animated.gif palette.ppm
 	-rm *.pyc .robuild.yaml
 	-rm -rf aif32 rm32 o32 oz32
+	-rm -rf aif64 rm64 o64 oz64
 
 shape.py frame_0.png: ${SOURCE} build-shape.sh
 	./build-shape.sh
 
-hourglass_basic,fd1 s/asm: shape.py ../makehourglass.py
+hourglass_basic,fd1 s/asm s/asm64: shape.py ../makehourglass.py
 	../makehourglass.py
 
-aif32/hourglass_test,ff8: s/asm ../c/hourglass_test
+c/hourglass_test: ../c/hourglass_test
+	mkdir -p c
+	cp $? $@
+
+aif${ARCHSUFFIX}/hourglass_test,ff8: s/asm s/asm64 c/hourglass_test
 ifeq (${USE_ROBUILD},)
+ifeq (${BUILD64},1)
+	riscos-amu -f ../MakefileROTest BUILD64=1
+else
 	riscos-amu -f ../MakefileROTest BUILD32=1
+endif
 else
 	@echo Not building C test.
 endif
 
-rm32/Hourglass,ffa: s/asm ../cmhg/modhead ../c/module ../VersionNum
+c/module: ../c/module
+	mkdir -p c
+	cp $? $@
+VersionNum: ../VersionNum
+	cp $? $@
+cmhg/modhead: ../cmhg/modhead
+	mkdir -p cmhg
+	cp $? $@
+
+rm${ARCHSUFFIX}/Hourglass,ffa: s/asm s/asm64 cmhg/modhead c/module VersionNum
 ifeq (${USE_ROBUILD},)
+ifeq (${BUILD64},1)
+	riscos-amu -f ../MakefileROModule BUILD64=1 MODULE_SUFFIX=${MODULE_SUFFIX}
+else
 	riscos-amu -f ../MakefileROModule BUILD32=1 MODULE_SUFFIX=${MODULE_SUFFIX}
+endif
 else
 	rm -f ../for-riscos.zip
 	sed "s/'MODULE_SUFFIX': .*/'MODULE_SUFFIX': '${MODULE_SUFFIX}'/" < ../robuild-template.yaml > .robuild.yaml

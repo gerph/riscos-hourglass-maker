@@ -8,13 +8,19 @@ HOURGLASSES = artrayd1 artrayd1-filled artrayd1-bordered \
 
 ARTIFACTS = $(shell pwd)/artifacts
 
+ifeq (${BUILD64},1)
+ARCHSUFFIX=64
+else
+ARCHSUFFIX=32
+endif
+
 all: ${HOURGLASSES:%=%.hg-build}
 clean: ${HOURGLASSES:%=%.hg-clean}
 
 %.hg-build:
 	mkdir -p "${ARTIFACTS}"
-	cd $* && make MODULE_NAME=$*
-	cp $*/rm32/Hourglass,ffa "${ARTIFACTS}/Hourglass-$*,ffa"
+	cd $* && make MODULE_NAME=$* BUILD64=${BUILD64}
+	cp $*/rm${ARCHSUFFIX}/Hourglass,ffa "${ARTIFACTS}/Hourglass-$*,ffa"
 	cp $*/example.png "${ARTIFACTS}/Example-$*.png"
 %.hg-clean:
 	cd $* && make clean

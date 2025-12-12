@@ -10,6 +10,15 @@ example.pnm
 */oz32/*
 */aif32/*
 */rm32/*
+*/o64/*
+*/oz64/*
+*/aif64/*
+*/rm64/*
+*/h/asm64
+*/c/hourglass_test
+*/c/module
+*/cmhg/modhead
+*/VersionNum
 artifacts
 for-riscos.zip
 */.robuild.yaml
