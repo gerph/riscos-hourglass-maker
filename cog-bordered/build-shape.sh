@@ -28,7 +28,7 @@ srcsize=124x124
 degrees=5
 rotations=8
 for step in $(seq 0 ${rotations}) ; do
-    convert "${exclude_args[@]}" -size ${srcsize} source.svg \
+    magick "${exclude_args[@]}" -size ${srcsize} source.svg \
             -distort SRT $(( step * degrees )) +repage frame_${step}.png
 done
 
@@ -68,7 +68,7 @@ echo "Building hourglass 'shape.py' data"
 # v7.0.9 and v6.9.7 are known to work with these scripts - finding the right combinations of commands
 # to work with both can be tricky.
 echo "Using ImageMagick:"
-convert -version 2>&1 | sed 's/^/  /'
+magick -version 2>&1 | sed 's/^/  /'
 
 
 # Generate the palette to use
@@ -84,7 +84,7 @@ EOM
 # - Convert the colours down to just the palette we want to use
 # - Make the white background transparent
 for i in $( seq 0 ${rotations} ) ; do
-    convert "${exclude_args[@]}" \
+    magick "${exclude_args[@]}" \
             frame_$i.png \
             -resize ${width}x${height} -gravity center \
             -extent ${width}x${height} \
@@ -101,7 +101,7 @@ done
 
 # Convert the frames into a GIF to see what it would look like
 ordered_images=( $( seq 0 ${rotations} ) )
-convert -delay "${frameperiod}" -dispose Background \
+magick -delay "${frameperiod}" -dispose Background \
         $(for i in ${ordered_images[*]} ; do echo -n "simple_$i.png " ; done) animated.gif
 
 # Now convert the PNGs to shapes that we may be able to use in shape.py
@@ -133,7 +133,7 @@ index=0
 #echo "Translation: $translation"
 for i in ${ordered_images[*]} ; do
     echo "images.append(("
-    convert simple_$i.png ppm: \
+    magick simple_$i.png -compress none -depth 8 ppm:- \
         | (pnmtopnm -plain 2>/dev/null || pnmtoplainpnm) \
         | sed -e "1,3 d; /^$/ d $translation ; s/c//g; s/ //g" \
         | perl -e '$in=join "", <STDIN>; $in =~ s/\n//g; for $row ($in =~ /(.{'$width'})/g) { print "        \"$row\",\n"; }'
@@ -141,8 +141,8 @@ for i in ${ordered_images[*]} ; do
 done >> "${pyhourglass}"
 
 # Provide a single example frame which is the right colours
-convert simple_0.png ppm: \
+magick simple_0.png -compress none -depth 8 ppm:- \
     | (pnmtopnm -plain 2>/dev/null || pnmtoplainpnm) \
     | sed -e "$translation ; $indextranslation" \
     | tee example.pnm \
-    | convert - example.png
+    | magick - example.png

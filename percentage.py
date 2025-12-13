@@ -100,7 +100,7 @@ class Bitmap(object):
         diff = width - self.width
         if align == 0:
             # Center
-            pad_left = int(diff) / 2
+            pad_left = int(int(diff) / 2)
             pad_right = diff - pad_left
         elif align < 0:
             # Left align
