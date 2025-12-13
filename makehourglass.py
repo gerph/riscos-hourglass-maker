@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
 Make the data for a set of hourglass calls.
 
@@ -32,7 +32,7 @@ direct_rowdata = True
 # Number of bits per pixel
 bpp = 2
 # Number of pixels per word
-ppw = 32 / bpp
+ppw = int(32 / bpp)
 def rowstring_to_words(rowstring):
     words = []
     word = 0
@@ -86,14 +86,18 @@ deltas = []
 # so we want to start with a clean slate each time.
 deltas.append([(index, rowindex) for index, rowindex in enumerate(images_rowindexes[0])])
 
-# Take a copy of the first image's state, so that we can track as calculate the deltas for each frame.
+# Take a copy of the first image's state, so that we can calculate the deltas for each frame.
 current_state = images_rowindexes[0][:]
 
 # Now for each subsequent frame, we work out the deltas and store them into the array.
+print("Calculating the frame deltas (%i rows)" % (len(current_state),))
 for rowindexes in images_rowindexes[1:]:
+    #print("New frame")
     image_deltas = []
     for index, rowindex in enumerate(rowindexes):
+        #print("  check row %i" % (index,))
         if current_state[index] != rowindex:
+            #print("  row %i differs, writing delta" % (index,))
             # This row differs from the previous frame, so we write its delta.
             image_deltas.append((index, rowindex))
             current_state[index] = rowindex
