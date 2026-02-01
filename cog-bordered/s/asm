@@ -377,6 +377,8 @@ hourglass_init SIGNATURE
           STR     r0, hg_leds
           LDR     r0, wordblock_0
           STR     r0, hg_word
+          MOV     r0, #-1
+          STR     r0, hg_oldpointer
           LDR     r0, wordblock_4
           ADR     r1, hg_currentdata
           ORR     r0, r0, r1, LSL #16         ; assign the low half word of pointer data
@@ -468,7 +470,9 @@ hourglass_stop SIGNATURE
           SUB     sp, sp, #8
           MOV     r12, r0
           LDR     r4, hg_oldpointer               ; work out the old pointer shape
-          BIC     r4, r4, #127                    ; turn off the pointer whilst we change colours
+          CMP     r4, #-1                         ; is it dead?
+          BEQ     %FT10                           ;   yes, so skip all stopping
+          BIC     r1, r4, #127                    ; turn off the pointer whilst we change colours
           MOV     r0, #106                        ; select pointer
           SWI     XOS_Byte
 ; restore the palette up for old pointer
@@ -504,6 +508,9 @@ hourglass_stop SIGNATURE
           MOV     r1, r4                          ; re-select the old pointer number
           MOV     r0, #106                        ; select pointer
           SWI     XOS_Byte
+          MOV     r4, #-1                         ; mark as dead
+          STR     r4, hg_oldpointer
+10
           ADD     sp, sp, #8
           LDMFD   sp!, {r4, r5, pc}
 

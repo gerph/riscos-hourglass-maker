@@ -388,6 +388,8 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes, filename, bitness):
         lines.append("          STR     r0, hg_leds")
         lines.append("          LDR     r0, wordblock_0")
         lines.append("          STR     r0, hg_word")
+        lines.append("          MOV     r0, #-1")
+        lines.append("          STR     r0, hg_oldpointer")
         lines.append("          LDR     r0, wordblock_4")
         lines.append("          ADR     r1, hg_currentdata")
         lines.append("          ORR     r0, r0, r1, LSL #16         ; assign the low half word of pointer data")
@@ -404,6 +406,8 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes, filename, bitness):
         lines.append("          STR     w0, hg_leds")
         lines.append("          LDR     w0, wordblock_0")
         lines.append("          STR     w0, hg_word")
+        lines.append("          MOV     w0, #-1")
+        lines.append("          STR     w0, hg_oldpointer")
         lines.append("          LDR     w0, wordblock_4")
         lines.append("          ADR     x1, hg_currentdata")
         # FIXME: This is a BBC-style interface updated for 32bit RISC OS... not nice
@@ -556,7 +560,9 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes, filename, bitness):
         lines.append("          MOV     r12, r0")
 
         lines.append("          LDR     r4, hg_oldpointer               ; work out the old pointer shape")
-        lines.append("          BIC     r4, r4, #127                    ; turn off the pointer whilst we change colours")
+        lines.append("          CMP     r4, #-1                         ; is it dead?")
+        lines.append("          BEQ     %FT10                           ;   yes, so skip all stopping")
+        lines.append("          BIC     r1, r4, #127                    ; turn off the pointer whilst we change colours")
         lines.append("          MOV     r0, #106                        ; select pointer")
         lines.append("          SWI     XOS_Byte")
     else:
@@ -566,7 +572,9 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes, filename, bitness):
         lines.append("          MOV     x12, x0")
 
         lines.append("          LDR     w4, hg_oldpointer               ; work out the old pointer shape")
-        lines.append("          BIC     x4, x4, #127                    ; turn off the pointer whilst we change colours")
+        lines.append("          CMP     w4, #-1                         ; is it dead?")
+        lines.append("          BEQ     %FT10                           ;   yes, so skip all stopping")
+        lines.append("          BIC     x1, x4, #127                    ; turn off the pointer whilst we change colours")
         lines.append("          MOV     x0, #106                        ; select pointer")
         lines.append("          SWI     XOS_Byte")
 
@@ -612,6 +620,10 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes, filename, bitness):
         lines.append("          MOV     r0, #106                        ; select pointer")
         lines.append("          SWI     XOS_Byte")
 
+        lines.append("          MOV     r4, #-1                         ; mark as dead")
+        lines.append("          STR     r4, hg_oldpointer")
+
+        lines.append("10")
         lines.append("          ADD     sp, sp, #8")
         lines.append("          LDMFD   sp!, {r4, r5, pc}")
     else:
@@ -619,6 +631,10 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes, filename, bitness):
         lines.append("          MOV     x0, #106                        ; select pointer")
         lines.append("          SWI     XOS_Byte")
 
+        lines.append("          MOV     x4, #-1                         ; mark as dead")
+        lines.append("          STR     x4, hg_oldpointer")
+
+        lines.append("10")
         lines.append("          ADD     sp, sp, #16")
         lines.append("          LDP     x29, x30, [sp], #16")
         lines.append("          RET")

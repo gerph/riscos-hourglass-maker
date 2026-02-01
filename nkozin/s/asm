@@ -2,10 +2,10 @@
 
 ; constants
 width             * 32
-height            * 34
+height            * 32
 period            * 200
 wordsperrow       * 2
-nwords            * 64
+nwords            * 60
 nframes           * 1
 active_x          * 0
 active_y          * 0
@@ -48,32 +48,30 @@ deltas
           DCD     &00000028, &00005405, &00000000
           DCD     &00000030, &00054005, &00000000
           DCD     &00000038, &00150005, &00000000
-          DCD     &00000040, &01500005, &00000000
+          DCD     &00000040, &01500004, &00000000
           DCD     &00000048, &05400004, &00000000
-          DCD     &00000050, &54000014, &00000000
-          DCD     &00000058, &50000014, &00000001
+          DCD     &00000050, &54000004, &00000000
+          DCD     &00000058, &50000004, &00000001
           DCD     &00000060, &00000014, &00000015
-          DCD     &00000068, &00000014, &00000054
-          DCD     &00000070, &00000014, &00000554
-          DCD     &00000078, &54000014, &00000555
-          DCD     &00000080, &55000014, &00000001
-          DCD     &00000088, &14000014, &00000000
-          DCD     &00000090, &14014014, &00000000
-          DCD     &00000098, &50015014, &55555540
-          DCD     &000000a0, &50055014, &15001500
-          DCD     &000000a8, &40051414, &14000501
-          DCD     &000000b0, &40140554, &14000505
-          DCD     &000000b8, &00540150, &14000505
-          DCD     &000000c0, &00500050, &05405414
-          DCD     &000000c8, &01400050, &01515014
-          DCD     &000000d0, &01400010, &01515054
-          DCD     &000000d8, &05000000, &05405415
-          DCD     &000000e0, &55000000, &15001501
-          DCD     &000000e8, &54000000, &14000500
-          DCD     &000000f0, &00000000, &14000500
-          DCD     &000000f8, &00000000, &14000500
-          DCD     &00000100, &00000000, &55555540
-          DCD     &00000108, &00000000, &55555540
+          DCD     &00000068, &00000014, &00000055
+          DCD     &00000070, &55000014, &00000155
+          DCD     &00000078, &55400014, &00000000
+          DCD     &00000080, &05000014, &00000000
+          DCD     &00000088, &05004014, &00000000
+          DCD     &00000090, &14015014, &05555550
+          DCD     &00000098, &50015414, &01400140
+          DCD     &000000a0, &50050514, &01400140
+          DCD     &000000a8, &40140554, &01400141
+          DCD     &000000b0, &40140154, &01400141
+          DCD     &000000b8, &00500050, &00541505
+          DCD     &000000c0, &00500010, &00155405
+          DCD     &000000c8, &41400000, &00541505
+          DCD     &000000d0, &55400000, &01500541
+          DCD     &000000d8, &15000000, &01400140
+          DCD     &000000e0, &00000000, &01400140
+          DCD     &000000e8, &00000000, &01400140
+          DCD     &000000f0, &00000000, &05555550
+          DCD     &000000f8, &00000000, &05555550
           DCD     -1
 
 ; Offsets into the deltas for each frame
@@ -111,6 +109,8 @@ hourglass_init SIGNATURE
           STR     r0, hg_leds
           LDR     r0, wordblock_0
           STR     r0, hg_word
+          MOV     r0, #-1
+          STR     r0, hg_oldpointer
           LDR     r0, wordblock_4
           ADR     r1, hg_currentdata
           ORR     r0, r0, r1, LSL #16         ; assign the low half word of pointer data
@@ -144,17 +144,17 @@ hourglass_start SIGNATURE
           MOV     r1, #25                     ; read pointer colour 1
           SWI     XOS_ReadPalette
           LDRVS   r2, =&81397900              ; purple if it wasn't set
-          STR     r2, hg_oldcolours + 4 * 0
+          STR     r2, hg_oldcolours + (4 * 0)
           MOV     r0, #2
           MOV     r1, #25                     ; read pointer colour 2
           SWI     XOS_ReadPalette
           LDRVS   r2, =&66FFFF00              ; yellow if it wasn't set
-          STR     r2, hg_oldcolours + 4 * 1
+          STR     r2, hg_oldcolours + (4 * 1)
           MOV     r0, #3
           MOV     r1, #25                     ; read pointer colour 3
           SWI     XOS_ReadPalette
           LDRVS   r2, =&00000000              ; black if it wasn't set
-          STR     r2, hg_oldcolours + 4 * 2
+          STR     r2, hg_oldcolours + (4 * 2)
 ; now set the palette up for our hourglass
           MOV     r1, sp
           ADRL    r2, palette
@@ -189,13 +189,15 @@ hourglass_stop SIGNATURE
           SUB     sp, sp, #8
           MOV     r12, r0
           LDR     r4, hg_oldpointer               ; work out the old pointer shape
-          BIC     r4, r4, #127                    ; turn off the pointer whilst we change colours
+          CMP     r4, #-1                         ; is it dead?
+          BEQ     %FT10                           ;   yes, so skip all stopping
+          BIC     r1, r4, #127                    ; turn off the pointer whilst we change colours
           MOV     r0, #106                        ; select pointer
           SWI     XOS_Byte
 ; restore the palette up for old pointer
           MOV     r1, sp
 ; colour 1
-          ADR     r2, hg_oldcolours + 4 * 0 + 1
+          ADR     r2, hg_oldcolours + (4 * 0) + 1
           MOV     r0, #1
           STRB    r0, [r1, #0]
           MOV     r0, #25                         ; set pointer colour 1
@@ -211,6 +213,9 @@ hourglass_stop SIGNATURE
           MOV     r1, r4                          ; re-select the old pointer number
           MOV     r0, #106                        ; select pointer
           SWI     XOS_Byte
+          MOV     r4, #-1                         ; mark as dead
+          STR     r4, hg_oldpointer
+10
           ADD     sp, sp, #8
           LDMFD   sp!, {r4, r5, pc}
 
