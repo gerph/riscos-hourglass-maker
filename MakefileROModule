@@ -1,15 +1,19 @@
 # Build the module
 
-VPATH = .. @
-
 MODULE_SUFFIX ?= Custom_module
+
+ifeq (${BUILD64},1)
+OASM = o.asm64
+else
+OASM = o.asm
+endif
 
 COMPONENT  = Hourglass
 CDEFINES   = -DMODULE_SUFFIX=${MODULE_SUFFIX}
-INCLUDES   = ^.
+INCLUDES   =
 LIBS       =
 OBJS       = \
-             o.asm \
+             ${OASM} \
              o.modhead \
              o.module
 

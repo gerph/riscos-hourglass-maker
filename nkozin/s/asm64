@@ -1,0 +1,339 @@
+          AREA |C$$code|, CODE, READONLY
+
+; constants
+width             * 32
+height            * 32
+period            * 200
+wordsperrow       * 2
+nwords            * 60
+nframes           * 1
+active_x          * 0
+active_y          * 0
+percentage_height        * 0
+
+; Workspace for changing the hourglass rendition
+                  ^ 0, x12
+hg_framenum       # 4                         ; frame number
+hg_percentage     # 4                         ; percentage to show
+hg_percentagenow  # 4                         ; percentage being shown
+hg_leds           # 4                         ; LED flags (N/I)
+hg_oldpointer     # 4                         ; Old pointer configuration
+hg_oldcolours     # 4 * 3                     ; Old palette entries
+hg_word           # 12                        ; OS_Word block
+hg_currentdata    # 4 * wordsperrow * (height + percentage_height)  ; Current data for the hourglass
+hg_workspacesize  * :INDEX: @                 ; Size of this workspace
+
+; SWI numbers
+XOS_Byte          * 0x20006
+XOS_Word          * 0x20007
+XOS_ReadPalette   * 0x2002F
+
+; -------------------------------------------------
+        MACRO
+$label  SIGNATURE
+        ALIGN   4
+        =       "$label",0
+        ALIGN   4
+        DCD     &FF000000+(:LEN:"$label"+4):AND::NOT:3
+$label
+        MEND
+
+        MACRO
+$label  SWI     $name
+$label
+        MOV     x10, #$name :AND: &FFFF
+        ADD     x10, x10, #$name :AND: &FFFF0000
+        SVC     #0
+        MEND
+
+
+; Data for deltas between frames
+deltas
+          ; frame 0
+          DCD     &00000000, &00000001, &00000000
+          DCD     &00000008, &00000005, &00000000
+          DCD     &00000010, &00000055, &00000000
+          DCD     &00000018, &00000155, &00000000
+          DCD     &00000020, &00001505, &00000000
+          DCD     &00000028, &00005405, &00000000
+          DCD     &00000030, &00054005, &00000000
+          DCD     &00000038, &00150005, &00000000
+          DCD     &00000040, &01500004, &00000000
+          DCD     &00000048, &05400004, &00000000
+          DCD     &00000050, &54000004, &00000000
+          DCD     &00000058, &50000004, &00000001
+          DCD     &00000060, &00000014, &00000015
+          DCD     &00000068, &00000014, &00000055
+          DCD     &00000070, &55000014, &00000155
+          DCD     &00000078, &55400014, &00000000
+          DCD     &00000080, &05000014, &00000000
+          DCD     &00000088, &05004014, &00000000
+          DCD     &00000090, &14015014, &05555550
+          DCD     &00000098, &50015414, &01400140
+          DCD     &000000a0, &50050514, &01400140
+          DCD     &000000a8, &40140554, &01400141
+          DCD     &000000b0, &40140154, &01400141
+          DCD     &000000b8, &00500050, &00541505
+          DCD     &000000c0, &00500010, &00155405
+          DCD     &000000c8, &41400000, &00541505
+          DCD     &000000d0, &55400000, &01500541
+          DCD     &000000d8, &15000000, &01400140
+          DCD     &000000e0, &00000000, &01400140
+          DCD     &000000e8, &00000000, &01400140
+          DCD     &000000f0, &00000000, &05555550
+          DCD     &000000f8, &00000000, &05555550
+          DCD     -1
+
+; Offsets into the deltas for each frame
+frame_deltas
+          DCD     0  ; frame 0
+
+; Palette data
+palette
+          DCB     0, 255, 255
+          ALIGN
+
+; Read the period between frames
+; <=  R0 = cs between frames
+hourglass_getframeperiod SIGNATURE
+          EXPORT  hourglass_getframeperiod
+          MOV     x0, #period
+          RET
+
+
+; Read the size of the workspace block
+; <=  R0 = size of hourglass workspace
+hourglass_getwssize SIGNATURE
+          EXPORT  hourglass_getwssize
+          MOV     x0, #hg_workspacesize
+          RET
+
+; Initialisation function
+; =>  R0 = hourglass workspace
+hourglass_init SIGNATURE
+          EXPORT  hourglass_init
+          MOV     x12, x0
+          MOV     x0, #0
+          STR     w0, hg_framenum
+          STR     w0, hg_leds
+          MOV     w0, #-1
+          STR     w0, hg_percentagenow
+          MOV     w0, #100
+          STR     w0, hg_percentage
+          LDR     w0, wordblock_0
+          STR     w0, hg_word
+          MOV     w0, #-1
+          STR     w0, hg_oldpointer
+          LDR     w0, wordblock_4
+          ADR     x1, hg_currentdata
+          LSL     w2, w1, #16                 ; move lower hard of word into the upper half
+          ORR     w0, w0, w2                  ; assign the low half word of pointer data
+          STR     w0, hg_word + 4
+          LSR     w0, w1, #16                 ; and the high half word
+          STR     w0, hg_word + 8
+; no need to initialise the currentdata; it will be updated by the first frame
+          RET
+
+wordblock_0
+          DCB     0                           ; define pointer shape
+          DCB     3                           ; shape number (will toggle 3-4)
+          DCB     (width*2+7)/8               ; width in bytes
+          DCB     height                      ; height
+wordblock_4
+          DCB     active_x                    ; active x offset
+          DCB     active_y                    ; active y offset
+          DCB     0                           ; b0-7 of the address of the pointer data
+          DCB     0                           ; b8-15 of address of the pointer data
+
+; Start the hourglass
+; =>  R0 = hourglass workspace
+hourglass_start SIGNATURE
+          EXPORT  hourglass_start
+          STP     x29, x30, [sp, #-16]!
+          MOV     x29, sp
+          SUB     sp, sp, #16
+          MOV     x12, x0
+          MOV     x0, #0
+          STR     w0, hg_framenum
+          MOV     x0, #1
+          MOV     x1, #25                     ; read pointer colour 1
+          SWI     XOS_ReadPalette
+          BVC     %FT10
+          LDR     w2, =&81397900              ; purple if it wasn't set
+10
+          STR     w2, hg_oldcolours + (4 * 0)
+          MOV     x0, #2
+          MOV     x1, #25                     ; read pointer colour 2
+          SWI     XOS_ReadPalette
+          BVC     %FT20
+          LDR     w2, =&66FFFF00              ; yellow if it wasn't set
+20
+          STR     w2, hg_oldcolours + (4 * 1)
+          MOV     x0, #3
+          MOV     x1, #25                     ; read pointer colour 3
+          SWI     XOS_ReadPalette
+          BVC     %FT30
+          LDR     w2, =&00000000              ; black if it wasn't set
+30
+          STR     w2, hg_oldcolours + (4 * 2)
+; now set the palette up for our hourglass
+          MOV     x1, sp
+          ADR     x2, palette
+; colour 1
+          MOV     x0, #1
+          STRB    w0, [x1, #0]
+          MOV     w0, #25                     ; set pointer colour 1
+          STRB    w0, [x1, #1]
+          LDRB    w0, [x2], #1
+          STRB    w0, [x1, #2]                ; red
+          LDRB    w0, [x2], #1
+          STRB    w0, [x1, #3]                ; green
+          LDRB    w0, [x2], #1
+          STRB    w0, [x1, #4]                ; blue
+          MOV     w0, #12
+          SWI     XOS_Word                    ; Set palette
+          MOV     x1, #127                        ; invalid pointer number to read the pointer
+          MOV     x0, #106                        ; select pointer
+          SWI     XOS_Byte
+          BVC     %FT10
+          MOV     x1, #0                          ; if there was an error, turn off
+10
+          STR     w1, hg_oldpointer
+          ADD     sp, sp, #16
+          LDP     x29, x30, [sp], #16
+          MOV     x0, x12
+          B       hourglass_frame                 ; exit via the first frame
+
+; Stop the hourglass
+; =>  R0 = hourglass workspace
+hourglass_stop SIGNATURE
+          EXPORT  hourglass_stop
+          STP     x29, x30, [sp, #-16]!
+          MOV     x29, sp
+          SUB     sp, sp, #16
+          MOV     x12, x0
+          MOV     w0, #-1
+          STR     w0, hg_percentagenow
+          MOV     w0, #100
+          STR     w0, hg_percentage
+          LDR     w4, hg_oldpointer               ; work out the old pointer shape
+          CMP     w4, #-1                         ; is it dead?
+          BEQ     %FT10                           ;   yes, so skip all stopping
+          BIC     x1, x4, #127                    ; turn off the pointer whilst we change colours
+          MOV     x0, #106                        ; select pointer
+          SWI     XOS_Byte
+; restore the palette up for old pointer
+          MOV     x1, sp
+; colour 1
+          ADR     x2, hg_oldcolours + (4 * 0) + 1
+          MOV     w0, #1
+          STRB    w0, [x1, #0]
+          MOV     w0, #25                         ; set pointer colour 1
+          STRB    w0, [x1, #1]
+          LDRB    w0, [x2], #1
+          STRB    w0, [x1, #2]                    ; red
+          LDRB    w0, [x2], #1
+          STRB    w0, [x1, #3]                    ; green
+          LDRB    w0, [x2], #1
+          STRB    w0, [x1, #4]                    ; blue
+          MOV     w0, #12
+          SWI     XOS_Word                        ; Set palette
+          MOV     x1, x4                          ; re-select the old pointer number
+          MOV     x0, #106                        ; select pointer
+          SWI     XOS_Byte
+          MOV     x4, #-1                         ; mark as dead
+          STR     x4, hg_oldpointer
+10
+          ADD     sp, sp, #16
+          LDP     x29, x30, [sp], #16
+          RET
+
+; Frame update - sets the hourglass shape for the current frame
+; =>  R0 = hourglass workspace
+hourglass_frame SIGNATURE
+          EXPORT  hourglass_frame
+          STP     x29, x30, [sp, #-16]!
+          MOV     x29, sp
+          MOV     x12, x0
+          LDR     w0, hg_framenum
+          ADR     x1, frame_deltas
+          LDR     w0, [x1, x0, LSL #2]            ; offset within deltas for this frame
+          ADR     x1, deltas
+          ADD     x1, x1, x0
+          ADRL    x5, hg_currentdata
+rowloop
+          LDRSW   x3, [x1], #4                    ; r3 = currentdata offset
+          CMP     x3, #-1                         ; end of the rows
+          BEQ     rowend
+      [ wordsperrow = 1
+          LDR     w0, [x1], #4                    ; read a word
+          STR     w0, [x3, x5]                    ; store into the currentdata
+      ]
+      [ wordsperrow = 2
+          LDP     w0, w2, [x1], #8                ; read two word from rowdata
+          ADD     x3, x3, x5                      ; work out the line offset
+          STR     w0, [x3]                        ; store into the currentdata
+          STR     w2, [x3, #4]                    ; store into the currentdata
+      ]
+      [ wordsperrow = 3
+          LDP     w0, w2, [x1], #8                ; read two words from rowdata
+          LDR     w4, [x1]                        ; read final word from rowdata
+          ADD     x3, x3, x5                      ; work out the line offset
+          STP     w0, w2, [x3], #8                ; store two words to currentdata
+          STR     w4, [x3], #4                    ; store final word to currentdata
+      ]
+      [ wordsperrow = 4
+          LDP     w0, w2, [x1], #8                ; read two words from rowdata
+          LDP     w4, r5, [x1]                    ; read final words from rowdata
+          ADD     r3, r3, r5                      ; work out the line offset
+          STP     w0, w2, [x3], #8                ; store two words to currentdata
+          STP     w4, w5, [x3], #4                    ; store final words to currentdata
+      ]
+          B       rowloop
+
+rowend
+          MOV     x0, #21                         ; Set Pointer parameters
+          ADR     x1, hg_word
+          SWI     XOS_Word
+
+          LDRB    w1, hg_word + 1                 ; get the hourglass pointer number we will use
+          MOV     w5, #7
+          SUB     w4, w5, w1                      ; toggles 3 to 4
+          STRB    w4, hg_word + 1                 ; toggles the pointer number we use next time
+          MOV     x0, #106                        ; select pointer
+          SWI     XOS_Byte
+
+          LDR     w0, hg_framenum
+          ADD     w0, w0, #1
+          CMP     w0, #nframes
+          BNE     %FT10
+          MOV     w0, #0                          ; reset counter; we've cycled
+10
+          STR     w0, hg_framenum
+          LDP     x29, x30, [sp], #16
+          RET
+
+; Frame update within an IRQ
+; =>  R12 = hourglass workspace
+hourglass_frame_irq SIGNATURE
+          EXPORT  hourglass_frame_irq
+          STP     x29, x30, [sp, #-16]!
+          MOV     x29, sp
+          MOV     x0, x12
+          BL      hourglass_frame
+          LDP     x29, x30, [sp], #16
+          RET
+
+; Set the percentage of the hourglass
+; =>  R0 = hourglass workspace
+;     R1 = percentage (0-99, or 100 to turn the percentage off)
+hourglass_percentage SIGNATURE
+          EXPORT  hourglass_percentage
+          STP     x29, x30, [sp, #-16]!
+          MOV     x29, sp
+          MOV     x12, x0
+          STR     x1, hg_percentage
+          LDP     x29, x30, [sp], #16
+          RET
+
+          END

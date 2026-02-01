@@ -30,9 +30,9 @@ srcsize=300x300
 magick "${exclude_args[@]}" -size ${srcsize} source.svg \
         -shave 40x32 -gravity northwest -chop 1x2 +repage frame_0.png
 
-# RISC OS Classic cannot have pointers larger than 32 pixels wide.
-width=32
-height=34
+# RISC OS Classic cannot have pointers larger than 32 pixels wide, or 32 pixels high.
+width=30
+height=32
 
 # Set these to the active point, from top left (or empty to use the default of the center)
 activex=0

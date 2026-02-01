@@ -23,19 +23,22 @@ name: RISC OS
 # Controls when the action will run. Triggers the workflow on:
 #   * push on any branch.
 #   * tag creation for tags beginning with a 'v'
+#   * pull requests
 on:
   push:
     branches: ["*"]
     tags: ["v*"]
-  # Pull request events happen on pull request state transitions, so we probably don't want this here.
-  #pull_request:
-  #  branches: ["*"]
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches: ["*"]
 
 jobs:
   build-riscos:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
+    timeout-minutes: 20
+    concurrency:
+      group: riscos-build-server
     outputs:
       version: ${{ steps.version.outputs.version }}
       leafname: ${{ steps.version.outputs.leafname }}
@@ -43,7 +46,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install required tools
         run: |
@@ -89,13 +92,13 @@ jobs:
           echo "version=$version" >> $GITHUB_OUTPUT
           echo "leafname=$leafname" >> $GITHUB_OUTPUT
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: always()
         with:
           name: Everything
           path: .
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: RISCOS-build
           path: ${{ steps.version.outputs.leafname }}
@@ -111,7 +114,7 @@ jobs:
       contents: write
     steps:
       - name: Download built RISC OS binary
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: RISCOS-build
 

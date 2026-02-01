@@ -1319,6 +1319,8 @@ hourglass_init SIGNATURE
           STR     r0, hg_percentage
           LDR     r0, wordblock_0
           STR     r0, hg_word
+          MOV     r0, #-1
+          STR     r0, hg_oldpointer
           LDR     r0, wordblock_4
           ADR     r1, hg_currentdata
           ORR     r0, r0, r1, LSL #16         ; assign the low half word of pointer data
@@ -1352,17 +1354,17 @@ hourglass_start SIGNATURE
           MOV     r1, #25                     ; read pointer colour 1
           SWI     XOS_ReadPalette
           LDRVS   r2, =&81397900              ; purple if it wasn't set
-          STR     r2, hg_oldcolours + 4 * 0
+          STR     r2, hg_oldcolours + (4 * 0)
           MOV     r0, #2
           MOV     r1, #25                     ; read pointer colour 2
           SWI     XOS_ReadPalette
           LDRVS   r2, =&66FFFF00              ; yellow if it wasn't set
-          STR     r2, hg_oldcolours + 4 * 1
+          STR     r2, hg_oldcolours + (4 * 1)
           MOV     r0, #3
           MOV     r1, #25                     ; read pointer colour 3
           SWI     XOS_ReadPalette
           LDRVS   r2, =&00000000              ; black if it wasn't set
-          STR     r2, hg_oldcolours + 4 * 2
+          STR     r2, hg_oldcolours + (4 * 2)
 ; now set the palette up for our hourglass
           MOV     r1, sp
           ADRL    r2, palette
@@ -1427,13 +1429,15 @@ hourglass_stop SIGNATURE
           MOV     r0, #100
           STR     r0, hg_percentage
           LDR     r4, hg_oldpointer               ; work out the old pointer shape
-          BIC     r4, r4, #127                    ; turn off the pointer whilst we change colours
+          CMP     r4, #-1                         ; is it dead?
+          BEQ     %FT10                           ;   yes, so skip all stopping
+          BIC     r1, r4, #127                    ; turn off the pointer whilst we change colours
           MOV     r0, #106                        ; select pointer
           SWI     XOS_Byte
 ; restore the palette up for old pointer
           MOV     r1, sp
 ; colour 1
-          ADR     r2, hg_oldcolours + 4 * 0 + 1
+          ADR     r2, hg_oldcolours + (4 * 0) + 1
           MOV     r0, #1
           STRB    r0, [r1, #0]
           MOV     r0, #25                         ; set pointer colour 1
@@ -1447,7 +1451,7 @@ hourglass_stop SIGNATURE
           MOV     r0, #12
           SWI     XOS_Word                        ; Set palette
 ; colour 2
-          ADR     r2, hg_oldcolours + 4 * 1 + 1
+          ADR     r2, hg_oldcolours + (4 * 1) + 1
           MOV     r0, #2
           STRB    r0, [r1, #0]
           MOV     r0, #25                         ; set pointer colour 1
@@ -1461,7 +1465,7 @@ hourglass_stop SIGNATURE
           MOV     r0, #12
           SWI     XOS_Word                        ; Set palette
 ; colour 3
-          ADR     r2, hg_oldcolours + 4 * 2 + 1
+          ADR     r2, hg_oldcolours + (4 * 2) + 1
           MOV     r0, #3
           STRB    r0, [r1, #0]
           MOV     r0, #25                         ; set pointer colour 1
@@ -1477,6 +1481,9 @@ hourglass_stop SIGNATURE
           MOV     r1, r4                          ; re-select the old pointer number
           MOV     r0, #106                        ; select pointer
           SWI     XOS_Byte
+          MOV     r4, #-1                         ; mark as dead
+          STR     r4, hg_oldpointer
+10
           ADD     sp, sp, #8
           LDMFD   sp!, {r4, r5, pc}
 
@@ -1586,8 +1593,8 @@ hourglass_frame_irq SIGNATURE
 ; =>  R0 = hourglass workspace
 ;     R1 = percentage (0-99, or 100 to turn the percentage off)
 hourglass_percentage SIGNATURE
-          STMFD   sp!, {r4, r5, lr}
           EXPORT  hourglass_percentage
+          STMFD   sp!, {r4, r5, lr}
           MOV     r12, r0
           STR     r1, hg_percentage
           LDMFD   sp!, {r4, r5, pc}
