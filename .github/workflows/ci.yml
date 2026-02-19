@@ -59,6 +59,11 @@ jobs:
           # Fetch the build client
           curl -s -L -o riscos-build-online https://github.com/gerph/robuild-client/releases/download/v0.05/riscos-build-online && chmod +x riscos-build-online
 
+      - name: Obtain RISC OS archive management
+        run: |
+          sudo apt-get install -y python3 python3-pip
+          pip install rozipinfo
+
       - name: Build through build.riscos.online
         run: |
           # Zip up the source to send to robuild
@@ -71,7 +76,7 @@ jobs:
           USE_ROBUILD=1 make
 
           # Create a zip with the files in
-          cd artifacts && zip -9r ../Hourglasses.zip *
+          cd artifacts && python3 -m rozipfile --verbose --create ../Hourglasses.zip *
 
       - name: Give the output a versioned name
         id: version
