@@ -87,6 +87,8 @@ frame_deltas
           DCD     0  ; frame 0
 
 ; Palette data
+          = "PALD" ; marker string for the palette data
+          DCD     2
 palette
           DCB     0, 255, 255
           DCB     0, 0, 153
