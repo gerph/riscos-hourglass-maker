@@ -342,6 +342,15 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes, filename, bitness):
 
     lines.append("")
     lines.append("; Palette data")
+    # Our marker string should allow us to change the default colour of the hourglass
+    # by just poking into the module.
+    # The format is:
+    #   PALD
+    #   <word holding the number of colours present, 1-3>
+    #   <r byte> <g byte> <b byte>
+    #   (repeated for the number of colours)
+    lines.append("          = \"PALD\" ; marker string for the palette data")
+    lines.append("          DCD     %i" % (len(shape.palette) - 1, ))
     lines.append("palette")
     # We skip the 0 entry, because colour 0 is transparent
     for r, g, b in shape.palette[1:]:

@@ -24,6 +24,9 @@ The full build process requires cross compiling tools, but the repository contai
 
 ## Enclosed hourglasses
 
+There are some colour variants of the hourglasses which are suffixed to allow them to
+be obviously different from their base versions.
+
 ### Animated hourglasses
 
 * `artrayd1`: A bulbous hourglass which turns over, using just a single colour.
@@ -85,6 +88,7 @@ amu -f ^.MakefileROModule BUILD32=1
     - Run the `aif32.hourglass_test` program to check that the assembler has been built correctly.
     - Load the `rm32.Hourglass` module and issue `*Hon` to check that it behaves as expected.
 - Rinse and repeat.
+- If you want, you can create a `variants.txt` file which contains a set of colour triples and a name. See the `cog/variants.txt` for an example of a blue variant on the Hourglass.
 - If you're really happy with the hourglass, why not add it to the main repository:
     - Update the top level `Makefile` to add the directory name to the `HOURGLASSES` variable.
     - Run `make` (or `USE_ROBUILD=1 make` if you don't have the cross-compiling tools).

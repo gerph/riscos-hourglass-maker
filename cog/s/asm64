@@ -333,6 +333,8 @@ frame_deltas
           DCD     2756  ; frame 8
 
 ; Palette data
+          = "PALD" ; marker string for the palette data
+          DCD     1
 palette
           DCB     0, 153, 14
           ALIGN
