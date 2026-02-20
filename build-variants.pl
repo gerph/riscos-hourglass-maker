@@ -25,6 +25,17 @@ while (1)
     {
         die "colours should be a R,G,B triple";
     }
+    # Expand the colours from r,g,b to r,g,b,0
+    my @newrgb;
+    while (@rgbs)
+    {
+        push @newrgb, shift @rgbs;
+        push @newrgb, shift @rgbs;
+        push @newrgb, shift @rgbs;
+        push @newrgb, 0;
+    }
+    @rgbs = @newrgb;
+
     print "Colour name $name\n";
     for my $arch ('rm32', 'rm64')
     {
@@ -47,9 +58,9 @@ while (1)
             die "Module contains PALD at an odd offset (not a multiple of 4)";
         }
         my $ncols = unpack "L<", substr($mod, $offset+4, 4);
-        if ($ncols != scalar(@rgbs) / 3)
+        if ($ncols != scalar(@rgbs) / 4)
         {
-            die "You supplied ".(scalar(@rgbs) / 3)." colours, but $ncols were needed";
+            die "You supplied ".(scalar(@rgbs) / 4)." colours, but $ncols were needed";
         }
         my $replace = pack "C" . (scalar(@rgbs)), @rgbs;
         substr($mod, $offset+8, scalar(@rgbs), $replace);

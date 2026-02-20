@@ -17,6 +17,8 @@ hg_percentage     # 4                         ; percentage to show (N/I)
 hg_leds           # 4                         ; LED flags (N/I)
 hg_oldpointer     # 4                         ; Old pointer configuration
 hg_oldcolours     # 4 * 3                     ; Old palette entries
+hg_defcolours     # 4 * 3                     ; Default palette entries
+hg_curcolours     # 4 * 3                     ; Current palette entries
 hg_word           # 12                        ; OS_Word block
 hg_currentdata    # 4 * wordsperrow * height  ; Current data for the hourglass
 hg_workspacesize  * :INDEX: @                 ; Size of this workspace
@@ -798,8 +800,8 @@ frame_deltas
           = "PALD" ; marker string for the palette data
           DCD     2
 palette
-          DCB     24, 154, 248
-          DCB     173, 219, 230
+          DCB     24, 154, 248, 0
+          DCB     173, 219, 230, 0
           ALIGN
 
 ; Read the period between frames
@@ -837,7 +839,41 @@ hourglass_init SIGNATURE
           STR     w0, hg_word + 4
           LSR     w0, w1, #16                 ; and the high half word
           STR     w0, hg_word + 8
+          ADR     x1, palette                 ; get the built in palette
+          ADR     x2, hg_defcolours           ; where to store default colours
+          ADR     x3, hg_curcolours           ; where to store current colours
+          LDP     w0, w4, [x1], #8            ; read first 2 colours
+          LDR     w5, [x1]                    ; read 3rd colours
+          STP     w0, w4, [x2], #8            ; store first 2 colours as default
+          STR     w5, [x2]                    ; store 3rd colour as default
+          STP     w0, w4, [x3], #8            ; store first 2 colours as current
+          STR     w5, [x3]                    ; store 3rd colour as current
 ; no need to initialise the currentdata; it will be updated by the first frame
+          RET
+
+hourglass_reset_defcolours SIGNATURE
+          MOV     x12, x0
+          ADR     x1, palette                 ; get the built in palette
+          ADR     x2, hg_defcolours           ; where to store default colours
+          ADR     x3, hg_curcolours           ; where to store current colours
+          LDP     w0, w4, [x1], #8            ; read first 2 colours
+          LDR     w5, [x1]                    ; read 3rd colours
+          STP     w0, w4, [x2], #8            ; store first 2 colours as default
+          STR     w5, [x2]                    ; store 3rd colour as default
+          STP     w0, w4, [x3], #8            ; store first 2 colours as current
+          STR     w5, [x3]                    ; store 3rd colour as current
+          RET
+
+hourglass_reset_curcolours SIGNATURE
+          MOV     x12, x0
+          ADR     x1, hg_defcolours           ; get the default colours
+          ADR     x3, hg_curcolours           ; where to store current colours
+          LDP     w0, w4, [x1], #8            ; read first 2 colours
+          LDR     w5, [x1]                    ; read 3rd colours
+          STP     w0, w4, [x3], #8            ; store first 2 colours as default
+          STR     w5, [x3]                    ; store 3rd colour as default
+          STP     w0, w4, [x3], #8            ; store first 2 colours as current
+          STR     w5, [x3]                    ; store 3rd colour as current
           RET
 
 wordblock_0
@@ -884,30 +920,30 @@ hourglass_start SIGNATURE
           STR     w2, hg_oldcolours + (4 * 2)
 ; now set the palette up for our hourglass
           MOV     x1, sp
-          ADR     x2, palette
+          ADR     x2, hg_curcolours
 ; colour 1
           MOV     x0, #1
           STRB    w0, [x1, #0]
-          MOV     w0, #25                     ; set pointer colour 1
+          MOV     w0, #25                     ; set pointer colour
           STRB    w0, [x1, #1]
           LDRB    w0, [x2], #1
           STRB    w0, [x1, #2]                ; red
           LDRB    w0, [x2], #1
           STRB    w0, [x1, #3]                ; green
-          LDRB    w0, [x2], #1
+          LDRB    w0, [x2], #2                ; skip the 0 on the end of the word
           STRB    w0, [x1, #4]                ; blue
           MOV     w0, #12
           SWI     XOS_Word                    ; Set palette
 ; colour 2
           MOV     x0, #2
           STRB    w0, [x1, #0]
-          MOV     w0, #25                     ; set pointer colour 1
+          MOV     w0, #25                     ; set pointer colour
           STRB    w0, [x1, #1]
           LDRB    w0, [x2], #1
           STRB    w0, [x1, #2]                ; red
           LDRB    w0, [x2], #1
           STRB    w0, [x1, #3]                ; green
-          LDRB    w0, [x2], #1
+          LDRB    w0, [x2], #2                ; skip the 0 on the end of the word
           STRB    w0, [x1, #4]                ; blue
           MOV     w0, #12
           SWI     XOS_Word                    ; Set palette
@@ -972,6 +1008,8 @@ hourglass_stop SIGNATURE
           SWI     XOS_Byte
           MOV     x4, #-1                         ; mark as dead
           STR     x4, hg_oldpointer
+          MOV     x0, x12
+          BL      hourglass_reset_curcolours
 10
           ADD     sp, sp, #16
           LDP     x29, x30, [sp], #16
