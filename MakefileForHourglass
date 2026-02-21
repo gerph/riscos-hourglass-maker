@@ -1,3 +1,4 @@
+#!/usr/bin/make -f 
 ##
 # Build the hourglass RISC OS source files.
 #
@@ -79,3 +80,4 @@ else
 	mkdir -p rm32
 	${ROBUILD} -i ../for-riscos.zip -o rm32/Hourglass
 endif
+	if [ -f variants.txt ] ; then ../build-variants.pl $$(cat variants.txt) ; fi

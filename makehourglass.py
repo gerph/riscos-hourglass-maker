@@ -438,6 +438,8 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes, filename, bitness):
     lines.append("hg_leds           # 4                         ; LED flags (N/I)")
     lines.append("hg_oldpointer     # 4                         ; Old pointer configuration")
     lines.append("hg_oldcolours     # 4 * 3                     ; Old palette entries")
+    lines.append("hg_defcolours     # 4 * 3                     ; Default palette entries")
+    lines.append("hg_curcolours     # 4 * 3                     ; Current palette entries")
     lines.append("hg_word           # 12                        ; OS_Word block")
     lines.append("hg_currentdata    # 4 * wordsperrow * (height + percentage_height)  ; Current data for the hourglass")
     lines.append("hg_workspacesize  * :INDEX: @                 ; Size of this workspace")
@@ -529,10 +531,19 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes, filename, bitness):
 
     lines.append("")
     lines.append("; Palette data")
+    # Our marker string should allow us to change the default colour of the hourglass
+    # by just poking into the module.
+    # The format is:
+    #   PALD
+    #   <word holding the number of colours present, 1-3>
+    #   <r byte> <g byte> <b byte>
+    #   (repeated for the number of colours)
+    lines.append("          = \"PALD\" ; marker string for the palette data")
+    lines.append("          DCD     %i" % (len(shape.palette) - 1, ))
     lines.append("palette")
     # We skip the 0 entry, because colour 0 is transparent
     for r, g, b in shape.palette[1:]:
-        lines.append("          DCB     {}, {}, {}".format(r, g, b))
+        lines.append("          DCB     {}, {}, {}, 0".format(r, g, b))
     lines.append("          ALIGN")
 
     lines.append("")
@@ -568,6 +579,7 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes, filename, bitness):
     lines.append("hourglass_init SIGNATURE")
     lines.append("          EXPORT  hourglass_init")
     if bitness == 32:
+        lines.append("          STMFD   sp!, {r4, r5, lr}")
         lines.append("          MOV     r12, r0")
         lines.append("          MOV     r0, #0")
         lines.append("          STR     r0, hg_framenum")
@@ -586,8 +598,33 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes, filename, bitness):
         lines.append("          STR     r0, hg_word + 4")
         lines.append("          MOV     r0, r1, LSR #16             ; and the high half word")
         lines.append("          STR     r0, hg_word + 8")
+
+        lines.append("          MOV     r0, r12")
+        lines.append("          BL      hourglass_reset_defcolours")
+
         lines.append("; no need to initialise the currentdata; it will be updated by the first frame")
-        lines.append("          MOV     pc, lr")
+        lines.append("          LDMFD   sp!, {r4, r5, pc}")
+
+        lines.append("")
+        lines.append("hourglass_reset_defcolours SIGNATURE")
+        lines.append("          STMFD   sp!, {r4, r5, lr}")
+        lines.append("          MOV     r12, r0")
+        lines.append("          ADR     r1, palette                 ; get the built in palette")
+        lines.append("          ADR     r2, hg_defcolours           ; where to store default colours")
+        lines.append("          ADR     r3, hg_curcolours           ; where to store current colours")
+        lines.append("          LDMIA   r1!, {r0, r4, r5}           ; read all 3 colours")
+        lines.append("          STMIA   r2!, {r0, r4, r5}           ; store all 3 colours as default")
+        lines.append("          STMIA   r3!, {r0, r4, r5}           ; store all 3 colours as current")
+        lines.append("          LDMFD   sp!, {r4, r5, pc}")
+        lines.append("")
+        lines.append("hourglass_reset_curcolours SIGNATURE")
+        lines.append("          STMFD   sp!, {r4, r5, lr}")
+        lines.append("          MOV     r12, r0")
+        lines.append("          ADR     r1, hg_defcolours           ; get the default colours")
+        lines.append("          ADR     r3, hg_curcolours           ; where to store current colours")
+        lines.append("          LDMIA   r1!, {r0, r4, r5}           ; read all 3 colours")
+        lines.append("          STMIA   r3!, {r0, r4, r5}           ; store all 3 colours as current")
+        lines.append("          LDMFD   sp!, {r4, r5, pc}")
     else:
         lines.append("          MOV     x12, x0")
         lines.append("          MOV     x0, #0")
@@ -609,7 +646,44 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes, filename, bitness):
         lines.append("          STR     w0, hg_word + 4")
         lines.append("          LSR     w0, w1, #16                 ; and the high half word")
         lines.append("          STR     w0, hg_word + 8")
+
+        lines.append("          ADR     x1, palette                 ; get the built in palette")
+        lines.append("          ADR     x2, hg_defcolours           ; where to store default colours")
+        lines.append("          ADR     x3, hg_curcolours           ; where to store current colours")
+        lines.append("          LDP     w0, w4, [x1], #8            ; read first 2 colours")
+        lines.append("          LDR     w5, [x1]                    ; read 3rd colours")
+        lines.append("          STP     w0, w4, [x2], #8            ; store first 2 colours as default")
+        lines.append("          STR     w5, [x2]                    ; store 3rd colour as default")
+        lines.append("          STP     w0, w4, [x3], #8            ; store first 2 colours as current")
+        lines.append("          STR     w5, [x3]                    ; store 3rd colour as current")
+
         lines.append("; no need to initialise the currentdata; it will be updated by the first frame")
+        lines.append("          RET")
+
+        lines.append("")
+        lines.append("hourglass_reset_defcolours SIGNATURE")
+        lines.append("          MOV     x12, x0")
+        lines.append("          ADR     x1, palette                 ; get the built in palette")
+        lines.append("          ADR     x2, hg_defcolours           ; where to store default colours")
+        lines.append("          ADR     x3, hg_curcolours           ; where to store current colours")
+        lines.append("          LDP     w0, w4, [x1], #8            ; read first 2 colours")
+        lines.append("          LDR     w5, [x1]                    ; read 3rd colours")
+        lines.append("          STP     w0, w4, [x2], #8            ; store first 2 colours as default")
+        lines.append("          STR     w5, [x2]                    ; store 3rd colour as default")
+        lines.append("          STP     w0, w4, [x3], #8            ; store first 2 colours as current")
+        lines.append("          STR     w5, [x3]                    ; store 3rd colour as current")
+        lines.append("          RET")
+        lines.append("")
+        lines.append("hourglass_reset_curcolours SIGNATURE")
+        lines.append("          MOV     x12, x0")
+        lines.append("          ADR     x1, hg_defcolours           ; get the default colours")
+        lines.append("          ADR     x3, hg_curcolours           ; where to store current colours")
+        lines.append("          LDP     w0, w4, [x1], #8            ; read first 2 colours")
+        lines.append("          LDR     w5, [x1]                    ; read 3rd colours")
+        lines.append("          STP     w0, w4, [x3], #8            ; store first 2 colours as default")
+        lines.append("          STR     w5, [x3]                    ; store 3rd colour as default")
+        lines.append("          STP     w0, w4, [x3], #8            ; store first 2 colours as current")
+        lines.append("          STR     w5, [x3]                    ; store 3rd colour as current")
         lines.append("          RET")
 
     lines.append("")
@@ -654,7 +728,7 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes, filename, bitness):
         lines.append("          STR     r2, hg_oldcolours + (4 * 2)")
         lines.append("; now set the palette up for our hourglass")
         lines.append("          MOV     r1, sp")
-        lines.append("          ADRL    r2, palette")
+        lines.append("          ADR     r2, hg_curcolours")
     else:
         lines.append("          STP     x29, x30, [sp, #-16]!")
         lines.append("          MOV     x29, sp")
@@ -685,33 +759,33 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes, filename, bitness):
         lines.append("          STR     w2, hg_oldcolours + (4 * 2)")
         lines.append("; now set the palette up for our hourglass")
         lines.append("          MOV     x1, sp")
-        lines.append("          ADR     x2, palette")
+        lines.append("          ADR     x2, hg_curcolours")
 
     for colour_number in range(len(shape.palette) - 1):
         lines.append("; colour {}".format(colour_number + 1))
         if bitness == 32:
             lines.append("          MOV     r0, #{}".format(colour_number + 1))
             lines.append("          STRB    r0, [r1, #0]")
-            lines.append("          MOV     r0, #25                     ; set pointer colour 1")
+            lines.append("          MOV     r0, #25                     ; set pointer colour")
             lines.append("          STRB    r0, [r1, #1]")
             lines.append("          LDRB    r0, [r2], #1")
             lines.append("          STRB    r0, [r1, #2]                ; red")
             lines.append("          LDRB    r0, [r2], #1")
             lines.append("          STRB    r0, [r1, #3]                ; green")
-            lines.append("          LDRB    r0, [r2], #1")
+            lines.append("          LDRB    r0, [r2], #2                ; skip the 0 on the end of the word")
             lines.append("          STRB    r0, [r1, #4]                ; blue")
             lines.append("          MOV     r0, #12")
             lines.append("          SWI     XOS_Word                    ; Set palette")
         else:
             lines.append("          MOV     x0, #{}".format(colour_number + 1))
             lines.append("          STRB    w0, [x1, #0]")
-            lines.append("          MOV     w0, #25                     ; set pointer colour 1")
+            lines.append("          MOV     w0, #25                     ; set pointer colour")
             lines.append("          STRB    w0, [x1, #1]")
             lines.append("          LDRB    w0, [x2], #1")
             lines.append("          STRB    w0, [x1, #2]                ; red")
             lines.append("          LDRB    w0, [x2], #1")
             lines.append("          STRB    w0, [x1, #3]                ; green")
-            lines.append("          LDRB    w0, [x2], #1")
+            lines.append("          LDRB    w0, [x2], #2                ; skip the 0 on the end of the word")
             lines.append("          STRB    w0, [x1, #4]                ; blue")
             lines.append("          MOV     w0, #12")
             lines.append("          SWI     XOS_Word                    ; Set palette")
@@ -826,6 +900,9 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes, filename, bitness):
         lines.append("          MOV     r4, #-1                         ; mark as dead")
         lines.append("          STR     r4, hg_oldpointer")
 
+        lines.append("          MOV     r0, r12")
+        lines.append("          BL      hourglass_reset_curcolours")
+
         lines.append("10")
         lines.append("          ADD     sp, sp, #8")
         lines.append("          LDMFD   sp!, {r4, r5, pc}")
@@ -837,10 +914,104 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes, filename, bitness):
         lines.append("          MOV     x4, #-1                         ; mark as dead")
         lines.append("          STR     x4, hg_oldpointer")
 
+        lines.append("          MOV     x0, x12")
+        lines.append("          BL      hourglass_reset_curcolours")
+
         lines.append("10")
         lines.append("          ADD     sp, sp, #16")
         lines.append("          LDP     x29, x30, [sp], #16")
         lines.append("          RET")
+
+    lines.append("")
+    lines.append("; Get the colour information")
+    lines.append("; =>  R0 = hourglass workspace")
+    lines.append(";     R1-> where to store pointer to (3 colour words in form &BBGGRR)")
+    lines.append("; <=  number of colours present")
+    hlines.append("int hourglass_getcolours(hourglass_workspace_t *ws, int **colsp);")
+    lines.append("hourglass_getcolours SIGNATURE")
+    lines.append("          EXPORT  hourglass_getcolours")
+    if bitness == 32:
+        lines.append("          MOV     r12, r0")
+        lines.append("          ADR     r2, hg_curcolours               ; current colours")
+        lines.append("          STR     r2, [r1]                        ; store to return")
+        lines.append("          MOV     r0, #%i" % (len(shape.palette) - 1,))
+        lines.append("          MOV     pc, lr")
+    else:
+        lines.append("          MOV     x12, x0")
+        lines.append("          ADR     x2, hg_curcolours               ; current colours")
+        lines.append("          STR     x2, [x1]                        ; store to return")
+        lines.append("          MOV     x0, #%i" % (len(shape.palette) -1,))
+        lines.append("          RET")
+
+    lines.append("")
+    hlines.append("void hourglass_changecolours(hourglass_workspace_t *ws);")
+    lines.append("hourglass_changecolours SIGNATURE")
+    lines.append("          EXPORT  hourglass_changecolours")
+    if bitness == 32:
+        lines.append("          STMFD   sp!, {r4, r5, lr}")
+        lines.append("          SUB     sp, sp, #8")
+        lines.append("          MOV     r12, r0")
+
+        lines.append("          LDR     r4, hg_oldpointer               ; work out the old pointer shape")
+        lines.append("          CMP     r4, #-1                         ; is it dead?")
+        lines.append("          BEQ     %FT10                           ;   yes, so skip all stopping")
+
+        lines.append("          MOV     r1, sp")
+
+    else:
+        lines.append("          STP     x29, x30, [sp, #-16]!")
+        lines.append("          MOV     x29, sp")
+        lines.append("          SUB     sp, sp, #16")
+        lines.append("          MOV     x12, x0")
+
+        lines.append("          LDR     w4, hg_oldpointer               ; work out the old pointer shape")
+        lines.append("          CMP     w4, #-1                         ; is it dead?")
+        lines.append("          BEQ     %FT10                           ;   yes, so skip all stopping")
+        lines.append("          MOV     x1, sp")
+
+    # Set the colours
+    for colour_number in range(len(shape.palette) - 1):
+        if bitness == 32:
+            lines.append("; colour {}".format(colour_number + 1))
+            lines.append("          ADR     r2, hg_curcolours + (4 * {})".format(colour_number))
+            lines.append("          MOV     r0, #{}".format(colour_number + 1))
+            lines.append("          STRB    r0, [r1, #0]")
+            lines.append("          MOV     r0, #25                         ; set pointer colour 1")
+            lines.append("          STRB    r0, [r1, #1]")
+            lines.append("          LDRB    r0, [r2], #1")
+            lines.append("          STRB    r0, [r1, #2]                    ; red")
+            lines.append("          LDRB    r0, [r2], #1")
+            lines.append("          STRB    r0, [r1, #3]                    ; green")
+            lines.append("          LDRB    r0, [r2], #1")
+            lines.append("          STRB    r0, [r1, #4]                    ; blue")
+            lines.append("          MOV     r0, #12")
+            lines.append("          SWI     XOS_Word                        ; Set palette")
+        else:
+            lines.append("; colour {}".format(colour_number + 1))
+            lines.append("          ADR     x2, hg_curcolours + (4 * {})".format(colour_number))
+            lines.append("          MOV     w0, #{}".format(colour_number + 1))
+            lines.append("          STRB    w0, [x1, #0]")
+            lines.append("          MOV     w0, #25                         ; set pointer colour 1")
+            lines.append("          STRB    w0, [x1, #1]")
+            lines.append("          LDRB    w0, [x2], #1")
+            lines.append("          STRB    w0, [x1, #2]                    ; red")
+            lines.append("          LDRB    w0, [x2], #1")
+            lines.append("          STRB    w0, [x1, #3]                    ; green")
+            lines.append("          LDRB    w0, [x2], #1")
+            lines.append("          STRB    w0, [x1, #4]                    ; blue")
+            lines.append("          MOV     w0, #12")
+            lines.append("          SWI     XOS_Word                        ; Set palette")
+
+    if bitness == 32:
+        lines.append("10")
+        lines.append("          ADD     sp, sp, #8")
+        lines.append("          LDMFD   sp!, {r4, r5, pc}")
+    else:
+        lines.append("10")
+        lines.append("          ADD     sp, sp, #16")
+        lines.append("          LDP     x29, x30, [sp], #16")
+        lines.append("          RET")
+
 
     lines.append("")
     lines.append("; Frame update - sets the hourglass shape for the current frame")

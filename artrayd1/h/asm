@@ -7,6 +7,8 @@ int hourglass_getwssize(void);
 void hourglass_init(hourglass_workspace_t *ws);
 void hourglass_start(hourglass_workspace_t *ws);
 void hourglass_stop(hourglass_workspace_t *ws);
+int hourglass_getcolours(hourglass_workspace_t *ws, int **colsp);
+void hourglass_changecolours(hourglass_workspace_t *ws);
 void hourglass_frame(hourglass_workspace_t *ws);
 void hourglass_frame_irq(void);
 void hourglass_percentage(hourglass_workspace_t *ws, int percentage);

@@ -22,7 +22,10 @@ The modules are constructed from animated GIFs through a number of transformatio
 The result is that from a single `make` command, RISC OS hourglasses are made from GIFs.
 The full build process requires cross compiling tools, but the repository contains the outputs sufficient that the sources may build on RISC OS.
 
-## Enclosed hourglasses
+## Included hourglasses
+
+There are some colour variants of the hourglasses which are suffixed to allow them to
+be obviously different from their base versions.
 
 ### Animated hourglasses
 
@@ -34,6 +37,7 @@ The full build process requires cross compiling tools, but the repository contai
 * `cog`: A SVG based cog which just turns, using a single colour.
 * `cog-bordered`: Same as `cog-bordered`, but with a black border around it.
 * `catgbp1990`: A rotating earth.
+* `jimphic`: An animated circle of blocks.
 
 ### Static hourglasses
 
@@ -85,6 +89,7 @@ amu -f ^.MakefileROModule BUILD32=1
     - Run the `aif32.hourglass_test` program to check that the assembler has been built correctly.
     - Load the `rm32.Hourglass` module and issue `*Hon` to check that it behaves as expected.
 - Rinse and repeat.
+- If you want, you can create a `variants.txt` file which contains a set of colour triples and a name. See the `cog/variants.txt` for an example of a blue variant on the Hourglass.
 - If you're really happy with the hourglass, why not add it to the main repository:
     - Update the top level `Makefile` to add the directory name to the `HOURGLASSES` variable.
     - Run `make` (or `USE_ROBUILD=1 make` if you don't have the cross-compiling tools).
