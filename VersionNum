@@ -1,24 +1,24 @@
-/* Hourglass (0.05) 00:39:28 20/2/2026
+/* Hourglass (0.06) 01:31:21 21/2/2026
  *
  * This file is automatically maintained by vmanage, do not edit manually.
  *
  */
-#define Module_MajorVersion_CMHG        0.05
+#define Module_MajorVersion_CMHG        0.06
 #define Module_MinorVersion_CMHG        
-#define Module_Date_CMHG                20 Feb 2026
+#define Module_Date_CMHG                21 Feb 2026
 
-#define Module_MajorVersion             "0.05"
-#define Module_Version                  5
+#define Module_MajorVersion             "0.06"
+#define Module_Version                  6
 #define Module_MinorVersion             ""
-#define Module_Date                     "20 Feb 2026"
+#define Module_Date                     "21 Feb 2026"
 
-#define Module_ApplicationDate2         "20-Feb-26"
-#define Module_ApplicationDate4         "20-Feb-2026"
+#define Module_ApplicationDate2         "21-Feb-26"
+#define Module_ApplicationDate4         "21-Feb-2026"
 
 #define Module_ComponentName            "Hourglass"
 #define Module_ComponentBranch          ""
 #define Module_ComponentPath            "Hourglass"
 
-#define Module_FullVersion              "0.05"
-#define Module_FullVersionAndDate       "0.05 (20 Feb 2026)"
-#define Module_HelpVersion              "0.05 (20 Feb 2026)"
+#define Module_FullVersion              "0.06"
+#define Module_FullVersionAndDate       "0.06 (21 Feb 2026)"
+#define Module_HelpVersion              "0.06 (21 Feb 2026)"
