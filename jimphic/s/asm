@@ -1,0 +1,751 @@
+          AREA |C$$code|, CODE, READONLY
+
+; constants
+width             * 32
+height            * 32
+period            * 8
+wordsperrow       * 2
+nwords            * 342
+nframes           * 24
+active_x          * 16
+active_y          * 16
+
+; Workspace for changing the hourglass rendition
+                  ^ 0, r12
+hg_framenum       # 4                         ; frame number
+hg_percentage     # 4                         ; percentage to show (N/I)
+hg_leds           # 4                         ; LED flags (N/I)
+hg_oldpointer     # 4                         ; Old pointer configuration
+hg_oldcolours     # 4 * 3                     ; Old palette entries
+hg_defcolours     # 4 * 3                     ; Default palette entries
+hg_curcolours     # 4 * 3                     ; Current palette entries
+hg_word           # 12                        ; OS_Word block
+hg_currentdata    # 4 * wordsperrow * height  ; Current data for the hourglass
+hg_workspacesize  * :INDEX: @                 ; Size of this workspace
+
+; SWI numbers
+XOS_Byte          * 0x20006
+XOS_Word          * 0x20007
+XOS_ReadPalette   * 0x2002F
+
+; -------------------------------------------------
+        MACRO
+$label  SIGNATURE
+        ALIGN   4
+        =       "$label",0
+        ALIGN   4
+        DCD     &FF000000+(:LEN:"$label"+4):AND::NOT:3
+$label
+        MEND
+
+
+; Data for deltas between frames
+deltas
+          ; frame 0
+          DCD     &00000000, &00000000, &00000000
+          DCD     &00000008, &00000000, &00000055
+          DCD     &00000010, &00000000, &00001555
+          DCD     &00000018, &00000000, &00001555
+          DCD     &00000020, &00015000, &00054555
+          DCD     &00000028, &00015400, &00155555
+          DCD     &00000030, &00055500, &00555155
+          DCD     &00000038, &fc155500, &00555440
+          DCD     &00000040, &ff555500, &00555400
+          DCD     &00000048, &ff055450, &05155000
+          DCD     &00000050, &ff014550, &05514000
+          DCD     &00000058, &fc001550, &05540000
+          DCD     &00000060, &f4005554, &15550000
+          DCD     &00000068, &00001554, &15540000
+          DCD     &00000070, &00001554, &15540000
+          DCD     &00000078, &00001554, &15540000
+          DCD     &00000080, &00001554, &15540000
+          DCD     &00000088, &00001554, &15540000
+          DCD     &00000090, &00001554, &15540000
+          DCD     &00000098, &00005554, &15550000
+          DCD     &000000a0, &00001550, &05540000
+          DCD     &000000a8, &00014550, &05514000
+          DCD     &000000b0, &00055450, &05155000
+          DCD     &000000b8, &00155500, &00555400
+          DCD     &000000c0, &01155500, &00555440
+          DCD     &000000c8, &55455500, &00555155
+          DCD     &000000d0, &55515400, &00155555
+          DCD     &000000d8, &55515000, &00054555
+          DCD     &000000e0, &55540000, &00001555
+          DCD     &000000e8, &55540000, &00001555
+          DCD     &000000f0, &55000000, &00000055
+          DCD     &000000f8, &00000000, &00000000
+          DCD     -1
+          ; frame 1
+          DCD     &00000020, &00000000, &00054555
+          DCD     &00000028, &00000000, &00155555
+          DCD     &00000030, &00000000, &00555155
+          DCD     &00000038, &fc000000, &00555440
+          DCD     &00000040, &ffc00000, &00555400
+          DCD     &00000048, &fff00050, &05155000
+          DCD     &00000050, &fffc0550, &05514000
+          DCD     &00000058, &ffff1550, &05540000
+          DCD     &00000060, &fffc5554, &15550000
+          DCD     &00000068, &1fc01554, &15540000
+          DCD     &00000070, &01001554, &15540000
+          DCD     -1
+          ; frame 2
+          DCD     &00000048, &fff00000, &05155000
+          DCD     &00000050, &fffc0000, &05514000
+          DCD     &00000058, &ffff0000, &05540000
+          DCD     &00000060, &ffff0000, &15550000
+          DCD     &00000068, &1fffc000, &15540000
+          DCD     &00000070, &07ffc000, &15540000
+          DCD     &00000078, &03ffc000, &15540000
+          DCD     -1
+          ; frame 3
+          DCD     &00000080, &03ffc000, &15540000
+          DCD     &00000088, &03ffc000, &15540000
+          DCD     &00000090, &01ffc000, &15540000
+          DCD     &00000098, &001f0000, &15550000
+          DCD     &000000a0, &00010000, &05540000
+          DCD     &000000a8, &00014000, &05514000
+          DCD     &000000b0, &00055400, &05155000
+          DCD     -1
+          ; frame 4
+          DCD     &00000088, &07ffc000, &15540000
+          DCD     &00000090, &1fffc000, &15540000
+          DCD     &00000098, &1fff0000, &15550000
+          DCD     &000000a0, &0fff0000, &05540000
+          DCD     &000000a8, &03fc0000, &05514000
+          DCD     &000000b0, &03f00000, &05155000
+          DCD     &000000b8, &00c00000, &00555400
+          DCD     &000000c0, &01000000, &00555440
+          DCD     &000000c8, &55400000, &00555155
+          DCD     &000000d0, &55500000, &00155555
+          DCD     &000000d8, &55500000, &00054555
+          DCD     -1
+          ; frame 5
+          DCD     &00000098, &ffff0000, &15550000
+          DCD     &000000a0, &ffff0000, &05540000
+          DCD     &000000a8, &fffc0000, &05514000
+          DCD     &000000b0, &fff00000, &05155000
+          DCD     &000000b8, &ffc00000, &00555400
+          DCD     &000000c0, &fc000000, &00555440
+          DCD     &000000c8, &00000000, &00555155
+          DCD     &000000d0, &00000000, &00155555
+          DCD     &000000d8, &00000000, &00054555
+          DCD     &000000e0, &00000000, &00001555
+          DCD     &000000e8, &00000000, &00001555
+          DCD     &000000f0, &00000000, &00000055
+          DCD     -1
+          ; frame 6
+          DCD     &00000098, &ffff0000, &1555001f
+          DCD     &000000a0, &ffff0000, &0554003f
+          DCD     &000000a8, &fffc0000, &055140ff
+          DCD     &000000b0, &fff00000, &051550ff
+          DCD     &000000b8, &ffc00000, &005555ff
+          DCD     &000000c0, &f4000000, &0055541f
+          DCD     &000000c8, &00000000, &00555000
+          DCD     &000000d0, &00000000, &00154000
+          DCD     &000000d8, &00000000, &00054000
+          DCD     &000000e0, &00000000, &00000000
+          DCD     &000000e8, &00000000, &00000000
+          DCD     &000000f0, &00000000, &00000000
+          DCD     -1
+          ; frame 7
+          DCD     &00000088, &07ffc000, &15540050
+          DCD     &00000090, &1fffc000, &155403f4
+          DCD     &00000098, &ffff0000, &15553fff
+          DCD     &000000a0, &ffff0000, &0554ffff
+          DCD     &000000a8, &fffc0000, &05503fff
+          DCD     &000000b0, &fff00000, &05000fff
+          DCD     &000000b8, &ffc00000, &000003ff
+          DCD     &000000c0, &fc000000, &0000003f
+          DCD     &000000c8, &00000000, &00000000
+          DCD     &000000d0, &00000000, &00000000
+          DCD     &000000d8, &00000000, &00000000
+          DCD     -1
+          ; frame 8
+          DCD     &00000078, &03ffc000, &15550000
+          DCD     &00000080, &03ffc000, &0003ffc0
+          DCD     &00000088, &07ffc000, &0003ffd0
+          DCD     &00000090, &1fffc000, &0003fff4
+          DCD     &00000098, &ffff0000, &0000ffff
+          DCD     &000000a0, &ffff0000, &0000ffff
+          DCD     &000000a8, &fffc0000, &00003fff
+          DCD     &000000b0, &fff00000, &00000fff
+          DCD     &000000c0, &f4000000, &0000001f
+          DCD     -1
+          ; frame 9
+          DCD     &00000048, &fff00000, &00155000
+          DCD     &00000050, &fffc0000, &00014000
+          DCD     &00000058, &ffff0000, &00004000
+          DCD     &00000060, &ffff0000, &0000f400
+          DCD     &00000068, &1fffc000, &0003ff40
+          DCD     &00000070, &07ffc000, &0003ffc0
+          DCD     &00000078, &03ffc000, &0003ffc0
+          DCD     &000000c0, &fc000000, &0000003f
+          DCD     -1
+          ; frame 10
+          DCD     &00000020, &00000000, &00000555
+          DCD     &00000028, &00000000, &00000555
+          DCD     &00000030, &00000000, &00000155
+          DCD     &00000038, &fc000000, &00000040
+          DCD     &00000040, &ffc00000, &00000300
+          DCD     &00000048, &fff00000, &00000fc0
+          DCD     &00000050, &fffc0000, &00003fc0
+          DCD     &00000058, &ffff0000, &0000fff0
+          DCD     &00000060, &ffff0000, &0000fff4
+          DCD     &00000068, &1fffc000, &0003fff4
+          DCD     &00000070, &07ffc000, &0003ffd0
+          DCD     &000000c0, &f4000000, &0000001f
+          DCD     -1
+          ; frame 11
+          DCD     &00000008, &00000000, &00000000
+          DCD     &00000010, &00000000, &00000000
+          DCD     &00000018, &00000000, &00000000
+          DCD     &00000020, &00000000, &00000000
+          DCD     &00000028, &00000000, &00000000
+          DCD     &00000030, &00000000, &00000000
+          DCD     &00000038, &fc000000, &0000003f
+          DCD     &00000040, &ffc00000, &000003ff
+          DCD     &00000048, &fff00000, &00000fff
+          DCD     &00000050, &fffc0000, &00003fff
+          DCD     &00000058, &ffff0000, &0000ffff
+          DCD     &00000060, &ffff0000, &0000ffff
+          DCD     &000000c0, &fc000000, &0000003f
+          DCD     -1
+          ; frame 12
+          DCD     &00000008, &55000000, &00000000
+          DCD     &00000010, &55540000, &00000000
+          DCD     &00000018, &55540000, &00000000
+          DCD     &00000020, &55500000, &00000000
+          DCD     &00000028, &55500000, &00000000
+          DCD     &00000030, &55400000, &00000000
+          DCD     &00000038, &41000000, &0000003f
+          DCD     &00000040, &00c00000, &000003ff
+          DCD     &00000048, &03f00000, &00000fff
+          DCD     &00000050, &03fc0000, &00003fff
+          DCD     &00000058, &0fff0000, &0000ffff
+          DCD     &00000060, &1fff0000, &0000ffff
+          DCD     &00000068, &0fffc000, &0003fff4
+          DCD     &000000c0, &f4000000, &0000001f
+          DCD     -1
+          ; frame 13
+          DCD     &00000020, &55515000, &00000000
+          DCD     &00000028, &55555400, &00000000
+          DCD     &00000030, &55455500, &00000000
+          DCD     &00000038, &41155500, &0000003f
+          DCD     &00000040, &00155500, &000003ff
+          DCD     &00000048, &00055000, &00000fff
+          DCD     &00000050, &00014000, &00003fff
+          DCD     &00000058, &00010000, &0000ffff
+          DCD     &00000060, &003f0000, &0000ffff
+          DCD     &00000068, &01ffc000, &0003fff4
+          DCD     &00000070, &03ffc000, &0003ffd0
+          DCD     -1
+          ; frame 14
+          DCD     &00000048, &00055450, &00000fff
+          DCD     &00000050, &00014550, &00003fff
+          DCD     &00000058, &00001550, &0000ffff
+          DCD     &00000060, &00005554, &0000ffff
+          DCD     &00000068, &00001554, &0003fff4
+          DCD     &00000070, &00001554, &0003ffd0
+          DCD     &00000078, &00005554, &0003ffc0
+          DCD     -1
+          ; frame 15
+          DCD     &00000078, &00001554, &0003ffc0
+          DCD     &00000080, &00001554, &0003ffc0
+          DCD     &00000088, &05001554, &0003ffd0
+          DCD     &00000090, &1fc01554, &0003fff4
+          DCD     &00000098, &fffc5554, &0000ffff
+          DCD     &000000a0, &ffff1550, &0000ffff
+          DCD     &000000a8, &fffc0550, &00003fff
+          DCD     &000000b0, &fff00050, &00000fff
+          DCD     -1
+          ; frame 16
+          DCD     &00000088, &00001554, &0003ffd0
+          DCD     &00000090, &00001554, &0003fff4
+          DCD     &00000098, &f4005554, &0000ffff
+          DCD     &000000a0, &fc001550, &0000ffff
+          DCD     &000000a8, &ff014550, &00003fff
+          DCD     &000000b0, &ff055450, &00000fff
+          DCD     &000000b8, &ff555500, &000003ff
+          DCD     &000000c0, &fc155500, &0000003f
+          DCD     &000000c8, &00055500, &00000000
+          DCD     &000000d0, &00015400, &00000000
+          DCD     &000000d8, &00015000, &00000000
+          DCD     -1
+          ; frame 17
+          DCD     &00000098, &00005554, &0000ffff
+          DCD     &000000a0, &00001550, &0000ffff
+          DCD     &000000a8, &00014550, &00003fff
+          DCD     &000000b0, &00055450, &00000fff
+          DCD     &000000b8, &00155500, &000003ff
+          DCD     &000000c0, &41155500, &0000003f
+          DCD     &000000c8, &55455500, &00000000
+          DCD     &000000d0, &55555400, &00000000
+          DCD     &000000d8, &55515000, &00000000
+          DCD     &000000e0, &55540000, &00000000
+          DCD     &000000e8, &55540000, &00000000
+          DCD     &000000f0, &55000000, &00000000
+          DCD     -1
+          ; frame 18
+          DCD     &00000098, &00005554, &0000fff4
+          DCD     &000000a0, &00001550, &0000fff0
+          DCD     &000000a8, &00014550, &00003fc0
+          DCD     &000000b0, &00055450, &00000fc0
+          DCD     &000000b8, &00155500, &00000300
+          DCD     &000000c0, &01155500, &00000040
+          DCD     &000000c8, &55455500, &00000155
+          DCD     &000000d0, &55555400, &00000555
+          DCD     &000000d8, &55515000, &00000555
+          DCD     &000000e0, &55540000, &00001555
+          DCD     &000000e8, &55540000, &00001555
+          DCD     &000000f0, &55000000, &00000055
+          DCD     -1
+          ; frame 19
+          DCD     &00000088, &00001554, &0003ffc0
+          DCD     &00000090, &00001554, &0003ff40
+          DCD     &00000098, &00005554, &0000f400
+          DCD     &000000a0, &00001550, &00004000
+          DCD     &000000a8, &00014550, &00014000
+          DCD     &000000b0, &00055450, &00155000
+          DCD     &000000b8, &00155500, &00555400
+          DCD     &000000c0, &01155500, &00555440
+          DCD     &000000c8, &55455500, &00555155
+          DCD     &000000d0, &55555400, &00155555
+          DCD     &000000d8, &55515000, &00054555
+          DCD     -1
+          ; frame 20
+          DCD     &00000080, &00001554, &15550000
+          DCD     &00000088, &00001554, &15540000
+          DCD     &00000090, &00001554, &15540000
+          DCD     &00000098, &00005554, &15550000
+          DCD     &000000a0, &00001550, &05540000
+          DCD     &000000a8, &00014550, &05514000
+          DCD     &000000b0, &00055450, &05155000
+          DCD     -1
+          ; frame 21
+          DCD     &00000048, &00055450, &05000fff
+          DCD     &00000050, &00014550, &05503fff
+          DCD     &00000058, &00001550, &0554ffff
+          DCD     &00000060, &00005554, &15553fff
+          DCD     &00000068, &00001554, &155403f4
+          DCD     &00000070, &00001554, &15540050
+          DCD     &00000078, &00001554, &15540000
+          DCD     &00000080, &00001554, &15540000
+          DCD     -1
+          ; frame 22
+          DCD     &00000020, &55515000, &00054000
+          DCD     &00000028, &55555400, &00154000
+          DCD     &00000030, &55455500, &00555000
+          DCD     &00000038, &41155500, &0055543f
+          DCD     &00000040, &00155500, &005555ff
+          DCD     &00000048, &00055450, &051550ff
+          DCD     &00000050, &00014550, &055140ff
+          DCD     &00000058, &00001550, &0554003f
+          DCD     &00000060, &00005554, &1555001f
+          DCD     &00000068, &00001554, &15540000
+          DCD     &00000070, &00001554, &15540000
+          DCD     -1
+          ; frame 23
+          DCD     &00000008, &55000000, &00000055
+          DCD     &00000010, &55540000, &00001555
+          DCD     &00000018, &55540000, &00001555
+          DCD     &00000020, &55515000, &00054555
+          DCD     &00000028, &55555400, &00155555
+          DCD     &00000030, &55455500, &00555155
+          DCD     &00000038, &01155500, &00555440
+          DCD     &00000040, &00155500, &00555400
+          DCD     &00000048, &00055450, &05155000
+          DCD     &00000050, &00014550, &05514000
+          DCD     &00000058, &00001550, &05540000
+          DCD     &00000060, &00005554, &15550000
+          DCD     -1
+
+; Offsets into the deltas for each frame
+frame_deltas
+          DCD     0  ; frame 0
+          DCD     388  ; frame 1
+          DCD     524  ; frame 2
+          DCD     612  ; frame 3
+          DCD     700  ; frame 4
+          DCD     836  ; frame 5
+          DCD     984  ; frame 6
+          DCD     1132  ; frame 7
+          DCD     1268  ; frame 8
+          DCD     1380  ; frame 9
+          DCD     1480  ; frame 10
+          DCD     1628  ; frame 11
+          DCD     1788  ; frame 12
+          DCD     1960  ; frame 13
+          DCD     2096  ; frame 14
+          DCD     2184  ; frame 15
+          DCD     2284  ; frame 16
+          DCD     2420  ; frame 17
+          DCD     2568  ; frame 18
+          DCD     2716  ; frame 19
+          DCD     2852  ; frame 20
+          DCD     2940  ; frame 21
+          DCD     3040  ; frame 22
+          DCD     3176  ; frame 23
+
+; Palette data
+          = "PALD" ; marker string for the palette data
+          DCD     3
+palette
+          DCB     143, 166, 189, 0
+          DCB     0, 0, 0, 0
+          DCB     71, 190, 238, 0
+          ALIGN
+
+; Read the period between frames
+; <=  R0 = cs between frames
+hourglass_getframeperiod SIGNATURE
+          EXPORT  hourglass_getframeperiod
+          MOV     r0, #period
+          MOV     pc, lr
+
+
+; Read the size of the workspace block
+; <=  R0 = size of hourglass workspace
+hourglass_getwssize SIGNATURE
+          EXPORT  hourglass_getwssize
+          MOV     r0, #hg_workspacesize
+          MOV     pc, lr
+
+; Initialisation function
+; =>  R0 = hourglass workspace
+hourglass_init SIGNATURE
+          EXPORT  hourglass_init
+          STMFD   sp!, {r4, r5, lr}
+          MOV     r12, r0
+          MOV     r0, #0
+          STR     r0, hg_framenum
+          STR     r0, hg_percentage
+          STR     r0, hg_leds
+          LDR     r0, wordblock_0
+          STR     r0, hg_word
+          MOV     r0, #-1
+          STR     r0, hg_oldpointer
+          LDR     r0, wordblock_4
+          ADR     r1, hg_currentdata
+          ORR     r0, r0, r1, LSL #16         ; assign the low half word of pointer data
+          STR     r0, hg_word + 4
+          MOV     r0, r1, LSR #16             ; and the high half word
+          STR     r0, hg_word + 8
+          MOV     r0, r12
+          BL      hourglass_reset_defcolours
+; no need to initialise the currentdata; it will be updated by the first frame
+          LDMFD   sp!, {r4, r5, pc}
+
+hourglass_reset_defcolours SIGNATURE
+          STMFD   sp!, {r4, r5, lr}
+          MOV     r12, r0
+          ADR     r1, palette                 ; get the built in palette
+          ADR     r2, hg_defcolours           ; where to store default colours
+          ADR     r3, hg_curcolours           ; where to store current colours
+          LDMIA   r1!, {r0, r4, r5}           ; read all 3 colours
+          STMIA   r2!, {r0, r4, r5}           ; store all 3 colours as default
+          STMIA   r3!, {r0, r4, r5}           ; store all 3 colours as current
+          LDMFD   sp!, {r4, r5, pc}
+
+hourglass_reset_curcolours SIGNATURE
+          STMFD   sp!, {r4, r5, lr}
+          MOV     r12, r0
+          ADR     r1, hg_defcolours           ; get the default colours
+          ADR     r3, hg_curcolours           ; where to store current colours
+          LDMIA   r1!, {r0, r4, r5}           ; read all 3 colours
+          STMIA   r3!, {r0, r4, r5}           ; store all 3 colours as current
+          LDMFD   sp!, {r4, r5, pc}
+
+wordblock_0
+          DCB     0                           ; define pointer shape
+          DCB     3                           ; shape number (will toggle 3-4)
+          DCB     (width*2+7)/8               ; width in bytes
+          DCB     height                      ; height
+wordblock_4
+          DCB     active_x                    ; active x offset
+          DCB     active_y                    ; active y offset
+          DCB     0                           ; b0-7 of the address of the pointer data
+          DCB     0                           ; b8-15 of address of the pointer data
+
+; Start the hourglass
+; =>  R0 = hourglass workspace
+hourglass_start SIGNATURE
+          EXPORT  hourglass_start
+          STMFD   sp!, {r4, r5, lr}
+          SUB     sp, sp, #8
+          MOV     r12, r0
+          MOV     r0, #0
+          STR     r0, hg_framenum
+          MOV     r0, #1
+          MOV     r1, #25                     ; read pointer colour 1
+          SWI     XOS_ReadPalette
+          LDRVS   r2, =&81397900              ; purple if it wasn't set
+          STR     r2, hg_oldcolours + (4 * 0)
+          MOV     r0, #2
+          MOV     r1, #25                     ; read pointer colour 2
+          SWI     XOS_ReadPalette
+          LDRVS   r2, =&66FFFF00              ; yellow if it wasn't set
+          STR     r2, hg_oldcolours + (4 * 1)
+          MOV     r0, #3
+          MOV     r1, #25                     ; read pointer colour 3
+          SWI     XOS_ReadPalette
+          LDRVS   r2, =&00000000              ; black if it wasn't set
+          STR     r2, hg_oldcolours + (4 * 2)
+; now set the palette up for our hourglass
+          MOV     r1, sp
+          ADR     r2, hg_curcolours
+; colour 1
+          MOV     r0, #1
+          STRB    r0, [r1, #0]
+          MOV     r0, #25                     ; set pointer colour
+          STRB    r0, [r1, #1]
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #2]                ; red
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #3]                ; green
+          LDRB    r0, [r2], #2                ; skip the 0 on the end of the word
+          STRB    r0, [r1, #4]                ; blue
+          MOV     r0, #12
+          SWI     XOS_Word                    ; Set palette
+; colour 2
+          MOV     r0, #2
+          STRB    r0, [r1, #0]
+          MOV     r0, #25                     ; set pointer colour
+          STRB    r0, [r1, #1]
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #2]                ; red
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #3]                ; green
+          LDRB    r0, [r2], #2                ; skip the 0 on the end of the word
+          STRB    r0, [r1, #4]                ; blue
+          MOV     r0, #12
+          SWI     XOS_Word                    ; Set palette
+; colour 3
+          MOV     r0, #3
+          STRB    r0, [r1, #0]
+          MOV     r0, #25                     ; set pointer colour
+          STRB    r0, [r1, #1]
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #2]                ; red
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #3]                ; green
+          LDRB    r0, [r2], #2                ; skip the 0 on the end of the word
+          STRB    r0, [r1, #4]                ; blue
+          MOV     r0, #12
+          SWI     XOS_Word                    ; Set palette
+          MOV     r1, #127                        ; invalid pointer number to read the pointer
+          MOV     r0, #106                        ; select pointer
+          SWI     XOS_Byte
+          MOVVS   r1, #0                          ; if there was an error, turn off
+          STR     r1, hg_oldpointer
+          ADD     sp, sp, #8
+          LDMFD   sp!, {r4, r5, lr}
+          MOV     r0, r12
+          B       hourglass_frame                 ; exit via the first frame
+
+; Stop the hourglass
+; =>  R0 = hourglass workspace
+hourglass_stop SIGNATURE
+          EXPORT  hourglass_stop
+          STMFD   sp!, {r4, r5, lr}
+          SUB     sp, sp, #8
+          MOV     r12, r0
+          LDR     r4, hg_oldpointer               ; work out the old pointer shape
+          CMP     r4, #-1                         ; is it dead?
+          BEQ     %FT10                           ;   yes, so skip all stopping
+          BIC     r1, r4, #127                    ; turn off the pointer whilst we change colours
+          MOV     r0, #106                        ; select pointer
+          SWI     XOS_Byte
+; restore the palette up for old pointer
+          MOV     r1, sp
+; colour 1
+          ADR     r2, hg_oldcolours + (4 * 0) + 1
+          MOV     r0, #1
+          STRB    r0, [r1, #0]
+          MOV     r0, #25                         ; set pointer colour 1
+          STRB    r0, [r1, #1]
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #2]                    ; red
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #3]                    ; green
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #4]                    ; blue
+          MOV     r0, #12
+          SWI     XOS_Word                        ; Set palette
+; colour 2
+          ADR     r2, hg_oldcolours + (4 * 1) + 1
+          MOV     r0, #2
+          STRB    r0, [r1, #0]
+          MOV     r0, #25                         ; set pointer colour 1
+          STRB    r0, [r1, #1]
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #2]                    ; red
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #3]                    ; green
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #4]                    ; blue
+          MOV     r0, #12
+          SWI     XOS_Word                        ; Set palette
+; colour 3
+          ADR     r2, hg_oldcolours + (4 * 2) + 1
+          MOV     r0, #3
+          STRB    r0, [r1, #0]
+          MOV     r0, #25                         ; set pointer colour 1
+          STRB    r0, [r1, #1]
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #2]                    ; red
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #3]                    ; green
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #4]                    ; blue
+          MOV     r0, #12
+          SWI     XOS_Word                        ; Set palette
+          MOV     r1, r4                          ; re-select the old pointer number
+          MOV     r0, #106                        ; select pointer
+          SWI     XOS_Byte
+          MOV     r4, #-1                         ; mark as dead
+          STR     r4, hg_oldpointer
+          MOV     r0, r12
+          BL      hourglass_reset_curcolours
+10
+          ADD     sp, sp, #8
+          LDMFD   sp!, {r4, r5, pc}
+
+; Get the colour information
+; =>  R0 = hourglass workspace
+;     R1-> where to store pointer to (3 colour words in form &BBGGRR)
+; <=  number of colours present
+hourglass_getcolours SIGNATURE
+          EXPORT  hourglass_getcolours
+          MOV     r12, r0
+          ADR     r2, hg_curcolours               ; current colours
+          STR     r2, [r1]                        ; store to return
+          MOV     r0, #3
+          MOV     pc, lr
+
+hourglass_changecolours SIGNATURE
+          EXPORT  hourglass_changecolours
+          STMFD   sp!, {r4, r5, lr}
+          SUB     sp, sp, #8
+          MOV     r12, r0
+          LDR     r4, hg_oldpointer               ; work out the old pointer shape
+          CMP     r4, #-1                         ; is it dead?
+          BEQ     %FT10                           ;   yes, so skip all stopping
+          MOV     r1, sp
+; colour 1
+          ADR     r2, hg_curcolours + (4 * 0)
+          MOV     r0, #1
+          STRB    r0, [r1, #0]
+          MOV     r0, #25                         ; set pointer colour 1
+          STRB    r0, [r1, #1]
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #2]                    ; red
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #3]                    ; green
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #4]                    ; blue
+          MOV     r0, #12
+          SWI     XOS_Word                        ; Set palette
+; colour 2
+          ADR     r2, hg_curcolours + (4 * 1)
+          MOV     r0, #2
+          STRB    r0, [r1, #0]
+          MOV     r0, #25                         ; set pointer colour 1
+          STRB    r0, [r1, #1]
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #2]                    ; red
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #3]                    ; green
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #4]                    ; blue
+          MOV     r0, #12
+          SWI     XOS_Word                        ; Set palette
+; colour 3
+          ADR     r2, hg_curcolours + (4 * 2)
+          MOV     r0, #3
+          STRB    r0, [r1, #0]
+          MOV     r0, #25                         ; set pointer colour 1
+          STRB    r0, [r1, #1]
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #2]                    ; red
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #3]                    ; green
+          LDRB    r0, [r2], #1
+          STRB    r0, [r1, #4]                    ; blue
+          MOV     r0, #12
+          SWI     XOS_Word                        ; Set palette
+10
+          ADD     sp, sp, #8
+          LDMFD   sp!, {r4, r5, pc}
+
+; Frame update - sets the hourglass shape for the current frame
+; =>  R0 = hourglass workspace
+hourglass_frame SIGNATURE
+          EXPORT  hourglass_frame
+          STMFD   sp!, {r4, r5, lr}
+          MOV     r12, r0
+          LDR     r0, hg_framenum
+          ADRL    r1, frame_deltas
+          LDR     r0, [r1, r0, LSL #2]            ; offset within deltas for this frame
+          ADRL    r1, deltas
+          ADD     r1, r1, r0
+          ADRL    r5, hg_currentdata
+rowloop
+          LDR     r3, [r1], #4                    ; r3 = currentdata offset
+          CMP     r3, #-1                         ; end of the rows
+          BEQ     rowend
+      [ wordsperrow = 1
+          LDR     r0, [r1], #4                    ; read a word
+          STR     r0, [r3, r5]                    ; store into the currentdata
+      ]
+      [ wordsperrow = 2
+          LDMIA   r1!, {r0, r2}                   ; read two word from rowdata
+          STR     r0, [r3, r5]!                   ; store into the currentdata
+          STR     r2, [r3, #4]                    ; store into the currentdata
+      ]
+      [ wordsperrow = 3
+          LDMIA   r1!, {r0, r2, r4}               ; read a word from rowdata
+          ADD     r3, r3, r5                      ; work out the line offset
+          STMIA   r3!, {r0, r2, r4}               ; store into the currentdata
+      ]
+      [ wordsperrow = 4
+          LDMIA   r1!, {r0, r2, r4, lr}           ; read a word from rowdata
+          ADD     r3, r3, r5                      ; work out the line offset
+          STMIA   r3!, {r0, r2, r4, lr}           ; store into the currentdata
+      ]
+          B       rowloop
+
+rowend
+          MOV     r0, #21                         ; Set Pointer parameters
+          ADR     r1, hg_word
+          SWI     XOS_Word
+
+          LDRB    r1, hg_word + 1                 ; get the hourglass pointer number we will use
+          RSB     lr, r1, #7                      ; toggles 3 to 4
+          STRB    lr, hg_word + 1                 ; toggles the pointer number we use next time
+          MOV     r0, #106                        ; select pointer
+          SWI     XOS_Byte
+
+          LDR     r0, hg_framenum
+          ADD     r0, r0, #1
+          TEQ     r0, #nframes
+          MOVEQ   r0, #0                          ; reset counter; we've cycled
+          STR     r0, hg_framenum
+          LDMFD   sp!, {r4, r5, pc}
+
+; Frame update within an IRQ
+; =>  R12 = hourglass workspace
+hourglass_frame_irq SIGNATURE
+          EXPORT  hourglass_frame_irq
+          STMFD   sp!, {r0-r3, r4, r5, r12, lr}
+          MOV     r0, r12
+          MRS     r4, CPSR
+          BIC     r1, r4, #&F
+          ORR     r1, r1, #&3
+          MSR     CPSR_csxf, r1                    ; Enter SVC mode (keep bitness)
+          MOV     r5, lr
+          BL      hourglass_frame
+          MOV     lr, r5
+          MSR     CPSR_cxsf, r4                    ; Restore the mode
+          LDMFD   sp!, {r0-r3, r4, r5, r12, pc}
+
+          END

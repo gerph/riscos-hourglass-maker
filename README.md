@@ -22,7 +22,7 @@ The modules are constructed from animated GIFs through a number of transformatio
 The result is that from a single `make` command, RISC OS hourglasses are made from GIFs.
 The full build process requires cross compiling tools, but the repository contains the outputs sufficient that the sources may build on RISC OS.
 
-## Enclosed hourglasses
+## Included hourglasses
 
 There are some colour variants of the hourglasses which are suffixed to allow them to
 be obviously different from their base versions.
@@ -37,6 +37,7 @@ be obviously different from their base versions.
 * `cog`: A SVG based cog which just turns, using a single colour.
 * `cog-bordered`: Same as `cog-bordered`, but with a black border around it.
 * `catgbp1990`: A rotating earth.
+* `jimphic`: An animated circle of blocks.
 
 ### Static hourglasses
 
