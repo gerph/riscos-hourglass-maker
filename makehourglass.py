@@ -720,6 +720,97 @@ def make_objasm(rows, rowdata, deltas, images_rowindexes, filename, bitness):
         lines.append("          RET")
 
     lines.append("")
+    lines.append("; Get the colour information")
+    lines.append("; =>  R0 = hourglass workspace")
+    lines.append(";     R1-> where to store pointer to (3 colour words in form &BBGGRR)")
+    lines.append("; <=  number of colours present")
+    hlines.append("int hourglass_getcolours(hourglass_workspace_t *ws, int **colsp);")
+    lines.append("hourglass_getcolours SIGNATURE")
+    lines.append("          EXPORT  hourglass_getcolours")
+    if bitness == 32:
+        lines.append("          MOV     r12, r0")
+        lines.append("          ADR     r2, hg_curcolours               ; current colours")
+        lines.append("          STR     r2, [r1]                        ; store to return")
+        lines.append("          MOV     r0, #%i" % (len(shape.palette) - 1,))
+        lines.append("          MOV     pc, lr")
+    else:
+        lines.append("          MOV     x12, x0")
+        lines.append("          ADR     x2, hg_curcolours               ; current colours")
+        lines.append("          STR     x2, [x1]                        ; store to return")
+        lines.append("          MOV     x0, #%i" % (len(shape.palette) -1,))
+        lines.append("          RET")
+
+    lines.append("")
+    hlines.append("void hourglass_changecolours(hourglass_workspace_t *ws);")
+    lines.append("hourglass_changecolours SIGNATURE")
+    lines.append("          EXPORT  hourglass_changecolours")
+    if bitness == 32:
+        lines.append("          STMFD   sp!, {r4, r5, lr}")
+        lines.append("          SUB     sp, sp, #8")
+        lines.append("          MOV     r12, r0")
+
+        lines.append("          LDR     r4, hg_oldpointer               ; work out the old pointer shape")
+        lines.append("          CMP     r4, #-1                         ; is it dead?")
+        lines.append("          BEQ     %FT10                           ;   yes, so skip all stopping")
+
+        lines.append("          MOV     r1, sp")
+
+    else:
+        lines.append("          STP     x29, x30, [sp, #-16]!")
+        lines.append("          MOV     x29, sp")
+        lines.append("          SUB     sp, sp, #16")
+        lines.append("          MOV     x12, x0")
+
+        lines.append("          LDR     w4, hg_oldpointer               ; work out the old pointer shape")
+        lines.append("          CMP     w4, #-1                         ; is it dead?")
+        lines.append("          BEQ     %FT10                           ;   yes, so skip all stopping")
+        lines.append("          MOV     x1, sp")
+
+    # Set the colours
+    for colour_number in range(len(shape.palette) - 1):
+        if bitness == 32:
+            lines.append("; colour {}".format(colour_number + 1))
+            lines.append("          ADR     r2, hg_curcolours + (4 * {})".format(colour_number))
+            lines.append("          MOV     r0, #{}".format(colour_number + 1))
+            lines.append("          STRB    r0, [r1, #0]")
+            lines.append("          MOV     r0, #25                         ; set pointer colour 1")
+            lines.append("          STRB    r0, [r1, #1]")
+            lines.append("          LDRB    r0, [r2], #1")
+            lines.append("          STRB    r0, [r1, #2]                    ; red")
+            lines.append("          LDRB    r0, [r2], #1")
+            lines.append("          STRB    r0, [r1, #3]                    ; green")
+            lines.append("          LDRB    r0, [r2], #1")
+            lines.append("          STRB    r0, [r1, #4]                    ; blue")
+            lines.append("          MOV     r0, #12")
+            lines.append("          SWI     XOS_Word                        ; Set palette")
+        else:
+            lines.append("; colour {}".format(colour_number + 1))
+            lines.append("          ADR     x2, hg_curcolours + (4 * {})".format(colour_number))
+            lines.append("          MOV     w0, #{}".format(colour_number + 1))
+            lines.append("          STRB    w0, [x1, #0]")
+            lines.append("          MOV     w0, #25                         ; set pointer colour 1")
+            lines.append("          STRB    w0, [x1, #1]")
+            lines.append("          LDRB    w0, [x2], #1")
+            lines.append("          STRB    w0, [x1, #2]                    ; red")
+            lines.append("          LDRB    w0, [x2], #1")
+            lines.append("          STRB    w0, [x1, #3]                    ; green")
+            lines.append("          LDRB    w0, [x2], #1")
+            lines.append("          STRB    w0, [x1, #4]                    ; blue")
+            lines.append("          MOV     w0, #12")
+            lines.append("          SWI     XOS_Word                        ; Set palette")
+
+    if bitness == 32:
+        lines.append("10")
+        lines.append("          ADD     sp, sp, #8")
+        lines.append("          LDMFD   sp!, {r4, r5, pc}")
+    else:
+        lines.append("10")
+        lines.append("          ADD     sp, sp, #16")
+        lines.append("          LDP     x29, x30, [sp], #16")
+        lines.append("          RET")
+
+
+    lines.append("")
     lines.append("; Frame update - sets the hourglass shape for the current frame")
     lines.append("; =>  R0 = hourglass workspace")
     hlines.append("void hourglass_frame(hourglass_workspace_t *ws);")
