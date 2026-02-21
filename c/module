@@ -16,6 +16,8 @@ hourglass_workspace_t *hg;
 int active = 0;
 void *module_pw;
 
+#define COLOUR_UNSET (-1)
+
 
 /**
  * Start the hourglass up.
@@ -59,6 +61,64 @@ _kernel_oserror *swi_smash(void)
     {
         active = 1;
         return swi_stop();
+    }
+    return NULL;
+}
+
+
+/**
+ * Set the hourglass colours.
+ *
+ * Colours are in the form &00BBGGRR.
+ */
+_kernel_oserror *swi_colours(int col1, int col3, int *col1p, int *col3p)
+{
+    if (active)
+    {
+        /* Colour changes only take effect when the hourglass is active */
+        int *colours = NULL;
+        int ncolours;
+        int changed = 0;
+
+        ncolours = hourglass_getcolours(hg, &colours);
+        if (colours == NULL)
+            ncolours = 0;
+
+        if (ncolours >= 1)
+        {
+            int col = colours[0];
+            *col1p = col;
+            if (col != col1 && col1 != COLOUR_UNSET)
+            {
+                colours[0] = col1;
+                changed = 1;
+            }
+        }
+        else
+        {
+            *col1p = COLOUR_UNSET;
+        }
+
+        if (ncolours >= 3)
+        {
+            int col = colours[2];
+            *col3p = col;
+            if (col != col3 && col3 != COLOUR_UNSET)
+            {
+                colours[2] = col1;
+                changed = 1;
+            }
+        }
+        else
+        {
+            *col3p = COLOUR_UNSET;
+        }
+
+        if (changed)
+        {
+            /* We changed the colours, so update the hourglass colours */
+            hourglass_changecolours(hg);
+        }
     }
     return NULL;
 }
@@ -189,8 +249,14 @@ _kernel_oserror *Mod_SWI(int number, _kernel_swi_regs *r, void *pw)
             return NULL;
 
         case Hourglass_Colours - Hourglass_00:
-            /* Not implemented */
-            return NULL;
+            /* Sets the colours used to display the hourglass
+                =>  R0 = new colour to use as colour 1 (&00BBGGRR, or -1 for no change)
+                    R1 = new colour to use as colour 3 (&00BBGGRR, or -1 for no change)
+
+                <=  R0 = old colour being used as colour 1
+                    R1 = old colour being used as colour 3
+             */
+            return swi_colours(r->r[0], r->r[1], &r->r[0], &r->r[1]);
     }
     return error_BAD_SWI;
 }
